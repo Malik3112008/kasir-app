@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kasir</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='34-yunirohmawati.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="produk">
+            <img src="{{ url_for('static', filename='gambar dan icon/gambar le mineral.jpeg') }}">
+
+            <div>
+                <h3>Le Mineral</h3>
+                <p>Rp 3.000 x 1</p>
+            </div>
+        </div>
+
+        <div class="produk">
+            <img src="{{ url_for('static', filename='gambar dan icon/gambar pulpen.jpeg') }}">
+
+            <div>
+                <h3>Pulpen</h3>
+                <p>Rp 4.000 x 1</p>
+            </div>
+        </div>
+
+        <div class="produk">
+            <img src="{{ url_for('static', filename='gambar dan icon/gambar roti aoka.jpeg') }}">
+
+            <div>
+                <h3>Roti Aoka</h3>
+                <p>Rp 8.000 x 1</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="judul">
+            Metode Pembayaran
+        </div>
+
+        <form id="paymentForm">
+
+            <label class="metode">
+
+                <div class="kiri">
+                    <img src="{{ url_for('static', filename='gambar dan icon/gambar tunai.jpeg') }}">
+
+                    <div>
+                        <b>Tunai</b>
+                    </div>
+                </div>
+
+                <input
+                    type="radio"
+                    name="metode"
+                    value="tunai"
+                    class="check"
+                >
+
+            </label>
+
+            <label class="metode">
+
+                <div class="kiri">
+                    <img src="{{ url_for('static', filename='gambar dan icon/gambar qr.jpeg') }}">
+
+                    <div>
+                        <b>QRIS</b>
+                    </div>
+                </div>
+
+                <input
+                    type="radio"
+                    name="metode"
+                    value="qris"
+                    class="check"
+                >
+
+            </label>
+
+            <div class="total">
+                Total : Rp 15.000
+            </div>
+
+            <button type="submit">
+                Selanjutnya
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("paymentForm").addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    let metode = document.querySelector('input[name="metode"]:checked');
+
+    if(!metode){
+        alert("Pilih metode pembayaran dulu!");
+        return;
+    }
+
+    if(metode.value === "tunai"){
+        window.location.href = "/pembeli/tunai";
+    }
+
+    else if(metode.value === "qris"){
+        window.location.href = "/pembeli/qris";
+    }
+
+});
+
+</script>
+
+</body>
+</html>

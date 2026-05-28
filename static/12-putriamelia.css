@@ -1,0 +1,86 @@
+body{
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;    
+  font-family: arial, sans-serif;
+}
+
+.container{
+    width:600px;
+    margin:40px auto;
+    background:white;
+    padding:60px;
+    border-radius:20px;
+}
+
+.kembali{
+    color:#6d97ff;
+    text-decoration:none;
+
+    font-size:22px;
+    font-weight:bold
+}
+
+.card{
+    background:#f5f5f5;
+    border:1px solid #ccc;
+    border-radius:23px;
+    padding:20px;
+}
+
+.item{
+    margin-top:20px;
+    font-size:22px;
+}
+
+.flex{
+    display:flex;
+    justify-content:space-between;
+    margin-top:5px;
+
+    font-size:22px;
+
+}
+
+.line{
+    border-top:2px dashed gray;
+    margin:20px 0;
+}
+
+.hemat{
+    font-size:22px;
+}
+
+.total{
+    color:black;
+    font-weight:bold;
+    font-size:22px;
+    padding:8px 5px;
+    border-radius:10px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:15px;
+    margin-left: -5px;
+
+    width:100%;
+}
+
+.btn{
+    background:rgb(59, 174, 241);
+    width:200px;
+    text-align:center;
+    font-size:24px;
+    font-weight:bold;
+    margin:25px auto 0 auto;
+    border-radius:17px;
+    padding:9px;
+
+    display:block;
+
+    text-decoration:none;
+    color:black;
+}

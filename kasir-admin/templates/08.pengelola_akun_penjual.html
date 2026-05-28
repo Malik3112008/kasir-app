@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Akun Penjual</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='08.pengelola_akun_penjual.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+
+</head>
+<script>
+function tambahMode() {
+    var form = document.getElementById("formTambah");
+
+    if (form.style.display == "none") {
+        form.style.display = "block";
+    } else {
+        form.style.display = "none";
+    }
+}
+
+function editMode() {
+    var sampah = document.querySelectorAll(".hapus");
+
+    sampah.forEach(function(item) {
+
+        if (item.style.display == "inline") {
+            item.style.display = "none";
+        } else {
+            item.style.display = "inline";
+        }
+
+    });
+}
+</script>
+<body><nav>
+            <div class="nav-bar">
+                <li>
+                    <a href="{{ url_for('admin_dashboard')}}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+                </li>
+                <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" width="70" height="70">
+                <span>Admin Koperasi</span>
+            </div>
+            <ul>
+                <li>
+                    <a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a>
+                </li>
+                <li>
+                    <a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a>
+                </li>
+                <li>
+                    <a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a>
+                </li>
+                <li>
+                    <a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a>
+                </li>
+            </ul>
+        </nav>
+
+<div class="container">
+
+    <a href="/admin/dashboard" class="kembali">← Kembali</a>
+
+    <h1>Kelola Akun Penjual</h1>
+
+    <div class="card">
+
+        <input type="text" placeholder="Cari akun" class="search">
+
+        <div class="button-group">
+            <button class="btn tambah">Tambah</button>
+            <button class="btn edit">Edit</button>
+        </div>
+<div class="button-group">
+    <button onclick="tambahMode()">Tambah</button>
+    <button onclick="editMode()">Edit</button>
+</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Akun</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in penjual %}
+                <tr>
+                    <td class="akun">
+                        <img src="{{ item.foto }}" alt="">
+                        {{ item.nama }}
+                    </td>
+                    <td>{{ item.email }}</td>
+                    <td>
+                        {% if item.status == "Aktif" %}
+                            <span class="status aktif">Aktif</span>
+                        {% else %}
+                            <span class="status nonaktif">Tidak aktif</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

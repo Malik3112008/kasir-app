@@ -1,0 +1,101 @@
+body{
+    font-family: Arial;
+    margin: 20px;
+    background-color: white;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-menu{
+    display: flex;
+    gap: 20px;
+}
+
+input{
+    width: 250px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid gray;
+}
+
+select{
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.cart{
+    font-size: 30px;
+}
+
+.container{
+    display: flex;
+    gap: 25px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.card{
+    width: 220px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 15px;
+    text-align: left;
+}
+
+.card img{
+    width: 100%;
+    height: 170px;
+    object-fit: contain;
+}
+
+.harga{
+    color: #00bfff;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.stok{
+    color: green;
+    font-weight: bold;
+}
+
+button:not(.btn-jumlah){
+    width: 100%;
+    padding: 10px;
+    background-color: #00bfff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: #009acd;
+}
+.aksi{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.jumlah{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-jumlah{
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: #4dd9f5;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}

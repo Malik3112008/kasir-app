@@ -1,0 +1,129 @@
+<html>
+    <head>
+        <title> Notifikasi</title>
+        <link rel="stylesheet" href="{{url_for('static',filename='06.NotifikasiAdmin.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+
+    </head>
+<body>
+    <nav>
+            <div class="nav-bar">
+                <li>
+                    <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+                </li>
+                <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" width="70" height="70">
+                <span>Admin Koperasi</span>
+            </div>
+            <ul>
+                <li>
+                    <a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a>
+                </li>
+                <li>
+                    <a href="{{ url_for('admin_pengaturan')}}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a>
+                </li>
+                <li>
+                    <a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a>
+                </li>
+                <li>
+                    <a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="riwayat"
+        onclick="location.href='/admin/riwayat'">
+            <img src="{{ url_for('static', filename='timer-svgrepo-com.svg') }}" alt="">
+            <p>Riwayat Notifikasi</p>
+        </div>
+
+        <div class="kotak">
+            <div class="header-notif">
+                <h1>Notifikasi Admin</h1>                                              
+        <label for="popup-hapus" class="hapus">
+    <img src="{{ url_for('static', filename='trash-bin-trash-svgrepo-com.svg') }}" alt="">
+    <p>Hapus semua</p>
+</label>
+
+        </div>
+
+<input type="checkbox" id="popup-hapus">
+
+<div class="popup">
+    <div class="popup-content">
+
+        <h2>Yakin ingin hapus semua?</h2>
+
+        <div class="popup-btn">
+
+            <label for="popup-hapus" class="batal">
+                Batal
+            </label>
+
+            <form action="/admin/hapus-semua" method="POST">
+                <button type="submit" class="hapus-btn">
+                    Hapus
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+{% for item in notifikasi %}
+
+<div class="notif notif-{{ item.warna }}">
+
+    <div class="icon">
+
+        {% if item.warna == "biru" %}
+        <img src="{{ url_for('static', filename='cart-large-2-svgrepo-com.svg') }}" alt="">
+
+        {% elif item.warna == "orange" %}
+        <img src="{{ url_for('static', filename='exclamation-mark-inside-a-circle-svgrepo-com.svg') }}" alt="">
+
+        {% elif item.warna == "hijau" %}
+        <img src="{{ url_for('static', filename='checklist-check-yes-svgrepo-com.svg') }}" alt="">
+
+        {% elif item.warna == "merah" %}
+        <img src="{{ url_for('static', filename='exclamation-mark-inside-a-circle-svgrepo-com.svg') }}" alt="">
+        {% endif %}
+
+    </div>
+
+    <div class="isi-notif">
+
+        <h3>{{ item.judul }}</h3>
+
+        <p>
+            {{ item.isi }}
+        </p>
+
+        <span>{{ item.waktu }}</span>
+
+    </div>
+<form action="/admin/hapus-notif//{{ loop.index0}}"
+method="POST">
+
+    <button type="submit" class="hapus-satuan">
+
+        <img src="{{ url_for('static', filename='trash-bin-trash-svgrepo-com.svg') }}" alt="Hapus">
+
+    </button>
+
+</form>
+    
+</div>
+
+{% endfor %}
+
+
+        
+        
+            <div class="notif-container">
+
+            </div>
+   
+
+
+</div>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if page == 'detail' %}{{ title }}{% else %}Denah Tata Letak Koperasi{% endif %}</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='04.Denah.css') }}">
+    <link rel="stylesheet" href="/dynamic_cards.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR (Inlined from navbar.html) -->
+    <div class="navbar">
+        <div class="nav-left">
+            {% if page == 'detail' %}
+            <a href="/admin/denah" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <h2>{{ title }}</h2>
+            {% else %}
+            <a href="/admin/dashboard" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <img src="{{ url_for('static', filename='images/navbar/logo.svg') }}" alt="Logo" class="nav-logo">
+            <h2>Admin Koperasi</h2>
+            {% endif %}
+        </div>
+
+        {% if page != 'detail' %}
+        <div class="nav-right">
+            <a href="/admin/notifikasi" class="nav-icon" title="Notifikasi">
+                <img src="{{ url_for('static', filename='images/navbar/bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi">
+            </a>
+            <a href="/admin/pengaturan" class="nav-icon" title="Pengaturan">
+                <img src="{{ url_for('static', filename='images/navbar/setting-svgrepo.svg') }}" alt="Pengaturan">
+            </a>
+            <a href="/admin/kelola_akun_penjual" class="nav-icon" title="Profil">
+                <img src="{{ url_for('static', filename='images/navbar/profile-circle-svgrepo.svg') }}" alt="Profil">
+            </a>
+            <a href="/admin/logout" class="nav-icon" title="Logout">
+                <img src="{{ url_for('static', filename='images/navbar/logout-line-svgrepo.svg') }}" alt="Logout">
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="container">
+        {% if page == 'detail' %}
+            <!-- DETAIL VIEW (Merged from detail.html) -->
+            <div class="detail-board">
+                <h1 class="detail-title">{{ title }}</h1>
+                <div class="detail-image-wrapper">
+                    <img src="{{ url_for('static', filename='images/' + folder + '/gambar1.jpg') }}" alt="{{ title }}" class="detail-image">
+                </div>
+            </div>
+        {% else %}
+            <!-- COOPERATIVE PLAN VIEW (Home View) -->
+            <div class="board">
+                <!-- TITLE -->
+                <div class="title-row">
+                    <h1>Denah Tata Letak Koperasi</h1>
+
+                    {% if is_admin %}
+                        {% if edit_mode %}
+                        <a href="/admin/denah?admin=1" class="edit-btn edit-btn-active">
+                            <i class="fa-solid fa-pen"></i> Mode Edit
+                        </a>
+                        {% else %}
+                        <a href="/admin/denah?admin=1&edit=1" class="edit-btn">
+                            <i class="fa-solid fa-pen"></i> Mode Edit
+                        </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+                <!-- CARDS -->
+                {% for card in cards %}
+                    {% if is_admin and edit_mode %}
+                    <div class="card card-id-{{ card.id }}">
+                        <div class="actions" style="display: flex;">
+                            <form method="POST" action="/admin/delete/{{ card.id }}?admin=1" style="margin: 0;">
+                                <button type="submit" class="action-btn delete-btn">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                            <a href="/admin/denah?admin=1&edit=1&edit_card={{ card.id }}" class="action-btn edit-card-btn">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+                        </div>
+                        <i class="{{ card.icon }} icon"></i>
+                        <div class="card-text">{{ card.text }}</div>
+                    </div>
+                    {% else %}
+                    <a href="{{ card.href }}" class="card card-id-{{ card.id }}">
+                        <i class="{{ card.icon }} icon"></i>
+                        <div class="card-text">{{ card.text }}</div>
+                    </a>
+                    {% endif %}
+                {% endfor %}
+
+                <div class="legend">
+                    <div class="legend-title">Keterangan :</div>
+                    <div class="legend-box">Area Dalam Koperasi</div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- MODAL (Only for Home view in Edit mode) -->
+    {% if page != 'detail' and is_admin and edit_card %}
+    <div class="modal show">
+        <div class="modal-content">
+            <h2>Edit Card</h2>
+            <form method="POST" action="/admin/update/{{ edit_card.id }}?admin=1">
+                <input type="text" name="text" value="{{ edit_card.text }}" placeholder="Text">
+                <input type="text" name="icon" value="{{ edit_card.icon }}" placeholder="Icon Class">
+                <input type="number" name="width" value="{{ edit_card.width }}" placeholder="Width">
+                <input type="number" name="height" value="{{ edit_card.height }}" placeholder="Height">
+                <div class="modal-buttons">
+                    <a href="/admin/denah?admin=1&edit=1" class="cancel-btn">Batal</a>
+                    <button type="submit" class="save-btn">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+</body>
+</html>

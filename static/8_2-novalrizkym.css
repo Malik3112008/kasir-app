@@ -1,0 +1,173 @@
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.background{
+    background:#58a8ad;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+
+.container{
+    background:white;
+    width:910px;
+    padding:30px;
+}
+
+.card{
+    background:#cfdcff;
+    border-radius:20px;
+    padding:25px;
+    margin-top:20px;
+}
+
+.back{
+    color:#5f8fff;
+    text-decoration:none;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.status-box{
+    background:#efefef;
+    border:2px solid #888;
+    border-radius:12px;
+    padding:30px;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+}
+
+.status{
+    text-align:center;
+    text-decoration:none;
+    color:#666;
+    font-weight:bold;
+}
+
+.status.active{
+    color:#4f7fff;
+}
+
+.icon{
+    width:70px;
+    height:70px;
+}
+
+.icon-kecil{
+    width:30px;
+    height:30px;
+}
+
+.icon-circle{
+    position:relative;
+}
+
+.badge{
+    position:absolute;
+    top:-5px;
+    right:-5px;
+    background:#2f66ff;
+    color:white;
+    border-radius:50%;
+    padding:4px 9px;
+    font-size:14px;
+}
+
+.judul-pesanan{
+    margin-top:30px;
+}
+
+.pesanan-item{
+    background:#efefef;
+    border:2px solid #888;
+    border-radius:10px;
+    padding:20px;
+    margin-top:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:35px;
+    font-weight:bold;
+}
+
+.pesanan-item a{
+    text-decoration:none;
+    color:#555;
+}
+
+.atas{
+    margin-bottom:20px;
+}
+
+.line{
+    width:120px;
+    height:3px;
+    background:#999;
+}
+
+.active-line{
+    background:#5f8fff;
+}
+
+.detail-box{
+    background:#efefef;
+    border:2px solid #888;
+    border-radius:12px;
+    padding:20px;
+}
+
+.produk{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.produk h2{
+    font-size:28px;
+    margin:0;
+}
+
+.produk p{
+    font-size:20px;
+    margin:5px 0;
+    color:#777;
+}
+
+.harga{
+    text-align:right;
+}
+
+.total{
+    display:flex;
+    justify-content:space-between;
+}
+
+.total p{
+    font-size:22px;
+    margin:5px 0;
+}
+
+.total h1{
+    font-size: 35px;
+    margin:5px 0;
+}
+
+.tengah{
+    text-align:center;
+}
+
+.btn-kembali{
+    display:inline-block;
+    margin-top:20px;
+    background:#5f8fff;
+    color:white;
+    padding:15px 30px;
+    border-radius:10px;
+    text-decoration:none;
+    font-size:25px;
+}

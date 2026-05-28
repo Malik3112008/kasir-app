@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='12-putriamelia.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+   <a href="/pembeli/pilih-pembayaran" class="kembali">
+    ← Kembali
+</a>
+
+    <div class="card">
+
+        {% for item in items %}
+        <div class="item">
+
+            <div class="nama">{{ item.nama }}</div>
+
+            <div class="flex">
+                <span>{{ item.jumlah }} x {{ "{:,}".format(item.harga).replace(",", ".") }}</span>
+                <span>Rp {{ "{:,}".format(item.jumlah * item.harga).replace(",", ".") }}</span>
+            </div>
+
+            {% if item.diskon > 0 %}
+            <div class="flex">
+                <span>Diskon</span>
+                <span>Rp {{ "{:,}".format(item.diskon).replace(",", ".") }}</span>
+            </div>
+            {% endif %}
+
+        </div>
+        {% endfor %}
+
+        <div class="line"></div>
+
+        <div class="flex">
+            <span>Sub total</span>
+            <span>Rp {{ "{:,}".format(subtotal).replace(",", ".") }}</span>
+        </div>
+
+        <div class="flex hemat">
+            <span>Anda menghemat</span>
+            <span>Rp {{ "{:,}".format(total_diskon).replace(",", ".") }}</span>
+        </div>
+
+        <div class="total">
+            <span>Total</span>
+            <span>Rp {{ "{:,}".format(total).replace(",", ".") }}</span>
+        </div>
+
+     <a href="{{ url_for('pembeli_pesanan') }}" class="btn">
+    Lihat Pesanan
+</a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='05.login_admin.css') }}">
+    <title>Reset Kata Sandi</title>
+</head>
+<body class="login-page">
+    <a href="{{ url_for('admin_verify') }}" class="back-btn">← kembali</a>
+    <div class="card">
+        <h3>Buat Kata Sandi Baru</h3>
+        {% if error %}
+        <div class="error-message">{{ error }}</div>
+        {% endif %}
+        <form action="{{ url_for('admin_login') }}" method="POST">
+            <div class="input-group">
+                <label>Kata Sandi Baru</label>
+                <input type="password" name="password" placeholder="Masukkan kata sandi baru" required>
+            </div>
+            <div class="input-group">
+                <label>Konfirmasi Kata Sandi</label>
+                <input type="password" name="confirm" placeholder="Konfirmasi kata sandi baru" required>
+            </div>
+            <div class="requirement-box">
+                <strong>Syarat kata sandi:</strong><br>
+                1. Minimal 8 karakter<br>
+                2. Mengandung huruf besar<br>
+                3. Mengandung huruf kecil<br>
+                4. Mengandung angka
+            </div>
+            <button type="submit" class="btn-primary">Simpan Kata Sandi Baru</button>
+        </form>
+    </div>
+</body>
+</html>

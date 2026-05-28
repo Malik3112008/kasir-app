@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Barang</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.7); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f7fa; }
+        .fade-in { animation: fadeIn 1s ease forwards; }
+        .slide-up { animation: slideUp 0.8s ease forwards; }
+        .slide-in-left { animation: slideInLeft 0.8s ease forwards; }
+        .slide-in-right { animation: slideInRight 0.8s ease forwards; }
+        .scale-in { animation: scaleIn 0.8s ease forwards; }
+        .detail-page {
+            min-height: 100vh;
+            background: #f5f7fa;
+            padding: 25px;
+        }
+        .btn-back {
+            background: #fff;
+            border: 2px solid #4A90D9;
+            color: #4A90D9;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        .btn-back:hover {
+            background: #4A90D9;
+            color: #fff;
+            text-decoration: none;
+        }
+        .detail-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: row;
+        }
+        .detail-image-section {
+            flex: 1;
+            min-height: 400px;
+            position: relative;
+            background: #f0f2f5;
+        }
+        .detail-image-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .detail-category-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #4A90D9;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .detail-info-section {
+            flex: 1;
+            padding: 35px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .detail-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .detail-rating {
+            margin-bottom: 15px;
+            color: #f5a623;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .detail-rating .rating-text {
+            color: #888;
+            font-size: 14px;
+        }
+        .detail-price {
+            font-size: 30px;
+            font-weight: 700;
+            color: #4A90D9;
+            margin-bottom: 20px;
+        }
+        .detail-stock {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .detail-stock.low {
+            color: #e74c3c;
+        }
+        .detail-description {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            border-left: 3px solid #4A90D9;
+            padding-left: 15px;
+        }
+        .btn-cart {
+            background: #4A90D9;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .btn-cart:hover {
+            background: #357ABD;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(74,144,217,0.3);
+        }
+        @media (max-width: 768px) {
+            .detail-container {
+                flex-direction: column;
+            }
+            .detail-image-section {
+                min-height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="detail-page">
+    <a href="javascript:history.back()" class="btn-back slide-in-left">
+        <i class="fas fa-arrow-left"></i> Kembali
+    </a>
+
+    <div class="detail-container scale-in">
+        <div class="detail-image-section fade-in">
+            <img src="{{ barang.gambar or '/static/img/default.png' }}" alt="{{ barang.nama }}">
+            <span class="detail-category-badge">
+                {{ barang.kategori }}
+            </span>
+        </div>
+        <div class="detail-info-section">
+            <h1 class="detail-name slide-in-right">{{ barang.nama }}</h1>
+
+            <div class="detail-rating slide-in-right" style="animation-delay: 0.1s;">
+                {% for i in range(5) %}
+                    {% if i < barang.rating %}
+                        <i class="fas fa-star"></i>
+                    {% else %}
+                        <i class="far fa-star"></i>
+                    {% endif %}
+                {% endfor %}
+                <span class="rating-text">({{ barang.rating }}/5)</span>
+            </div>
+
+            <div class="detail-price slide-in-right" style="animation-delay: 0.2s;">
+                {{ formatRp(barang.harga) }}
+            </div>
+
+            <div class="detail-stock slide-in-right" style="animation-delay: 0.3s; {% if barang.stok < 5 %}color:#e74c3c;{% endif %}">
+                <i class="fas fa-box"></i>
+                {% if barang.stok > 0 %}
+                    Stok tersedia: {{ barang.stok }}
+                {% else %}
+                    Stok habis
+                {% endif %}
+            </div>
+
+            <p class="detail-description slide-in-right" style="animation-delay: 0.4s;">
+                {{ barang.deskripsi or 'Tidak ada deskripsi untuk produk ini.' }}
+            </p>
+
+            <div class="slide-up" style="animation-delay: 0.5s;">
+                {% if barang.stok > 0 %}
+                <form action="/pembeli/keranjang" method="GET">
+                    <button type="submit" class="btn-cart">
+                        <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+                    </button>
+                </form>
+                {% else %}
+                <button class="btn-cart" disabled style="background:#ccc; cursor:not-allowed;">
+                    <i class="fas fa-cart-plus"></i> Stok Habis
+                </button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

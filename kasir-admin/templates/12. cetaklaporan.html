@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan Laporan</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='12. cetaklaporan.css') }}">
+</head>
+
+<body>
+
+    <nav>
+
+        <div class="nav-kiri">
+
+            <a href="/admin/dashboard">
+                <img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" width="28">
+            </a>
+
+            <img src="{{ url_for('static', filename='logo.svg') }}" width="45">
+
+            <h2>Admin Koperasi</h2>
+
+        </div>
+
+
+        <div class="nav-kanan">
+
+            <img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" width="25">
+
+            <img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" width="25">
+
+            <img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" width="25">
+
+            <img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" width="25">
+
+        </div>
+
+    </nav>
+
+    
+    <div class="container">
+
+        <h1>Pengaturan Laporan</h1>
+
+        <hr class="garis">
+
+<form action="/admin/cetak_laporan" method="POST">
+
+    <div class="tanggal-box">
+
+        <label>Laporan Barang pada</label>
+
+        <input type="date"
+               name="tanggal_awal"
+               value="{{ request.form.get('tanggal_awal', '') }}"
+               onchange="this.form.submit()"
+               required>
+
+        <span class="sd">sd</span>
+
+        <input type="date"
+               name="tanggal_akhir"
+               value="{{ request.form.get('tanggal_akhir', '') }}"
+               onchange="this.form.submit()"
+               required>
+
+    </div>
+
+    <div class="pilihan-box">
+
+        <button type="submit" class="btn-pilihan">
+            Cetak Pilihan
+        </button>
+
+        <select name="laporan">
+
+            <option value="barang">
+                Cetak Laporan Data Barang
+            </option>
+
+            <option value="transaksi">
+                Cetak Laporan Transaksi
+            </option>
+
+            <option value="penjualan">
+                Cetak Laporan Penjualan
+            </option>
+
+        </select>
+
+    </div>
+
+</form>
+
+        <hr class="garis">
+
+
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>No.</th>
+                    <th>Nama Barang</th>
+                    <th>Stok</th>
+                    <th>Harga</th>
+                    <th>Kategori</th>
+                    <th>Tanggal</th>
+                    <th>Total</th>
+
+                </tr>
+
+            </thead>
+
+
+<tbody>
+
+    {% for item in barang %}
+
+    <tr>
+
+        <td>{{ loop.index }}</td>
+
+        <td>{{ item.nama }}</td>
+
+        <td>
+            <span class="stok">
+                {{ item.stok }}
+            </span>
+        </td>
+
+        <td>{{ formatRp(item.harga) }}</td>
+
+        <td>{{ item.kategori }}</td>
+
+        <td>{{ item.tanggal }}</td>
+
+        <td>
+            Rp.
+            {{ formatRp(item.stok * item.harga) }}
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</tbody>
+
+        </table>
+
+
+        <div class="button-box">
+            <a href="/cetak_pdf?tanggal_awal={{ request.form.get('tanggal_awal','') }}&tanggal_akhir={{ request.form.get('tanggal_akhir','') }}">
+
+    <button type="button" class="pdf">
+        Cetak PDF
+    </button>
+
+</a>
+            <a href="/cetak_excel?tanggal_awal={{ request.form.get('tanggal_awal','') }}&tanggal_akhir={{ request.form.get('tanggal_akhir','') }}">
+
+    <button type="button" class="excel">
+        Cetak Excel
+    </button>
+
+</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

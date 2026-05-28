@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koperasi Siswa</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='03.Beranda_utama.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+
+</head>
+<body>
+
+    <!-- Tombol Admin -->
+    <a href="{{ url_for('admin_login') }}" class=".admin-btn">
+        <button class="admin-btn">
+            Masuk Admin
+        </button>
+    </a>
+
+    <!-- Konten -->
+    <div class="container">
+
+        <div class="title-box">
+            Selamat Datang
+        </div>
+
+        <h1>
+            di Koperasi <br> Siswa
+        </h1>
+
+        <p>
+            Koperasi siswa adalah organisasi di sekolah yang dikelola oleh siswa dengan bimbingan guru. Koperasi ini menyediakan kebutuhan sekolah seperti alat tulis, makanan, dan seragam. Tujuan koperasi siswa adalah melatih kerja sama, tanggung jawab, dan jiwa usaha pada siswa.
+        </p>
+
+        <button class="menu-btn">
+            DENAH KOPERASI
+        </button>
+
+        <button class="menu-btn">
+            BERBELANJA
+        </button>
+
+        <img src="{{ url_for('static', filename='background_2.jpeg') }}"
+            class="background_2">
+            <img src="{{ url_for('static', filename='logo_2.png') }}"
+            class="logo_2">
+        
+    </div>
+</body>
+</html>

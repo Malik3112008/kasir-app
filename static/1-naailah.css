@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.back {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    text-decoration: none;
+    color: #7aa7ff;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 64px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.desc {
+    font-size: 22px;
+    color: #222;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.qris-box {
+    width: 280px;
+    height: 280px;
+    background: #dcdde8;
+    margin: auto;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.qris-box img {
+    width: 235px;
+    height: 235px;
+    background: white;
+    border-radius: 18px;
+    padding: 10px;
+}
+
+.total-text {
+    margin-top: 20px;
+    font-size: 22px;
+}
+
+h2 {
+    margin-top: 5px;
+    font-size: 58px;
+    font-weight: bold;
+}
+
+.upload-btn {
+    margin-top: 15px;
+    background-color: #6f9ef5;
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 20px;
+    font-size: 22px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.upload-btn:hover {
+    background-color: #5b8be7;
+}

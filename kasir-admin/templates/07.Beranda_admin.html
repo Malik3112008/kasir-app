@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Beranda Admin</title>
+  <!--Menghubungkan html dan css-->
+  <link rel="stylesheet" href="{{ url_for ('static', filename='07.Beranda_Admin.css')}}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+
+  <!--Import icon dari font awesome website-->
+  <script src="https://kit.fontawesome.com/5214fa6ca3.js" crossorigin="anonymous"></script>
+  <!-- Import font inter dari google font -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+  </style>
+</head>
+
+<body>
+  <!--Navbar-->
+  <nav>
+    <div class="nav-bar">
+      <div class="nav-left">
+        <img src="{{ url_for('static', filename='image/logo.svg') }}" alt="Logo" width="48" height="48">
+      </div>
+      <h1 class="nav-title">Inomart</h1>
+
+
+      <ul class="nav-right">
+        <li>
+          <a href="{{ url_for('admin_notifikasi') }}">
+            <img src="{{ url_for('static', filename='image/bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="28" height="28">
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ url_for('admin_pengaturan') }}">
+            <img src="{{ url_for('static', filename='image/setting-svgrepo.svg') }}" alt="Setting" width="28" height="28">
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('admin_logout') }}">
+            <img src="{{ url_for('static', filename='image/logout-line-svgrepo.svg') }}" alt="Keluar" width="28" height="28">
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!--Sidebar-->
+  <div class="sidebar">
+
+    <div class="admin-profile">
+      <h2 class="admin-menu"> Admin Menu </h2>
+      <a href="#">
+        <img src="{{ url_for('static', filename='image/profile.png') }}" alt="admin-profile" class="admin-profile-picture" />
+      </a>
+      <p class="admin-greeting">Selamat Datang</p>
+      <a href="#">
+        <p class="admin-greeting-name">Admin</p>
+      </a>
+    </div>
+
+    <div class="sidebar-menu">
+
+      <div class="sidebar-item-information">
+        <h3>Informasi</h3>
+        <ul class="sidebar-list">
+          <li>
+            <a href="/admin/denah">
+              <i class="fa-regular fa-map"></i>
+              <span>Lihat Denah</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/laporan_penjualan">
+              <i class="fa-solid fa-chart-column"></i>
+              <span>Laporan Penjualan</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/cetak_laporan">
+              <i class="fa-solid fa-print"></i>
+              <span>Cetak Stok</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/pengisian_barang">
+              <i class="fa-solid fa-cubes"></i>
+              <span>Manajemen Barang</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-item-product">
+        <h3>Pengelolaan Produk</h3>
+        <ul class="sidebar-list">
+          <li>
+            <a href="/admin/pengisian_barang">
+              <i class="fa-solid fa-box"></i>
+              <span>Tambah Data Barang</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/cetak_laporan">
+              <i class="fa-solid fa-pen-to-square"></i>
+              <span>Daftar Stok</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="sidebar-item-transaction">
+        <h3>Transaksi</h3>
+        <ul class="sidebar-list">
+          <li>
+            <a href="/admin/siapkan-pesanan">
+              <i class="fa-regular fa-alarm-clock"></i>
+              <span>Riwayat Transaksi</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/siapkan-pesanan">
+              <i class="fa-solid fa-receipt"></i>
+              <span>Cek Transaksi</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/siapkan-pesanan">
+              <i class="fa-solid fa-credit-card"></i>
+              <span>Cek Pembayaran </span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ url_for('admin_siapkan_pesanan') }}">
+              <i class="fa-solid fa-check"></i>
+              <span>Siapkan Pesanan Pelanggan</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-item-another-option">
+        <h3>Opsi Lainnya</h3>
+        <ul class="sidebar-list">
+          <li>
+            <a href="{{ url_for('admin_kelola_akun_penjual') }}">
+              <i class="fa-solid fa-user"></i>
+              <span>Kelola Akun</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/riwayat">
+              <i class="fa-solid fa-calendar"></i>
+              <span>Riwayat Aktivitas</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/pengaturan">
+              <i class="fa-solid fa-file"></i>
+              <span>Modifikasi Data</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!--Informasi Card-->
+  <div class="info-card">
+    <div class="card-value-product">
+      <div class="card-content-product">
+        <h3>Total Produk</h3>
+        <p>{{ card_product }}</p>
+      </div>
+      <!-- icon -->
+      <i class="fa-solid fa-box-open"></i>
+    </div>
+    <div class="card-value-stock">
+      <div class="card-content-stock">
+        <h3>Stok Menipis</h3>
+        <p>{{ card_stock }}</p>
+      </div>
+      <!-- icon -->
+      <i class="fa-solid fa-circle-exclamation"></i>
+    </div>
+    <div class="card-value-transaction">
+      <div class="card-content-transaction">
+        <h3>Transaksi hari ini</h3>
+        <p>{{ card_transaction }}</p>
+      </div>
+      <!-- icon -->
+      <i class="fa-brands fa-cash-app"></i>
+    </div>
+    <div class="card-value-income">
+      <div class="card-content-income">
+        <h3>Pendapatan</h3>
+        <p>{{ card_income }}</p>
+      </div>
+      <!-- icon -->
+      <i class="fa-solid fa-chart-bar"></i>
+    </div>
+  </div>
+
+  <!--Grafik hasil penjualan-->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <div class="isiGrafik">
+    <canvas id="grafikLaporanPenjualan"></canvas>
+  </div>
+  <script>
+    const xHari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat']
+    const yHasilPenjualan = {{ data_penjualan | tojson}}
+    const grafikPenjualan = {{ grafik_penjualan | tojson}}
+    const warnaGrafik = '#0080FF'
+    const grafik = document.getElementById('grafikLaporanPenjualan')
+
+    new Chart(grafik, {
+      type: 'bar',
+      data: {
+        labels: xHari,
+        datasets: [{
+          label: 'Laporan penjualan',
+          data: yHasilPenjualan,
+          backgroundColor: warnaGrafik,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                const hari = xHari[context.dataIndex]
+                const dataHari = grafikPenjualan[hari]
+                return [
+                  "Makanan:" + dataHari["makanan"],
+                  "Minuman:" + dataHari["minuman"],
+                  "Alat tulis:" + dataHari["alat tulis"]
+                ]
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

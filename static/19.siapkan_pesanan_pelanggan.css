@@ -1,0 +1,259 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #D9EEFF;
+    margin: 0%;
+}
+nav {
+    background-color: white;
+    display: flex;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+nav ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 20px;
+}
+.nav-bar {
+    display: flex;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    list-style: none;
+    font-weight: 700;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 15px;
+}
+.content-box {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 90%;
+    height: auto;
+    max-width: 1400px;
+    padding: 20px;
+    background-color: white;
+    margin: 40px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.theading {
+    margin: 10px;
+}
+.info-box {
+    background: #D9EEFF;
+    padding: 20px;
+    border-radius: 6px;
+    margin:20px 0;
+}
+.cari {
+    margin-bottom: 12px;
+}
+.cari input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #dddddd;
+    border-radius: 8px;
+}
+.tabel-box table {
+    width: 100%;
+    height: 50px;
+    border-collapse: collapse;
+    border-radius: 10px;
+}
+thead {
+    background-color: #136702;
+    color: white;
+}
+.tabel-box tbody {
+    background-color: rgb(240, 240, 240);
+    border-bottom: 1px solid rgb(117, 116, 116);
+}
+.tabel-box th,.tabel-box td {
+    padding: 16px 12px;
+    text-align: left;
+}
+.tabel-box th:last-child,
+.tabel-box td:last-child {
+    width: 210px;
+}
+.tabel-box {
+    border-radius: 5px;
+    overflow: hidden;
+    overflow-x: auto;
+}
+.rp {
+    color: blue;
+}
+.status {
+    padding: 5px;
+    background-color: rgb(255, 236, 65);
+    border-radius: 10px;
+    display: inline-block;
+}
+.status.siap-diambil {
+    background-color: rgb(92, 206, 255);
+}
+.status.menunggu {
+    background-color: rgb(255, 166, 32);
+}
+.status.sudah-diambil {
+    background-color: rgb(10, 159, 52);
+}
+.Aksi{
+    display: flex;
+    gap: 8px;
+}
+.lanjut {
+    height: 30px;
+    padding: 0 12px;
+    font-size: 13px;
+    font-weight: 600;
+    background-color: rgb(26, 149, 26);
+    color: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.lanjut:hover {
+    background-color: rgb(23, 111, 23);
+}
+.selesai {
+    color: #136702;
+    font-weight: 700;
+}
+.buka-btn{
+    width: 30px;
+    height: 30px;
+    background-color: #0D98D8;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.buka-btn:hover{
+    background-color: #0b6994;
+}
+.overlay{
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.3);
+    z-index: 1000;
+}
+.modal{
+    background-color: #ffffff;
+    width: 90%;
+    max-width: 420px;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    animation: popup .25s ease;
+}
+
+.judul-popup{
+    background-color: #fafd30;
+    padding: 22px 20px;
+    text-align: center;
+    font-size: 34px;
+    color: #282828;
+    font-weight: bold;
+}
+.sub-popup{
+    text-align: center;
+    padding: 8px 15px 5px;
+    font-size: 14px;
+    color: #5e5e5e;
+    margin: 10px;
+}
+.card-rincian{
+    margin: 20px;
+}
+.header-rincian{
+    padding: 0px 14px 5px;
+}
+.metode{
+    font-weight: 600;
+}
+.metode.tunai{
+    color: #0f5132;
+}
+.metode.qris{
+    color: #0b6994;
+}
+.nama-barang{
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 14px;
+}
+.barang{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 14px;
+}
+.subtotal{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.total-popup{
+    background-color: #fafd30;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 14px;
+    margin: 18px;
+    font-weight: bold;
+    font-size: 18px;
+}
+.hapus-btn{
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+.kembalian{
+    background-color: #fafd30;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 14px;
+    margin: 18px;
+    font-weight: bold;
+    font-size: 18px;
+}
+@keyframes popup {
+    from{
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to{
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+.tutup-btn{
+    width: 170px;
+    margin: 0 auto 25px;
+    display: block;
+    padding: 10px;
+    background-color: white;
+    color: rgb(77, 77, 77);
+    border-radius: 10px;
+    cursor: pointer;
+    border: 2px solid rgb(180, 180, 180);
+    font-size: 15px;
+}
+.tutup-btn:hover{
+    background-color: #c7c5c5;
+}

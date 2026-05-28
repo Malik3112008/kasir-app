@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Pesanan</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='8-novalrizkym.css') }}">
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="container">
+
+        <a href="/pembeli/tunai" class="back">← Kembali</a>
+
+        <div class="card">
+
+            <h1>Status Pesanan</h1>
+
+            <div class="status-box">
+
+                <a href="/pembeli/status" class="status active">
+
+                    <div class="icon-circle">
+
+                        <img
+                        src="{{ url_for('static', filename='gambar dan icon/cardboard-box-11-svgrepo-com.svg') }}"
+                        class="icon">
+
+                        <span class="badge">2</span>
+
+                    </div>
+
+                    <p>Dikemas</p>
+
+                </a>
+
+                <a href="/siap-diambil" class="status">
+
+                    <img
+                    src="{{ url_for('static', filename='gambar dan icon/shopping-bag-svgrepo-com (1).svg') }}"
+                    class="icon">
+
+                    <p>Siap Diambil</p>
+
+                </a>
+
+                <a href="/selesai" class="status">
+
+                    <img
+                    src="{{ url_for('static', filename='gambar dan icon/check-mark-circle-svgrepo-com (1).svg') }}"
+                    class="icon">
+
+                    <p>Pesanan Selesai</p>
+
+                </a>
+
+            </div>
+
+            <h1 class="judul-pesanan">Pesanan Saya</h1>
+
+            <div class="pesanan-item">
+
+                <span>Dikemas</span>
+
+                <a href="/pembeli/status">Lihat ></a>
+
+            </div>
+
+            <div class="pesanan-item">
+
+                <span>Siap Diambil</span>
+
+                <a href="/pembeli/struk">Lihat ></a>
+
+            </div>
+
+            <div class="pesanan-item">
+
+                <span>Pesanan Selesai</span>
+
+                <a href="/pembeli/penilaian">Lihat ></a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Struk Inomart</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='5-naurahwulan.css') }}">
+</head>
+<body>
+
+<div class="struk">
+
+    <div class="logo-box">
+
+        <div class="circle-logo">
+
+            <img src="{{ url_for('static', filename='gambar dan icon/LOGO2.jpeg') }}"
+                 class="logo">
+
+        </div>
+
+    </div>
+
+    <center>
+        <h1>INOMART</h1>
+
+        <p>
+            SMK Negeri 2 Singosari <br>
+            JL. PERUSAHAAN No 20, Tunjungtirto, Singosari <br>
+            No.Telp 0812345678
+        </p>
+    </center>
+
+    <hr>
+
+    <div class="info">
+
+        <div>
+            {{ tanggal }} <br>
+            {{ jam }} <br>
+            KODE
+        </div>
+
+        <div class="kanan">
+            Kasir <br>
+            Nauraa <br>
+            {{ kode }}
+        </div>
+
+    </div>
+
+    <hr>
+
+    {% for item in produk %}
+
+    <div class="produk">
+
+        <b>{{ loop.index }}. {{ item.nama }}</b>
+
+        <div class="baris">
+
+            <span>
+                {{ item.qty }} x
+                {{ "{:,.0f}".format(item.harga).replace(",", ".") }}
+            </span>
+
+            <span>
+                {{ "{:,.0f}".format(item.qty * item.harga).replace(",", ".") }}
+            </span>
+
+        </div>
+
+        <div class="baris">
+
+            <span>-Diskon</span>
+
+            <span>
+                -{{ "{:,.0f}".format(item.diskon).replace(",", ".") }}
+            </span>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+    <hr>
+
+    <p>Total produk : {{ total_produk }}</p>
+
+    <div class="baris">
+
+        <span>Sub Total</span>
+
+        <span>
+            {{ "{:,.0f}".format(subtotal).replace(",", ".") }}
+        </span>
+
+    </div>
+
+    <div class="baris">
+
+        <span>Anda Hemat</span>
+
+        <span>
+            {{ "{:,.0f}".format(total_diskon).replace(",", ".") }}
+        </span>
+
+    </div>
+
+    <br>
+
+    <div class="baris total-besar">
+
+        <b>Total</b>
+
+        <b>
+            {{ "{:,.0f}".format(total).replace(",", ".") }}
+        </b>
+
+    </div>
+
+    <br>
+
+    {% if metode == "Tunai" %}
+
+    <div class="baris">
+
+        <span>Bayar (Tunai)</span>
+
+        <span>
+            {{ "{:,.0f}".format(tunai).replace(",", ".") }}
+        </span>
+
+    </div>
+
+    <div class="baris">
+
+        <span>Kembali</span>
+
+        <span>
+            {{ "{:,.0f}".format(kembali).replace(",", ".") }}
+        </span>
+
+    </div>
+
+    {% else %}
+
+    <div class="baris">
+
+        <span>Bayar (QRIS)</span>
+
+        <span>
+            {{ "{:,.0f}".format(total).replace(",", ".") }}
+        </span>
+
+    </div>
+
+    <div class="baris">
+
+        <span>Kembali</span>
+
+        <span> 0</span>
+
+    </div>
+
+    {% endif %}
+
+    <br><br>
+
+    <center>
+        <h2>Terimakasih Telah Berbelanja di Inomart</h2>
+    </center>
+
+</div>
+
+</body>
+</html>

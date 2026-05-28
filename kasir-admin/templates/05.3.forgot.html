@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='05.login_admin.css') }}">
+    <title>Lupa Kata Sandi</title>
+</head>
+<body class="login-page">
+    <a href="{{ url_for('admin_login') }}" class="back-btn">← kembali</a>
+    <div class="card">
+        <h3>Perbarui Kata Sandi</h3>
+        <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Masukkan email Anda untuk menerima kode verifikasi reset sandi</p>
+        {% if error %}
+        <div class="error-message">{{ error }}</div>
+        {% endif %}
+        <form action="{{ url_for('admin_verify') }}" method="POST">
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="email@example.com" required>
+            </div>
+            <div class="requirement-box">
+                Kami akan mengirimkan kode OTP 6 digit ke email Anda. Kode ini berlaku selama 1 menit.
+            </div>
+            <button type="submit" class="btn-primary">Kirim Kode OTP</button>
+        </form>
+    </div>
+</body>
+</html>

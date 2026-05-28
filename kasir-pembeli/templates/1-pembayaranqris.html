@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran QRIS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='1-naailah.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+
+</head>
+<body>
+                                                                                                                                                                     
+    <div class="container">
+        <a href="/pembeli/pilih-pembayaran" class="back">← Kembali</a>
+
+        <h1>Pembayaran QRIS</h1>
+
+        <p class="desc">
+            Scan QRIS dibawah menggunakan aplikasi
+            pembayaran favorit kamu.
+        </p>
+
+        <div class="qris-box">
+            <img src="{{ url_for('static', filename='gambar dan icon/qr code.png') }}" alt="QRIS Code" class="qris-image">
+        </div>
+
+        <p class="total-text">Total pembayaran</p>
+        <h2>{{ formatRp(total) }}</h2>
+
+        <a href="/pembeli/struk">
+        <button class="upload-btn">
+            Cetak Struk
+        </button>
+        </a>
+    </div>
+
+</body>
+</html>

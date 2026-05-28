@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stok Tersedia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='14. stoktersedia.css') }}">
+</head>
+<body>
+    <nav>
+        <div class="nav-bar">
+            <li>
+                <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30" height="30"></a>
+            </li>
+            <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" width="70" height="70">
+            <span>Admin Koperasi</span>
+        </div>
+        <ul>
+            <li>
+                <a href="/admin/notifikasi"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30" height="30"></a>
+            </li>
+            <li>
+                <a href="/admin/pengaturan"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30" height="30"></a>
+            </li>
+            <li>
+                <a href="/admin/kelola_akun_penjual"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30" height="30"></a>
+            </li>
+            <li>
+                <a href="/admin/logout"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30" height="30"></a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h2>Stok Tersedia</h2>
+            <div class="filter">
+                <form method="GET" action="/admin/stok-tersedia">
+                    <input type="text" name="cari" placeholder="Cari barang..." value="{{ keyword }}">
+                    <select name="kategori">
+                        <option value="">Semua Kategori</option>
+                        <option value="Makanan" {% if kategori == 'Makanan' %}selected{% endif %}>Makanan</option>
+                        <option value="Minuman" {% if kategori == 'Minuman' %}selected{% endif %}>Minuman</option>
+                        <option value="Alat Tulis" {% if kategori == 'Alat Tulis' %}selected{% endif %}>Alat Tulis</option>
+                    </select>
+                    <button type="submit">Cari</button>
+                </form>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Barang</th>
+                    <th>Kategori</th>
+                    <th>Stok</th>
+                    <th>Harga</th>
+                    <th>Tanggal</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data %}
+                <tr>
+                    <td>{{ item.no }}</td>
+                    <td>{{ item.nama }}</td>
+                    <td>{{ item.kategori }}</td>
+                    <td>{{ item.stok }}</td>
+                    <td class="harga">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
+                    <td>{{ item.tanggal }}</td>
+                    <td>
+                        {% if item.stok == 0 %}
+                            <span class="stok-habis">Habis</span>
+                        {% elif item.stok <= 10 %}
+                            <span class="stok-menipis">Menipis</span>
+                        {% else %}
+                            <span class="stok-tersedia">Tersedia</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="aksi">
+                            <a href="/admin/stok-tersedia/edit/{{ item.no }}">
+                                <img src="{{ url_for('static', filename='pencil-edit-button-svgrepo.svg') }}" alt="Edit" class="icon edit">
+                            </a>
+                            <form method="POST" action="/admin/stok-tersedia/hapus/{{ item.no }}" style="display:inline;">
+                                <button type="submit" style="background:none;border:none;cursor:pointer;">
+                                    <img src="{{ url_for('static', filename='trash-svgrepo.svg') }}" alt="Hapus" class="icon hapus">
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            {% if page > 1 %}
+            <a href="/admin/stok-tersedia?page={{ page - 1 }}&cari={{ keyword }}&kategori={{ kategori }}" class="panah-kiri">&laquo;</a>
+            {% endif %}
+
+            <div class="bulat-container">
+                {% for p in range(1, total_halaman + 1) %}
+                <div class="bulat {% if p == page %}aktif{% endif %}"></div>
+                {% endfor %}
+            </div>
+
+            {% if page < total_halaman %}
+            <a href="/admin/stok-tersedia?page={{ page + 1 }}&cari={{ keyword }}&kategori={{ kategori }}" class="panah-kanan">&raquo;</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

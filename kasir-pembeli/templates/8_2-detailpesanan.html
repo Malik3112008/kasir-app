@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dikemas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='8_2-novalrizkym.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+
+</head>
+
+<body>
+
+<div class="background">
+
+    <div class="container">
+
+        <a href="/pembeli/pesanan" class="back">← Kembali</a>
+
+        <div class="status-box atas">
+
+            <div class="status active">
+                <img src="{{ url_for('static', filename='gambar dan icon/cardboard-box-11-svgrepo-com.svg') }}" class="icon-kecil">
+                <p>Dikemas</p>
+            </div>
+
+            <div class="line active-line"></div>
+
+            <div class="status">
+                <img src="{{ url_for('static', filename='gambar dan icon/shopping-bag-svgrepo-com (1).svg') }}" class="icon-kecil">
+                <p>Siap Diambil</p>
+            </div>
+
+            <div class="line"></div>
+
+            <div class="status">
+                <img src="{{ url_for('static', filename='gambar dan icon/check-mark-circle-svgrepo-com (1).svg') }}" class="icon-kecil">
+                <p>Selesai</p>
+            </div>
+
+        </div>
+
+        <div class="detail-box">
+
+            <div class="produk">
+                <div>
+                    <h2>Roti Tawar</h2>
+                    <p>2 × 8.000</p>
+                    <p>Diskon</p>
+                </div>
+
+                <div class="harga">
+                    <h2>Rp 16.000</h2>
+                    <p>Rp 2.000</p>
+                </div>
+            </div>
+
+            <div class="produk">
+                <div>
+                    <h2>Air Mineral</h2>
+                    <p>3 × 3.000</p>
+                </div>
+
+                <div class="harga">
+                    <h2>Rp 9.000</h2>
+                </div>
+            </div>
+
+            <div class="produk">
+                <div>
+                    <h2>Kopi Sachet</h2>
+                    <p>1 × 5.000</p>
+                </div>
+
+                <div class="harga">
+                    <h2>Rp 5.000</h2>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="total">
+                <div>
+                    <p>Sub total</p>
+                    <p>Diskon</p>
+                    <h1>Total</h1>
+                    <p>Kembalian barang kosong</p>
+                </div>
+
+                <div class="harga">
+                    <p>Rp 30.000</p>
+                    <p>-2.000</p>
+                    <h1>Rp 28.000</h1>
+                    <p>Rp 0</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

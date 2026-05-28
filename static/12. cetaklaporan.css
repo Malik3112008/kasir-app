@@ -1,0 +1,181 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #dff7f7;
+    font-family: Arial, sans-serif;
+}
+
+
+nav{
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.nav-kiri{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-kiri h2{
+    font-size: 22px;
+    margin: 0;
+}
+
+.nav-kanan{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+
+.container{
+    width: 80%;
+    margin: 40px auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 5px;
+}
+
+
+h1{
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+
+
+.garis{
+    border: 2px dashed black;
+    margin: 25px 0;
+}
+
+
+.filter-box{
+    width: 100%;
+}
+
+
+.tanggal-box{
+    background: linear-gradient(to right,#6ca9ff,#4d78e6);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.tanggal-box label{
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.tanggal-box span{
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.tanggal-box input{
+    width: 299px;
+    height: 38px;
+    border: none;
+    border-radius: 5px;
+    padding: 0 10px;
+    font-size: 15px;
+}
+
+
+
+.pilihan-box{
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.btn-pilihan{
+    width: 250px;
+    height: 60px;
+    background-color: #355b87;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+select{
+    flex: 1;
+    border: 4px solid #ffb6b6;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 20px;
+}
+
+
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+
+th{
+    background: linear-gradient(to right,#6ca9ff,#4d78e6);
+    color: white;
+    padding: 12px;
+    font-size: 18px;
+}
+
+td{
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #999;
+    font-size: 18px;
+}
+
+
+
+.stok{
+    background-color: #ffe76b;
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+
+.button-box{
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 40px;
+}
+
+.pdf,
+.excel{
+    width: 260px;
+    height: 60px;
+    background-color: #e71818;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.tanggal{
+    background-color: #dff3ff;
+    color: #355b87;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+}

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Toko Alat Tulis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='14-putrifarisa.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+
+</head>
+<body>
+
+<div class="header">
+    <a href="/pembeli/login" style="font-size:18px; font-weight:bold; color:#333;">← Kembali</a>
+
+    <div class="top-menu">
+        <input type="text" id="search" placeholder="Cari barang">
+
+        <select onchange="pindahHalaman(this)">
+            <option value="/pembeli">Alat tulis</option>
+            <option value="/pembeli">Makanan</option>
+            <option value="/pembeli">Minuman</option>
+        </select>
+    </div>
+    <div style="display:flex; align-items:center; gap:16px;">
+        <a href="/pembeli/keranjang" style="font-size:24px; display:flex; align-items:center; min-height:44px;">🛒</a>
+        <span style="font-size:14px; color:#666;">{{ session.get('nama', 'Guest') }}</span>
+        <a href="/pembeli/logout" style="font-size:14px; color:#e74c3c; font-weight:600; display:flex; align-items:center; min-height:44px;">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <img src="{{ url_for('static', filename='gambar dan icon/gambar pensil.jpeg') }}">
+
+        <h3>Pensil</h3>
+        <p class="harga">Rp.2.000</p>
+        <p>Stok : 30</p>
+        <p>⭐⭐⭐⭐</p>
+
+       <div class="aksi">
+
+    <button>Tambah ke Keranjang</button>
+
+    <div class="jumlah">
+        <button class="btn-jumlah" onclick="kurang(this)">-</button>
+
+        <span>0</span>
+
+        <button class="btn-jumlah" onclick="tambah(this)">+</button>
+    </div>
+
+</div>
+    </div>
+
+
+    <div class="card">
+        <img src="{{ url_for('static', filename='gambar dan icon/gambar pulpen.jpeg') }}">
+
+        <h3>Bolpoin</h3>
+        <p class="harga">Rp.4.000</p>
+        <p>Stok : 40</p>
+        <p>⭐⭐⭐</p>
+
+       <div class="aksi">
+
+    <button>Tambah ke Keranjang</button>
+
+    <div class="jumlah">
+        <button class="btn-jumlah" onclick="kurang(this)">-</button>
+
+        <span>0</span>
+
+        <button class="btn-jumlah" onclick="tambah(this)">+</button>
+    </div>
+
+</div>
+    </div>
+
+
+    <div class="card">
+        <img src="{{ url_for('static', filename='gambar dan icon/gambar penghapus.jpeg') }}">
+
+        <h3>Penghapus</h3>
+        <p class="harga">Rp.2.000</p>
+        <p>Stok : 20</p>
+        <p>⭐⭐</p>
+
+        <div class="aksi">
+
+    <button>Tambah ke Keranjang</button>
+
+    <div class="jumlah">
+        <button class="btn-jumlah" onclick="kurang(this)">-</button>
+
+        <span>0</span>
+
+        <button class="btn-jumlah" onclick="tambah(this)">+</button>
+    </div>
+
+</div>
+    </div>
+
+
+    <div class="card">
+        <img src="{{ url_for('static', filename='gambar dan icon/gambar tipe ex.jpeg') }}">
+
+        <h3>Tip X</h3>
+        <p class="harga">Rp.5.000</p>
+        <p>Stok : 25</p>
+        <p>⭐⭐⭐⭐⭐</p>
+
+        <div class="aksi">
+
+    <button>Tambah ke Keranjang</button>
+
+    <div class="jumlah">
+        <button class="btn-jumlah" onclick="kurang(this)">-</button>
+
+        <span>0</span>
+
+        <button class="btn-jumlah" onclick="tambah(this)">+</button>
+    </div>
+
+</div>
+    </div>
+
+</div>
+
+<script>
+    function tambah(button) {
+        let jumlah = button.parentElement.querySelector("span");
+        jumlah.innerText = parseInt(jumlah.innerText) + 1;
+    }
+
+    function kurang(button) {
+        let jumlah = button.parentElement.querySelector("span");
+        let angka = parseInt(jumlah.innerText);
+
+        if (angka > 0) {
+            jumlah.innerText = angka - 1;
+        }
+    }
+
+    const search = document.getElementById("search");
+
+search.addEventListener("keyup", function () {
+
+    let keyword = search.value.toLowerCase();
+
+    let cards = document.querySelectorAll(".card");
+
+    cards.forEach(function(card){
+
+        let namaProduk = card.querySelector("h3").innerText.toLowerCase();
+
+        if(namaProduk.includes(keyword)){
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+
+    });
+
+});
+
+function pindahHalaman(select){
+    window.location.href = select.value;
+}
+    
+</script>
+
+</body>
+</html>

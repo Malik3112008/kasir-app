@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='05.login_admin.css') }}">
+    <title>Verifikasi OTP</title>
+</head>
+<body class="login-page">
+    <a href="{{ url_for('admin_forgot') }}" class="back-btn">← kembali</a>
+    <div class="card">
+        <h3>Verifikasi Kode</h3>
+        <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Masukkan 6 digit kode yang dikirim ke <strong style="color: #3b82f6;">{{ email or 'email@domain.com' }}</strong></p>
+        {% if error %}
+        <div class="error-message">{{ error }}</div>
+        {% endif %}
+        <form action="{{ url_for('admin_reset') }}" method="POST">
+            <div class="input-group">
+                <label>Kode OTP</label>
+                <input type="text" name="otp" maxlength="6" placeholder="123456" required style="text-align:center; font-size:24px; letter-spacing:8px;">
+            </div>
+            <button type="submit" class="btn-primary">Verifikasi</button>
+        </form>
+    </div>
+</body>
+</html>

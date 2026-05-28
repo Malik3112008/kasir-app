@@ -1,0 +1,78 @@
+body{
+        font-family: Arial;
+        background: #dff7ff;
+    }
+
+    .container{
+        width: 700px;
+        margin: 50px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        border: 3px solid #6fa8ff;
+    }
+
+    h1{
+        margin-bottom: 30px;
+    }
+
+    .item{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 25px;
+    }
+
+    .nama{
+        width: 200px;
+    }
+
+    .control{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    button{
+        width: 35px;
+        height: 35px;
+        border: none;
+        background: #78a7ff;
+        color: white;
+        font-size: 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .total{
+        font-size: 28px;
+        font-weight: bold;
+        margin-top: 30px;
+    }
+
+    .checkout{
+        width: 100%;
+        margin-top: 20px;
+        padding: 15px;
+        border: none;
+        border-radius: 15px;
+        background: #78a7ff;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+    }
+    .control{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.hapus{
+    background: rgb(0, 81, 255);
+    color: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+    cursor: pointer;
+}

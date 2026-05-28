@@ -1,0 +1,5 @@
+1791C5 / Blue 
+0080FF / Blue (Sidebar)
+DC2626 / Red
+22C55E / Green
+d9eeff / Gray (Background color)

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <title>Pengaturan Profil</title>
+  <link rel="stylesheet" href="{{ url_for('static',filename='22.pengaturan_umum.css')}}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+
+</head>
+
+<body>
+  <nav>
+    <div class="nav-bar">
+      <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='/back-svgrepo-com.svg') }}"
+          alt="Kembali" width="30px" height="30px" /></a>
+      <img src="{{ url_for('static', filename='/' + logo) }}" class="Logo-navbar" alt="logo" />
+      <span>{{nama}}</span>
+    </div>
+    <ul>
+      <li>
+        <a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='/bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi"
+            width="30px" height="30px" /></a>
+      </li>
+      <li>
+        <a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='/setting-svgrepo.svg') }}"
+            alt="Setting" width="30px" height="30px" /></a>
+      </li>
+      <li>
+        <a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='/profile-circle-svgrepo.svg') }}" alt="Pengguna"
+            width="30px" height="30px" /></a>
+      </li>
+      <li>
+        <a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='/logout-line-svgrepo.svg') }}"
+            alt="Keluar" width="30px" height="30px" /></a>
+      </li>
+    </ul>
+  </nav>
+
+  <h1>Pengaturan Profil</h1>
+  <form action="{{ url_for('admin_simpan_pengaturan') }}" method="POST" class="form-profil" enctype="multipart/form-data">
+    <label>Nama Koperasi</label>
+    <input type="text" name="nama" value="{{ nama }}" />
+
+    <label>Deskripsi</label>
+    <textarea name="deskripsi">{{ deskripsi }}</textarea>
+
+    <label>Alamat</label>
+    <input type="text" name="alamat" value="{{ alamat }}" />
+
+    <label>Telepon</label>
+    <input type="text" name="telepon" value="{{ telepon }}" />
+
+    <label>Jam Operasional</label>
+    <input type="text" name="jam" value="{{ jam }}" />
+
+    <label>Hari Operasional</label>
+    <input type="text" name="hari" value="{{ hari }}" />
+
+    <label>Unggah Logo Baru</label>
+
+    <div class="upload-box">
+      <div class="upload">
+        <p>Letakkan Media Disini</p>
+        <span>Atau</span>
+        <br />
+        <a href="#modal-upload" class="btn-upload">pilih gambar</a>
+      </div>
+      <img src="{{ url_for('static', filename='gambar/' + logo) }}" class="Logo" />
+    </div>
+
+    <button type="submit" class="btn-simpan">Simpan Pengaturan</button>
+  </form>
+
+  <div id="modal-upload" class="modal">
+    <div class="modal-box">
+      <a href="#" class="close">&times;</a>
+      <h3>Unggah Gambar</h3>
+      <div class="info">
+        ✅ Format: <strong>JPG, JPEG,PNG</strong>
+        <br />
+        📏 Maksimal: <strong>5 MB</strong>
+      </div>
+      <label for="input-gambar" class="custom-file">Pilih Gambar</label>
+
+      <form action="{{ url_for('admin_simpan_pengaturan') }}" method="POST" enctype="multipart/form-data">
+        <input type="file" id="input-gambar" name="gambar" accept=".jpg,.jpeg,.png" hidden required />
+
+        <button type="submit" class="btn-submit">Unggah permanen</button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

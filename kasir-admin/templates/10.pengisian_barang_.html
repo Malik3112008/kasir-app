@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Pengisian Barang</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='10.pengisian_barang_habis.css') }}">
+</head>
+<body>
+    <nav>
+            <div class="nav-bar">
+                <li>
+                    <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+                </li>
+                <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" width="70" height="70">
+                <span>Admin Koperasi</span>
+            </div>
+            <ul>
+                <li>
+                    <a href="/admin/notifikasi"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a>
+                </li>
+                <li>
+                    <a href="/admin/pengaturan"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a>
+                </li>
+                <li>
+                    <a href="/admin/kelola_akun_penjual"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a>
+                </li>
+                <li>
+                    <a href="/admin/logout"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a>
+                </li>
+            </ul>
+        </nav>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>PENAMBAHAN BARANG HABIS</h2>
+
+        <form action="/admin/simpan" method="POST">
+
+            <label>Kategori</label>
+            <select name="kategori" required>
+                <option value="">Pilih Kategori</option>
+                <option>Makanan</option>
+                <option>Minuman</option>
+                <option>Alat Tulis</option>
+            </select>
+
+            <label>Nama Barang</label>
+            <input type="text" name="nama_barang" required>
+
+            <label>Tanggal Penambahan</label>
+            <input type="date" name="tanggal" required>
+
+            <label>Jumlah</label>
+            <input type="number" name="jumlah" min="0" step="1" required>
+
+            <label>Ubah Harga</label>
+            <input type="number" name="harga" min="0" step="1" required>
+
+            <label>Catatan</label>
+            <textarea name="catatan"></textarea>
+
+            <button type="submit">SIMPAN</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

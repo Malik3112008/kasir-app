@@ -1,0 +1,105 @@
+<html>
+
+<head>
+    <title>Riwayat Notifikasi </title>
+    <link rel="stylesheet" href="{{url_for('static',filename='06.RiwayatNotifikasi.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+
+</head>
+
+<body>
+    <div class="back-button">
+        <a href="{{ url_for('admin_notifikasi') }}">← Kembali</a>
+    </div>
+    <div class="notif-warning">
+        <img src="{{ url_for('static', filename='exclamation-mark-inside-a-circle-svgrepo-com.svg') }}">
+        <p> Riwayat Notifikasi akan terhapus permanen secara otomatis
+            setelah 30 hari sejak notifikasi dibuat
+        </p>
+    </div>
+    <div class="kotak">
+        <div class="header-notif">
+            <h1>Riwayat Notifikasi</h1>
+            <label for="popup-hapus" class="hapus">
+                <img src="{{ url_for('static', filename='trash-bin-trash-svgrepo-com.svg') }}" alt="">
+                <p>Hapus semua</p>
+            </label>
+
+        </div>
+
+        <input type="checkbox" id="popup-hapus">
+
+        <div class="popup">
+            <div class="popup-content">
+
+                <h2>Yakin ingin hapus semua?</h2>
+
+                <div class="popup-btn">
+
+                    <label for="popup-hapus" class="batal">
+                        Batal
+                    </label>
+
+                    <form action="/admin/hapus-riwayat" method="POST">
+                        <button type="submit" class="hapus-btn">
+                            Hapus
+                        </button>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+        {% for item in riwayat %}
+
+        <div class="notif notif-{{ item.warna }}">
+
+            <div class="icon">
+
+                {% if item.warna == "biru" %}
+                <img src="{{ url_for('static', filename='cart-large-2-svgrepo-com.svg') }}" alt="">
+
+                {% elif item.warna == "orange" %}
+                <img src="{{ url_for('static', filename='exclamation-mark-inside-a-circle-svgrepo-com.svg') }}" alt="">
+
+                {% elif item.warna == "hijau" %}
+                <img src="{{ url_for('static', filename='checklist-check-yes-svgrepo-com.svg') }}" alt="">
+
+                {% elif item.warna == "merah" %}
+                <img src="{{ url_for('static', filename='exclamation-mark-inside-a-circle-svgrepo-com.svg') }}" alt="">
+                {% endif %}
+
+            </div>
+
+            <div class="isi-notif">
+
+                <h3>{{ item.judul }}</h3>
+
+                <p>
+                    {{ item.isi }}
+                </p>
+
+                <span>{{ item.waktu }}</span>
+
+            </div>
+
+            <form action="/admin/hapus-riwayat-satuan/{{ loop.index0 }}" method="POST">
+
+                <button type="submit" class="hapus-satuan">
+
+                    <img src="{{ url_for('static', filename='trash-bin-trash-svgrepo-com.svg') }}" alt="Hapus">
+
+                </button>
+
+            </form>
+
+
+        </div>
+
+        {% endfor %}
+
+
+</body>
+
+</html>

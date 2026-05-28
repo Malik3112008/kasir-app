@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='05.login_admin.css') }}">
+    <title>Register Admin</title>
+</head>
+<body class="login-page">
+    <a href="{{ url_for('admin_login') }}" class="back-btn">← kembali</a>
+    <div class="card">
+        <h3>Buat Akun Baru</h3>
+        {% if error %}
+        <div class="error-message">{{ error }}</div>
+        {% endif %}
+        <form action="{{ url_for('admin_register') }}" method="POST">
+            <div class="input-group">
+                <label>Nama pengguna</label>
+                <input type="text" name="username" placeholder="Masukkan nama pengguna" required>
+            </div>
+            <div class="input-group">
+                <label>Alamat email</label>
+                <input type="email" name="email" placeholder="email@example.com" required>
+            </div>
+            <div class="input-group">
+                <label>Kata sandi baru</label>
+                <input type="password" name="password" placeholder="Kata sandi baru" required>
+            </div>
+            <div class="input-group">
+                <label>Konfirmasi kata sandi</label>
+                <input type="password" name="confirm" placeholder="Konfirmasi kata sandi" required>
+            </div>
+            <button type="submit" class="btn-primary">Konfirmasi</button>
+        </form>
+        <a href="{{ url_for('admin_login') }}">
+            <p class="footer-text">Sudah punya akun? <strong>Masuk</strong></p>
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rating Produk</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='4-nandinibekti.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+
+</head>
+<body>
+
+<div class="container">
+    <h1>Beri Rating & Ulasan</h1>
+
+    <div class="produk">
+        <img src="{{ url_for('static', 
+        filename='gambar dan icon/roti.jpg') }}" alt="roti">
+        
+        <div class="info">
+            <h2>Roti Aoka</h2>
+            <p>Vanilla</p>
+            <b>Tanggal Pembelian: 28 Nov 2025</b>
+        </div>
+    </div>
+
+    <div class="rating">
+        <span class="star" onclick="rating(1)">★</span>
+        <span class="star" onclick="rating(2)">★</span>
+        <span class="star" onclick="rating(3)">★</span>
+        <span class="star" onclick="rating(4)">★</span>
+        <span class="star" onclick="rating(5)">★</span>
+    </div>
+
+    <h3>Ulasan Anda</h3>
+    <p>Pilih ulasan (opsional)</p>
+
+    <div class="ulasan-pilihan">
+        <button type="button">Enak</button>
+        <button type="button">Pelayanan Cepat</button>
+        <button type="button">Sesuai Pesanan</button>
+        <button type="button">Harga Murah</button>
+        <button type="button">Bersih</button>
+        <button type="button">Recommended</button>
+    </div>
+
+    <textarea placeholder="Ceritakan pengalaman Anda...
+Bagaimana pengalaman Anda memesan dan mengambil produk di kopsis"></textarea>
+
+    <h3>Nama</h3>
+    <input type="text" placeholder="Masukkan nama">
+
+    <a href="/pembeli/penilaian" class="kirim">Kirim Rating</a>
+</div>
+
+<script>
+    const stars = document.querySelectorAll('.star');
+
+    function rating(nilai) {
+        stars.forEach((star, index) => {
+            if(index < nilai){
+                star.classList.add('active');
+            } else {
+                star.classList.remove('active');
+            }
+        });
+    }
+
+    const buttons = document.querySelectorAll('.ulasan-pilihan button');
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.classList.toggle('selected');
+        });
+    });
+</script>
+
+</body>
+</html>

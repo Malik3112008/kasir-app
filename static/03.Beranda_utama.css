@@ -1,0 +1,149 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(to bottom, #90d4f5, #eefbff);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Pattern atas */
+.top-pattern {
+  width: 100%;
+  height: 100px;
+  background: repeating-linear-gradient(
+    90deg,
+    #4d4d7c 0px,
+    #4d4d7c 40px,
+    #d8d8d8 40px,
+    #d8d8d8 80px
+  );
+  border-bottom: 8px solid #3d3d68;
+}
+
+/* Tombol admin */
+.admin-btn {
+  position: absolute;
+  top: 24px;
+  right: 40px;
+  min-height: 48px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  background: #1e1e1e;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.admin-btn:hover { background: #333; }
+
+/* Container */
+.container {
+  padding: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Box judul */
+.title-box {
+  display: inline-block;
+  color: white;
+  padding: 8px 16px;
+  font-size: clamp(32px, 8vw, 60px);
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+/* Judul besar */
+h1 {
+  font-size: clamp(32px, 8vw, 60px);
+  color: #6d87ff;
+  margin-bottom: 16px;
+}
+
+/* Paragraf */
+p {
+  max-width: 550px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+/* Tombol menu */
+.menu-btn {
+  display: block;
+  width: 300px;
+  max-width: 100%;
+  margin-top: 16px;
+  min-height: 56px;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 28px;
+  background: #69beff;
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+  text-align: center;
+}
+
+.menu-btn:hover { background: #42a8ff; }
+
+.background_2 {
+  width: 100%;
+  height: 150%;
+  object-fit: cover;
+  object-position: right;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.logo_2 {
+  max-width: 90%;
+  width: 600px;
+  height: auto;
+  position: absolute;
+  top: 70%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.title-box,
+h1,
+p,
+.menu-btn {
+  position: relative;
+  top: 80px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container { padding: 24px; }
+  .admin-btn { top: 16px; right: 16px; padding: 10px 16px; font-size: 16px; }
+  .menu-btn { width: 100%; font-size: 20px; }
+  .logo_2 { width: 400px; top: 80%; left: 50%; }
+  .title-box, h1, p, .menu-btn { top: 40px; }
+}
+
+@media (max-width: 480px) {
+  .top-pattern { height: 80px; }
+  .logo_2 { width: 300px; }
+}

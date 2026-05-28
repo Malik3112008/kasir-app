@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Siapkan Pesanan Pelanggan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='19.siapkan_pesanan_pelanggan.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+
+</head>
+
+<body>
+    <nav>
+        <div class="nav-bar">
+            <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali"
+                    width="30px" height="30px" /></a>
+            <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" width="70" height="70" />
+            <span>Koperasi Siswa</span>
+        </div>
+        <ul>
+            <li>
+                <a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px"
+                        height="30px" /></a>
+            </li>
+            <li>
+                <a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting"
+                        width="30px" height="30px" /></a>
+            </li>
+            <li>
+                <a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px"
+                        height="30px" /></a>
+            </li>
+            <li>
+                <a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px" /></a>
+            </li>
+        </ul>
+    </nav>
+    <div class="content-box">
+        <div class="theading">
+            <h2>Siapkan Pesanan Pelanggan</h2>
+        </div>
+        <div class="info-box">
+            Halaman ini digunakan untuk menyiapkan pesanan pelanggan. Setelah
+            pesanan siap, konfirmasikan agar pelanggan dapat mengambil pesanan.
+        </div>
+        <div class="cari">
+            <input type="text" id="cari" placeholder="Cari ID atau nama pelanggan..." oninput="cariPesanan()" />
+        </div>
+        <div class="tabel-box">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Transaksi</th>
+                        <th>Tanggal</th>
+                        <th>Pelanggan</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in pesanan %}
+                    <tr>
+                        <td>{{p.id}}</td>
+                        <td>{{ p.tanggal }}</td>
+                        <td>{{ p.pelanggan }}</td>
+                        <td><span class="rp">{{ formatRp(p.total) }}</span></td>
+                        <td>
+                            <span class="status {{ p.status | replace(' ', '-') | lower }}">{{ p.status }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if p.status != 'Sudah diambil' %}
+                            <div class="Aksi">
+                                <button class="buka-btn" onclick="bukaModal('{{ p.id }}')">
+                                    <img src="{{ url_for('static', filename='rincian-svgrepo-com.svg') }}" alt="Rincian" width="20px"
+                                        height="20px" />
+                                </button>
+                                <form method="POST">
+                                    <input type="hidden" name="trx_id" value="{{ p.id }}" />
+                                    <button type="submit" class="lanjut">
+                                        Langkah Selanjutnya
+                                    </button>
+                                </form>
+                            </div>
+                            {% else %}
+                            <span class="selesai">Ditandai Selesai</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% for p in pesanan %}
+        <div class="overlay" id="overlay-{{ p.id }}">
+            <div class="modal">
+                <h2 class="judul-popup">Siapkan Pesanan</h2>
+                <p class="sub-popup">Siapkan pesanan ini untuk diterima pelanggan</p>
+                <div class="card-rincian">
+                    <div class="header-rincian">
+                        <div>
+                            <h4>Rincian</h4>
+                            #{{ p.id }} - {{ p.pelanggan }}
+                        </div>
+                        <div>
+                            <span class="metode {{ p.metode | lower }}">
+                                Metode : {{ p.metode }}
+                            </span>
+                        </div>
+                        <div>
+                            <span class="status-bayar {{ 'lunas' if p.metode | lower == 'qris' else 'belum-bayar' }}">
+                                Status Pembayaran : {% if p.metode | lower == "qris" %} Lunas
+                                {% else %} Belum bayar {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="nama-barang">
+                        <span>Nama Barang</span>
+                        <span>Subtotal</span>
+                    </div>
+                    {% for a in p.barang %}
+                    <div class="barang">
+                        <div>
+                            <p>{{ a.nama }}</p>
+                            <small>{{ a.jumlah }} x {{ formatRp(a.harga) }}</small>
+                        </div>
+                        <div class="subtotal">
+                            <span>{{ formatRp(a.jumlah * a.harga) }}</span>
+                            <form method="POST" action="/admin/hapus-barang">
+                                <input type="hidden" name="trx_id" value="{{ p.id }}" />
+                                <input type="hidden" name="nama_barang" value="{{ a.nama }}" />
+                                <button type="submit" class="hapus-btn" onclick="('{{ a.nama }}')">
+                                    <img src="{{ url_for('static', filename='delete-svgrepo-com.svg') }}" width="18px" height="18px" />
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="total-popup">
+                        <span>Total</span>
+                        <span>{{ formatRp(p.total) }}</span>
+                    </div>
+                    {% if p.refund > 0 %}
+                    <div class="kembalian">
+                        <span>Kembalian</span>
+                        <span class="label-refund">{{ formatRp(p.refund) }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <button class="tutup-btn" onclick="tutupModal('{{ p.id }}')">
+                    Kembali
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <script>
+        function bukaModal(id) {
+            document.getElementById("overlay-" + id).style.display = "flex";
+        }
+        function cariPesanan() {
+            const kata = document.getElementById("cari").value.toLowerCase();
+            document.querySelectorAll("tbody tr").forEach(function (baris) {
+                const teks = baris.textContent.toLowerCase();
+                baris.style.display = teks.includes(kata) ? "" : "none";
+            });
+        }
+        function tutupModal(id) {
+            document.getElementById("overlay-" + id).style.display = "none";
+        }
+    </script>
+</body>
+
+</html>
