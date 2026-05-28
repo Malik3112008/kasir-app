@@ -41,7 +41,7 @@ nav ul {
 .card{
     background:white;
     width:1000px;
-    padding:100px;
+    padding:30px 40px;
     border-radius:10px;
     box-shadow:0 0 40px rgba(0,0,0,0.2);
 }
@@ -68,13 +68,14 @@ textarea{
 
 button{
     width:100%;
-    padding:40px;
-    margin-top:100px;
+    padding:12px;
+    margin-top:20px;
     border:none;
     background:#3baee7;
     color:white;
     border-radius:5px;
     cursor:pointer;
+    font-size:16px;
 }
 
 button:hover{

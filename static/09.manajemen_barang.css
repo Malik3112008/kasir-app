@@ -1,0 +1,328 @@
+/* 09.manajemen_barang.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #d9eeff;
+    font-family: "Inter", Arial, sans-serif;
+    min-height: 100vh;
+}
+
+/* ===== NAVBAR ===== */
+nav {
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    list-style: none;
+}
+
+.nav-bar span {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 18px;
+}
+
+nav ul li a img {
+    transition: transform 0.2s;
+}
+
+nav ul li a img:hover {
+    transform: scale(1.15);
+}
+
+/* ===== CONTAINER ===== */
+.container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 30px;
+}
+
+/* ===== JUDUL ===== */
+h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* ===== SEARCH & ADD ===== */
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.search-form {
+    display: flex;
+    flex: 1;
+    gap: 10px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 12px 18px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    background: #fff;
+    transition: border-color 0.2s;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: #0080FF;
+}
+
+.search-box button[type="submit"] {
+    padding: 12px 18px;
+    border: 2px solid #ddd;
+    background: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #555;
+    transition: all 0.2s;
+}
+
+.search-box button[type="submit"]:hover {
+    border-color: #0080FF;
+    color: #0080FF;
+}
+
+.add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #0080FF, #005FCC);
+    color: #fff;
+    border-radius: 12px;
+    font-size: 22px;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0,128,255,0.3);
+    transition: all 0.2s;
+}
+
+.add-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,128,255,0.4);
+}
+
+/* ===== INFO RINGKAS ===== */
+.info-ringkas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.info-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-left: 4px solid #3B82F6;
+}
+
+.info-card.tersedia {
+    border-left-color: #22C55E;
+}
+
+.info-card.kosong {
+    border-left-color: #EF4444;
+}
+
+.info-card i {
+    font-size: 28px;
+    color: #3B82F6;
+}
+
+.info-card.tersedia i {
+    color: #22C55E;
+}
+
+.info-card.kosong i {
+    color: #EF4444;
+}
+
+.info-label {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+/* ===== TABLE ===== */
+.table-wrapper {
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+thead th {
+    background: #0080FF;
+    color: #fff;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+tbody td {
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background-color: #f5faff;
+}
+
+/* ===== STATUS BADGE ===== */
+.status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status.tersedia {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.status.menipis {
+    background: #fef9c3;
+    color: #ca8a04;
+}
+
+.status.kosong {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* ===== TOMBOL AKSI ===== */
+.aksi {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-edit,
+.btn-hapus {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.btn-edit {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+
+.btn-edit:hover {
+    background: #0284c7;
+    color: #fff;
+}
+
+.btn-hapus {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.btn-hapus:hover {
+    background: #dc2626;
+    color: #fff;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .info-ringkas {
+        grid-template-columns: 1fr;
+    }
+
+    .search-box {
+        flex-wrap: wrap;
+    }
+
+    .search-form {
+        width: 100%;
+    }
+
+    .add-btn {
+        width: 100%;
+        height: 44px;
+        border-radius: 10px;
+    }
+
+    table {
+        font-size: 13px;
+    }
+
+    thead th,
+    tbody td {
+        padding: 10px 8px;
+    }
+}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Barang - Koperasi Siswa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='09.manajemen_barang.css') }}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-bar">
+            <li>
+                <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" width="30"></a>
+            </li>
+            <img src="{{ url_for('static', filename='logo.svg') }}" width="70" height="70">
+            <span>Admin Koperasi</span>
+        </div>
+        <ul>
+            <li><a href="/admin/notifikasi"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" width="30"></a></li>
+            <li><a href="/admin/pengaturan"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" width="30"></a></li>
+            <li><a href="/admin/kelola_akun_penjual"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" width="30"></a></li>
+            <li><a href="/admin/logout"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" width="30"></a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+
+        <h1>Manajemen Barang Koperasi</h1>
+
+        <!-- Search & Add -->
+        <div class="search-box">
+            <form method="GET" action="/admin/manajemen-barang" class="search-form">
+                <input type="text" name="cari" placeholder="Cari barang..." value="{{ keyword }}">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+            <a href="/admin/pengisian_barang" class="add-btn" title="Tambah Barang Baru">
+                <i class="fa fa-plus"></i>
+            </a>
+        </div>
+
+        <!-- Info Ringkas -->
+        <div class="info-ringkas">
+            <div class="info-card">
+                <i class="fa fa-boxes-stacked"></i>
+                <div>
+                    <span class="info-label">Total Barang</span>
+                    <span class="info-value">{{ data | length }}</span>
+                </div>
+            </div>
+            <div class="info-card tersedia">
+                <i class="fa fa-check-circle"></i>
+                <div>
+                    <span class="info-label">Tersedia</span>
+                    <span class="info-value">{{ data | selectattr('stok', 'gt', 0) | list | length }}</span>
+                </div>
+            </div>
+            <div class="info-card kosong">
+                <i class="fa fa-exclamation-circle"></i>
+                <div>
+                    <span class="info-label">Stok Habis</span>
+                    <span class="info-value">{{ data | selectattr('stok', 'equalto', 0) | list | length }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabel -->
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Barang</th>
+                        <th>Kategori</th>
+                        <th>Harga</th>
+                        <th>Stok</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in data %}
+                    <tr>
+                        <td>{{ item.no }}</td>
+                        <td>{{ item.nama }}</td>
+                        <td>{{ item.kategori }}</td>
+                        <td>Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
+                        <td>{{ item.stok }}</td>
+                        <td>
+                            {% if item.stok == 0 %}
+                                <span class="status kosong">Habis</span>
+                            {% elif item.stok <= 5 %}
+                                <span class="status menipis">Menipis</span>
+                            {% else %}
+                                <span class="status tersedia">Tersedia</span>
+                            {% endif %}
+                        </td>
+                        <td class="aksi">
+                            <a href="/admin/stok-tersedia/edit/{{ item.no }}" class="btn-edit" title="Edit">
+                                <i class="fa fa-pen"></i>
+                            </a>
+                            <form method="POST" action="/admin/hapus-barang" style="display:inline;">
+                                <input type="hidden" name="id" value="{{ item.no }}">
+                                <button type="submit" class="btn-hapus" title="Hapus" onclick="return confirm('Yakin hapus {{ item.nama }}?')">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -338,6 +338,21 @@ def admin_kelola_akun_penjual():
     return render_template('08.pengelola_akun_penjual.html', penjual=data_penjual)
 
 # ============================================================
+# ADMIN: MANAJEMEN BARANG
+# ============================================================
+
+@app.route('/admin/manajemen-barang')
+def admin_manajemen_barang():
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    keyword = request.args.get('cari', '').lower()
+    if keyword:
+        filtered = [b for b in data_barang if keyword in b['nama'].lower() or keyword in b['kategori'].lower()]
+    else:
+        filtered = data_barang
+    return render_template('09.manajemen_barang.html', data=filtered, keyword=request.args.get('cari', ''))
+
+# ============================================================
 # ADMIN: PENGISIAN BARANG
 # ============================================================
 
@@ -614,6 +629,21 @@ def pembeli_login():
             return redirect(url_for('pembeli_home'))
         error = 'Nama akun atau kata sandi tidak cocok.'
     return render_template('login_pembeli.html', error=error)
+
+@app.route('/pembeli/register', methods=['GET', 'POST'])
+def pembeli_register():
+    error = None
+    if request.method == 'POST':
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '').strip()
+        if not username or not password:
+            error = 'Nama akun dan kata sandi wajib diisi.'
+        elif username in USERS:
+            error = 'Nama akun sudah digunakan.'
+        else:
+            USERS[username] = password
+            return redirect(url_for('pembeli_login'))
+    return render_template('register_pembeli.html', error=error)
 
 @app.route('/pembeli/logout')
 def pembeli_logout():

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Laporan Penjualan</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='15.Laporan_Penjualan.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
-
+        <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
     </head>
     <body>
@@ -31,13 +32,15 @@
                 </li>
             </ul>
         </nav>
+
         <span class="Judul">Laporan Penjualan (Untung/Rugi)</span>
+
         <div class="Isi">
             <form method="POST">
                 <div class="kalender">
                     <select name="bulan" id="bulan" onchange="this.form.submit()">
                         <option value="1" {% if bulan == 1 %}selected{% endif %}>Januari</option>
-                        <option value="2" {% if bulan == 2 %}selected{% endif %}>februari</option>
+                        <option value="2" {% if bulan == 2 %}selected{% endif %}>Februari</option>
                         <option value="3" {% if bulan == 3 %}selected{% endif %}>Maret</option>
                         <option value="4" {% if bulan == 4 %}selected{% endif %}>April</option>
                         <option value="5" {% if bulan == 5 %}selected{% endif %}>Mei</option>
@@ -45,44 +48,54 @@
                         <option value="7" {% if bulan == 7 %}selected{% endif %}>Juli</option>
                         <option value="8" {% if bulan == 8 %}selected{% endif %}>Agustus</option>
                         <option value="9" {% if bulan == 9 %}selected{% endif %}>September</option>
-                        <option value="10" {% if bulan == 10 %}selected{% endif %}>oktober</option>
+                        <option value="10" {% if bulan == 10 %}selected{% endif %}>Oktober</option>
                         <option value="11" {% if bulan == 11 %}selected{% endif %}>November</option>
                         <option value="12" {% if bulan == 12 %}selected{% endif %}>Desember</option>
                     </select>
-                <input type="date" name="tanggal"
-                value="{{tanggal }}"
-                min="{{ tanggal_min }}"
-                max="{{ tanggal_max }}"
-                onchange="this.form.submit()">
+                    <input type="date" name="tanggal"
+                        value="{{ tanggal }}"
+                        min="{{ tanggal_min }}"
+                        max="{{ tanggal_max }}"
+                        onchange="this.form.submit()">
                 </div>
             </form>
+
             <div class="kotak_besar">
-                <div class="Total_transaksi">
-                    <span>Total Transaksi</span>
-                    <span>{{TT}}</span>
+                <!-- Summary Cards -->
+                <div class="Summary_Row">
+                    <div class="Total_transaksi">
+                        <span>Total Transaksi</span>
+                        <span>{{ TT }}</span>
+                    </div>
+                    <div class="Total_Pendapatan">
+                        <span>Total Pendapatan</span>
+                        <span>Rp {{ "{:,.0f}".format(TP).replace(",", ".") }}</span>
+                    </div>
+                    <div class="Modal_Barang">
+                        <span>Modal Barang</span>
+                        <span>Rp {{ "{:,.0f}".format(MB).replace(",", ".") }}</span>
+                    </div>
+                    <div class="Untung_Rugi">
+                        <span>Untung/Rugi</span>
+                        <span>Rp {{ "{:,.0f}".format(UG).replace(",", ".") }}</span>
+                    </div>
                 </div>
-                <div class="Total_Pendapatan">
-                    <span>Total Pendapatan</span>
-                    <span>{{TP}}</span>
-                </div>
-                <div class="Modal_Barang">
-                    <span>Modal Barang</span>
-                    <span>{{MB}}</span>
-                </div>
-                <div class="Untung_Rugi">
-                    <span>Untung/Rugi</span>
-                    <span>{{UG}}</span>
-                </div>
+
+                <!-- Chart Row 1: Produk Terlaris + Pendapatan Per Kategori -->
                 <div class="Kolom_Diagram_1">
                     <div class="Diagram_Produk_Terlaris">
-                        <canvas id="chart_produk_terlaris" data-nama-produk='{{ NP | tojson }}' data-jumlah-produk='{{ JP | tojson}}' data-warna-diagram='{{ WPT | tojson }}' style="width:300px" height="300px"></canvas>
+                        <canvas id="chart_produk_terlaris"
+                            data-nama-produk='{{ NP | tojson }}'
+                            data-jumlah-produk='{{ JP | tojson }}'
+                            data-warna-diagram='{{ WPT | tojson }}'>
+                        </canvas>
                         <script>
                             const canvas1 = document.getElementById("chart_produk_terlaris");
                             const xValues1 = JSON.parse(canvas1.dataset.namaProduk);
                             const yValues1 = JSON.parse(canvas1.dataset.jumlahProduk);
                             const barColors1 = JSON.parse(canvas1.dataset.warnaDiagram);
                             new Chart(canvas1, {
-                                type: "doughnut", 
+                                type: "doughnut",
                                 data: {
                                     labels: xValues1,
                                     datasets: [{
@@ -91,22 +104,26 @@
                                     }]
                                 },
                                 options: {
-                                    responsive: false,
+                                    responsive: true,
                                     plugins: {
-                                        legend: {display:true},
+                                        legend: { display: true, position: "bottom" },
                                         title: {
                                             display: true,
                                             text: "Diagram Produk Terlaris",
-                                            font: {size:16}
+                                            font: { size: 16 }
                                         }
                                     }
                                 }
                             });
                         </script>
                     </div>
-                    <div style="width:1px; height:100px; background:black;"></div>
+                    <div></div>
                     <div class="Diagram_Pendapatan_Perkategori">
-                        <canvas id="Chart_Pendapatan_Perkategori" data-kategori='{{ KT | tojson }}' data-pendapatan='{{ PPK | tojson}}' data-warna-diagram='{{ WPP | tojson }}' style="width:300px" height="300px"></canvas>
+                        <canvas id="Chart_Pendapatan_Perkategori"
+                            data-kategori='{{ KT | tojson }}'
+                            data-pendapatan='{{ PPK | tojson }}'
+                            data-warna-diagram='{{ WPP | tojson }}'>
+                        </canvas>
                         <script>
                             const canvas2 = document.getElementById("Chart_Pendapatan_Perkategori");
                             const xValues2 = JSON.parse(canvas2.dataset.kategori);
@@ -122,12 +139,13 @@
                                     }]
                                 },
                                 options: {
+                                    responsive: true,
                                     plugins: {
-                                        legend: {display: false},
+                                        legend: { display: false },
                                         title: {
                                             display: true,
-                                            text: "Pendapatan Perkategori",
-                                            font: {size: 16}
+                                            text: "Pendapatan Per Kategori",
+                                            font: { size: 16 }
                                         }
                                     }
                                 }
@@ -135,11 +153,16 @@
                         </script>
                     </div>
                 </div>
+
+                <!-- Chart Row 2: Pendapatan Bulanan + Transaksi Bulanan -->
                 <div class="Kolom_Diagram_2">
-                    <div class="Diagram_Perbadingan_Pendapatann_Tiap_Bulan">
-                        <canvas id="Chart_Perbadingan_Pendapatan_Tiap_Bulan" data-pendapatan-bulan='{{ PL | tojson }}' data-pendapatan-perbulan='{{ PPB | tojson}}' style="width:400px" height="400px"></canvas>
+                    <div class="Diagram_Pendapatan_Bulanan">
+                        <canvas id="Chart_Pendapatan_Tiap_Bulan"
+                            data-pendapatan-bulan='{{ PL | tojson }}'
+                            data-pendapatan-perbulan='{{ PPB | tojson }}'>
+                        </canvas>
                         <script>
-                            const canvas3 = document.getElementById("Chart_Perbadingan_Pendapatan_Tiap_Bulan");
+                            const canvas3 = document.getElementById("Chart_Pendapatan_Tiap_Bulan");
                             const xValues3 = JSON.parse(canvas3.dataset.pendapatanBulan);
                             const yValues3 = JSON.parse(canvas3.dataset.pendapatanPerbulan);
                             new Chart(canvas3, {
@@ -148,29 +171,36 @@
                                     labels: xValues3,
                                     datasets: [{
                                         data: yValues3,
-                                        borderColor: "blue",
-                                        fill: false,
-                                        tension: 0.4
+                                        borderColor: "#3B82F6",
+                                        backgroundColor: "rgba(59,130,246,0.1)",
+                                        fill: true,
+                                        tension: 0.4,
+                                        pointRadius: 5,
+                                        pointBackgroundColor: "#3B82F6"
                                     }]
                                 },
                                 options: {
+                                    responsive: true,
                                     plugins: {
-                                        legend: {display: false},
+                                        legend: { display: false },
                                         title: {
                                             display: true,
-                                            text: "Perbandingan Pendapatan Tiap Bulan Tahun 2026",
-                                            font: {size: 16}
+                                            text: "Perbandingan Pendapatan Tiap Bulan 2026",
+                                            font: { size: 16 }
                                         }
                                     }
                                 }
                             });
                         </script>
                     </div>
-                    <div style="width:1px; height:100px; background:black;"></div>
-                    <div class="Diagram_Perbandingan_Jumlah_Transaksi_Tiap_Bulan">
-                        <canvas id="Chart_Perbadingan_Jumlah_Transaksi_Tiap_Bulan" data-transaksi-perbulan='{{ TSP | tojson }}' data-jumlah-transaksi-perbulan='{{ JTP | tojson}}' style="width:400px" height="400px"></canvas>
+                    <div></div>
+                    <div class="Diagram_Transaksi_Bulanan">
+                        <canvas id="Chart_Transaksi_Tiap_Bulan"
+                            data-transaksi-perbulan='{{ TSP | tojson }}'
+                            data-jumlah-transaksi-perbulan='{{ JTP | tojson }}'>
+                        </canvas>
                         <script>
-                            const canvas4 = document.getElementById("Chart_Perbadingan_Jumlah_Transaksi_Tiap_Bulan");
+                            const canvas4 = document.getElementById("Chart_Transaksi_Tiap_Bulan");
                             const xValues4 = JSON.parse(canvas4.dataset.transaksiPerbulan);
                             const yValues4 = JSON.parse(canvas4.dataset.jumlahTransaksiPerbulan);
                             new Chart(canvas4, {
@@ -179,18 +209,22 @@
                                     labels: xValues4,
                                     datasets: [{
                                         data: yValues4,
-                                        borderColor: "blue",
-                                        fill: false,
-                                        tension: 0.4
+                                        borderColor: "#22C55E",
+                                        backgroundColor: "rgba(34,197,94,0.1)",
+                                        fill: true,
+                                        tension: 0.4,
+                                        pointRadius: 5,
+                                        pointBackgroundColor: "#22C55E"
                                     }]
                                 },
                                 options: {
+                                    responsive: true,
                                     plugins: {
-                                        legend: {display: false},
+                                        legend: { display: false },
                                         title: {
                                             display: true,
-                                            text: "Perbandingan Jumlah Transaksi Tiap Bulan Tahun 2026",
-                                            font: {size: 16}
+                                            text: "Perbandingan Jumlah Transaksi Tiap Bulan 2026",
+                                            font: { size: 16 }
                                         }
                                     }
                                 }
@@ -199,8 +233,10 @@
                     </div>
                 </div>
             </div>
+
             <div class="Cetak">
                 <button onclick="window.print()">Cetak</button>
             </div>
+        </div>
     </body>
 </html>
