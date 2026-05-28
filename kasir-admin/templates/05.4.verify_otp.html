@@ -14,7 +14,7 @@
         {% if error %}
         <div class="error-message">{{ error }}</div>
         {% endif %}
-        <form action="{{ url_for('admin_reset') }}" method="POST">
+        <form action="{{ url_for('admin_verify') }}" method="POST">
             <div class="input-group">
                 <label>Kode OTP</label>
                 <input type="text" name="otp" maxlength="6" placeholder="123456" required style="text-align:center; font-size:24px; letter-spacing:8px;">

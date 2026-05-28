@@ -181,7 +181,7 @@
 
     <div class="detail-container scale-in">
         <div class="detail-image-section fade-in">
-            <img src="{{ barang.gambar or '/static/img/default.png' }}" alt="{{ barang.nama }}">
+            <img src="{{ url_for('static', filename=(barang.gambar or 'gambar dan icon/gambar le mineral.jpeg')) }}" alt="{{ barang.nama }}">
             <span class="detail-category-badge">
                 {{ barang.kategori }}
             </span>
@@ -220,6 +220,7 @@
             <div class="slide-up" style="animation-delay: 0.5s;">
                 {% if barang.stok > 0 %}
                 <form action="/pembeli/keranjang" method="GET">
+                    <input type="hidden" name="tambah" value="{{ barang.id }}">
                     <button type="submit" class="btn-cart">
                         <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
                     </button>

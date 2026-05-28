@@ -83,11 +83,11 @@
                     <td>
                         <div class="aksi">
                             <a href="/admin/stok-tersedia/edit/{{ item.no }}">
-                                <img src="{{ url_for('static', filename='pencil-edit-button-svgrepo.svg') }}" alt="Edit" class="icon edit">
+                                <img src="{{ url_for('static', filename='delete-svgrepo-com.svg') }}" alt="Edit" class="icon edit">
                             </a>
                             <form method="POST" action="/admin/stok-tersedia/hapus/{{ item.no }}" style="display:inline;">
                                 <button type="submit" style="background:none;border:none;cursor:pointer;">
-                                    <img src="{{ url_for('static', filename='trash-svgrepo.svg') }}" alt="Hapus" class="icon hapus">
+                                    <img src="{{ url_for('static', filename='trash-bin-trash-svgrepo-com.svg') }}" alt="Hapus" class="icon hapus">
                                 </button>
                             </form>
                         </div>

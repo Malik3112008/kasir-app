@@ -88,7 +88,7 @@ function editMode() {
                 {% for item in penjual %}
                 <tr>
                     <td class="akun">
-                        <img src="{{ item.foto }}" alt="">
+                        <img src="{{ url_for('static', filename='image/' + item.foto) }}" alt="">
                         {{ item.nama }}
                     </td>
                     <td>{{ item.email }}</td>

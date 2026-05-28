@@ -28,13 +28,13 @@
 
         <div class="nav-kanan">
 
-            <img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" width="25">
+            <a href="/admin/notifikasi"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" width="25"></a>
 
-            <img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" width="25">
+            <a href="/admin/pengaturan"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" width="25"></a>
 
-            <img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" width="25">
+            <a href="/admin/kelola_akun_penjual"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" width="25"></a>
 
-            <img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" width="25">
+            <a href="/admin/logout"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" width="25"></a>
 
         </div>
 
@@ -155,14 +155,14 @@
 
 
         <div class="button-box">
-            <a href="/cetak_pdf?tanggal_awal={{ request.form.get('tanggal_awal','') }}&tanggal_akhir={{ request.form.get('tanggal_akhir','') }}">
+            <a href="/admin/cetak_pdf?tanggal_awal={{ request.form.get('tanggal_awal','') }}&tanggal_akhir={{ request.form.get('tanggal_akhir','') }}">
 
     <button type="button" class="pdf">
         Cetak PDF
     </button>
 
 </a>
-            <a href="/cetak_excel?tanggal_awal={{ request.form.get('tanggal_awal','') }}&tanggal_akhir={{ request.form.get('tanggal_akhir','') }}">
+            <a href="/admin/cetak_excel?tanggal_awal={{ request.form.get('tanggal_awal','') }}&tanggal_akhir={{ request.form.get('tanggal_akhir','') }}">
 
     <button type="button" class="excel">
         Cetak Excel

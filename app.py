@@ -72,14 +72,14 @@ def admin_beranda_awal():
 # ============================================================
 
 CARDS_DATA = [
-    {"id": 1, "text": "Rak Makanan Ringan", "icon": "fa-solid fa-cookie-bite", "href": "/makanan_ringan", "width": 290, "height": 120, "left": 40, "top": 130},
-    {"id": 2, "text": "Rak Snack", "icon": "fa-solid fa-candy-cane", "href": "/makanan_ringan", "width": 290, "height": 120, "left": 40, "top": 300},
-    {"id": 3, "text": "Rak Cemilan", "icon": "fa-solid fa-pizza-slice", "href": "/makanan_ringan", "width": 290, "height": 120, "left": 40, "top": 470},
-    {"id": 4, "text": "Meja Kasir", "icon": "fa-solid fa-cash-register", "href": "/meja_kasir", "width": 220, "height": 180, "left": 520, "top": 140},
-    {"id": 5, "text": "Rak Alat Tulis", "icon": "fa-solid fa-book-open", "href": "/alat_tulis", "width": 180, "height": 230, "left": 870, "top": 130},
-    {"id": 6, "text": "Rak Makanan", "icon": "fa-solid fa-burger", "href": "/makanan", "width": 180, "height": 230, "left": 870, "top": 430},
-    {"id": 7, "text": "Rak Minuman", "icon": "fa-solid fa-bottle-water", "href": "/minuman", "width": 180, "height": 430, "left": 1160, "top": 120},
-    {"id": 8, "text": "Pintu Masuk/Keluar", "icon": "fa-solid fa-door-open", "href": "/pintu", "width": 420, "height": 120, "left": 430, "top": 640},
+    {"id": 1, "text": "Rak Makanan Ringan", "icon": "fa-solid fa-cookie-bite", "href": "/admin/denah/makanan_ringan", "width": 290, "height": 120, "left": 40, "top": 130},
+    {"id": 2, "text": "Rak Snack", "icon": "fa-solid fa-candy-cane", "href": "/admin/denah/makanan_ringan", "width": 290, "height": 120, "left": 40, "top": 300},
+    {"id": 3, "text": "Rak Cemilan", "icon": "fa-solid fa-pizza-slice", "href": "/admin/denah/makanan_ringan", "width": 290, "height": 120, "left": 40, "top": 470},
+    {"id": 4, "text": "Meja Kasir", "icon": "fa-solid fa-cash-register", "href": "/admin/denah/meja_kasir", "width": 220, "height": 180, "left": 520, "top": 140},
+    {"id": 5, "text": "Rak Alat Tulis", "icon": "fa-solid fa-book-open", "href": "/admin/denah/alat_tulis", "width": 180, "height": 230, "left": 870, "top": 130},
+    {"id": 6, "text": "Rak Makanan", "icon": "fa-solid fa-burger", "href": "/admin/denah/makanan", "width": 180, "height": 230, "left": 870, "top": 430},
+    {"id": 7, "text": "Rak Minuman", "icon": "fa-solid fa-bottle-water", "href": "/admin/denah/minuman", "width": 180, "height": 430, "left": 1160, "top": 120},
+    {"id": 8, "text": "Pintu Masuk/Keluar", "icon": "fa-solid fa-door-open", "href": "/admin/denah/pintu", "width": 420, "height": 120, "left": 430, "top": 640},
 ]
 
 def load_cards():
@@ -391,6 +391,35 @@ def admin_stok_tersedia():
     return render_template('14. stoktersedia.html',
         data=data_page, page=page, total_halaman=total_halaman,
         keyword=request.args.get('cari', ''), kategori=kategori)
+
+@app.route('/admin/stok-tersedia/edit/<int:id>', methods=['GET', 'POST'])
+def admin_stok_tersedia_edit(id):
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    barang = None
+    for b in data_barang:
+        if b['no'] == id:
+            barang = b
+            break
+    if not barang:
+        return "Barang tidak ditemukan", 404
+    if request.method == 'POST':
+        barang['nama'] = request.form.get('nama', barang['nama'])
+        barang['kategori'] = request.form.get('kategori', barang['kategori'])
+        barang['stok'] = int(request.form.get('stok', barang['stok']))
+        barang['harga'] = int(request.form.get('harga', barang['harga']))
+        return redirect(url_for('admin_stok_tersedia'))
+    return render_template('14. stoktersedia.html',
+        data=[barang], page=1, total_halaman=1,
+        keyword='', kategori='', edit_item=barang)
+
+@app.route('/admin/stok-tersedia/hapus/<int:id>', methods=['POST'])
+def admin_stok_tersedia_hapus(id):
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    global data_barang
+    data_barang = [b for b in data_barang if b['no'] != id]
+    return redirect(url_for('admin_stok_tersedia'))
 
 # ============================================================
 # ADMIN: CETAK LAPORAN
