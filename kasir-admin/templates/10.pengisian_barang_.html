@@ -2,74 +2,149 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengisian Barang</title>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='10.pengisian_barang_habis.css') }}">
 </head>
 <body>
+
+    <!-- NAVBAR -->
     <nav>
-            <div class="nav-bar">
-                <li>
-                    <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
-                </li>
-                <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" width="70" height="70">
-                <span>Admin Koperasi</span>
-            </div>
-            <ul>
-                <li>
-                    <a href="/admin/notifikasi"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a>
-                </li>
-                <li>
-                    <a href="/admin/pengaturan"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a>
-                </li>
-                <li>
-                    <a href="/admin/kelola_akun_penjual"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a>
-                </li>
-                <li>
-                    <a href="/admin/logout"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a>
-                </li>
-            </ul>
-        </nav>
+        <div class="nav-left">
+            <a href="/admin/dashboard" class="back-btn">
+                <img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}"
+                alt="Kembali"
+                width="30"
+                height="30">
+            </a>
+            <img src="{{ url_for('static', filename='logo.svg') }}"
+            alt="Logo"
+            width="70"
+            height="70">
+            <span>Admin Koperasi</span>
+        </div>
+        <ul class="nav-right">
+            <li>
+                <a href="/admin/notifikasi">
+                    <img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}"
+                    alt="Notifikasi"
+                    width="30"
+                    height="30">
+                </a>
+            </li>
+            <li>
+                <a href="/admin/pengaturan">
+                    <img src="{{ url_for('static', filename='setting-svgrepo.svg') }}"
+                    alt="Setting"
+                    width="30"
+                    height="30">
+                </a>
+            </li>
+            <li>
+                <a href="/admin/kelola_akun_penjual">
+                    <img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}"
+                    alt="Pengguna"
+                    width="30"
+                    height="30">
+                </a>
+            </li>
+            <li>
+                <a href="/admin/logout">
+                    <img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}"
+                    alt="Keluar"
+                    width="30"
+                    height="30">
+                </a>
+            </li>
+        </ul>
+    </nav>
 
-<div class="container">
+    <!-- FORM -->
+    <div class="container">
 
-    <div class="card">
-
-        <h2>PENAMBAHAN BARANG HABIS</h2>
+        <h1>TAMBAH DATA BARANG</h1>
 
         <form action="/admin/simpan" method="POST">
 
-            <label>Kategori</label>
-            <select name="kategori" required>
-                <option value="">Pilih Kategori</option>
-                <option>Makanan</option>
-                <option>Minuman</option>
-                <option>Alat Tulis</option>
-            </select>
+            <div class="input-group">
+                <label>Pilih Kategori</label>
+                <select name="kategori" required>
+                    <option value="">Pilih Kategori</option>
+                    <option value="Makanan">Makanan</option>
+                    <option value="Minuman">Minuman</option>
+                    <option value="Alat Tulis">Alat Tulis</option>
+                </select>
+            </div>
 
-            <label>Nama Barang</label>
-            <input type="text" name="nama_barang" required>
+            <div class="input-group">
+                <label>Nama Barang</label>
+                <input type="text" name="nama_barang" placeholder="Masukkan nama barang" required>
+            </div>
 
-            <label>Tanggal Penambahan</label>
-            <input type="date" name="tanggal" required>
+            <!-- DETAIL PRODUK -->
+            <div class="input-group">
+                <label>Detail Produk</label>
+                <div class="detail-box">
+                    <div class="detail-item">
+                        <span>Variasi :</span>
+                        <input type="text" name="variasi" placeholder="Contoh: Le Mineral">
+                    </div>
+                    <div class="detail-item">
+                        <span>Volume :</span>
+                        <input type="text" name="volume" placeholder="Contoh: 600 ml">
+                    </div>
+                    <div class="detail-item">
+                        <span>Rasa :</span>
+                        <input type="text" name="rasa" placeholder="Contoh: Original">
+                    </div>
+                    <div class="detail-item">
+                        <span>Expired :</span>
+                        <input type="text" name="expired" placeholder="Contoh: April-2028">
+                    </div>
+                </div>
+            </div>
 
-            <label>Jumlah</label>
-            <input type="number" name="jumlah" min="0" step="1" required>
+            <!-- DESKRIPSI -->
+            <div class="input-group">
+                <label>Deskripsi</label>
+                <details class="deskripsi-box">
+                    <summary></summary>
+                    <textarea name="catatan" rows="6" placeholder="Tulis deskripsi barang..."></textarea>
+                </details>
+            </div>
 
-            <label>Ubah Harga</label>
-            <input type="number" name="harga" min="0" step="1" required>
+            <div class="row">
+                <div class="col">
+                    <div class="input-group">
+                        <label>Harga</label>
+                        <input type="number" name="harga" min="1" step="1" placeholder="3000" required>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-group">
+                        <label>Jumlah</label>
+                        <input type="number" name="jumlah" min="1" step="1" placeholder="35" required>
+                    </div>
+                </div>
+            </div>
 
-            <label>Catatan</label>
-            <textarea name="catatan"></textarea>
+            <div class="row">
+                <div class="col">
+                    <div class="input-group">
+                        <label>Tanggal Penambahan</label>
+                        <input type="date" name="tanggal" required>
+                    </div>
+                </div>
+            </div>
 
-            <button type="submit">SIMPAN</button>
+            <button type="submit" class="btn">
+                Simpan Barang
+            </button>
 
         </form>
 
     </div>
-
-</div>
 
 </body>
 </html>
