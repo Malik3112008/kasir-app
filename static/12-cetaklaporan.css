@@ -1,0 +1,301 @@
+/* 12. cetaklaporan.css - merged tito + existing */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #dff7f7;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+}
+
+/* ===== NAVBAR ===== */
+nav {
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.nav-kiri {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-kiri h2 {
+    font-size: 22px;
+    margin: 0;
+}
+
+.nav-kanan {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+nav ul li a img {
+    width: 30px;
+    height: auto;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+nav ul li a img:hover {
+    transform: scale(1.1);
+}
+
+/* ===== JUDUL ===== */
+h1 {
+    text-align: center;
+    font-size: 28px;
+    margin: 30px 0;
+}
+
+/* ===== LAPORAN BOX (TITO) ===== */
+.laporan-box {
+    background: #73a0ff;
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 15px 20px;
+    border-radius: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.laporan-box label {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.tanggal {
+    display: flex;
+    gap: 15px;
+}
+
+.tanggal input {
+    width: 200px;
+    height: 35px;
+    border-radius: 50px;
+    border: 2px solid #ddd;
+    padding-left: 20px;
+    font-size: 14px;
+}
+
+/* ===== CETAK BOX ===== */
+.cetak-box {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.btn-laporan {
+    background: #1f3f68;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-laporan:hover {
+    background: #162d4e;
+    transform: translateY(-1px);
+}
+
+/* ===== LINE ===== */
+.line {
+    width: 90%;
+    max-width: 900px;
+    height: 2px;
+    background: #444;
+    margin: 30px auto;
+}
+
+/* ===== CARDS (TITO) ===== */
+.card-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 30px auto;
+    flex-wrap: wrap;
+    max-width: 900px;
+}
+
+.card {
+    width: 180px;
+    height: 200px;
+    background: white;
+    border: 2px solid black;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.card img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    font-size: 16px;
+    margin: 8px 0;
+}
+
+.card p {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* ===== TABLE ===== */
+.table-container {
+    margin: 30px auto;
+    width: 90%;
+    max-width: 900px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th {
+    background: #6ea8ff;
+    color: white;
+    padding: 12px;
+    border: 1px solid #999;
+    font-size: 16px;
+}
+
+td {
+    padding: 12px;
+    border: 1px solid #999;
+    text-align: center;
+    font-size: 14px;
+}
+
+tr:hover {
+    background: #f5f5f5;
+}
+
+tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+/* ===== BUTTONS ===== */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 40px auto;
+    max-width: 900px;
+}
+
+.pdf, .excel {
+    background: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pdf:hover {
+    background: #c41010;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231,24,24,0.3);
+}
+
+.excel {
+    background: rgb(3, 200, 60);
+}
+
+.excel:hover {
+    background: rgb(2, 160, 48);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(3,200,60,0.3);
+}
+
+/* ===== STOK BADGE ===== */
+.stok {
+    background-color: #ffe76b;
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+/* ===== TANGGAL BADGE ===== */
+.tanggal-badge {
+    background-color: #dff3ff;
+    color: #355b87;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* ===== ANIMATIONS ===== */
+.container {
+    animation: fadeInUp 0.4s ease;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .laporan-box {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .tanggal {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .card-container {
+        gap: 20px;
+    }
+
+    .card {
+        width: 140px;
+        height: 160px;
+    }
+
+    .button-group {
+        flex-direction: column;
+        align-items: center;
+    }
+}

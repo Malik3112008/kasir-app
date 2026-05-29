@@ -15,8 +15,9 @@ from datetime import datetime
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-app = Flask(__name__, static_folder=os.path.join(BASE_DIR, 'static'))
+app = Flask(__name__, static_folder=os.path.join(BASE_DIR, 'static'), static_url_path='/static')
 app.secret_key = os.environ.get('FLASK_SECRET', 'dev_secret_key')
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  # No caching during dev, change to 300 for prod
 
 # Load templates dari kasir-admin dan kasir-pembeli
 app.jinja_loader = ChoiceLoader([

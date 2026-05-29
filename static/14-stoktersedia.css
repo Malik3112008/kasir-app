@@ -1,0 +1,335 @@
+body{
+    margin: 0;
+    padding:0;
+    background-color: #dff7fb;
+    font-family: arial, sans-serif;
+}
+
+nav {
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee; 
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 20px;
+}
+
+.nav-bar {
+    display: flex;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    list-style: none;
+    font-weight: 700;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 15px;
+}
+
+nav ul li a img {
+    width: 30px;
+    height: auto;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+nav ul li a img:hover {
+    transform: scale(1.1);
+}
+
+.container {
+    width: 90%;
+    margin: 30px auto;
+}
+
+h2 {
+    margin-left: 40px;
+    font-size: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead {
+    background: #5b7db1;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+tr {
+    border-bottom: 1px solid #ddd;
+}
+
+button {
+    border: none;
+    padding: 6px 10px;
+    margin: 2px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit img {
+    filter: grayscale(100%)
+brightness(0.6);  
+}
+.aksi {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.icon {
+    width: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+/* EDIT (pencil) */
+.icon.edit {
+    color: #5b7db1;
+    font-size: 16px;
+    text-decoration: none;
+    opacity: 0.7;
+    transition: 0.3s;
+}
+.icon.edit:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+/* ===== FILTER (CARI & KATEGORI) ===== */
+.filter {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-right: 20px;
+}
+
+.filter input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+    margin-left: 15px;
+}
+
+.filter select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-left: 20px;
+}
+.container {
+    width: 90%;
+    margin: 20px 0;
+    padding-left: 20px;
+
+}
+.filter button {
+    padding: 8px 12px;
+    background: #5b7db1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.filter button:hover {
+    background: #3f5f8f;
+}
+
+.harga {
+    color: #2d6cdf;
+    font-weight: 600;
+}
+.filter {
+    display: flex;
+    justify-content: flex-end; /* geser ke kanan */
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+.header {
+    display: flex;
+    justify-content: space-between; /* judul kiri, filter kanan */
+    align-items: center;
+}
+/* ===== TOPBAR  ===== */
+.topbar {
+    display: flex;
+    justify-content: flex-end; /* ke kanan */
+    margin-bottom: 10px;
+}
+.menu-kanan {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.panah-kiri,
+.panah-kanan {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: #5b7db1;
+    color: white;
+    text-decoration: none;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.panah-kiri:hover,
+.panah-kanan:hover {
+    background: #3f5f8f;
+}
+
+.bulat-container{
+    display: flex;
+    gap: 8px;
+}
+
+.bulat{
+    width: 7px;
+    height: 7px;
+    background: #d9d9d9;
+    border-radius: 50%;
+}
+
+.bulat.aktif{
+    background: #1fa9dc;
+}
+.stok-habis{
+    background: #f727277e;
+    color: #d60000;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-left: 6px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.stok-menipis{
+    background: #ffe08a;
+    color: #d48800;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-left: 6px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.stok-tersedia{
+    background: #b7f0c0;
+    color: #1f8f1f;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-left: 6px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #e0f2fe, #eef2ff);
+    margin: 0;
+    padding: 0;
+}
+.edit-page h2 {
+    text-align: center;
+    display: block;
+    width: 100%;
+    color: #1e3a8a;
+    margin-bottom: 20px;
+}
+.edit-form {
+    border-radius: #ffffff;
+    width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1)
+}
+label {
+    font-weight: bold;
+    color: #374151;
+}
+/* INPUT & TEXTAREA */
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    box-sizing: border-box;
+}
+
+/* INPUT FOCUS */
+input:focus, textarea:focus {
+    border-color: #3b82f6;
+    outline: none;
+}
+
+/* BUTTON */
+button {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+}
+
+/* BUTTON HOVER */
+button:hover {
+    background: #2563eb;
+}
+
+/* NAMA BARANG */
+p {
+    background: #e0f2fe;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* KOTAK ALASAN PERUBAHAN */
+textarea[name="alasan"] {
+    background: #fef9c3;
+    border-left: 5px solid #facc15;
+}
+.berat {
+    background: #e0f2fe;
+    color: #0284c7;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: inline-block;
+}
