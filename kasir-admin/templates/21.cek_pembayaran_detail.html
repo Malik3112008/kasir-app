@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Pembayaran</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='21.cek_pembayaran_detail.css') }}">
+</head>
+<body>
+
+<nav>
+    <div class="nav-bar">
+        <li>
+            <a href="/admin/cek-pembayaran"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+        </li>
+        <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" width="60" height="60">
+        <span>Admin Koperasi</span>
+    </div>
+    <ul>
+        <li><a href="/admin/notifikasi"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+        <li><a href="/admin/pengaturan"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+        <li><a href="/admin/kelola_akun_penjual"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+        <li><a href="/admin/logout"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
+    </ul>
+</nav>
+
+<div class="container">
+
+    <a href="/admin/cek-pembayaran" class="btn-back">← Kembali</a>
+
+    <h1>Detail Transaksi {{ order.id }}</h1>
+
+    <div class="info">
+        <p>Tanggal : {{ order.tanggal }}</p>
+        <p>Pelanggan : {{ order.pelanggan }}</p>
+        <p>Metode : <span class="badge {% if order.metode == 'QRIS' %}qris{% else %}tunai{% endif %}">{{ order.metode }}</span></p>
+        <p>Status : <span class="status-badge {% if order.status == 'Disiapkan' %}status-disisapkan{% elif order.status == 'Siap diambil' %}status-siap{% else %}status-selesai{% endif %}">{{ order.status }}</span></p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>PRODUK</th>
+                <th>JUMLAH</th>
+                <th>HARGA</th>
+                <th>SUBTOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.barang %}
+            <tr>
+                <td>
+                    <div class="produk">
+                        <div>
+                            <h3>{{ item.nama }}</h3>
+                        </div>
+                    </div>
+                </td>
+                <td>{{ item.jumlah }}</td>
+                <td>Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
+                <td>Rp {{ "{:,.0f}".format(item.jumlah * item.harga).replace(",", ".") }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="total">
+        TOTAL : Rp {{ "{:,.0f}".format(order.total).replace(",", ".") }}
+    </div>
+
+</div>
+
+</body>
+</html>

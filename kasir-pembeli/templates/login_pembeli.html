@@ -3,32 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='05.login_admin.css') }}">
-    <title>Login Pembeli</title>
+    <title>Login Koperasi</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login_pembeli_rakha.css') }}">
 </head>
-<body class="login-page">
-    <a href="/admin" class="back-btn">← kembali</a>
-    <div class="card">
-        <div style="background:#4CAF50; width:60px; height:60px; border-radius:50%; margin: 0 auto 16px; display:flex; align-items:center; justify-content:center;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+<body>
+
+    <a href="/admin" class="back">← Kembali</a>
+
+    <div class="container">
+
+        <h2>Selamat Datang di Koperasi Siswa</h2>
+
+        <div class="login-box">
+
+            <div class="logo-bos">
+                <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" class="logo">
+            </div>
+
+            <h1>USER LOGIN</h1>
+
+            {% if error %}
+            <p class="error-message">{{ error }}</p>
+            {% endif %}
+
+            <form action="{{ url_for('pembeli_login') }}" method="POST">
+
+                <label>Nama Pengguna</label>
+                <input type="text" name="username" placeholder="Nama Pengguna" required>
+
+                <label>Kata Sandi</label>
+                <div class="password-field">
+                    <input type="password" name="password" placeholder="Kata Sandi" required>
+                    <span class="eye-icon" onclick="togglePassword(this)">👁</span>
+                </div>
+
+                <div class="forgot">
+                    <a href="/pembeli/reset-password">Lupa Sandi?</a>
+                </div>
+
+                <button type="submit">MASUK</button>
+
+            </form>
+
+            <p class="register">
+                Belum punya akun?
+                <a href="{{ url_for('pembeli_register') }}">Daftar di sini</a>
+            </p>
+
         </div>
-        <h3>Masuk Pembeli</h3>
-        <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Masuk untuk berbelanja di Koperasi Siswa</p>
-        {% if error %}
-        <div class="error-message">{{ error }}</div>
-        {% endif %}
-        <form action="{{ url_for('pembeli_login') }}" method="POST">
-            <div class="input-group">
-                <label>Nama akun</label>
-                <input type="text" name="username" placeholder="Masukkan nama akun" required>
-            </div>
-            <div class="input-group">
-                <label>Kata sandi</label>
-                <input type="password" name="password" placeholder="Masukkan kata sandi" required>
-            </div>
-            <button type="submit" class="btn-primary" style="background-color: #4CAF50;">Masuk</button>
-        </form>
-        <p class="footer-text">Belum punya akun? <a href="/pembeli/register">Silahkan daftar</a></p>
+
     </div>
+
+    <script>
+    function togglePassword(el) {
+        var input = el.parentElement.querySelector('input');
+        if (input.type === 'password') {
+            input.type = 'text';
+            el.textContent = '🙈';
+        } else {
+            input.type = 'password';
+            el.textContent = '👁';
+        }
+    }
+    </script>
 </body>
 </html>

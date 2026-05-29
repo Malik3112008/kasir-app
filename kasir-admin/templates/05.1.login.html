@@ -3,34 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='05.login_admin.css') }}">
     <title>Login Admin Koperasi</title>
 </head>
-<body class="login-page">
-    <a href="{{ url_for('admin_beranda_awal') }}" class="back-btn">← kembali</a>
-    <div class="card">
-        <div style="background:#3b82f6; width:60px; height:60px; border-radius:50%; margin: 0 auto 16px; display:flex; align-items:center; justify-content:center;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+<body>
+    <div class="card-container">
+        <div class="card">
+            <div class="card-image">
+                <img src="{{ url_for('static', filename='image/logo.svg') }}" alt="Logo Koperasi" class="login-logo">
+                <h3>Masuk Admin Koperasi Siswa</h3>
+                <p class="card-description">Kelola data koperasi dan pantau transaksi siswa dengan aman.</p>
+            </div>
+            <div class="card-form">
+                <a href="{{ url_for('admin_beranda_awal') }}" class="back-btn">&larr; Kembali</a>
+                {% if error %}
+                <div class="error-message">{{ error }}</div>
+                {% endif %}
+                <form action="{{ url_for('admin_login') }}" method="POST">
+                    <div class="input-group">
+                        <label>Nama akun</label>
+                        <input type="text" name="username" placeholder="Masukkan nama akun" required oninvalid="this.setCustomValidity('Silakan isi kolom ini')" oninput="this.setCustomValidity('')">
+                    </div>
+                    <div class="input-group">
+                        <label>Kata sandi</label>
+                        <input type="password" name="password" placeholder="Masukkan kata sandi" required oninvalid="this.setCustomValidity('Silakan isi kolom ini')" oninput="this.setCustomValidity('')">
+                    </div>
+                    <a href="{{ url_for('admin_forgot') }}" class="forgot-link">Lupa kata sandi?</a>
+                    <button type="submit" class="btn-primary">Masuk</button>
+                </form>
+                <a href="{{ url_for('admin_register') }}">
+                    <p class="footer-text">Belum punya akun? <strong>Buat akun</strong></p>
+                </a>
+            </div>
         </div>
-        <h3>Masuk Admin Koperasi Siswa</h3>
-        {% if error %}
-        <div class="error-message">{{ error }}</div>
-        {% endif %}
-        <form action="{{ url_for('admin_login') }}" method="POST">
-            <div class="input-group">
-                <label>Nama akun</label>
-                <input type="text" name="username" placeholder="Masukkan nama akun" required>
-            </div>
-            <div class="input-group">
-                <label>Kata sandi</label>
-                <input type="password" name="password" placeholder="Masukkan kata sandi" required>
-            </div>
-            <a href="{{ url_for('admin_forgot') }}" class="forgot-link">Lupa kata sandi?</a>
-            <button type="submit" class="btn-primary">Masuk</button>
-        </form>
-        <a href="{{ url_for('admin_register') }}">
-            <p class="footer-text">Belum punya akun? <strong>Buat akun</strong></p>
-        </a>
     </div>
 </body>
 </html>

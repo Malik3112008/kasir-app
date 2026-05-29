@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Status Pesanan</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='8-novalrizkym.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='8-lihatpesanan.css') }}">
 </head>
 
 <body>
 
 <div class="background">
+
     <div class="container">
 
         <a href="/pembeli" class="back">← Kembali</a>
@@ -19,55 +20,49 @@
 
             <h1>Status Pesanan</h1>
 
-            <!-- Status Progress -->
             <div class="status-box">
 
-                <div class="status {% if status == 'Disiapkan' or status == 'Siap diambil' or status == 'Selesai' or status == 'Sudah diambil' %}active{% endif %}">
+                <a href="/pembeli/pesanan" class="status {% if status == 'Disiapkan' or status == 'dikemas' %}active{% endif %}">
                     <div class="icon-circle">
-                        <img src="{{ url_for('static', filename='gambar dan icon/cardboard-box-11-svgrepo-com.svg') }}" class="icon">
-                        {% if status == 'Disiapkan' %}
-                        <span class="badge">{{ total_barang }}</span>
+                        <img src="{{ url_for('static', filename='cardboard-box-11-svgrepo-com.svg') }}" class="icon">
+                        {% if count_dikemas > 0 %}
+                        <span class="badge">{{ count_dikemas }}</span>
                         {% endif %}
                     </div>
                     <p>Dikemas</p>
-                </div>
+                </a>
 
-                <div class="status {% if status == 'Siap diambil' or status == 'Selesai' or status == 'Sudah diambil' %}active{% endif %}">
-                    <img src="{{ url_for('static', filename='gambar dan icon/shopping-bag-svgrepo-com (1).svg') }}" class="icon">
+                <a href="/pembeli/pesanan?status=siap" class="status {% if status == 'Siap diambil' or status == 'siap' %}active{% endif %}">
+                    <img src="{{ url_for('static', filename='shopping-bag-svgrepo-com (1).svg') }}" class="icon">
                     <p>Siap Diambil</p>
-                </div>
+                </a>
 
-                <div class="status {% if status == 'Selesai' or status == 'Sudah diambil' %}active{% endif %}">
-                    <img src="{{ url_for('static', filename='gambar dan icon/check-mark-circle-svgrepo-com (1).svg') }}" class="icon">
-                    <p>Selesai</p>
-                </div>
+                <a href="/pembeli/pesanan?status=selesai" class="status {% if status == 'Selesai' or status == 'Sudah diambil' or status == 'selesai' %}active{% endif %}">
+                    <img src="{{ url_for('static', filename='check-mark-circle-svgrepo-com (1).svg') }}" class="icon">
+                    <p>Pesanan Selesai</p>
+                </a>
 
             </div>
 
             <h1 class="judul-pesanan">Pesanan Saya</h1>
 
-            {% if pesanan_list %}
-                {% for p in pesanan_list %}
-                <a href="/pembeli/status" class="pesanan-item" style="text-decoration:none;">
-                    <div>
-                        <span style="font-size:14px; color:#888;">{{ p.id }}</span>
-                        <br>
-                        <span style="font-weight:600; color:{% if p.status == 'Siap diambil' %}#2563eb{% elif p.status == 'Disiapkan' %}#333{% else %}#22c55e{% endif %};">
-                            {{ p.status }}
-                        </span>
-                    </div>
-                    <span style="color:#5f8fff; font-size:14px; font-weight:600;">Lihat ></span>
-                </a>
-                {% endfor %}
+            {% if items %}
+            {% for item in items %}
+            <div class="pesanan-item">
+                <span>{{ item.nama }} ({{ item.jumlah }}x)</span>
+                <span class="harga-item">Rp {{ "{:,.0f}".format(item.jumlah * item.harga).replace(",", ".") }}</span>
+            </div>
+            {% endfor %}
             {% else %}
-                <div class="pesanan-item">
-                    <span style="color:#999;">Belum ada pesanan</span>
-                </div>
+            <div class="pesanan-item">
+                <span>Belum ada pesanan</span>
+            </div>
             {% endif %}
 
         </div>
 
     </div>
+
 </div>
 
 </body>

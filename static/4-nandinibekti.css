@@ -79,6 +79,27 @@ input{
     margin-bottom: 20px;
 }
 
+input[type="file"]{
+    width: 300px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px dashed #bdbdbd;
+    margin-bottom: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.upload-label{
+    display: inline-block;
+    padding: 12px 20px;
+    background: #f1f1f1;
+    border-radius: 12px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
 .kirim{
     width: 90%;
     padding: 13px 25px;

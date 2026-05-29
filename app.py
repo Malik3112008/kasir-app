@@ -536,7 +536,36 @@ data_barang = [
 def admin_cetak_laporan():
     if not session.get('user'):
         return redirect(url_for('admin_login'))
-    return render_template('12. cetaklaporan.html', barang=data_barang, formatRp=formatRp)
+
+    # Data transaksi sample (bisa diganti dari pesanan[])
+    data_transaksi = []
+    for p in pesanan:
+        total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
+        data_transaksi.append({
+            'tanggal': p['tanggal'],
+            'id': p['id'],
+            'jumlah': sum(b['jumlah'] for b in p['barang']),
+            'total': total_barang
+        })
+
+    # Tambah data sample jika pesanan kosong
+    if not data_transaksi:
+        data_transaksi = [
+            {'tanggal': '2026-05-01', 'id': 'TRX001', 'jumlah': 3, 'total': 15000},
+            {'tanggal': '2026-05-02', 'id': 'TRX002', 'jumlah': 5, 'total': 25000},
+            {'tanggal': '2026-05-03', 'id': 'TRX003', 'jumlah': 2, 'total': 10000},
+        ]
+
+    total_pendapatan = sum(t['total'] for t in data_transaksi)
+    modal_barang = int(total_pendapatan * 0.7)
+    untung_rugi = total_pendapatan - modal_barang
+
+    return render_template('12. cetaklaporan.html',
+        barang=data_barang, formatRp=formatRp,
+        total_pendapatan=total_pendapatan,
+        modal_barang=modal_barang,
+        untung_rugi=untung_rugi,
+        data_transaksi=data_transaksi)
 
 @app.route('/admin/laporan_penjualan', methods=['GET', 'POST'])
 def admin_laporan_penjualan():
@@ -799,8 +828,22 @@ def admin_cek_pembayaran():
     start = (page - 1) * per_page
     end = start + per_page
     transaksi = hasil[start:end]
-    return render_template('23.cek_pembayaran.html', transaksi=transaksi,
-                           page=page, total_pages=total_pages, total=total)
+    return render_template('21.cek_pembayaran.html', pesanan=transaksi,
+                           page=page, total_pages=total_pages, total=total,
+                           keyword=cari)
+
+@app.route('/admin/cek-pembayaran/detail/<trx_id>')
+def admin_cek_pembayaran_detail(trx_id):
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    order = None
+    for p in pesanan:
+        if p['id'] == trx_id:
+            order = p
+            break
+    if not order:
+        return "Transaksi tidak ditemukan", 404
+    return render_template('21.cek_pembayaran_detail.html', order=order)
 
 # ============================================================
 # ADMIN: PENGATURAN
@@ -886,6 +929,89 @@ def pembeli_register():
 def pembeli_logout():
     session.clear()
     return redirect(url_for('pembeli_login'))
+
+# ============================================================
+# PEMBELI: RESET PASSWORD (OTP FLOW)
+# ============================================================
+
+otp_storage = {}  # email -> otp code
+
+@app.route('/pembeli/reset-password', methods=['GET', 'POST'])
+def pembeli_reset_password():
+    error = None
+    if request.method == 'POST':
+        email = request.form.get('email', '').strip()
+        if not email:
+            error = 'Email wajib diisi.'
+        else:
+            otp = str(random.randint(10000, 99999))
+            otp_storage[email] = otp
+            session['reset_email'] = email
+            return redirect(url_for('pembeli_verifikasi_email'))
+    return render_template('reset_pembeli.html', error=error)
+
+@app.route('/pembeli/kirim-otp', methods=['GET', 'POST'])
+def pembeli_kirim_otp():
+    error = None
+    if request.method == 'POST':
+        email = request.form.get('email', '').strip()
+        if not email:
+            error = 'Email wajib diisi.'
+        else:
+            otp = str(random.randint(10000, 99999))
+            otp_storage[email] = otp
+            session['reset_email'] = email
+            return redirect(url_for('pembeli_verifikasi_email'))
+    return render_template('reset_pembeli.html', error=error)
+
+@app.route('/pembeli/verifikasi-email', methods=['GET', 'POST'])
+def pembeli_verifikasi_email():
+    error = None
+    email = session.get('reset_email', '')
+    if request.method == 'POST':
+        email = request.form.get('email', '').strip()
+        session['reset_email'] = email
+        return redirect(url_for('pembeli_verifikasi_otp'))
+    return render_template('verifikasi_email_pembeli.html', error=error, email=email)
+
+@app.route('/pembeli/verifikasi-otp', methods=['GET', 'POST'])
+def pembeli_verifikasi_otp():
+    error = None
+    email = session.get('reset_email', '')
+    if request.method == 'POST':
+        kode = ''.join([
+            request.form.get('kode1', ''),
+            request.form.get('kode2', ''),
+            request.form.get('kode3', ''),
+            request.form.get('kode4', ''),
+            request.form.get('kode5', ''),
+        ])
+        stored_otp = otp_storage.get(email, '')
+        if kode == stored_otp:
+            session['otp_verified'] = True
+            return redirect(url_for('pembeli_ganti_password'))
+        error = 'Kode OTP tidak cocok.'
+    return render_template('verifikasi_email_pembeli.html', error=error, email=email)
+
+@app.route('/pembeli/ganti-password', methods=['GET', 'POST'])
+def pembeli_ganti_password():
+    error = None
+    if not session.get('otp_verified'):
+        return redirect(url_for('pembeli_reset_password'))
+    if request.method == 'POST':
+        password = request.form.get('password', '').strip()
+        confirm = request.form.get('confirm_password', '').strip()
+        if not password or len(password) < 8:
+            error = 'Kata sandi minimal 8 karakter.'
+        elif password != confirm:
+            error = 'Konfirmasi kata sandi tidak cocok.'
+        else:
+            email = session.get('reset_email', '')
+            otp_storage.pop(email, None)
+            session.pop('otp_verified', None)
+            session.pop('reset_email', None)
+            return render_template('notifikasi_berhasil_pembeli.html', message='Kata sandi berhasil diubah. Silakan login dengan kata sandi baru.')
+    return render_template('reset_pembeli.html', error=error)
 
 # ============================================================
 # PEMBELI: HOME
@@ -1083,7 +1209,10 @@ def pembeli_pesanan():
     else:
         status = None
         total_barang = 0
-    return render_template('8-lihatpesanan.html', pesanan_list=pesanan_user, status=status, total_barang=total_barang)
+    count_dikemas = len([p for p in pesanan_user if p["status"] == "Disiapkan"])
+    count_siap = len([p for p in pesanan_user if p["status"] == "Siap diambil"])
+    count_selesai = len([p for p in pesanan_user if p["status"] in ("Selesai", "Sudah diambil")])
+    return render_template('8-lihatpesanan.html', pesanan_list=pesanan_user, status=status, total_barang=total_barang, count_dikemas=count_dikemas, count_siap=count_siap, count_selesai=count_selesai)
 
 @app.route('/pembeli/status')
 def pembeli_status():
@@ -1186,24 +1315,33 @@ def pembeli_struk():
 def admin_cetak_pdf():
     if not session.get('user'):
         return redirect(url_for('admin_login'))
-    html = '''<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Laporan Barang</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        h1 { text-align: center; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
-        th { background: #4A90D9; color: white; }
-        tr:nth-child(even) { background: #f2f2f2; }
-    </style></head><body>
-    <h1>Laporan Data Barang</h1>
-    <p style="text-align:center;">Tanggal cetak: ''' + datetime.now().strftime("%d-%m-%Y %H:%M") + '''</p>
-    <table><thead><tr><th>No</th><th>Nama</th><th>Stok</th><th>Harga</th><th>Kategori</th><th>Tanggal</th><th>Total</th></tr></thead><tbody>'''
-    for b in data_barang:
-        html += f'<tr><td>{b["no"]}</td><td>{b["nama"]}</td><td>{b["stok"]}</td>'
-        html += f'<td>{formatRp(b["harga"])}</td><td>{b["kategori"]}</td><td>{b["tanggal"]}</td>'
-        html += f'<td>{formatRp(b["stok"] * b["harga"])}</td></tr>'
-    html += '</tbody></table><script>window.print();</script></body></html>'
-    return html
+
+    data_transaksi = []
+    for p in pesanan:
+        total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
+        data_transaksi.append({
+            'tanggal': p['tanggal'],
+            'id': p['id'],
+            'jumlah': sum(b['jumlah'] for b in p['barang']),
+            'total': total_barang
+        })
+
+    if not data_transaksi:
+        data_transaksi = [
+            {'tanggal': '2026-05-01', 'id': 'TRX001', 'jumlah': 3, 'total': 15000},
+            {'tanggal': '2026-05-02', 'id': 'TRX002', 'jumlah': 5, 'total': 25000},
+            {'tanggal': '2026-05-03', 'id': 'TRX003', 'jumlah': 2, 'total': 10000},
+        ]
+
+    total_pendapatan = sum(t['total'] for t in data_transaksi)
+    modal_barang = int(total_pendapatan * 0.7)
+    untung_rugi = total_pendapatan - modal_barang
+
+    return render_template('12. cetaklaporan_pdf.html',
+        total_pendapatan=total_pendapatan,
+        modal_barang=modal_barang,
+        untung_rugi=untung_rugi,
+        data_transaksi=data_transaksi)
 
 @app.route('/admin/cetak_excel')
 def admin_cetak_excel():

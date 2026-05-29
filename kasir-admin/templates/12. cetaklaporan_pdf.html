@@ -3,43 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cetak Laporan</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <title>Cetak Laporan - PDF</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='12. cetaklaporan.css') }}">
 </head>
 <body>
 
-    <nav>
-        <div class="nav-kiri">
-            <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" width="28" alt="Kembali"></a>
-            <img src="{{ url_for('static', filename='logo.svg') }}" width="45" alt="Logo">
-            <h2>Admin Koperasi</h2>
-        </div>
-        <div class="nav-kanan">
-            <a href="/admin/notifikasi"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" width="25" alt="Notifikasi"></a>
-            <a href="/admin/pengaturan"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" width="25" alt="Setting"></a>
-            <a href="/admin/kelola_akun_penjual"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" width="25" alt="Profil"></a>
-            <a href="/admin/logout"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" width="25" alt="Logout"></a>
-        </div>
-    </nav>
-
-    <h1>PENGATURAN LAPORAN</h1>
-
-    <div class="laporan-box">
-        <label>Laporan Penjualan</label>
-        <div class="tanggal">
-            <input type="date" id="tanggal-awal">
-            <input type="date" id="tanggal-akhir">
-        </div>
-    </div>
-
-    <div class="cetak-box">
-        <button class="btn-laporan" onclick="filterData()">CETAK LAPORAN PENJUALAN</button>
-    </div>
-
-    <div class="line"></div>
-
-    <div class="card-container">
+    <div class="card-container" style="margin-top: 20px;">
         <div class="card">
             <img src="{{ url_for('static', filename='money.png') }}" alt="Pendapatan">
             <h3>Total Pendapatan</h3>
@@ -90,19 +59,10 @@
         </table>
     </div>
 
-    <div class="button-group">
-        <a href="/admin/cetak_pdf"><button class="pdf">CETAK PDF</button></a>
-        <a href="/admin/cetak_excel"><button class="excel">CETAK EXCEL</button></a>
-    </div>
-
     <script>
-        function filterData() {
-            const awal = document.getElementById('tanggal-awal').value;
-            const akhir = document.getElementById('tanggal-akhir').value;
-            if (awal && akhir) {
-                window.location.href = '/admin/cetak_laporan?tanggal_awal=' + awal + '&tanggal_akhir=' + akhir;
-            }
-        }
+        window.addEventListener('load', function() {
+            setTimeout(function() { window.print(); }, 200);
+        });
     </script>
 
 </body>

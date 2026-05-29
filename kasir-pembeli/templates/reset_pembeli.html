@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Sandi</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login_pembeli_rakha.css') }}">
+</head>
+<body>
+
+    <a href="{{ url_for('pembeli_login') }}" class="back">← Kembali</a>
+
+    <div class="container">
+
+        <img src="{{ url_for('static', filename='logo.svg') }}" class="logo">
+
+        <div class="box">
+
+            <h1>RESET SANDI</h1>
+
+            <p class="subtitle">
+                Masukkan email Anda untuk menerima kode verifikasi reset sandi
+            </p>
+
+            {% if error %}
+            <p class="error-message">{{ error }}</p>
+            {% endif %}
+
+            <form action="{{ url_for('pembeli_kirim_otp') }}" method="POST">
+
+                <label>Email</label>
+                <input type="email" name="email" placeholder="contoh@gmail.com" required>
+
+                <div class="info-box">
+                    Kami akan mengirimkan kode OTP 5 digit ke email Anda.
+                    Kode ini berlaku selama 5 menit.
+                </div>
+
+                <button type="submit">Kirim kode OTP</button>
+
+            </form>
+
+            <p class="small-text">
+                Tidak menerima kode melalui email?
+            </p>
+
+            <p class="resend">
+                Kirim Ulang Kode -
+                <span>OTP dalam 59 detik</span>
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

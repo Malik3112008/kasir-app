@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi Email</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login_pembeli_rakha.css') }}">
+</head>
+<body>
+
+    <a href="{{ url_for('pembeli_reset_password') }}" class="back">← Kembali</a>
+
+    <div class="container">
+
+        <img src="{{ url_for('static', filename='logo.svg') }}" class="logo">
+
+        <div class="box">
+
+            <h1>VERIFIKASI EMAIL</h1>
+
+            <p class="subtitle">
+                Masukkan kode OTP yang telah dikirim ke email Anda
+            </p>
+
+            {% if error %}
+            <p class="error-message">{{ error }}</p>
+            {% endif %}
+
+            <form action="{{ url_for('pembeli_verifikasi_otp') }}" method="POST">
+
+                <label>Email</label>
+                <input type="email" name="email" placeholder="contoh@gmail.com" value="{{ email or '' }}" required>
+
+                <label>Kode OTP</label>
+                <div class="otp-box">
+                    <input type="text" name="kode1" maxlength="1" required>
+                    <input type="text" name="kode2" maxlength="1" required>
+                    <input type="text" name="kode3" maxlength="1" required>
+                    <input type="text" name="kode4" maxlength="1" required>
+                    <input type="text" name="kode5" maxlength="1" required>
+                </div>
+
+                <button type="submit" class="btn-verify">Verifikasi</button>
+
+            </form>
+
+            <p class="small-text">
+                Tidak menerima kode?
+                <a href="{{ url_for('pembeli_kirim_otp') }}">Kirim Ulang</a>
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

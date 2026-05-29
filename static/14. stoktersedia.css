@@ -6,12 +6,11 @@ body{
 }
 
 nav {
-    background-color: white;
+    background-color: transparent;
     display: flex;
-    align-items: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     justify-content: space-between;
     margin-bottom: 20px;
+    border-bottom: 1px solid #eee; 
 }
 
 nav ul {
@@ -33,15 +32,25 @@ nav ul {
     gap: 15px;
 }
 
+nav ul li a img {
+    width: 30px;
+    height: auto;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
 
+nav ul li a img:hover {
+    transform: scale(1.1);
+}
 
 .container {
     width: 90%;
-    margin: 20px auto;
+    margin: 30px auto;
 }
 
 h2 {
-    margin-bottom: -10px;
+    margin-left: 40px;
+    font-size: 20px;
 }
 
 table {
@@ -78,10 +87,6 @@ button {
     filter: grayscale(100%)
 brightness(0.6);  
 }
-
-.hapus img {
-    filter: invert(45%) sepia(80%)saturate(500%) hue-rotate(320deg); 
-}
 .aksi {
     display: flex;
     justify-content: center;
@@ -95,67 +100,18 @@ brightness(0.6);
 }
 /* EDIT (pencil) */
 .icon.edit {
-    filter: invert(48%) sepia(95%) saturate(500%) hue-rotate(180deg); opacity: 0.6; margin-right: 20px;
+    filter: invert(48%) sepia(95%) saturate(500%) hue-rotate(180deg); opacity: 0.6; margin: 0;
 }
 .icon.edit:hover {
     transform: scale(1.2);
 }
-/* HAPUS (trash) */
-.icon.hapus {
-    filter: invert(27%) sepia(90%) saturate(500%) hue-rotate(340deg); opacity: 0.6;
-}
-.icon.hapus:hover {
-    transform: scale(1.2);
-}
-.popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
 
-    background: rgba(0, 0, 0, 0.5);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    z-index: 9999;
-}
-.popup-content {
-    background: white;
-    padding: 20px 30px;
-    border-radius: 10px;
-    text-align: center;
-    min-width: 250px;
-
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-.popup-content button {
-    background: grey;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    margin-right: 10px;
-    cursor: pointer;
-}
-
-.popup-content a {
-    text-decoration: none;
-    color: #333;
-}
-.modal-footer {
-    display: flex;
-    justify-content: space-between;
-}
 /* ===== FILTER (CARI & KATEGORI) ===== */
 .filter {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
+    gap: 15px;
+    padding-right: 20px;
 }
 
 .filter input {
@@ -163,14 +119,21 @@ brightness(0.6);
     border: 1px solid #ccc;
     border-radius: 5px;
     width: 200px;
+    margin-left: 15px;
 }
 
 .filter select {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    margin-left: 20px;
 }
+.container {
+    width: 90%;
+    margin: 20px 0;
+    padding-left: 20px;
 
+}
 .filter button {
     padding: 8px 12px;
     background: #5b7db1;
@@ -211,7 +174,21 @@ brightness(0.6);
     gap: 15px;
     align-items: center;
 }
-.pagination{
+.pagination{.container{
+    display:flex;
+    gap:20px;
+}
+
+.tabel{
+    width:75%;
+}
+
+.form-edit{
+    width:25%;
+    background:white;
+    padding:20px;
+    border-radius:15px;
+}
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -224,6 +201,7 @@ brightness(0.6);
 .panah-kanan{
     color: #29ABE2;
     text-decoration: none;
+ 
 }
 
 .bulat-container{
@@ -264,4 +242,83 @@ brightness(0.6);
     border-radius: 20px;
     font-size: 13px;
     opacity: 0,5;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #e0f2fe, #eef2ff);
+    margin: 0;
+    padding: 0;
+}
+.edit-page h2 {
+    text-align: center;
+    display: block;
+    width: 100%;
+    color: #1e3a8a;
+    margin-bottom: 20px;
+}
+.edit-form {
+    border-radius: #ffffff;
+    width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1)
+}
+label {
+    font-weight: bold;
+    color: #374151;
+}
+/* INPUT & TEXTAREA */
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    box-sizing: border-box;
+}
+
+/* INPUT FOCUS */
+input:focus, textarea:focus {
+    border-color: #3b82f6;
+    outline: none;
+}
+
+/* BUTTON */
+button {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+}
+
+/* BUTTON HOVER */
+button:hover {
+    background: #2563eb;
+}
+
+/* NAMA BARANG */
+p {
+    background: #e0f2fe;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* KOTAK ALASAN PERUBAHAN */
+textarea[name="alasan"] {
+    background: #fef9c3;
+    border-left: 5px solid #facc15;
+}
+.berat {
+    background: #e0f2fe;
+    color: #0284c7;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: inline-block;
 }

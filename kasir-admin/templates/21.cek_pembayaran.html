@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Pembayaran</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='21.cek_pembayaran.css') }}">
+</head>
+<body>
+
+<nav>
+    <div class="nav-bar">
+        <li>
+            <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+        </li>
+        <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" width="60" height="60">
+        <span>Admin Koperasi</span>
+    </div>
+    <ul>
+        <li><a href="/admin/notifikasi"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+        <li><a href="/admin/pengaturan"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+        <li><a href="/admin/kelola_akun_penjual"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+        <li><a href="/admin/logout"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
+    </ul>
+</nav>
+
+<div class="container">
+
+    <h1>Cek Pembayaran</h1>
+
+    <form method="GET" class="search-box">
+        <input type="text" name="cari" placeholder="Cari berdasarkan ID, pelanggan, atau metode..." value="{{ keyword or '' }}">
+        <button type="submit">Cari</button>
+    </form>
+
+    <h3>Daftar Transaksi</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tanggal</th>
+                <th>ID Transaksi</th>
+                <th>Pelanggan</th>
+                <th>Total</th>
+                <th>Metode</th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in pesanan %}
+            <tr>
+                <td>{{ t.tanggal }}</td>
+                <td>{{ t.id }}</td>
+                <td>{{ t.pelanggan }}</td>
+                <td>Rp {{ "{:,.0f}".format(t.total).replace(",", ".") }}</td>
+                <td>
+                    <span class="badge {% if t.metode == 'QRIS' %}qris{% else %}tunai{% endif %}">
+                        {{ t.metode }}
+                    </span>
+                </td>
+                <td>
+                    <span class="status-badge {% if t.status == 'Disiapkan' %}status-disisapkan{% elif t.status == 'Siap diambil' %}status-siap{% else %}status-selesai{% endif %}">
+                        {{ t.status }}
+                    </span>
+                </td>
+                <td>
+                    <a href="/admin/cek-pembayaran/detail/{{ t.id }}" class="lihat">Detail</a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% if not pesanan %}
+            <tr>
+                <td colspan="7" style="color:#999; padding:20px;">Belum ada transaksi</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
