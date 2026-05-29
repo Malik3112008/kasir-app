@@ -297,6 +297,27 @@ tbody tr:hover {
     color: #fff;
 }
 
+.btn-restok {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    text-decoration: none;
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.btn-restok:hover {
+    background: #16a34a;
+    color: #fff;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .info-ringkas {

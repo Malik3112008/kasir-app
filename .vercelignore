@@ -1,0 +1,10 @@
+venv/
+__pycache__/
+*.pyc
+.git/
+run.bat
+run.fish
+run.sh
+setup.bat
+setup.sh
+README.txt

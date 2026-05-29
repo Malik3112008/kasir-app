@@ -100,9 +100,14 @@ brightness(0.6);
 }
 /* EDIT (pencil) */
 .icon.edit {
-    filter: invert(48%) sepia(95%) saturate(500%) hue-rotate(180deg); opacity: 0.6; margin: 0;
+    color: #5b7db1;
+    font-size: 16px;
+    text-decoration: none;
+    opacity: 0.7;
+    transition: 0.3s;
 }
 .icon.edit:hover {
+    opacity: 1;
     transform: scale(1.2);
 }
 
@@ -174,21 +179,7 @@ brightness(0.6);
     gap: 15px;
     align-items: center;
 }
-.pagination{.container{
-    display:flex;
-    gap:20px;
-}
-
-.tabel{
-    width:75%;
-}
-
-.form-edit{
-    width:25%;
-    background:white;
-    padding:20px;
-    border-radius:15px;
-}
+.pagination {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -198,10 +189,24 @@ brightness(0.6);
 }
 
 .panah-kiri,
-.panah-kanan{
-    color: #29ABE2;
+.panah-kanan {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: #5b7db1;
+    color: white;
     text-decoration: none;
- 
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.panah-kiri:hover,
+.panah-kanan:hover {
+    background: #3f5f8f;
 }
 
 .bulat-container{
@@ -222,26 +227,32 @@ brightness(0.6);
 .stok-habis{
     background: #f727277e;
     color: #d60000;
-    padding: 4px 10px;
+    padding: 3px 8px;
     border-radius: 20px;
-    font-size: 13px;
-    opacity: 0,5;
+    font-size: 12px;
+    margin-left: 6px;
+    display: inline-block;
+    vertical-align: middle;
 }
 .stok-menipis{
     background: #ffe08a;
     color: #d48800;
-    padding: 4px 10px;
+    padding: 3px 8px;
     border-radius: 20px;
-    font-size: 13px;
-    opacity: 0,5;
+    font-size: 12px;
+    margin-left: 6px;
+    display: inline-block;
+    vertical-align: middle;
 }
 .stok-tersedia{
     background: #b7f0c0;
     color: #1f8f1f;
-    padding: 4px 10px;
+    padding: 3px 8px;
     border-radius: 20px;
-    font-size: 13px;
-    opacity: 0,5;
+    font-size: 12px;
+    margin-left: 6px;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 body {

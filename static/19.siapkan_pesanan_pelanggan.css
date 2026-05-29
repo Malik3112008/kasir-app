@@ -49,7 +49,15 @@ nav ul {
     background: #D9EEFF;
     padding: 20px;
     border-radius: 6px;
-    margin:20px 0;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.info-icon {
+    font-size: 22px;
+    color: #0b6994;
+    flex-shrink: 0;
 }
 .cari {
     margin-bottom: 12px;

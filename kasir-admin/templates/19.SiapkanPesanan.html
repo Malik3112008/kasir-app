@@ -7,7 +7,7 @@
     <title>Siapkan Pesanan Pelanggan</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='19.siapkan_pesanan_pelanggan.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 
 <body>
@@ -15,7 +15,7 @@
         <div class="nav-bar">
             <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali"
                     width="30px" height="30px" /></a>
-            <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" width="70" height="70" />
+            <img src="{{ url_for('static', filename='newlogo.jpeg') }}" alt="Logo" width="70" height="70" />
             <span>Koperasi Siswa</span>
         </div>
         <ul>
@@ -41,8 +41,9 @@
             <h2>Siapkan Pesanan Pelanggan</h2>
         </div>
         <div class="info-box">
-            Halaman ini digunakan untuk menyiapkan pesanan pelanggan. Setelah
-            pesanan siap, konfirmasikan agar pelanggan dapat mengambil pesanan.
+            <i class="fa-solid fa-circle-info info-icon"></i>
+            <span>Halaman ini digunakan untuk menyiapkan pesanan pelanggan. Setelah
+            pesanan siap, konfirmasikan agar pelanggan dapat mengambil pesanan.</span>
         </div>
         <div class="cari">
             <input type="text" id="cari" placeholder="Cari ID atau nama pelanggan..." oninput="cariPesanan()" />

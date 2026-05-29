@@ -260,6 +260,36 @@ def admin_riwayat():
         return redirect(url_for('admin_login'))
     return render_template("06.RiwayatTransaksi.html", pesanan=pesanan)
 
+@app.route("/admin/detail-transaksi/<trx_id>")
+def admin_detail_transaksi(trx_id):
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    trx = None
+    for p in pesanan:
+        if p['id'] == trx_id:
+            trx = p
+            break
+    if not trx:
+        return "Transaksi tidak ditemukan", 404
+    items = []
+    for b in trx['barang']:
+        items.append({
+            'nama': b['nama'],
+            'harga': b['harga'],
+            'jumlah': b['jumlah'],
+            'id_transaksi': trx['id'],
+            'gambar': b.get('gambar', '')
+        })
+    total = sum(b['harga'] * b['jumlah'] for b in trx['barang'])
+    from datetime import datetime
+    try:
+        tgl_obj = datetime.strptime(trx['tanggal'], '%Y-%m-%d')
+        bulan_id = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember']
+        tanggal_fmt = f"{tgl_obj.day} {bulan_id[tgl_obj.month-1]} {tgl_obj.year}"
+    except:
+        tanggal_fmt = trx['tanggal']
+    return render_template("detail_transaksi.html", items=items, total=total, tanggal=tanggal_fmt)
+
 # ============================================================
 # ADMIN: RIWAYAT AKTIVITAS
 # ============================================================
@@ -436,15 +466,38 @@ def admin_pengisian_barang():
         return redirect(url_for('admin_login'))
     return render_template('10.pengisian_barang_.html')
 
+@app.route('/admin/pengisian_barang/<int:id>')
+def admin_pengisian_barang_restok(id):
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    barang = None
+    for b in data_barang:
+        if b['no'] == id:
+            barang = b
+            break
+    if not barang:
+        return redirect(url_for('admin_pengisian_barang'))
+    return render_template('10.pengisian_barang_.html', barang=barang)
+
 @app.route('/admin/simpan', methods=['POST'])
 def admin_simpan():
     kategori = request.form['kategori']
     nama_barang = request.form['nama_barang']
     tanggal = request.form['tanggal']
     jumlah = request.form['jumlah']
-    harga = request.form['harga']
-    catatan = request.form['catatan']
-    return render_template('10.rekap_barang.html', kategori=kategori, nama_barang=nama_barang, tanggal=tanggal, jumlah=jumlah, harga=harga, catatan=catatan)
+    harga_beli = request.form.get('harga_beli', '0')
+    harga_jual = request.form.get('harga_jual', request.form.get('harga', '0'))
+    catatan = request.form.get('catatan', '')
+    restok_id = request.form.get('restok_id')
+
+    # If restok, update existing item stock
+    if restok_id:
+        for b in data_barang:
+            if str(b['no']) == str(restok_id):
+                b['stok'] = b.get('stok', 0) + int(jumlah)
+                break
+
+    return render_template('10.rekap_barang.html', kategori=kategori, nama_barang=nama_barang, tanggal=tanggal, jumlah=jumlah, harga=harga_jual, catatan=catatan)
 
 @app.route('/admin/konfirmasi-barang')
 def admin_konfirmasi_barang():
@@ -567,6 +620,15 @@ def admin_cetak_laporan():
         modal_barang=modal_barang,
         untung_rugi=untung_rugi,
         data_transaksi=data_transaksi)
+
+@app.route('/admin/cetak_laporan_barang')
+def admin_cetak_laporan_barang():
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    total_nilai = sum(b['harga'] * b['stok'] for b in data_barang)
+    return render_template('12. cetaklaporan_barang.html',
+        data_barang=data_barang,
+        total_nilai=total_nilai)
 
 @app.route('/admin/laporan_penjualan', methods=['GET', 'POST'])
 def admin_laporan_penjualan():
@@ -698,22 +760,26 @@ def admin_laporan_penjualan():
     pendapatanPerbulan = []
     for bulan in range(1, 13):
         total = 0
+        hasData = False
         for tanggal, data in data_harian.items():
             tahun, bln, hari = map(int, tanggal.split("-"))
             if tanggal_awal <= tanggal <= tanggal_akhir and bln == bulan:
                 total += data["totalPendapatan"]
-        pendapatanPerbulan.append(total if total == 0 else total)
+                hasData = True
+        pendapatanPerbulan.append(total if hasData else None)
 
     # Diagram perbandingan jumlah transaksi tiap bulan
     transaksiperbulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"]
     jumlahtransaksiPerbulan = []
     for bulan in range(1, 13):
         total = 0
+        hasData = False
         for tanggal, data in data_harian.items():
             tahun, bln, hari = map(int, tanggal.split("-"))
             if tanggal_awal <= tanggal <= tanggal_akhir and bln == bulan:
                 total += data["totalTransaksi"]
-        jumlahtransaksiPerbulan.append(total if total == 0 else total)
+                hasData = True
+        jumlahtransaksiPerbulan.append(total if hasData else None)
 
     return render_template('15.Laporan_Penjualan.html',
         tanggal_awal=tanggal_awal, tanggal_akhir=tanggal_akhir,
@@ -864,7 +930,7 @@ def load_data():
         'telepon': '0341-123456',
         'jam': '07.00 - 15.00',
         'hari': 'Senin - Jumat',
-        'logo': 'logo.svg'
+        'logo': 'newlogo.jpeg'
     }
 
 def save_data(data):

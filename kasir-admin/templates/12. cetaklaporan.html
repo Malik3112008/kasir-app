@@ -12,7 +12,7 @@
     <nav>
         <div class="nav-kiri">
             <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" width="28" alt="Kembali"></a>
-            <img src="{{ url_for('static', filename='logo.svg') }}" width="45" alt="Logo">
+            <img src="{{ url_for('static', filename='newlogo.jpeg') }}" width="45" alt="Logo">
             <h2>Admin Koperasi</h2>
         </div>
         <div class="nav-kanan">
@@ -34,8 +34,65 @@
     </div>
 
     <div class="cetak-box">
-        <button class="btn-laporan" onclick="filterData()">CETAK LAPORAN PENJUALAN</button>
+        <div class="dropdown-wrapper">
+            <button class="btn-laporan" onclick="toggleDropdown()">CETAK LAPORAN</button>
+            <div class="dropdown-menu" id="cetakDropdown">
+                <div class="dropdown-item" onclick="filterData('transaksi')">
+                    <span class="dropdown-icon">&#128200;</span>
+                    <span>Cetak Laporan Transaksi</span>
+                </div>
+                <div class="dropdown-item" onclick="filterData('barang')">
+                    <span class="dropdown-icon">&#128230;</span>
+                    <span>Cetak Laporan Data Barang</span>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <style>
+        .dropdown-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border: 2px solid #1f3f68;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            min-width: 260px;
+            z-index: 100;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+        .dropdown-menu.show {
+            display: block;
+        }
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #1f3f68;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .dropdown-item:hover {
+            background: #dff7f7;
+        }
+        .dropdown-item:first-child {
+            border-bottom: 1px solid #eee;
+        }
+        .dropdown-icon {
+            font-size: 18px;
+        }
+    </style>
 
     <div class="line"></div>
 
@@ -96,11 +153,34 @@
     </div>
 
     <script>
-        function filterData() {
+        function toggleDropdown() {
+            const menu = document.getElementById('cetakDropdown');
+            menu.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const wrapper = document.querySelector('.dropdown-wrapper');
+            if (!wrapper.contains(e.target)) {
+                document.getElementById('cetakDropdown').classList.remove('show');
+            }
+        });
+
+        function filterData(type) {
             const awal = document.getElementById('tanggal-awal').value;
             const akhir = document.getElementById('tanggal-akhir').value;
-            if (awal && akhir) {
-                window.location.href = '/admin/cetak_laporan?tanggal_awal=' + awal + '&tanggal_akhir=' + akhir;
+            document.getElementById('cetakDropdown').classList.remove('show');
+
+            if (type === 'barang') {
+                if (awal && akhir) {
+                    window.location.href = '/admin/cetak_laporan_barang?tanggal_awal=' + awal + '&tanggal_akhir=' + akhir;
+                } else {
+                    window.location.href = '/admin/cetak_laporan_barang';
+                }
+            } else {
+                if (awal && akhir) {
+                    window.location.href = '/admin/cetak_laporan?tanggal_awal=' + awal + '&tanggal_akhir=' + akhir;
+                }
             }
         }
     </script>

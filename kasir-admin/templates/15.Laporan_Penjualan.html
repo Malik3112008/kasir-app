@@ -12,7 +12,7 @@
     <nav>
         <div class="nav-bar">
             <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
-            <img src="{{ url_for('static', filename='logo.svg') }}" class="Logo-navbar" alt="logo" width="70" height="70">
+            <img src="{{ url_for('static', filename='newlogo.jpeg') }}" class="Logo-navbar" alt="logo" width="70" height="70">
             <span>Admin Koperasi</span>
         </div>
         <ul>
@@ -160,7 +160,10 @@
                                     data: yValues3,
                                     borderColor: "blue",
                                     fill: false,
-                                    tension: 0.4
+                                    tension: 0.4,
+                                    // spanGaps: false = line will NOT connect over null values, creating gaps for months with no data
+                                    // Use null (not 0) for months without sales so the line breaks properly
+                                    spanGaps: false
                                 }]
                             },
                             options: {
@@ -214,7 +217,10 @@
                                     data: yValues4,
                                     borderColor: "Blue",
                                     fill: false,
-                                    tension: 0.4
+                                    tension: 0.4,
+                                    // spanGaps: false = line will NOT connect over null values, creating gaps for months with no data
+                                    // Use null (not 0) for months without transactions so the line breaks properly
+                                    spanGaps: false
                                 }]
                             },
                             options: {

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Transaksi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e8f0fe 0%, #f5f7fa 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 28px;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: #f3f4f6;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #374151;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        .back-btn:hover { background: #e5e7eb; }
+        .header-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-icon {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #6b7280;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        .header-icon:hover { background: #f3f4f6; color: #374151; }
+        .header-icon.logout { color: #ef4444; border-color: #fecaca; background: #fef2f2; }
+        .header-icon.logout:hover { background: #fee2e2; }
+
+        /* ===== MAIN CONTAINER ===== */
+        .main-container {
+            max-width: 960px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .card-header {
+            padding: 24px 28px 16px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .card-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 10px;
+        }
+        .meta-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .meta-info .label { font-weight: 500; }
+        .meta-info .value { color: #374151; font-weight: 600; }
+
+        /* ===== TABLE ===== */
+        .table-wrapper {
+            padding: 0 28px 24px;
+            overflow-x: auto;
+        }
+        .trx-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+        .trx-table thead th {
+            background: #3A82C4;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 14px 16px;
+            text-align: left;
+            white-space: nowrap;
+        }
+        .trx-table thead th:first-child { border-radius: 10px 0 0 10px; }
+        .trx-table thead th:last-child { border-radius: 0 10px 10px 0; text-align: center; }
+        .trx-table tbody tr {
+            border-bottom: 1px solid #f3f4f6;
+            transition: background 0.15s;
+        }
+        .trx-table tbody tr:hover { background: #f9fafb; }
+        .trx-table td {
+            padding: 14px 16px;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        /* Product Cell */
+        .product-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .product-thumb {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: #f3f4f6;
+            object-fit: cover;
+            border: 1px solid #e5e7eb;
+        }
+        .product-info .product-name {
+            font-weight: 700;
+            font-size: 14px;
+            color: #111827;
+        }
+        .product-info .product-sub {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 2px;
+        }
+
+        /* Quantity Selector */
+        .qty-selector {
+            display: inline-flex;
+            align-items: center;
+            gap: 0;
+            border: 2px solid #3A82C4;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #3A82C4;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }
+        .qty-btn:hover { background: #2d6aa0; }
+        .qty-value {
+            width: 36px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: #111827;
+            background: #fff;
+        }
+
+        /* Price */
+        .price-cell {
+            font-weight: 700;
+            color: #111827;
+            font-size: 14px;
+        }
+
+        /* Action (Trash) */
+        .action-cell { text-align: center; }
+        .trash-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: #f3f4f6;
+            border-radius: 10px;
+            color: #6b7280;
+            font-size: 15px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .trash-btn:hover { background: #fee2e2; color: #ef4444; }
+
+        /* ===== TOTAL ===== */
+        .total-section {
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px 28px 24px;
+            border-top: 2px solid #f3f4f6;
+        }
+        .total-box {
+            background: #3A82C4;
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(58,130,196,0.3);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .header { padding: 12px 16px; }
+            .header-title { font-size: 15px; }
+            .main-container { margin: 16px auto; padding: 0 12px; }
+            .card-header { padding: 16px 16px 12px; }
+            .table-wrapper { padding: 0 16px 16px; }
+            .trx-table thead th { padding: 10px 8px; font-size: 10px; }
+            .trx-table td { padding: 10px 8px; font-size: 12px; }
+            .product-thumb { width: 36px; height: 36px; }
+            .total-section { padding: 16px; }
+            .total-box { font-size: 15px; padding: 12px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-left">
+            <a href="/admin/dashboard" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <span class="header-title">Admin Koperasi</span>
+        </div>
+        <div class="header-right">
+            <a href="/admin/notifikasi" class="header-icon" title="Notifikasi">
+                <i class="fa-solid fa-bell"></i>
+            </a>
+            <a href="/admin/pengaturan" class="header-icon" title="Pengaturan">
+                <i class="fa-solid fa-gear"></i>
+            </a>
+            <a href="/admin/kelola_akun_penjual" class="header-icon" title="Profil">
+                <i class="fa-solid fa-user"></i>
+            </a>
+            <a href="/admin/logout" class="header-icon logout" title="Logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-container">
+        <div class="card">
+            <div class="card-header">
+                <h2>Detail Transaksi</h2>
+                <div class="meta-info">
+                    <span class="label">Tanggal :</span>
+                    <span class="value">{{ tanggal }}</span>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="trx-table">
+                    <thead>
+                        <tr>
+                            <th>PRODUK</th>
+                            <th>ID TRANSAKSI</th>
+                            <th>JUMLAH</th>
+                            <th>HARGA</th>
+                            <th>AKSI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td>
+                                <div class="product-cell">
+                                    {% if item.gambar %}
+                                    <img src="{{ url_for('static', filename=item.gambar) }}" alt="{{ item.nama }}" class="product-thumb">
+                                    {% else %}
+                                    <div class="product-thumb" style="display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:18px;">
+                                        <i class="fa-solid fa-box"></i>
+                                    </div>
+                                    {% endif %}
+                                    <div class="product-info">
+                                        <div class="product-name">{{ item.nama }}</div>
+                                        <div class="product-sub">RP.{{ "{:,.0f}".format(item.harga).replace(",", ".") }} X {{ item.jumlah }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ item.id_transaksi }}</td>
+                            <td>
+                                <div class="qty-selector">
+                                    <button class="qty-btn" onclick="ubahQty({{ loop.index0 }}, -1)">-</button>
+                                    <span class="qty-value" id="qty-{{ loop.index0 }}">{{ item.jumlah }}</span>
+                                    <button class="qty-btn" onclick="ubahQty({{ loop.index0 }}, 1)">+</button>
+                                </div>
+                            </td>
+                            <td class="price-cell">RP.{{ "{:,.0f}".format(item.harga * item.jumlah).replace(",", ".") }}</td>
+                            <td class="action-cell">
+                                <button class="trash-btn" onclick="hapusItem({{ loop.index0 }})" title="Hapus">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="total-section">
+                <div class="total-box">
+                    TOTAL: RP. {{ "{:,.0f}".format(total).replace(",", ".") }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let items = {{ items | tojson }};
+
+        function ubahQty(index, delta) {
+            if (items[index]) {
+                items[index].jumlah = Math.max(1, items[index].jumlah + delta);
+                document.getElementById('qty-' + index).textContent = items[index].jumlah;
+                updateTotal();
+            }
+        }
+
+        function hapusItem(index) {
+            if (confirm('Hapus item ini?')) {
+                items.splice(index, 1);
+                location.reload();
+            }
+        }
+
+        function updateTotal() {
+            let total = 0;
+            items.forEach(item => { total += item.harga * item.jumlah; });
+            document.querySelector('.total-box').textContent = 'TOTAL: RP. ' + total.toLocaleString('id-ID');
+        }
+    </script>
+
+</body>
+</html>

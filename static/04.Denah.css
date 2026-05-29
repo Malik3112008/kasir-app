@@ -119,6 +119,32 @@ a.edit-btn{
     background:#3a9fd8;
 }
 
+/* Edit toggle pencil icon button */
+.edit-toggle-btn{
+    width:44px;
+    height:44px;
+    border-radius:12px;
+    background:#57bfff;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    text-decoration:none;
+    transition:background 0.2s, transform 0.15s;
+    cursor:pointer;
+}
+
+.edit-toggle-btn:hover{
+    background:#3a9fd8;
+    transform:scale(1.05);
+}
+
+.edit-toggle-btn.active{
+    background:#3a9fd8;
+    box-shadow:0 0 0 3px rgba(58,159,216,0.3);
+}
+
 .card{
     position:absolute;
     background:white;
@@ -152,28 +178,57 @@ a.edit-btn{
     gap:8px;
 }
 
+/* Card action buttons container (edit mode) */
+.card-actions{
+    position:absolute;
+    top:10px;
+    right:10px;
+    display:flex;
+    gap:6px;
+    z-index:10;
+}
+
+.delete-form{
+    margin:0;
+}
+
 .action-btn{
-    width:32px;
-    height:32px;
+    width:34px;
+    height:34px;
     border:none;
     border-radius:10px;
     cursor:pointer;
-}
-
-.delete-btn{
-    background:#ffffff;
-    color:rgb(198, 46, 46);
-}
-
-.edit-card-btn{
-    background:#ffffff;
-    color:rgb(51, 51, 51);
-}
-
-a.action-btn{
     display:flex;
     align-items:center;
     justify-content:center;
+    font-size:14px;
+    transition:transform 0.15s, box-shadow 0.15s;
+}
+
+.action-btn:hover{
+    transform:scale(1.1);
+    box-shadow:0 2px 8px rgba(0,0,0,0.15);
+}
+
+.delete-btn{
+    background:#fff0f0;
+    color:#c62e2e;
+}
+
+.delete-btn:hover{
+    background:#ffe0e0;
+}
+
+.edit-card-btn{
+    background:#f0f8ff;
+    color:#333;
+}
+
+.edit-card-btn:hover{
+    background:#e0f0ff;
+}
+
+a.action-btn{
     text-decoration:none;
 }
 

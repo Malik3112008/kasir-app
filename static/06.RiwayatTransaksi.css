@@ -212,3 +212,45 @@ tbody tr:hover {
     from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* Modal Barang Table */
+.modal-barang-section {
+    margin-top: 12px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+.barang-title {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: #333;
+}
+
+.barang-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.barang-table th {
+    background-color: #edf2f7;
+    color: #333;
+    padding: 6px 8px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.barang-table td {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 6px 8px;
+    text-align: center;
+    font-size: 12px;
+    color: #444;
+}
+
+.barang-table tbody tr:hover {
+    background-color: #f7fafc;
+}

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stok Tersedia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='14. stoktersedia.css') }}">
 </head>
@@ -13,7 +14,7 @@
             <li>
                 <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30" height="30"></a>
             </li>
-            <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" width="70" height="70">
+            <img src="{{ url_for('static', filename='newlogo.jpeg') }}" alt="Logo" width="70" height="70">
             <span>Admin Koperasi</span>
         </div>
         <ul>
@@ -44,7 +45,6 @@
                         <option value="Minuman" {% if kategori == 'Minuman' %}selected{% endif %}>Minuman</option>
                         <option value="Alat Tulis" {% if kategori == 'Alat Tulis' %}selected{% endif %}>Alat Tulis</option>
                     </select>
-                    <button type="submit">Cari</button>
                 </form>
             </div>
         </div>
@@ -58,7 +58,6 @@
                     <th>Stok</th>
                     <th>Harga</th>
                     <th>Tanggal</th>
-                    <th>Status</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -68,10 +67,8 @@
                     <td>{{ item.no }}</td>
                     <td>{{ item.nama }}</td>
                     <td>{{ item.kategori }}</td>
-                    <td>{{ item.stok }}</td>
-                    <td class="harga">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
-                    <td>{{ item.tanggal }}</td>
                     <td>
+                        {{ item.stok }}
                         {% if item.stok == 0 %}
                             <span class="stok-habis">Habis</span>
                         {% elif item.stok <= 10 %}
@@ -80,10 +77,12 @@
                             <span class="stok-tersedia">Tersedia</span>
                         {% endif %}
                     </td>
+                    <td class="harga">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
+                    <td class="tanggal-cell" data-tanggal="{{ item.tanggal }}">{{ item.tanggal }}</td>
                     <td>
                         <div class="aksi">
-                            <a href="/admin/stok-tersedia/edit/{{ item.no }}">
-                                <img src="{{ url_for('static', filename='delete-svgrepo-com.svg') }}" alt="Edit" class="icon edit">
+                            <a href="/admin/stok-tersedia/edit/{{ item.no }}" class="icon edit" title="Edit">
+                                <i class="fa fa-pen"></i>
                             </a>
                             <form method="POST" action="/admin/stok-tersedia/hapus/{{ item.no }}" style="display:inline;">
                                 <button type="submit" style="background:none;border:none;cursor:pointer;">
@@ -113,5 +112,61 @@
             {% endif %}
         </div>
     </div>
+
+    <script>
+        // Auto-submit search form on category change or typing (with debounce)
+        const searchForm = document.querySelector('.filter form');
+        const searchInput = searchForm ? searchForm.querySelector('input[name="cari"]') : null;
+        const kategoriSelect = searchForm ? searchForm.querySelector('select[name="kategori"]') : null;
+
+        if (kategoriSelect) {
+            kategoriSelect.addEventListener('change', function() {
+                searchForm.submit();
+            });
+        }
+
+        if (searchInput) {
+            let debounceTimer;
+            searchInput.addEventListener('input', function() {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(function() {
+                    searchForm.submit();
+                }, 500);
+            });
+        }
+
+        // Convert dates to Indonesian format: "dd Bulan yyyy"
+        const bulanIndo = [
+            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+            'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
+
+        document.querySelectorAll('.tanggal-cell').forEach(cell => {
+            const raw = cell.getAttribute('data-tanggal') || cell.textContent.trim();
+            if (!raw) return;
+
+            // Try parsing common date formats: YYYY-MM-DD, DD/MM/YYYY, DD-MM-YYYY
+            let date = null;
+            // Format: YYYY-MM-DD
+            let match = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+            if (match) {
+                date = new Date(match[1], match[2] - 1, match[3]);
+            }
+            // Format: DD/MM/YYYY or DD-MM-YYYY
+            if (!date) {
+                match = raw.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+                if (match) {
+                    date = new Date(match[3], match[2] - 1, match[1]);
+                }
+            }
+
+            if (date && !isNaN(date.getTime())) {
+                const dd = String(date.getDate()).padStart(2, '0');
+                const mm = bulanIndo[date.getMonth()];
+                const yyyy = date.getFullYear();
+                cell.textContent = dd + ' ' + mm + ' ' + yyyy;
+            }
+        });
+    </script>
 </body>
 </html>

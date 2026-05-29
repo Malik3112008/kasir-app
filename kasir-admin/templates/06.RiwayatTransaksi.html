@@ -14,7 +14,7 @@
         <li>
             <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
         </li>
-        <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" width="70" height="70">
+        <img src="{{ url_for('static', filename='newlogo.jpeg') }}" alt="Logo" width="70" height="70">
         <span>Admin Koperasi</span>
     </div>
     <ul>
@@ -81,7 +81,7 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a href="#" class="detail" onclick="showDetail('{{ p.id }}', '{{ p.pelanggan }}', '{{ p.metode }}', '{{ p.status }}', '{{ p.tanggal }}', '{{ p.barang }}', '{{ p.total }}')">Detail</a>
+                        <a href="#" class="detail" onclick='showDetail("{{ p.id }}", "{{ p.pelanggan }}", "{{ p.metode }}", "{{ p.status }}", "{{ p.tanggal }}", {{ p.barang | tojson }}, "{{ p.total }}")'>Detail</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -102,6 +102,20 @@
             <p><b>Metode:</b> <span id="m-metode"></span></p>
             <p><b>Status:</b> <span id="m-status"></span></p>
             <p><b>Total:</b> <span id="m-total"></span></p>
+            <div class="modal-barang-section">
+                <p class="barang-title"><b>Daftar Barang:</b></p>
+                <table class="barang-table">
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Jumlah</th>
+                            <th>Harga</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="m-barang"></tbody>
+                </table>
+            </div>
         </div>
         <button class="btn-close" onclick="closeModal()">Tutup</button>
     </div>
@@ -131,6 +145,22 @@ function showDetail(id, pelanggan, metode, status, tanggal, barang, total) {
     document.getElementById('m-metode').textContent = metode;
     document.getElementById('m-status').textContent = status;
     document.getElementById('m-total').textContent = 'Rp ' + Number(total).toLocaleString('id-ID');
+
+    // Render barang list
+    var tbody = document.getElementById('m-barang');
+    tbody.innerHTML = '';
+    if (Array.isArray(barang)) {
+        barang.forEach(function(item) {
+            var subtotal = item.jumlah * item.harga;
+            var tr = document.createElement('tr');
+            tr.innerHTML = '<td>' + item.nama + '</td>'
+                + '<td>' + item.jumlah + '</td>'
+                + '<td>Rp ' + Number(item.harga).toLocaleString('id-ID') + '</td>'
+                + '<td>Rp ' + Number(subtotal).toLocaleString('id-ID') + '</td>';
+            tbody.appendChild(tr);
+        });
+    }
+
     document.getElementById('modal').style.display = 'flex';
 }
 

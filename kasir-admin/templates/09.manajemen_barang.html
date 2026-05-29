@@ -16,7 +16,7 @@
             <li>
                 <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" width="30"></a>
             </li>
-            <img src="{{ url_for('static', filename='logo.svg') }}" width="70" height="70">
+            <img src="{{ url_for('static', filename='newlogo.jpeg') }}" width="70" height="70">
             <span>Admin Koperasi</span>
         </div>
         <ul>
@@ -99,6 +99,9 @@
                             {% endif %}
                         </td>
                         <td class="aksi">
+                            <a href="/admin/pengisian_barang/{{ item.no }}" class="btn-restok" title="Restok">
+                                <i class="fa fa-plus"></i>
+                            </a>
                             <a href="/admin/stok-tersedia/edit/{{ item.no }}" class="btn-edit" title="Edit">
                                 <i class="fa fa-pen"></i>
                             </a>

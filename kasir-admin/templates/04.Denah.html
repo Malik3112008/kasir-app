@@ -28,7 +28,7 @@
             <a href="/admin/dashboard" class="back-btn">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
-            <img src="{{ url_for('static', filename='images/navbar/logo.svg') }}" alt="Logo" class="nav-logo">
+            <img src="{{ url_for('static', filename='newlogo.jpeg') }}" alt="Logo" class="nav-logo">
             <h2>Admin Koperasi</h2>
             {% endif %}
         </div>
@@ -69,12 +69,12 @@
 
                     {% if is_admin %}
                         {% if edit_mode %}
-                        <a href="/admin/denah?admin=1" class="edit-btn edit-btn-active">
-                            <i class="fa-solid fa-pen"></i> Mode Edit
+                        <a href="/admin/denah?admin=1" class="edit-toggle-btn active" title="Keluar Mode Edit">
+                            <i class="fa-solid fa-pen"></i>
                         </a>
                         {% else %}
-                        <a href="/admin/denah?admin=1&edit=1" class="edit-btn">
-                            <i class="fa-solid fa-pen"></i> Mode Edit
+                        <a href="/admin/denah?admin=1&edit=1" class="edit-toggle-btn" title="Mode Edit">
+                            <i class="fa-solid fa-pen"></i>
                         </a>
                         {% endif %}
                     {% endif %}
@@ -84,13 +84,13 @@
                 {% for card in cards %}
                     {% if is_admin and edit_mode %}
                     <div class="card card-id-{{ card.id }}">
-                        <div class="actions" style="display: flex;">
-                            <form method="POST" action="/admin/delete/{{ card.id }}?admin=1" style="margin: 0;">
-                                <button type="submit" class="action-btn delete-btn">
+                        <div class="card-actions">
+                            <form method="POST" action="/admin/delete/{{ card.id }}?admin=1" class="delete-form">
+                                <button type="submit" class="action-btn delete-btn" title="Hapus">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </form>
-                            <a href="/admin/denah?admin=1&edit=1&edit_card={{ card.id }}" class="action-btn edit-card-btn">
+                            <a href="/admin/denah?admin=1&edit=1&edit_card={{ card.id }}" class="action-btn edit-card-btn" title="Edit Nama">
                                 <i class="fa-solid fa-pen"></i>
                             </a>
                         </div>

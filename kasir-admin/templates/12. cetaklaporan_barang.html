@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cetak Laporan Data Barang</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e8f0fe 0%, #f5f7fa 100%);
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+        nav {
+            background: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 28px;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-left { display: flex; align-items: center; gap: 14px; }
+        .nav-left img { height: 45px; }
+        .nav-left h2 { font-size: 18px; font-weight: 700; color: #111827; }
+        .back-btn {
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
+            border: none; background: #f3f4f6; border-radius: 10px;
+            cursor: pointer; font-size: 16px; color: #374151;
+            transition: all 0.2s; text-decoration: none;
+        }
+        .back-btn:hover { background: #e5e7eb; }
+        .nav-right { display: flex; align-items: center; gap: 10px; }
+        .nav-icon {
+            width: 38px; height: 38px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 10px; background: #f9fafb; border: 1px solid #e5e7eb;
+            color: #6b7280; font-size: 16px; cursor: pointer;
+            transition: all 0.2s; text-decoration: none;
+        }
+        .nav-icon:hover { background: #f3f4f6; color: #374151; }
+
+        /* CONTAINER */
+        .main-container { max-width: 1000px; margin: 32px auto; padding: 0 20px; }
+        .card {
+            background: #fff; border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .card-header {
+            padding: 24px 28px 16px;
+            border-bottom: 1px solid #f3f4f6;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 12px;
+        }
+        .card-header h2 { font-size: 18px; font-weight: 700; color: #111827; }
+
+        /* DROPDOWN */
+        .report-dropdown {
+            position: relative;
+        }
+        .report-select {
+            padding: 10px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
+            background: #fff;
+            color: #374151;
+            cursor: pointer;
+            appearance: none;
+            padding-right: 36px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+        .report-select:focus { outline: none; border-color: #3A82C4; }
+
+        /* DATE FILTER */
+        .date-filter {
+            display: flex; align-items: center; gap: 10px;
+            padding: 16px 28px;
+            background: #f9fafb;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .date-filter label {
+            font-size: 13px; font-weight: 600; color: #6b7280;
+        }
+        .date-filter input[type="date"] {
+            padding: 8px 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: inherit;
+            background: #fff;
+            transition: border-color 0.2s;
+        }
+        .date-filter input[type="date"]:focus {
+            outline: none;
+            border-color: #3A82C4;
+        }
+        .date-separator { font-size: 13px; color: #9ca3af; font-weight: 500; }
+
+        /* TABLE */
+        .table-wrapper { padding: 0 28px 24px; overflow-x: auto; }
+        .lap-table {
+            width: 100%; border-collapse: collapse; margin-top: 16px;
+        }
+        .lap-table thead th {
+            background: #3A82C4; color: #fff;
+            font-size: 12px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            padding: 14px 16px; text-align: left; white-space: nowrap;
+        }
+        .lap-table thead th:first-child { border-radius: 10px 0 0 10px; }
+        .lap-table thead th:last-child { border-radius: 0 10px 10px 0; }
+        .lap-table tbody tr {
+            border-bottom: 1px solid #f3f4f6;
+            transition: background 0.15s;
+        }
+        .lap-table tbody tr:hover { background: #f9fafb; }
+        .lap-table td {
+            padding: 12px 16px; font-size: 14px; vertical-align: middle;
+        }
+
+        /* STOK BADGE */
+        .stok-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        /* HARGA */
+        .harga-cell { font-weight: 600; color: #111827; }
+
+        /* TOTAL ROW */
+        .total-row td {
+            font-weight: 700; font-size: 15px;
+            border-top: 2px solid #e5e7eb;
+            background: #f9fafb;
+        }
+
+        /* EXPORT BUTTONS */
+        .export-section {
+            display: flex; justify-content: center; gap: 16px;
+            padding: 20px 28px 28px;
+            border-top: 2px solid #f3f4f6;
+        }
+        .btn-export {
+            padding: 12px 28px;
+            border: none; border-radius: 12px;
+            font-size: 14px; font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex; align-items: center; gap: 8px;
+            color: #fff;
+        }
+        .btn-pdf {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            box-shadow: 0 4px 12px rgba(236,72,153,0.3);
+        }
+        .btn-pdf:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(236,72,153,0.4);
+        }
+        .btn-excel {
+            background: linear-gradient(135deg, #d946ef, #9333ea);
+            box-shadow: 0 4px 12px rgba(217,70,239,0.3);
+        }
+        .btn-excel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(217,70,239,0.4);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .card-header { flex-direction: column; align-items: flex-start; }
+            .date-filter { flex-wrap: wrap; }
+            .export-section { flex-direction: column; align-items: center; }
+            .lap-table thead th, .lap-table td { padding: 10px 8px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="nav-left">
+            <a href="/admin/dashboard" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+            <img src="{{ url_for('static', filename='newlogo.jpeg') }}" alt="Logo">
+            <h2>Admin Koperasi</h2>
+        </div>
+        <div class="nav-right">
+            <a href="/admin/notifikasi" class="nav-icon"><i class="fa-solid fa-bell"></i></a>
+            <a href="/admin/pengaturan" class="nav-icon"><i class="fa-solid fa-gear"></i></a>
+            <a href="/admin/kelola_akun_penjual" class="nav-icon"><i class="fa-solid fa-user"></i></a>
+            <a href="/admin/logout" class="nav-icon"><i class="fa-solid fa-right-from-bracket"></i></a>
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <div class="main-container">
+        <div class="card">
+            <div class="card-header">
+                <h2>Laporan Data Barang</h2>
+                <div class="report-dropdown">
+                    <select class="report-select" onchange="switchReport(this.value)">
+                        <option value="barang" selected>Cetak Laporan Data Barang</option>
+                        <option value="transaksi">Cetak Laporan Transaksi</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="date-filter">
+                <label>Laporan Barang pada</label>
+                <input type="date" id="tanggal-awal" onchange="filterData()">
+                <span class="date-separator">sampai</span>
+                <input type="date" id="tanggal-akhir" onchange="filterData()">
+            </div>
+
+            <div class="table-wrapper">
+                <table class="lap-table" id="tabel-barang">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Barang</th>
+                            <th>Stok</th>
+                            <th>Harga</th>
+                            <th>Kategori</th>
+                            <th>Tanggal</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in data_barang %}
+                        <tr data-tanggal="{{ item.tanggal }}">
+                            <td>{{ loop.index }}</td>
+                            <td>{{ item.nama }}</td>
+                            <td><span class="stok-badge">{{ item.stok }}</span></td>
+                            <td class="harga-cell">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
+                            <td>{{ item.kategori }}</td>
+                            <td>{{ item.tanggal }}</td>
+                            <td class="harga-cell">Rp {{ "{:,.0f}".format(item.harga * item.stok).replace(",", ".") }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="total-row">
+                            <td colspan="6" style="text-align:right;">TOTAL</td>
+                            <td class="harga-cell">Rp {{ "{:,.0f}".format(total_nilai).replace(",", ".") }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="export-section">
+                <a href="/admin/cetak_barang_pdf" class="btn-export btn-pdf">
+                    <i class="fa-solid fa-file-pdf"></i> Cetak PDF
+                </a>
+                <a href="/admin/cetak_barang_excel" class="btn-export btn-excel">
+                    <i class="fa-solid fa-file-excel"></i> Cetak Excel
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchReport(type) {
+            if (type === 'transaksi') {
+                window.location.href = '/admin/cetak_laporan';
+            }
+        }
+
+        function filterData() {
+            const awal = document.getElementById('tanggal-awal').value;
+            const akhir = document.getElementById('tanggal-akhir').value;
+            const rows = document.querySelectorAll('#tabel-barang tbody tr[data-tanggal]');
+
+            rows.forEach(row => {
+                const tgl = row.dataset.tanggal;
+                if (!awal && !akhir) {
+                    row.style.display = '';
+                    return;
+                }
+                let show = true;
+                if (awal && tgl < awal) show = false;
+                if (akhir && tgl > akhir) show = false;
+                row.style.display = show ? '' : 'none';
+            });
+        }
+    </script>
+
+</body>
+</html>
