@@ -1,280 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Penilaian</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='2-nadyanur.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='2-nadyanur.css') }}">
 </head>
 
 <body>
     <div class="container">
 
-    <a href="/pembeli">← Kembali</a>  
+        <a href="/pembeli" class="back">← Kembali</a>
 
-    <h1>Penilaian</h1>
+        <h1>Penilaian</h1>
 
-    <div class="stats">
-
-        <div class="ulasan-box">
-             <img src="{{ url_for('static',
-                filename='gambar dan icon/profil.jpg') }}" alt="Profil">
+        <!-- Statistik -->
+        <div class="stats">
+            <div class="ulasan-box">
+                <img src="{{ url_for('static', filename='gambar dan icon/profil.jpg') }}" alt="Profil">
+                <h3>{{ session.get('nama', 'Guest') }}</h3>
+            </div>
+            <div class="stat-item">
+                <h3>{{ penilaian|length }}</h3>
+                <p>Ulasan</p>
+            </div>
+            <div class="stat-item">
+                <h3>0</h3>
+                <p>Terbantu</p>
+            </div>
+            <div class="stat-item">
+                <h3>{{ produk|length }}</h3>
+                <p>Belum Dinilai</p>
+            </div>
         </div>
 
-        <div class="stat-item">
-            <h3>3</h3>
-            <p>Ulasan</p>
-        </div>
-
-        <div class="stat-item">
-            <h3>0</h3>
-            <p>Terbantu</p>
-        </div>
-
-        <div class="stat-item">
-            <h3>3</h3>
-            <p>Belum Dinilai</p>
-        </div>
-
-    </div>
-
-    <div class="content">
-
-        <div class="left">
-
-            <h2>Belum Dinilai</h2>
-
-            <div class="card">
-                <img src="{{ url_for('static',
-                filename='gambar dan icon/roti.jpg') }}" alt="roti">
-
-                <div class="produk">
-                   <div>
-                       <h3>Roti Aoka</h3>
-
-                        <div class="rating-box">
-
-                            <p>Nilai produk ini</p>
-
-                            <div class="stars">
-                                ★★★★★
+        <div class="content">
+            <div class="left">
+                <h2>Belum Dinilai</h2>
+                {% for item in produk %}
+                <div class="card">
+                    <img src="{{ url_for('static', filename='gambar dan icon/' + item.gambar) }}" alt="{{ item.nama }}">
+                    <div class="produk">
+                        <div>
+                            <h3>{{ item.nama }}</h3>
+                            <div class="rating-box">
+                                <p>Nilai produk ini</p>
+                                <div class="stars">★★★★★</div>
                             </div>
                         </div>
-
+                        <button class="nilai-btn" type="button" onclick="window.location.href='/pembeli/rating'">
+                            Nilai
+                        </button>
                     </div>
-
-                     <button class="nilai-btn" type="button"
-                     onclick="window.location.href='/pembeli/rating'">
-                      Nilai
-                    </button>
                 </div>
+                {% endfor %}
             </div>
 
-
-            
-            <div class="card">
-                <img src="{{ url_for('static',
-                filename='gambar dan icon/ades.jpg') }}" alt="Ades">
-
-                <div class="produk">
-                    <div>
-                        <h3>Air Mineral Ades</h3>
-                        
-                        <div class="rating-box">
-
-                            <p>Nilai produk ini</p>
-
-                            <div class="stars">
-                                ★★★★★
+            <div class="right">
+                <h2>Penilaian Saya</h2>
+                <p class="selengkapnya-btn" onclick="toggleReview()">Selengkapnya</p>
+                <div id="review-container" hidden>
+                    {% for item in penilaian %}
+                    <div class="review-card">
+                        <img src="{{ url_for('static', filename='gambar dan icon/profil.jpg') }}" alt="profil" class="profil-kecil">
+                        <div class="info-user">
+                            <span class="username">{{ session.get('nama', 'Guest') }}</span>
+                            <div class="bintang">
+                                {% for i in range(item.rating) %}
+                                <span class="star active">★</span>
+                                {% endfor %}
+                                {% for i in range(5 - item.rating) %}
+                                <span class="star inactive">★</span>
+                                {% endfor %}
                             </div>
-                        </div>
-
-                    </div>
-                    
-                    <button class="nilai-btn" type="button"
-                    onclick="window.location.href='/pembeli/rating'">
-                     Nilai
-                    </button>
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="{{ url_for('static',
-                filename='gambar dan icon/bulpoin.jpg') }}" alt="bulpoin">
-
-                <div class="produk">
-                    <div>
-                        <h3>Bulpoin</h3>
-                        
-                        <div class="rating-box">
-
-                            <p>Nilai produk ini</p>
-
-                            <div class="stars">
-                                ★★★★★
+                            <p class="tanggal">{{ item.tanggal }}</p>
+                            <div class="review-produk">
+                                <img src="{{ url_for('static', filename='gambar dan icon/' + item.gambar) }}" alt="{{ item.nama }}">
+                                <span>{{ item.nama }}</span>
                             </div>
+                            <span class="text-membantu">Membantu</span>
+                            <label class="jempol">
+                                <input type="checkbox" class="like-check">
+                                <img src="{{ url_for('static', filename='gambar dan icon/thumb-up-svgrepo-com (2).svg') }}" class="icon-jempol">
+                            </label>
                         </div>
-
                     </div>
-
-                    <button class="nilai-btn" type="button"
-                    onclick="window.location.href='/pembeli/rating'">
-                        Nilai
-                    </button>
+                    {% endfor %}
                 </div>
             </div>
-
-
-        </div>
-        <div class="right">
-
-            <h2>Penilaian Saya</h2>
-
-            <p class="selengkapnya-btn"
-               onclick="toggleReview()">
-               Selengkapnya
-            </p>
-
-            <div id="review-container" hidden>
-
-             <div class="review-card">
-
-                <img src="{{ url_for('static',
-                filename='gambar dan icon/profil.jpg') }}" alt="profil"
-                class="profil-kecil">
-
-                <div class="info-user">
-                    <span class="username">pina123</span>
-                
-
-                <div class="bintang">
-                    <span class="star active">★</span>
-                    <span class="star active">★</span>
-                    <span class="star active">★</span>
-                    <span class="star active">★</span>
-                    <span class="star inactive">★</span>
-                </div>
-
-                <p class="review-text">
-                    Rotinya enak, lembut dan cocok buat sarapan 
-                    gak kemanisan juga
-                </p>
-
-                <p class="tanggal">01-01-2026 11:24</p>
-                <div class="review-produk">
-                    <img src="{{ url_for('static',
-                filename='gambar dan icon/roti.jpg') }}" alt="roti">
-                    <span>Roti Aoka</span>
-                </div>
-                </div>
-
-                <span class="text-membantu">Membantu</span>
-                
-                <label class="jempol">
-                    <input type="checkbox"
-                  class="like-check">
-
-                    <img src="{{ url_for('static',
-                    filename='gambar dan icon/thumb-up-svgrepo-com (2).svg') }}"
-                    class="icon-jempol">
-                </label>
-             </div>
-
-             <div class="review-card">
-
-                <img src="{{ url_for('static',
-                filename='gambar dan icon/profil.jpg') }}" alt="profil"
-                class="profil-kecil">
-
-                <div class="info-user">
-                    <span class="username">pina123</span>
-
-                <div class="bintang">
-                    <span class="star active">★</span>
-                    <span class="star active">★</span>
-                    <span class="star active">★</span>
-                    <span class="star active">★</span>
-                    <span class="star active">★</span>
-                </div>
-
-                <p class="tanggal">20-12-2025 18:22</p>
-
-                <div class="review-produk">
-                    <img src="{{ url_for('static',
-                filename='gambar dan icon/ades.jpg') }}" alt="Ades">
-                    <span>Air Mineral Ades</span>
-                </div>
-                </div>
-
-                <span class="text-membantu">Membantu</span>
-
-                <label class="jempol">
-                    <input type="checkbox"
-                  class="like-check">
-
-                    <img src="{{ url_for('static',
-                    filename='gambar dan icon/thumb-up-svgrepo-com (2).svg') }}"
-                    class="icon-jempol">
-
-                </label>
-             </div>
-
-
-             <div class="review-card">
-
-                <img src="{{ url_for('static',
-                filename='gambar dan icon/profil.jpg') }}" alt="profil"
-                class="profil-kecil">
-
-                <div class="info-user">
-                    <span class="username">pina123</span>
-
-                <div class="bintang">
-                    <span class="star active">★</span>
-                    <span class="star active">★</span>
-                    <span class="star active">★</span>
-                    <span class="star inactive">★</span>
-                    <span class="star inactive">★</span>
-                </div>
-
-                <p class="tanggal">18-12-2025 11:35</p>
-
-                <div class="review-produk">
-                    <img src="{{ url_for('static',
-                filename='gambar dan icon/bulpoin.jpg') }}" alt="Bulpoin">
-                    <span>Bulpoin</span>
-                </div>
-                </div>
-
-                <span class="text-membantu">Membantu</span>
-
-                <label class="jempol">
-                    <input type="checkbox"
-                  class="like-check">
-
-                    <img src="{{ url_for('static',
-                    filename='gambar dan icon/thumb-up-svgrepo-com (2).svg') }}"
-                    class="icon-jempol">
-
-                </label>
-            </div>
-
         </div>
 
     </div>
 
     <script>
-
     function toggleReview() {
-
-        const review =
-
-     document.getElementById("review-container");
-
+        const review = document.getElementById("review-container");
         review.hidden = !review.hidden;
     }
-
     </script>
 </body>
-
 </html>

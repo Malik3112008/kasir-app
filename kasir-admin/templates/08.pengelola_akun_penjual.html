@@ -101,8 +101,8 @@ function editMode() {
                         {% endif %}
                     </td>
                     <td>
-                        <a href="/admin/edit-akun/{{ item.id }}" class="edit-link">✏️</a>
-                        <a href="/admin/hapus-akun/{{ item.id }}" class="hapus-link" onclick="return confirm('Yakin hapus akun ini?')">🗑️</a>
+                        <a href="/admin/edit-akun/{{ loop.index0 }}" class="edit-link">✏️</a>
+                        <a href="/admin/hapus-akun/{{ loop.index0 }}" class="hapus-link" onclick="return confirm('Yakin hapus akun ini?')">🗑️</a>
                     </td>
                 </tr>
                 {% endfor %}

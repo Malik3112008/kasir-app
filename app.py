@@ -378,7 +378,6 @@ def admin_tambah_akun():
         return redirect(url_for('admin_login'))
     if request.method == 'POST':
         akun_baru = {
-            'id': max([a['id'] for a in data_penjual], default=0) + 1,
             'nama': request.form['nama'],
             'email': request.form['email'],
             'status': request.form['status'],
@@ -392,9 +391,9 @@ def admin_tambah_akun():
 def admin_edit_akun(id):
     if not session.get('user'):
         return redirect(url_for('admin_login'))
-    akun = next((a for a in data_penjual if a['id'] == id), None)
-    if not akun:
+    if id < 0 or id >= len(data_penjual):
         return redirect(url_for('admin_kelola_akun_penjual'))
+    akun = data_penjual[id]
     if request.method == 'POST':
         akun['nama'] = request.form['nama']
         akun['email'] = request.form['email']
@@ -407,7 +406,8 @@ def admin_hapus_akun(id):
     if not session.get('user'):
         return redirect(url_for('admin_login'))
     global data_penjual
-    data_penjual = [a for a in data_penjual if a['id'] != id]
+    if 0 <= id < len(data_penjual):
+        data_penjual.pop(id)
     return redirect(url_for('admin_kelola_akun_penjual'))
 
 # ============================================================

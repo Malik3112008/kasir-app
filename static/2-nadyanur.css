@@ -13,7 +13,7 @@ body{
 
 .back{
     text-decoration: none;
-    color: gray;
+    color: rgb(190, 185, 185);
 }
 
 .stats{
@@ -41,7 +41,6 @@ body{
     gap: 30px;
 }
 
-/* kiri kanan */
 .left,
 .right{
     flex: 1;
@@ -52,18 +51,23 @@ body{
     margin-bottom: 20px;
 }
 
-/* card kiri */
 .card{
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    border: 1px solid #ddd;
+    border: 1px solid #eaf4ff;
     border-radius: 12px;
 
-    padding: 40px 35px;
-    margin-bottom: 15px;
-    width: 75%;
+    padding: 25px;
+    margin-bottom: 18px;
+    width: 70%;
+    min-height: 180px;
+
+    margin: 20px auto;
+
+    background-color: #eaf4ff;
+    box-shadow: 0 3px 10px rgb(0,0,0,0.08);
 }
 
 .card .info{
@@ -72,31 +76,22 @@ body{
     align-items: center;
 }
 
-.produk h3{
-    margin-top: 60px;
-    margin-left: 160px;
-}
-.produk p{
-    display: flex;
-    margin-top: 95px;
-    margin-left: -285px;
-    font-size: 20px;
-}
 .produk{
     display: flex;
-    align-items: flex-start;
-    gap: 15px;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 8px;
 }
 
 .produk div{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex: 1;
 }
 
-.produk p{
-    margin-top: 95px;
-    text-align:  left;
+.produk h3{
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 30px;
 }
 
 .card img{
@@ -104,7 +99,6 @@ body{
     height: 90px;
     object-fit: contain;
     margin-right: 20px;
-    margin-top: -80px;
 }
 
 .avatar img{
@@ -120,42 +114,45 @@ body{
     color: white;
 
     padding: 10px 25px;
-    border-radius: 10px;
+    border-radius: 8px;
 
     font-weight: bold;
     font-size: 20px;
     cursor: pointer;
-    
-    display: inline-block;
     min-width: 90px;
-    text-align: center;
 
-    margin-top: 50px;
-    margin-right: 140px;
+    margin-top: 0;
     
 }
 
 .rating-box{
     background: #f1f1f1;
-    width: 500px;
+
     height: 60px;
+    width: 100%;
 
     border-radius: 20px;
     
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto;
+
     align-items: center;
 
-    padding: 0 20px;
-    margin-left: -80px;
-    margin-top: 80px;
+    padding: 0 10px 0 20px;
+    margin-top: 50px;
 } 
+
+.spacer{
+    flex: 1;
+}
 
 .rating-box p{
     margin: 0;
-    position: relative;
-    top: 20px;
     font-size: 18px;
+    font-weight: bold;
+
+    position: relative;
+    top: -3px;
 }
 
 .nilai-produk{
@@ -167,29 +164,33 @@ body{
 
 .stars{
     color: #D9D9D9;
-    font-size: 18px;
-    letter-spacing: 2px;
+    font-size: 22px;
+
+    justify-self: end;
+
+    display: flex;
+    gap: 0px;
+
     position: relative;
-    top: -20px;
-    font-size: 20px;
-    left: 400px;
+    top: -3px;
 }
 
 
-/* kanan */
 
 .right{
     margin-left: 30px;
 }
 .review-card{
-    border: 1px solid #ddd;
+    border: 1px solid #eaf4ff;
     border-radius: 12px;
     padding: 15px;
     margin-bottom: 20px;
+    margin-top: 15px;
 
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+    background-color: #eaf4ff;
 }
 
 .user-review{
@@ -224,8 +225,8 @@ body{
 .bintang{
   display: flex !important;
   flex-direction: row !important;
-  gap: 4px !important;
-  align-items: center !important;
+  gap: 4px;
+  align-items: center;
 }
 
 .bintang .star{
@@ -259,10 +260,15 @@ body{
 
 .review-produk{
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 15px;
-    margin-top: 15px;
+    margin-top: 10px;
 }
+
+.review-produk span{
+    margin-top: 30px;
+}
+
 .review-produk p{
     white-space: nowrap;
     overflow: hidden;
@@ -281,17 +287,16 @@ body{
 
     display: flex;
     align-items: center;
-    gap: 5x;
 }
 
 .like-check{
     display: none;
-    align-items: center;
-    gap: 5;
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
+}
+
+.like-check:checked + .icon-jempol{
+    filter: invert(16%) sepia(98%)
+    saturate(7481%)
+    hue-rotate(210deg);
 }
 
 .btn-jempol{
@@ -331,38 +336,12 @@ saturate(7481%)
     padding: 6px 12px;
     border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.selengkapnya-btn:hover {
-    background-color: #bfdbfe;
-    transform: translateY(-1px);
-}
-
-/* Animations */
-.container {
-    animation: fadeInUp 0.4s ease;
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.ulasan-box, .stat-box {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.ulasan-box:hover, .stat-box:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.review-produk {
-    transition: background-color 0.2s ease;
-}
-
-.review-produk:hover {
-    background-color: #f0f7ff;
+.gambar-produk{
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
     border-radius: 8px;
 }
+
