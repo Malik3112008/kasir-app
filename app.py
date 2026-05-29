@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, make_response, Response
+from flask import Flask, render_template, request, redirect, url_for, session, make_response, Response, jsonify
 from jinja2 import ChoiceLoader, FileSystemLoader
 import os
 import secrets
@@ -257,7 +257,42 @@ def admin_notifikasi():
 def admin_riwayat():
     if not session.get('user'):
         return redirect(url_for('admin_login'))
-    return render_template("06.RiwayatNotifikasi.html", riwayat=riwayat)
+    return render_template("06.RiwayatTransaksi.html", pesanan=pesanan)
+
+# ============================================================
+# ADMIN: RIWAYAT AKTIVITAS
+# ============================================================
+
+data_aktivitas = [
+    {"tipe": "login", "catatan": "Log in system", "status": "Sukses", "admin": "Admin", "waktu": "2026-05-28 08:00"},
+    {"tipe": "tambah", "catatan": "Menambahkan pilihan barang: Roti Aoka", "status": "Berhasil", "admin": "Admin", "waktu": "2026-05-28 07:30"},
+    {"tipe": "restok", "catatan": "Melakukan restok produk: Air Mineral (+50 unit)", "status": "Berhasil", "admin": "Admin", "waktu": "2026-05-28 07:00"},
+    {"tipe": "logout", "catatan": "Log out system", "status": "Sukses", "admin": "Admin", "waktu": "2026-05-27 17:00"},
+    {"tipe": "ubah", "catatan": "Mengubah harga: Bolpoin (Rp 3.500 -> Rp 4.000)", "status": "Berhasil", "admin": "Admin", "waktu": "2026-05-27 14:30"},
+    {"tipe": "hapus", "catatan": "Menghapus pilihan barang: Kerupuk Bawang", "status": "Berhasil", "admin": "Admin", "waktu": "2026-05-27 11:20"},
+    {"tipe": "login", "catatan": "Log in system", "status": "Sukses", "admin": "Admin", "waktu": "2026-05-27 08:00"},
+]
+
+@app.route("/admin/riwayat-aktivitas")
+def admin_riwayat_aktivitas():
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    daftar_admin = list(set(d['admin'] for d in data_aktivitas))
+    return render_template("24.RiwayatAktivitas.html", daftar_admin=daftar_admin)
+
+@app.route("/admin/api/aktivitas")
+def admin_api_aktivitas():
+    search = request.args.get('search', '').lower()
+    admin_filter = request.args.get('admin', 'Pilihan Admin')
+    tanggal = request.args.get('tanggal', '')
+    hasil = data_aktivitas
+    if search:
+        hasil = [d for d in hasil if search in d['catatan'].lower()]
+    if admin_filter != 'Pilihan Admin':
+        hasil = [d for d in hasil if admin_filter in d['admin']]
+    if tanggal:
+        hasil = [d for d in hasil if d['waktu'].startswith(tanggal)]
+    return jsonify(hasil)
 
 @app.route("/admin/hapus-semua", methods=["POST"])
 def admin_hapus_semua():
@@ -336,6 +371,44 @@ def admin_kelola_akun_penjual():
     if not session.get('user'):
         return redirect(url_for('admin_login'))
     return render_template('08.pengelola_akun_penjual.html', penjual=data_penjual)
+
+@app.route('/admin/tambah-akun', methods=['GET', 'POST'])
+def admin_tambah_akun():
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    if request.method == 'POST':
+        akun_baru = {
+            'id': max([a['id'] for a in data_penjual], default=0) + 1,
+            'nama': request.form['nama'],
+            'email': request.form['email'],
+            'status': request.form['status'],
+            'foto': 'profile.png'
+        }
+        data_penjual.append(akun_baru)
+        return redirect(url_for('admin_kelola_akun_penjual'))
+    return render_template('08.tambah_akun.html')
+
+@app.route('/admin/edit-akun/<int:id>', methods=['GET', 'POST'])
+def admin_edit_akun(id):
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    akun = next((a for a in data_penjual if a['id'] == id), None)
+    if not akun:
+        return redirect(url_for('admin_kelola_akun_penjual'))
+    if request.method == 'POST':
+        akun['nama'] = request.form['nama']
+        akun['email'] = request.form['email']
+        akun['status'] = request.form['status']
+        return redirect(url_for('admin_kelola_akun_penjual'))
+    return render_template('08.edit_akun.html', akun=akun)
+
+@app.route('/admin/hapus-akun/<int:id>')
+def admin_hapus_akun(id):
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    global data_penjual
+    data_penjual = [a for a in data_penjual if a['id'] != id]
+    return redirect(url_for('admin_kelola_akun_penjual'))
 
 # ============================================================
 # ADMIN: MANAJEMEN BARANG
@@ -441,22 +514,22 @@ def admin_stok_tersedia_hapus(id):
 # ============================================================
 
 data_barang = [
-    {"no": 1, "nama": "Roti Aoka", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal": "2026-05-03"},
-    {"no": 2, "nama": "Donat", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal": "2026-05-03"},
-    {"no": 3, "nama": "Mie Instan", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal": "2026-05-08"},
-    {"no": 4, "nama": "Keripik Kentang", "stok": 22, "harga": 10000, "kategori": "Makanan", "tanggal": "2026-05-11"},
-    {"no": 5, "nama": "Sosis", "stok": 20, "harga": 2000, "kategori": "Makanan", "tanggal": "2026-05-12"},
-    {"no": 6, "nama": "Air Mineral", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal": "2026-05-06"},
-    {"no": 7, "nama": "Teh Botol", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal": "2026-05-07"},
-    {"no": 8, "nama": "Susu Kotak", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal": "2026-05-10"},
-    {"no": 9, "nama": "Kopi Sachet", "stok": 30, "harga": 4000, "kategori": "Minuman", "tanggal": "2026-05-13"},
-    {"no": 10, "nama": "Es Krim", "stok": 15, "harga": 4500, "kategori": "Minuman", "tanggal": "2026-05-14"},
-    {"no": 11, "nama": "Pensil", "stok": 30, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-03"},
-    {"no": 12, "nama": "Bolpoin", "stok": 25, "harga": 4000, "kategori": "Alat Tulis", "tanggal": "2026-05-04"},
-    {"no": 13, "nama": "Buku Tulis", "stok": 40, "harga": 6000, "kategori": "Alat Tulis", "tanggal": "2026-05-05"},
-    {"no": 14, "nama": "Penghapus", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-09"},
-    {"no": 15, "nama": "Spidol", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal": "2026-05-12"},
-    {"no": 16, "nama": "Tipe X", "stok": 25, "harga": 5000, "kategori": "Alat Tulis", "tanggal": "2026-05-15"},
+    {"no": 1, "nama": "Roti Aoka", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "aoka.png", "rating": 5, "emoji": "🍞"},
+    {"no": 2, "nama": "Donat", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "donat.jpg", "rating": 4, "emoji": "🍩"},
+    {"no": 3, "nama": "Mie Instan", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal": "2026-05-08", "gambar": "pop mie.png", "rating": 4, "emoji": "🍜"},
+    {"no": 4, "nama": "Keripik Kentang", "stok": 22, "harga": 10000, "kategori": "Makanan", "tanggal": "2026-05-11", "gambar": "", "rating": 4, "emoji": "🥔"},
+    {"no": 5, "nama": "Sosis", "stok": 20, "harga": 2000, "kategori": "Makanan", "tanggal": "2026-05-12", "gambar": "", "rating": 3, "emoji": "🌭"},
+    {"no": 6, "nama": "Air Mineral", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal": "2026-05-06", "gambar": "air mineral.png", "rating": 5, "emoji": "💧"},
+    {"no": 7, "nama": "Teh Botol", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal": "2026-05-07", "gambar": "teh botol.png", "rating": 3, "emoji": "🍵"},
+    {"no": 8, "nama": "Susu Kotak", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal": "2026-05-10", "gambar": "ultramilk.png", "rating": 4, "emoji": "🥛"},
+    {"no": 9, "nama": "Kopi Sachet", "stok": 30, "harga": 4000, "kategori": "Minuman", "tanggal": "2026-05-13", "gambar": "", "rating": 3, "emoji": "☕"},
+    {"no": 10, "nama": "Es Krim", "stok": 15, "harga": 4500, "kategori": "Minuman", "tanggal": "2026-05-14", "gambar": "", "rating": 4, "emoji": "🍦"},
+    {"no": 11, "nama": "Pensil", "stok": 30, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-03", "gambar": "pensil.jpg", "rating": 4, "emoji": "✏️"},
+    {"no": 12, "nama": "Bolpoin", "stok": 25, "harga": 4000, "kategori": "Alat Tulis", "tanggal": "2026-05-04", "gambar": "bolpoin.png", "rating": 3, "emoji": "🖊️"},
+    {"no": 13, "nama": "Buku Tulis", "stok": 40, "harga": 6000, "kategori": "Alat Tulis", "tanggal": "2026-05-05", "gambar": "buku tulis.jpg", "rating": 4, "emoji": "📓"},
+    {"no": 14, "nama": "Penghapus", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-09", "gambar": "penghapus.png", "rating": 5, "emoji": "🧽"},
+    {"no": 15, "nama": "Spidol", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal": "2026-05-12", "gambar": "bolpoin.png", "rating": 4, "emoji": "🖍️"},
+    {"no": 16, "nama": "Tipe X", "stok": 25, "harga": 5000, "kategori": "Alat Tulis", "tanggal": "2026-05-15", "gambar": "gambar dan icon/gambar tipe ex.jpeg", "rating": 5, "emoji": "📝"},
 ]
 
 @app.route('/admin/cetak_laporan', methods=['GET', 'POST'])
@@ -469,30 +542,156 @@ def admin_cetak_laporan():
 def admin_laporan_penjualan():
     if not session.get('user'):
         return redirect(url_for('admin_login'))
-    now = datetime.now()
-    bulan = int(request.form.get('bulan', now.month)) if request.method == 'POST' else now.month
-    tanggal = request.form.get('tanggal', now.strftime('%Y-%m-%d')) if request.method == 'POST' else now.strftime('%Y-%m-%d')
-    TT = 47
-    TP = 114000
-    MB = 65000
-    UG = TP - MB
-    NP = ["Roti Aoka", "Air Mineral", "Bolpoin", "Mie Instan", "Teh Botol"]
-    JP = [15, 12, 10, 8, 7]
-    WPT = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"]
-    KT = ["Makanan", "Minuman", "Alat Tulis"]
-    PPK = [50000, 38000, 26000]
-    WPP = ["#FF6384", "#36A2EB", "#FFCE56"]
-    PL = ["Jan", "Feb", "Mar", "Apr", "Mei"]
-    PPB = [80000, 95000, 70000, 110000, 114000]
-    TSP = ["Jan", "Feb", "Mar", "Apr", "Mei"]
-    JTP = [30, 35, 25, 42, 47]
+
+    # Kalender
+    tanggal_awal = "2026-01-01"
+    tanggal_akhir = "2026-12-31"
+
+    if request.method == "POST":
+        tanggal_awal = request.form.get("tanggal_awal", "2026-01-01")
+        tanggal_akhir = request.form.get("tanggal_akhir", "2026-12-31")
+        if tanggal_akhir < tanggal_awal:
+            tanggal_akhir = tanggal_awal
+
+    def Rupiah(angka):
+        return "Rp{:,.2f}".format(angka).replace(",", "X").replace(".", ",").replace("X", ".")
+
+    # Data harian
+    data_harian = {
+        "2026-04-06": {"hari": "Senin", "totalTransaksi": 35, "totalPendapatan": 98000, "modalBarang": 74000},
+        "2026-04-07": {"hari": "Selasa", "totalTransaksi": 38, "totalPendapatan": 110000, "modalBarang": 83000},
+        "2026-04-08": {"hari": "Rabu", "totalTransaksi": 48, "totalPendapatan": 200000, "modalBarang": 150000},
+        "2026-04-09": {"hari": "Kamis", "totalTransaksi": 37, "totalPendapatan": 104000, "modalBarang": 78000},
+        "2026-04-10": {"hari": "Jumat", "totalTransaksi": 39, "totalPendapatan": 110000, "modalBarang": 83000},
+        "2026-05-01": {"hari": "Jumat", "totalTransaksi": 35, "totalPendapatan": 100000, "modalBarang": 75000},
+        "2026-05-04": {"hari": "Senin", "totalTransaksi": 35, "totalPendapatan": 100000, "modalBarang": 75000},
+        "2026-05-05": {"hari": "Selasa", "totalTransaksi": 35, "totalPendapatan": 100000, "modalBarang": 75000},
+        "2026-05-06": {"hari": "Rabu", "totalTransaksi": 34, "totalPendapatan": 98000, "modalBarang": 74000},
+        "2026-05-07": {"hari": "Kamis", "totalTransaksi": 44, "totalPendapatan": 118000, "modalBarang": 89000},
+        "2026-05-08": {"hari": "Jumat", "totalTransaksi": 34, "totalPendapatan": 98000, "modalBarang": 74000},
+        "2026-05-11": {"hari": "Senin", "totalTransaksi": 33, "totalPendapatan": 94000, "modalBarang": 71000},
+        "2026-05-12": {"hari": "Selasa", "totalTransaksi": 35, "totalPendapatan": 101000, "modalBarang": 76000},
+        "2026-05-13": {"hari": "Rabu", "totalTransaksi": 33, "totalPendapatan": 95000, "modalBarang": 71000},
+        "2026-05-14": {"hari": "Kamis", "totalTransaksi": 34, "totalPendapatan": 98000, "modalBarang": 74000},
+        "2026-05-15": {"hari": "Jumat", "totalTransaksi": 33, "totalPendapatan": 96000, "modalBarang": 72000},
+    }
+
+    # kolom informasi penting
+    totalTransaksi = 0
+    totalPendapatan = 0
+    modalBarang = 0
+    for tanggal, data in data_harian.items():
+        if tanggal_awal <= tanggal <= tanggal_akhir:
+            totalTransaksi += data["totalTransaksi"]
+            totalPendapatan += data["totalPendapatan"]
+            modalBarang += data["modalBarang"]
+    untungRugi = totalPendapatan - modalBarang
+    totalPendapatan = Rupiah(totalPendapatan)
+    modalBarang = Rupiah(modalBarang)
+    if untungRugi >= 0:
+        untungRugi = "+" + Rupiah(untungRugi)
+    else:
+        untungRugi = "-" + Rupiah(abs(untungRugi))
+
+    # Data diagram produk terlaris
+    data_chart_produk_terlaris_perhari = {
+        "2026-04-06": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [10, 5, 10, 7, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+        "2026-04-07": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [12, 6, 8, 8, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+        "2026-04-08": {"namaProduk": ["Air mineral","Aoka","Pensil","Pulpen","Buku","Pop mie"], "jumlahProduk": [11, 6, 9, 7, 3, 12], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple", "Green"]},
+        "2026-04-09": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [10, 7, 10, 7, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+        "2026-04-10": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [12, 6, 9, 8, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+        "2026-05-01": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 9, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+        "2026-05-04": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 9, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+        "2026-05-05": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 9, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+        "2026-05-06": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 8, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+        "2026-05-07": {"namaProduk": ["Air mineral","Aoka","Pensil","Pulpen","Buku","Penghapus"], "jumlahProduk": [7, 8, 8, 7, 4, 10], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple", "Pink"]},
+        "2026-05-08": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 8, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+        "2026-05-11": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 8, 7, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+        "2026-05-12": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [8, 7, 9, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+        "2026-05-13": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 7, 8, 8, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+        "2026-05-14": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 9, 7, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+        "2026-05-15": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [8, 7, 8, 7, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+    }
+
+    # Diagram produk terlaris
+    total_produk = {}
+    for tanggal, chart in data_chart_produk_terlaris_perhari.items():
+        if tanggal_awal <= tanggal <= tanggal_akhir:
+            for i in range(len(chart["namaProduk"])):
+                nama = chart["namaProduk"][i]
+                jumlah = chart["jumlahProduk"][i]
+                if nama not in total_produk:
+                    total_produk[nama] = 0
+                total_produk[nama] += jumlah
+    namaProduk = list(total_produk.keys())
+    jumlahProduk = list(total_produk.values())
+    warna_produk = {"Air mineral": "blue", "Aoka": "orange", "Pensil": "red", "Pulpen": "yellow", "Buku": "purple", "Pop mie": "green", "Penghapus": "pink"}
+    warnadiagramPT = [warna_produk.get(produk, "gray") for produk in namaProduk]
+
+    # Data Diagram pendapatan perkategori
+    data_chart_pendapatan_perkategori_perhari = {
+        "2026-04-06": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [30000, 53000, 15000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+        "2026-04-07": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [36000, 56000, 18000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+        "2026-04-08": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [33000, 53000, 114000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+        "2026-04-09": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [30000, 53000, 21000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+        "2026-04-10": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [36000, 56000, 18000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+        "2026-05-01": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 55000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+        "2026-05-04": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 55000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+        "2026-05-05": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 55000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+        "2026-05-06": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 53000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+        "2026-05-07": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 73000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+        "2026-05-08": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 53000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+        "2026-05-11": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 49000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+        "2026-05-12": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [24000, 56000, 21000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+        "2026-05-13": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 53000, 21000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+        "2026-05-14": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 53000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+        "2026-05-15": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [24000, 51000, 21000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+    }
+
+    # Diagram pendapatan perkategori
+    total_kategori = {}
+    for tanggal, chart in data_chart_pendapatan_perkategori_perhari.items():
+        if tanggal_awal <= tanggal <= tanggal_akhir:
+            for i in range(len(chart["kategori"])):
+                nama = chart["kategori"][i]
+                jumlah = chart["pendapatanPerkategori"][i]
+                if nama not in total_kategori:
+                    total_kategori[nama] = 0
+                total_kategori[nama] += jumlah
+    kategori = list(total_kategori.keys())
+    pendapatanPerkategori = list(total_kategori.values())
+    warna_kategori = {"Minuman": "blue", "Alat tulis": "red", "Makanan": "green"}
+    warnadiagramPP = [warna_kategori.get(k, "gray") for k in kategori]
+
+    # Diagram perbandingan pendapatan tiap bulan
+    pendapatanbulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"]
+    pendapatanPerbulan = []
+    for bulan in range(1, 13):
+        total = 0
+        for tanggal, data in data_harian.items():
+            tahun, bln, hari = map(int, tanggal.split("-"))
+            if tanggal_awal <= tanggal <= tanggal_akhir and bln == bulan:
+                total += data["totalPendapatan"]
+        pendapatanPerbulan.append(total if total == 0 else total)
+
+    # Diagram perbandingan jumlah transaksi tiap bulan
+    transaksiperbulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"]
+    jumlahtransaksiPerbulan = []
+    for bulan in range(1, 13):
+        total = 0
+        for tanggal, data in data_harian.items():
+            tahun, bln, hari = map(int, tanggal.split("-"))
+            if tanggal_awal <= tanggal <= tanggal_akhir and bln == bulan:
+                total += data["totalTransaksi"]
+        jumlahtransaksiPerbulan.append(total if total == 0 else total)
+
     return render_template('15.Laporan_Penjualan.html',
-        bulan=bulan, tanggal=tanggal,
-        tanggal_min=f"{now.year}-01-01", tanggal_max=f"{now.year}-12-31",
-        TT=TT, TP=TP, MB=MB, UG=UG,
-        NP=NP, JP=JP, WPT=WPT,
-        KT=KT, PPK=PPK, WPP=WPP,
-        PL=PL, PPB=PPB, TSP=TSP, JTP=JTP)
+        tanggal_awal=tanggal_awal, tanggal_akhir=tanggal_akhir,
+        TT=totalTransaksi, TP=totalPendapatan, MB=modalBarang, UG=untungRugi,
+        NP=namaProduk, JP=jumlahProduk, WPT=warnadiagramPT,
+        KT=kategori, PPK=pendapatanPerkategori, WPP=warnadiagramPP,
+        PL=pendapatanbulan, PPB=pendapatanPerbulan,
+        TSP=transaksiperbulan, JTP=jumlahtransaksiPerbulan)
 
 # ============================================================
 # ADMIN: SIAPKAN PESANAN
@@ -543,7 +742,17 @@ def admin_siapkan_pesanan():
                     i['status'] = ganti[ubah + 1]
                 break
         return redirect('/admin/siapkan-pesanan')
-    return render_template('19.SiapkanPesanan.html', pesanan=pesanan, formatRp=formatRp)
+    # Pagination
+    page = request.args.get('page', 1, type=int)
+    per_page = 20
+    total = len(pesanan)
+    total_pages = max(1, (total + per_page - 1) // per_page)
+    page = max(1, min(page, total_pages))
+    start = (page - 1) * per_page
+    end = start + per_page
+    pesanan_page = pesanan[start:end]
+    return render_template('19.SiapkanPesanan.html', pesanan=pesanan_page, formatRp=formatRp,
+                           page=page, total_pages=total_pages, total=total)
 
 @app.route("/admin/hapus-barang", methods=["POST"])
 def admin_hapus_barang():
@@ -564,6 +773,30 @@ def admin_hapus_barang():
                 p["refund"] = p["total_awal"] - p["total"]
             break
     return redirect("/admin/siapkan-pesanan")
+
+# ============================================================
+# ADMIN: CEK PEMBAYARAN
+# ============================================================
+
+@app.route('/admin/cek-pembayaran')
+def admin_cek_pembayaran():
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    cari = request.args.get('cari', '').strip().lower()
+    page = request.args.get('page', 1, type=int)
+    per_page = 20
+    if cari:
+        hasil = [p for p in pesanan if cari in p['id'].lower() or cari in p['pelanggan'].lower()]
+    else:
+        hasil = list(pesanan)
+    total = len(hasil)
+    total_pages = max(1, (total + per_page - 1) // per_page)
+    page = max(1, min(page, total_pages))
+    start = (page - 1) * per_page
+    end = start + per_page
+    transaksi = hasil[start:end]
+    return render_template('23.cek_pembayaran.html', transaksi=transaksi,
+                           page=page, total_pages=total_pages, total=total)
 
 # ============================================================
 # ADMIN: PENGATURAN
@@ -658,7 +891,8 @@ def pembeli_logout():
 def pembeli_home():
     if not session.get('user'):
         return redirect(url_for('pembeli_login'))
-    return render_template('14-kategorialattulis.html', barang=barang_pembeli)
+    cart_count = sum(item['jumlah'] for item in cart.values())
+    return render_template('14-kategorialattulis.html', barang=data_barang, cart_count=cart_count)
 
 # ============================================================
 # PEMBELI: KATEGORI ALAT TULIS
@@ -695,19 +929,40 @@ def pembeli_detail_barang(id):
 # PEMBELI: KERANJANG
 # ============================================================
 
-cart = {
-    "Roti Aoka": {"harga": 4000, "jumlah": 1},
-    "Air Mineral": {"harga": 3000, "jumlah": 1},
-    "Bolpoin": {"harga": 4000, "jumlah": 1}
-}
+cart = {}
+
+@app.route('/pembeli/tambah-keranjang', methods=['POST'])
+def pembeli_tambah_keranjang():
+    nama = request.form.get('nama', '').strip()
+    harga = int(request.form.get('harga', 0))
+    jumlah = int(request.form.get('jumlah', 1))
+    if nama and jumlah > 0:
+        if nama in cart:
+            cart[nama]['jumlah'] += jumlah
+        else:
+            cart[nama] = {'harga': harga, 'jumlah': jumlah}
+    return redirect('/pembeli?added=1')
+
+@app.route('/pembeli/update-keranjang', methods=['POST'])
+def pembeli_update_keranjang():
+    nama = request.form.get('nama', '').strip()
+    aksi = request.form.get('aksi', '')
+    if nama in cart:
+        if aksi == 'tambah':
+            cart[nama]['jumlah'] += 1
+        elif aksi == 'kurang':
+            cart[nama]['jumlah'] -= 1
+            if cart[nama]['jumlah'] <= 0:
+                del cart[nama]
+        elif aksi == 'hapus':
+            del cart[nama]
+    return redirect('/pembeli/keranjang')
 
 @app.route('/pembeli/keranjang')
 def pembeli_keranjang():
     total = 0
-    for item in cart:
-        harga = cart[item]["harga"]
-        jumlah = cart[item]["jumlah"]
-        total += harga * jumlah
+    for nama in cart:
+        total += cart[nama]['harga'] * cart[nama]['jumlah']
     return render_template('18-masukkankeranjang.html', cart=cart, total=total)
 
 # ============================================================
@@ -716,37 +971,67 @@ def pembeli_keranjang():
 
 @app.route('/pembeli/pilih-pembayaran')
 def pembeli_pilih_pembayaran():
-    items = [
-        {'nama': 'Le Mineral', 'harga': 'Rp 3.000', 'qty': 1, 'gambar': 'gambar le mineral.jpeg'},
-        {'nama': 'Pulpen', 'harga': 'Rp 4.000', 'qty': 1, 'gambar': 'gambar pulpen.jpeg'},
-        {'nama': 'Roti Aoka', 'harga': 'Rp 8.000', 'qty': 1, 'gambar': 'gambar roti aoka.jpeg'}
-    ]
-    total = 'Rp 15.000'
-    return render_template('34-pilihpembayaran.html', items=items, total=total)
+    items = []
+    total_int = 0
+    for nama in cart:
+        item = cart[nama]
+        subtotal = item['harga'] * item['jumlah']
+        total_int += subtotal
+        items.append({'nama': nama, 'harga': item['harga'], 'qty': item['jumlah'], 'subtotal': subtotal})
+    total = formatRp(total_int)
+    return render_template('34-pilihpembayaran.html', items=items, total=total, formatRp=formatRp)
 
 # ============================================================
 # PEMBELI: BAYAR TUNAI
 # ============================================================
 
-items_bayar = [
-    {"nama": "Roti tawar", "jumlah": 2, "harga": 8000, "diskon": 2000},
-    {"nama": "Air mineral", "jumlah": 1, "harga": 3000, "diskon": 0},
-    {"nama": "Kopi sachet", "jumlah": 1, "harga": 4000, "diskon": 0},
-    {"nama": "Susu cimory", "jumlah": 2, "harga": 6500, "diskon": 1000},
-    {"nama": "Es krim", "jumlah": 2, "harga": 4500, "diskon": 0},
-    {"nama": "Sosis", "jumlah": 2, "harga": 2000, "diskon": 1000},
-]
+def get_items_bayar():
+    items = []
+    for nama in cart:
+        items.append({"nama": nama, "jumlah": cart[nama]['jumlah'], "harga": cart[nama]['harga'], "diskon": 0})
+    return items if items else [{"nama": "-", "jumlah": 0, "harga": 0, "diskon": 0}]
+
+def buat_pesanan_dari_cart(metode):
+    global cart
+    if not cart:
+        return
+    trx_id = "TRX" + str(random.randint(10000, 99999))
+    sekarang = datetime.now()
+    tanggal = sekarang.strftime("%Y-%m-%d")
+    pelanggan = session.get('nama', 'Guest')
+    barang_list = []
+    for nama in cart:
+        barang_list.append({"nama": nama, "jumlah": cart[nama]['jumlah'], "harga": cart[nama]['harga']})
+    pesanan_baru = {
+        "id": trx_id,
+        "tanggal": tanggal,
+        "pelanggan": pelanggan,
+        "metode": metode,
+        "status": "Disiapkan",
+        "barang": barang_list,
+        "total_awal": hitung_total_barang(barang_list),
+        "total": hitung_total_barang(barang_list),
+        "refund": 0
+    }
+    pesanan.append(pesanan_baru)
+    cart = {}
 
 @app.route('/pembeli/tunai')
 def pembeli_tunai():
     session['metode'] = 'Tunai'
+    items = get_items_bayar()
+    buat_pesanan_dari_cart('Tunai')
     subtotal = 0
     total_diskon = 0
-    for item in items_bayar:
+    for item in items:
         subtotal += item["jumlah"] * item["harga"]
         total_diskon += item["diskon"]
     total = subtotal - total_diskon
-    return render_template('12-pembayarantunai.html', items=items_bayar, subtotal=subtotal, total_diskon=total_diskon, total=total)
+    sekarang = datetime.now()
+    tanggal = sekarang.strftime("%d-%m-%Y")
+    jam = sekarang.strftime("%H:%M:%S")
+    kode = random.randint(1000, 9999)
+    return render_template('12-pembayarantunai.html', items=items, subtotal=subtotal, total_diskon=total_diskon, total=total, tanggal=tanggal, jam=jam, kode=kode)
 
 # ============================================================
 # PEMBELI: BAYAR QRIS
@@ -755,9 +1040,10 @@ def pembeli_tunai():
 @app.route('/pembeli/qris')
 def pembeli_qris():
     session['metode'] = 'QRIS'
+    buat_pesanan_dari_cart('QRIS')
     subtotal = 0
     total_diskon = 0
-    for item in items_bayar:
+    for item in get_items_bayar():
         subtotal += item["jumlah"] * item["harga"]
         total_diskon += item["diskon"]
     total = subtotal - total_diskon
@@ -768,21 +1054,44 @@ def pembeli_qris():
 
 @app.route('/pembeli/selesai')
 def pembeli_selesai():
-    return render_template('8_2-detailpesanan.html', items=items_bayar, status='selesai')
+    return render_template('8_2-detailpesanan.html', items=get_items_bayar(), status='selesai')
 # ============================================================
 
 @app.route('/pembeli/pesanan')
 def pembeli_pesanan():
-    return render_template('8-lihatpesanan.html', items=items_bayar)
+    pelanggan = session.get('nama', '')
+    pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan]
+    if pesanan_user:
+        last_order = pesanan_user[-1]
+        status = last_order["status"]
+        total_barang = sum(b["jumlah"] for b in last_order["barang"])
+    else:
+        status = None
+        total_barang = 0
+    return render_template('8-lihatpesanan.html', pesanan_list=pesanan_user, status=status, total_barang=total_barang)
 
 @app.route('/pembeli/status')
 def pembeli_status():
-    return render_template('8_2-detailpesanan.html')
+    pelanggan = session.get('nama', '')
+    pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan]
+    if pesanan_user:
+        order = pesanan_user[-1]
+        barang = order["barang"]
+        status = order["status"]
+        metode = order["metode"]
+        total = order["total"]
+    else:
+        barang = []
+        status = "Disiapkan"
+        metode = "-"
+        total = 0
+    return render_template('8_2-detailpesanan.html', barang=barang, status=status, metode=metode, total=total)
 
 @app.route("/siap-diambil")
 def siap_diambil():
-    pesanan_siap = [p for p in pesanan if p["status"] == "Siap diambil"]
-    return render_template("8-lihatpesanan.html", items=pesanan_siap)
+    pelanggan = session.get('nama', '')
+    pesanan_siap = [p for p in pesanan if p["status"] == "Siap diambil" and p["pelanggan"] == pelanggan]
+    return render_template("8-lihatpesanan.html", pesanan_list=pesanan_siap, status="Siap diambil", total_barang=0)
 
 # ============================================================
 # PEMBELI: PENILAIAN
@@ -819,13 +1128,19 @@ def pembeli_like():
 @app.route('/pembeli/struk')
 def pembeli_struk():
     metode = session.get('metode', 'Tunai')
+    pelanggan = session.get('nama', '')
+    pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan]
+    if pesanan_user:
+        sumber = pesanan_user[-1]["barang"]
+    else:
+        sumber = get_items_bayar()
     daftar_produk = []
-    for item in items_bayar:
+    for item in sumber:
         daftar_produk.append({
             "nama": item["nama"],
             "qty": item["jumlah"],
             "harga": item["harga"],
-            "diskon": item["diskon"],
+            "diskon": item.get("diskon", 0),
         })
 
     subtotal = 0

@@ -1,246 +1,169 @@
-/* 15.Laporan_Penjualan.css */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*, html {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 body {
-  background-color: #d9eeff;
-  font-family: "Inter", Arial, sans-serif;
-  min-height: 100vh;
+    background-color: white;
 }
 
-/* ===== NAVBAR ===== */
 nav {
-  background-color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 30px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.nav-bar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  list-style: none;
-}
-
-.nav-bar span {
-  font-size: 20px;
-  font-weight: 700;
-  color: #333;
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
 }
 
 nav ul {
-  display: flex;
-  list-style: none;
-  align-items: center;
-  gap: 18px;
+    display: flex;
+    list-style: none;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 20px;
+}
+
+.nav-bar {
+    display: flex;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    list-style: none;
+    font-weight: 700;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 15px;
 }
 
 nav ul li a img {
-  transition: transform 0.2s;
+    width: 30px;
+    height: auto;
+    transition: transform 0.2s ease;
+    cursor: pointer;
 }
 
 nav ul li a img:hover {
-  transform: scale(1.15);
+    transform: scale(1.1);
 }
 
-/* ===== JUDUL ===== */
 .Judul {
-  display: block;
-  text-align: center;
-  font-size: 26px;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin: 25px 0 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 25px;
+    border: 1px solid black;
+    margin: 1px 40px;
+    padding: 10px;
+    border-radius: 5px;
 }
 
-/* ===== ISI / KONTEN ===== */
-.Isi {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 30px 40px;
-}
-
-/* ===== FILTER (KALENDER) ===== */
 .kalender {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  background: #fff;
-  padding: 15px 25px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 15px;
+    margin: 30px;
+    flex-wrap: wrap;
 }
 
-.kalender select,
-.kalender input[type="date"] {
-  padding: 10px 14px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: inherit;
-  background: #f9f9f9;
-  cursor: pointer;
-  transition: border-color 0.2s;
+.kalender label,
+.kalender span {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
 }
 
-.kalender select:focus,
-.kalender input[type="date"]:focus {
-  outline: none;
-  border-color: #0080FF;
+.kalender input {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid black;
+    font-size: 15px;
 }
 
-/* ===== KOTAK BESAR (SUMMARY + CHARTS) ===== */
+.kalender button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    background: blue;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.kalender button:hover {
+    opacity: 0.8;
+}
+
 .kotak_besar {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid black;
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 10px;
+    width: 95%;
+    gap: 15px;
 }
 
-/* ===== SUMMARY CARDS ===== */
-.Summary_Row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-
-/* Jika tidak pakai wrapper, styling langsung */
 .Total_transaksi,
 .Total_Pendapatan,
 .Modal_Barang,
 .Untung_Rugi {
-  background: #fff;
-  border-radius: 14px;
-  padding: 20px 24px;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: auto;
+    padding: 15px;
+    width: 250px;
 }
 
-.Total_transaksi:hover,
-.Total_Pendapatan:hover,
-.Modal_Barang:hover,
-.Untung_Rugi:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+.Kolom_Diagram_1 {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    width: 100%;
+    gap: 20px;
 }
 
-.Total_transaksi span:first-child,
-.Total_Pendapatan span:first-child,
-.Modal_Barang span:first-child,
-.Untung_Rugi span:first-child {
-  font-size: 13px;
-  font-weight: 600;
-  color: #666;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.Diagram_Produk_Terlaris {
+    padding: 30px;
 }
 
-.Total_transaksi span:last-child,
-.Total_Pendapatan span:last-child,
-.Modal_Barang span:last-child,
-.Untung_Rugi span:last-child {
-  font-size: 28px;
-  font-weight: 700;
-  color: #1a1a1a;
+.Diagram_Pendapatan_Perkategori {
+    padding: 30px;
 }
 
-.Total_transaksi { border-left: 5px solid #3B82F6; }
-.Total_Pendapatan { border-left: 5px solid #22C55E; }
-.Modal_Barang { border-left: 5px solid #F59E0B; }
-.Untung_Rugi { border-left: 5px solid #8B5CF6; }
-
-/* ===== DIAGRAM ROWS ===== */
-.Kolom_Diagram_1,
 .Kolom_Diagram_2 {
-  display: flex;
-  align-items: stretch;
-  gap: 0;
-  background: #fff;
-  border-radius: 14px;
-  padding: 25px;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    width: 100%;
+    gap: 20px;
 }
 
-.Kolom_Diagram_1 > div:not(:nth-child(2)),
-.Kolom_Diagram_2 > div:not(:nth-child(2)) {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.Diagram_Perbadingan_Pendapatann_Tiap_Bulan {
+    padding: 30px;
 }
 
-.Kolom_Diagram_1 canvas,
-.Kolom_Diagram_2 canvas {
-  max-width: 100% !important;
-  width: 100% !important;
-  height: auto !important;
-  max-height: 350px;
+.Diagram_Perbandingan_Jumlah_Transaksi_Tiap_Bulan {
+    padding: 30px;
 }
 
-/* Garis pemisah antar chart */
-.Kolom_Diagram_1 > div:nth-child(2),
-.Kolom_Diagram_2 > div:nth-child(2) {
-  width: 1px;
-  background: #e0e0e0;
-  margin: 0 20px;
-  align-self: stretch;
-}
-
-/* ===== TOMBOL CETAK ===== */
 .Cetak {
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin: 10px;
 }
 
 .Cetak button {
-  background: linear-gradient(135deg, #0080FF, #005FCC);
-  color: #fff;
-  border: none;
-  padding: 14px 50px;
-  font-size: 16px;
-  font-weight: 600;
-  font-family: inherit;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0,128,255,0.3);
-  transition: all 0.3s;
-}
-
-.Cetak button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,128,255,0.4);
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-  .Kolom_Diagram_1,
-  .Kolom_Diagram_2 {
-    flex-direction: column;
-  }
-
-  .Kolom_Diagram_1 > div:nth-child(2),
-  .Kolom_Diagram_2 > div:nth-child(2) {
-    width: 100%;
-    height: 1px;
-    margin: 20px 0;
-  }
-
-  .kalender {
-    flex-direction: column;
-    align-items: stretch;
-  }
+    border-radius: 10px;
+    padding: 5px 10px;
 }
