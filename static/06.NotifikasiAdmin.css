@@ -41,16 +41,16 @@ nav ul {
     padding: 12px 18px;
 
     margin-left: auto;
-    margin-right: 90px;
-    margin-top: 50px;
-    margin-bottom: -20px;
+    margin-right: 40px;
+    margin-top: 30px;
+    margin-bottom: -10px;
 
     background-color: white;
     border: 2px solid #d6dce5;
     border-radius: 15px;
 
     color: #7d8ca3;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
 
     box-shadow: 0 3px 8px rgba(0,0,0,0.08);
@@ -90,11 +90,9 @@ nav ul {
 }
 
 .kotak{
-    width: 1050px;
-    height: 600px;
-    margin: auto;
-    margin-top: 70px;
-    
+    max-width: 960px;
+    min-height: 500px;
+    margin: 40px auto;
     border-radius: 25px;
     border: 3px solid #b8b8b8;
     background: linear-gradient(
@@ -102,8 +100,9 @@ nav ul {
         #F8F8F8,
         #E3E3E3
     );
-    box-shadow: 0px 5px 12px rgba(0,0,0,0,15);
-    padding: 25px;
+    box-shadow: 0px 5px 12px rgba(0,0,0,0.15);
+    padding: 30px 40px;
+    overflow-y: auto;
 }
 
 .header-notif{
@@ -122,24 +121,24 @@ nav ul {
 }
 
 h1{
-    font-size: 55px;
-    font-family: Georgia, serif;
-    color: black;
-    margin-left: 20px;
-    margin-top: 10px;
-    margin-bottom: 30px;
+    font-size: 28px;
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
 }
 
 
 .notif-biru{
-    width: 90%;
+    width: 100%;
     background-color: #CFE8FF;
     border-left: 8px solid #5DA9EF;
-    height: 90px;
+    min-height: 80px;
+    height: auto;
     border-radius: 12px;
     padding: 6px 15px;
-    margin-left: 20px;
-    margin-top: 20px;
+    margin-left: 0;
+    margin-top: 15px;
     display: flex;
     align-items: flex-start;
     gap: 12px;
@@ -174,14 +173,15 @@ h1{
 }
 
 .notif-orange{
-    width: 90%;
+    width: 100%;
     background-color: #ffe5d6;
     border-left: 8px solid #ff9f5a;
-    height: 90px;
+    min-height: 80px;
+    height: auto;
     border-radius: 12px;
     padding: 6px 15px;
-    margin-left: 20px;
-    margin-top: 20px;
+    margin-left: 0;
+    margin-top: 15px;
     display: flex;
     align-items: flex-start;
     gap: 12px;
@@ -189,14 +189,15 @@ h1{
 }
 
 .notif-hijau{
-    width: 90%;
+    width: 100%;
     background-color: #EAFBE7;
     border-left: 8px solid #6BCB77;
-    height: 90px;
+    min-height: 80px;
+    height: auto;
     border-radius: 12px;
     padding: 6px 15px;
-    margin-left: 20px;
-    margin-top: 20px;
+    margin-left: 0;
+    margin-top: 15px;
     display: flex;
     align-items: flex-start;
     gap: 12px;
@@ -204,14 +205,15 @@ h1{
 }
 
 .notif-merah{
-    width: 90%;
+    width: 100%;
     background-color: #ffd6d6;
     border-left: 8px solid #ff0000;
-    height: 90px;
+    min-height: 80px;
+    height: auto;
     border-radius: 12px;
     padding: 6px 15px;
-    margin-left: 20px;
-    margin-top: 20px;
+    margin-left: 0;
+    margin-top: 15px;
     display: flex;
     align-items: flex-start;
     gap: 12px;

@@ -95,9 +95,9 @@ def admin_denah():
     if not session.get('user'):
         return redirect(url_for('admin_login'))
     cards = load_cards()
-    is_admin = request.args.get('admin') == '1'
-    edit_mode = is_admin and request.args.get('edit') == '1'
-    edit_card_id = request.args.get('edit_card', type=int) if is_admin else None
+    is_admin = True  # Always admin if logged in
+    edit_mode = request.args.get('edit') == '1'
+    edit_card_id = request.args.get('edit_card', type=int) if edit_mode else None
     edit_card = None
     if edit_card_id is not None:
         for card in cards:
@@ -108,18 +108,16 @@ def admin_denah():
 
 @app.route('/admin/delete/<int:card_id>', methods=['POST'])
 def admin_delete_card(card_id):
-    is_admin = request.args.get('admin') == '1'
-    if not is_admin:
+    if not session.get('user'):
         return "Unauthorized", 403
     cards = load_cards()
     cards = [c for c in cards if c['id'] != card_id]
     save_cards(cards)
-    return redirect('/admin/denah?admin=1&edit=1')
+    return redirect('/admin/denah?edit=1')
 
 @app.route('/admin/update/<int:card_id>', methods=['POST'])
 def admin_update_card(card_id):
-    is_admin = request.args.get('admin') == '1'
-    if not is_admin:
+    if not session.get('user'):
         return "Unauthorized", 403
     cards = load_cards()
     for card in cards:
@@ -130,7 +128,21 @@ def admin_update_card(card_id):
             card['height'] = int(request.form.get('height', card['height']))
             break
     save_cards(cards)
-    return redirect('/admin/denah?admin=1&edit=1')
+    return redirect('/admin/denah?edit=1')
+
+@app.route('/admin/move/<int:card_id>', methods=['POST'])
+def admin_move_card(card_id):
+    if not session.get('user'):
+        return "Unauthorized", 403
+    data = request.get_json()
+    cards = load_cards()
+    for card in cards:
+        if card['id'] == card_id:
+            card['left'] = int(data.get('left', card['left']))
+            card['top'] = int(data.get('top', card['top']))
+            break
+    save_cards(cards)
+    return jsonify({'ok': True})
 
 @app.route('/dynamic_cards.css')
 def dynamic_cards_css():
@@ -793,7 +805,7 @@ def admin_laporan_penjualan():
 # ADMIN: SIAPKAN PESANAN
 # ============================================================
 
-status_tunai = ["Disiapkan", "Siap diambil", "Menunggu", "Sudah diambil"]
+status_tunai = ["Disiapkan", "Siap diambil", "Menunggu Pembayaran", "Sudah diambil"]
 status_qris  = ["Disiapkan", "Siap diambil", "Sudah diambil"]
 
 pesanan = [

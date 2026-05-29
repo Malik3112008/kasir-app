@@ -78,8 +78,9 @@
                                     <img src="{{ url_for('static', filename='rincian-svgrepo-com.svg') }}" alt="Rincian" width="20px"
                                         height="20px" />
                                 </button>
-                                <form method="POST" action="{{ url_for('admin_siapkan_pesanan') }}">
+                                <form method="POST" action="{{ url_for('admin_siapkan_pesanan') }}" style="display:flex;align-items:center;gap:6px;">
                                     <input type="hidden" name="trx_id" value="{{ p.id }}">
+                                    <i class="fa-solid fa-circle-exclamation info-aksi-icon" title="Detail pesanan" onclick="bukaModal('{{ p.id }}')"></i>
                                     <div class="dropdown-aksi">
                                         <select name="status" onchange="this.form.submit()">
                                             {% set daftar_status = status(p) %}
@@ -156,21 +157,31 @@
                     </div>
                     <div class="nama-barang">
                         <span>Nama Barang</span>
+                        <span>Jumlah</span>
+                        <span>Harga</span>
                         <span>Subtotal</span>
+                        <span></span>
                     </div>
                     {% for a in p.barang %}
                     <div class="barang">
-                        <div>
-                            <p>{{ a.nama }}</p>
-                            <small>{{ a.jumlah }} x {{ formatRp(a.harga) }}</small>
+                        <div class="barang-info">
+                            <p class="barang-nama">{{ a.nama }}</p>
                         </div>
-                        <div class="subtotal">
+                        <div class="barang-jumlah">
+                            <span>{{ a.jumlah }}</span>
+                        </div>
+                        <div class="barang-harga">
+                            <span>{{ formatRp(a.harga) }}</span>
+                        </div>
+                        <div class="barang-subtotal">
                             <span>{{ formatRp(a.jumlah * a.harga) }}</span>
+                        </div>
+                        <div class="barang-aksi">
                             <form method="POST" action="{{ url_for('admin_hapus_barang') }}">
                                 <input type="hidden" name="trx_id" value="{{ p.id }}" />
                                 <input type="hidden" name="nama_barang" value="{{ a.nama }}" />
-                                <button type="submit" class="hapus-btn" onclick="('{{ a.nama }}')">
-                                    <img src="{{ url_for('static', filename='delete-svgrepo-com.svg') }}" width="18px" height="18px" />
+                                <button type="submit" class="hapus-btn" title="Hapus item">
+                                    <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             </form>
                         </div>

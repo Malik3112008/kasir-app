@@ -69,11 +69,11 @@
 
                     {% if is_admin %}
                         {% if edit_mode %}
-                        <a href="/admin/denah?admin=1" class="edit-toggle-btn active" title="Keluar Mode Edit">
+                        <a href="/admin/denah" class="edit-toggle-btn active" title="Keluar Mode Edit">
                             <i class="fa-solid fa-pen"></i>
                         </a>
                         {% else %}
-                        <a href="/admin/denah?admin=1&edit=1" class="edit-toggle-btn" title="Mode Edit">
+                        <a href="/admin/denah?edit=1" class="edit-toggle-btn" title="Mode Edit">
                             <i class="fa-solid fa-pen"></i>
                         </a>
                         {% endif %}
@@ -85,12 +85,12 @@
                     {% if is_admin and edit_mode %}
                     <div class="card card-id-{{ card.id }}">
                         <div class="card-actions">
-                            <form method="POST" action="/admin/delete/{{ card.id }}?admin=1" class="delete-form">
+                            <form method="POST" action="/admin/delete/{{ card.id }}" class="delete-form">
                                 <button type="submit" class="action-btn delete-btn" title="Hapus">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </form>
-                            <a href="/admin/denah?admin=1&edit=1&edit_card={{ card.id }}" class="action-btn edit-card-btn" title="Edit Nama">
+                            <a href="/admin/denah?edit=1&edit_card={{ card.id }}" class="action-btn edit-card-btn" title="Edit Nama">
                                 <i class="fa-solid fa-pen"></i>
                             </a>
                         </div>
@@ -118,18 +118,141 @@
     <div class="modal show">
         <div class="modal-content">
             <h2>Edit Card</h2>
-            <form method="POST" action="/admin/update/{{ edit_card.id }}?admin=1">
-                <input type="text" name="text" value="{{ edit_card.text }}" placeholder="Text">
-                <input type="text" name="icon" value="{{ edit_card.icon }}" placeholder="Icon Class">
-                <input type="number" name="width" value="{{ edit_card.width }}" placeholder="Width">
-                <input type="number" name="height" value="{{ edit_card.height }}" placeholder="Height">
+            <form method="POST" action="/admin/update/{{ edit_card.id }}">
+                <input type="text" name="text" value="{{ edit_card.text }}" placeholder="Nama Area">
+                <input type="text" name="icon" value="{{ edit_card.icon }}" placeholder="Icon Class" style="display:none;" value="{{ edit_card.icon }}">
+                <input type="number" name="width" value="{{ edit_card.width }}" style="display:none;">
+                <input type="number" name="height" value="{{ edit_card.height }}" style="display:none;">
                 <div class="modal-buttons">
-                    <a href="/admin/denah?admin=1&edit=1" class="cancel-btn">Batal</a>
+                    <a href="/admin/denah?edit=1" class="cancel-btn">Batal</a>
                     <button type="submit" class="save-btn">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
+    {% endif %}
+
+    {% if page != 'detail' and is_admin and edit_mode %}
+    <script>
+    // ===== DRAG AND DROP =====
+    (function() {
+        const board = document.querySelector('.board');
+        const cards = document.querySelectorAll('.card');
+        let dragTarget = null;
+        let offsetX = 0, offsetY = 0;
+        let startX = 0, startY = 0;
+        let moved = false;
+
+        cards.forEach(card => {
+            card.style.cursor = 'grab';
+
+            card.addEventListener('mousedown', function(e) {
+                // Don't drag if clicking on action buttons or form elements
+                if (e.target.closest('.card-actions') || e.target.closest('form') || e.target.closest('button') || e.target.tagName === 'A') return;
+
+                dragTarget = card;
+                moved = false;
+                const rect = card.getBoundingClientRect();
+                const boardRect = board.getBoundingClientRect();
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
+                startX = parseInt(card.style.left) || parseInt(getComputedStyle(card).left);
+                startY = parseInt(card.style.top) || parseInt(getComputedStyle(card).top);
+                card.style.cursor = 'grabbing';
+                card.style.zIndex = '100';
+                card.style.transition = 'none';
+                e.preventDefault();
+            });
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (!dragTarget) return;
+            moved = true;
+            const boardRect = board.getBoundingClientRect();
+            let newLeft = e.clientX - boardRect.left - offsetX;
+            let newTop = e.clientY - boardRect.top - offsetY;
+
+            // Constrain within board
+            newLeft = Math.max(0, Math.min(newLeft, boardRect.width - dragTarget.offsetWidth));
+            newTop = Math.max(0, Math.min(newTop, boardRect.height - dragTarget.offsetHeight));
+
+            dragTarget.style.left = newLeft + 'px';
+            dragTarget.style.top = newTop + 'px';
+        });
+
+        document.addEventListener('mouseup', function(e) {
+            if (!dragTarget) return;
+            dragTarget.style.cursor = 'grab';
+            dragTarget.style.zIndex = '';
+            dragTarget.style.transition = '';
+
+            if (moved) {
+                const cardId = dragTarget.className.match(/card-id-(\d+)/);
+                if (cardId) {
+                    const left = parseInt(dragTarget.style.left);
+                    const top = parseInt(dragTarget.style.top);
+                    // Save position via API
+                    fetch('/admin/move/' + cardId[1]', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({left: left, top: top})
+                    }).then(r => {
+                        if (!r.ok) console.error('Failed to save position');
+                    });
+                }
+            }
+            dragTarget = null;
+        });
+
+        // Touch support for mobile
+        cards.forEach(card => {
+            card.addEventListener('touchstart', function(e) {
+                if (e.target.closest('.card-actions') || e.target.closest('form') || e.target.closest('button') || e.target.tagName === 'A') return;
+
+                dragTarget = card;
+                moved = false;
+                const touch = e.touches[0];
+                const rect = card.getBoundingClientRect();
+                offsetX = touch.clientX - rect.left;
+                offsetY = touch.clientY - rect.top;
+                card.style.cursor = 'grabbing';
+                card.style.zIndex = '100';
+                card.style.transition = 'none';
+            }, {passive: true});
+        });
+
+        document.addEventListener('touchmove', function(e) {
+            if (!dragTarget) return;
+            moved = true;
+            const touch = e.touches[0];
+            const boardRect = board.getBoundingClientRect();
+            let newLeft = touch.clientX - boardRect.left - offsetX;
+            let newTop = touch.clientY - boardRect.top - offsetY;
+            newLeft = Math.max(0, Math.min(newLeft, boardRect.width - dragTarget.offsetWidth));
+            newTop = Math.max(0, Math.min(newTop, boardRect.height - dragTarget.offsetHeight));
+            dragTarget.style.left = newLeft + 'px';
+            dragTarget.style.top = newTop + 'px';
+        }, {passive: true});
+
+        document.addEventListener('touchend', function(e) {
+            if (!dragTarget) return;
+            dragTarget.style.cursor = 'grab';
+            dragTarget.style.zIndex = '';
+            dragTarget.style.transition = '';
+            if (moved) {
+                const cardId = dragTarget.className.match(/card-id-(\d+)/);
+                if (cardId) {
+                    fetch('/admin/move/' + cardId[1]', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({left: parseInt(dragTarget.style.left), top: parseInt(dragTarget.style.top)})
+                    });
+                }
+            }
+            dragTarget = null;
+        });
+    })();
+    </script>
     {% endif %}
 
 </body>

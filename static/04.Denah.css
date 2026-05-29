@@ -157,6 +157,7 @@ a.edit-btn{
     text-decoration:none;
     color:#57bfff;
     box-shadow:0 6px 0 #7691d8, 0 10px 20px rgba(0,0,0,0.08);
+    user-select:none;
 }
 
 .icon{
