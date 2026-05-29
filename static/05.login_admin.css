@@ -15,6 +15,12 @@ body {
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     width: 350px;
     text-align: center;
+    animation: scaleIn 0.4s ease;
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 .back-btn,
@@ -56,7 +62,19 @@ input {
     margin-top: 10px;
 }
 
-.btn-primary:hover { background-color: #2563eb; }
+.btn-primary {
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover { background-color: #2563eb; transform: translateY(-1px); }
+
+.back-btn, .back-link {
+    transition: color 0.2s ease;
+}
+
+.back-btn:hover, .back-link:hover {
+    color: #2563eb;
+}
 
 .error-message { color: #dc2626; margin-bottom: 15px; font-size: 0.95rem; text-align: left; }
 

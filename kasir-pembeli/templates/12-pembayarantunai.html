@@ -3,63 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='12-putriamelia.css') }}">
+    <title>Struk Pembayaran Tunai</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='12-putriamelia.css') }}">
 </head>
-
 <body>
 
-<div class="container">
+<a href="/pembeli/pilih-pembayaran" class="kembali">← Kembali</a>
 
-   <a href="/pembeli/pilih-pembayaran" class="kembali">
-    ← Kembali
-</a>
+<div class="struk">
 
-    <div class="card">
-
-        {% for item in items %}
-        <div class="item">
-
-            <div class="nama">{{ item.nama }}</div>
-
-            <div class="flex">
-                <span>{{ item.jumlah }} x {{ "{:,}".format(item.harga).replace(",", ".") }}</span>
-                <span>Rp {{ "{:,}".format(item.jumlah * item.harga).replace(",", ".") }}</span>
-            </div>
-
-            {% if item.diskon > 0 %}
-            <div class="flex">
-                <span>Diskon</span>
-                <span>Rp {{ "{:,}".format(item.diskon).replace(",", ".") }}</span>
-            </div>
-            {% endif %}
-
+    <div class="logo-box">
+        <div class="circle-logo">
+            <img src="{{ url_for('static', filename='gambar dan icon/LOGO2.jpeg') }}" class="logo">
         </div>
-        {% endfor %}
-
-        <div class="line"></div>
-
-        <div class="flex">
-            <span>Sub total</span>
-            <span>Rp {{ "{:,}".format(subtotal).replace(",", ".") }}</span>
-        </div>
-
-        <div class="flex hemat">
-            <span>Anda menghemat</span>
-            <span>Rp {{ "{:,}".format(total_diskon).replace(",", ".") }}</span>
-        </div>
-
-        <div class="total">
-            <span>Total</span>
-            <span>Rp {{ "{:,}".format(total).replace(",", ".") }}</span>
-        </div>
-
-     <a href="{{ url_for('pembeli_pesanan') }}" class="btn">
-    Lihat Pesanan
-</a>
-
     </div>
+
+    <center>
+        <h1>INOMART</h1>
+        <p>
+            SMK Negeri 2 Singosari <br>
+            JL. PERUSAHAAN No 20, Tunjungtirto, Singosari <br>
+            No.Telp 0812345678
+        </p>
+    </center>
+
+    <hr>
+
+    <div class="info">
+        <div>
+            {{ tanggal }} <br>
+            {{ jam }} <br>
+            KODE
+        </div>
+        <div class="kanan">
+            Kasir <br>
+            Admin <br>
+            {{ kode }}
+        </div>
+    </div>
+
+    <hr>
+
+    {% for item in items %}
+    <div class="produk">
+        <b>{{ loop.index }}. {{ item.nama }}</b>
+        <div class="baris">
+            <span>{{ item.jumlah }} x {{ "{:,}".format(item.harga).replace(",", ".") }}</span>
+            <span>Rp {{ "{:,}".format(item.jumlah * item.harga).replace(",", ".") }}</span>
+        </div>
+        {% if item.diskon > 0 %}
+        <div class="baris">
+            <span>-Diskon</span>
+            <span>-{{ "{:,}".format(item.diskon).replace(",", ".") }}</span>
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    <hr>
+
+    <div class="baris">
+        <span>Sub Total</span>
+        <span>Rp {{ "{:,}".format(subtotal).replace(",", ".") }}</span>
+    </div>
+
+    <div class="baris">
+        <span>Anda Hemat</span>
+        <span>Rp {{ "{:,}".format(total_diskon).replace(",", ".") }}</span>
+    </div>
+
+    <br>
+
+    <div class="baris total-besar">
+        <b>Total</b>
+        <b>Rp {{ "{:,}".format(total).replace(",", ".") }}</b>
+    </div>
+
+    <br>
+
+    <div class="baris">
+        <span>Bayar (Tunai)</span>
+        <span>Rp {{ "{:,}".format(total).replace(",", ".") }}</span>
+    </div>
+
+    <div class="baris">
+        <span>Kembali</span>
+        <span>Rp 0</span>
+    </div>
+
+    <br><br>
+
+    <center>
+        <h2>Terimakasih Telah Berbelanja di Inomart</h2>
+    </center>
+
+    <a href="{{ url_for('pembeli_pesanan') }}" class="btn">Lihat Pesanan</a>
 
 </div>
 

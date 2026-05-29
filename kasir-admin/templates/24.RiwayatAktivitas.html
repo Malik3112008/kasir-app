@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Koperasi - Riwayat Aktivitas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='StyleRiwayatAktivitasAdmin.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-bar">
+            <li>
+                <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+            </li>
+            <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" width="70" height="70">
+            <span>Admin Koperasi</span>
+        </div>
+        <ul>
+            <li><a href="/admin/notifikasi"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+            <li><a href="/admin/pengaturan"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+            <li><a href="/admin/kelola_akun_penjual"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+            <li><a href="/admin/logout"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="main-content">
+            <h1>Riwayat Aktivitas Admin</h1>
+
+            <div class="search-container">
+                <input type="text" id="input-cari" placeholder="Cari Riwayat Aktivitas">
+                <span class="icon-cari"><i class="fa fa-search"></i></span>
+            </div>
+
+            <div class="table-scroll-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Catatan Aktivitas</th>
+                            <th style="width: 120px; text-align: center;">Status</th>
+                            <th>Dari</th>
+                            <th>Tanggal/Waktu</th>
+                        </tr>
+                    </thead>
+                    <tbody id="isi-tabel">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="filter-card">
+                <h3>List Admin</h3>
+                <div class="custom-dropdown" id="dropdown-admin-box">
+                    <select id="select-admin">
+                        <option value="Pilihan Admin">Semua Admin</option>
+                        {% for admin in daftar_admin %}
+                        <option value="{{ admin }}">{{ admin }}</option>
+                        {% endfor %}
+                    </select>
+                    <span class="arrow-icon"></span>
+                </div>
+
+                <h3 style="margin-top: 25px;">Kalender</h3>
+                <div class="custom-dropdown" id="dropdown-cal-box">
+                    <input type="text" id="input-kalender" placeholder="hh/bb/tttt">
+                    <span class="arrow-icon"></span>
+                </div>
+
+                <button id="btn-update" class="btn btn-update">Perbarui Status</button>
+                <button id="btn-bersihkan" class="btn btn-clear">Bersihkan Status</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const adminBox = document.getElementById('dropdown-admin-box');
+        const selectAdmin = document.getElementById('select-admin');
+        const calBox = document.getElementById('dropdown-cal-box');
+        const inputCari = document.getElementById('input-cari');
+
+        selectAdmin.addEventListener('click', () => adminBox.classList.toggle('open'));
+        selectAdmin.addEventListener('blur', () => adminBox.classList.remove('open'));
+        selectAdmin.addEventListener('change', () => adminBox.classList.remove('open'));
+
+        const kalender = flatpickr("#input-kalender", {
+            locale: "id",
+            altInput: true,
+            altFormat: "d F Y",
+            dateFormat: "Y-m-d",
+            disableMobile: "true",
+            onOpen: function() { calBox.classList.add('open'); },
+            onClose: function() { calBox.classList.remove('open'); }
+        });
+
+        function formatWaktuIndo(strWaktu) {
+            const [tgl, jam] = strWaktu.split(' ');
+            const [y, m, d] = tgl.split('-');
+            const namaBulan = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"][parseInt(m)-1];
+            return `${d} ${namaBulan} ${y}/${jam}`;
+        }
+
+        function getIcon(tipe) {
+            if(tipe === 'login') return '<span style="color:#2563eb;font-weight:bold;margin-right:12px;">➔</span>';
+            if(tipe === 'logout') return '<span style="color:#dc2626;font-weight:bold;margin-right:12px;">←</span>';
+            if(tipe === 'restok' || tipe === 'tambah') return '<span style="margin-right:12px;">🛒</span>';
+            if(tipe === 'hapus') return '<span style="margin-right:12px;">🗑️</span>';
+            return '<span style="margin-right:12px;">🔧</span>';
+        }
+
+        function getStatusClassByAction(tipe) {
+            if(tipe === 'login') return 'status-login';
+            if(tipe === 'logout') return 'status-logout';
+            if(tipe === 'tambah' || tipe === 'restok') return 'status-tambah-stok';
+            if(tipe === 'hapus' || tipe === 'ubah') return 'status-hapus-ubah';
+            return 'status-default';
+        }
+
+        function muatData() {
+            const cari = inputCari.value;
+            const admin = selectAdmin.value;
+            const tgl = document.getElementById('input-kalender').value;
+            fetch(`/admin/api/aktivitas?search=${cari}&admin=${admin}&tanggal=${tgl}`)
+                .then(res => res.json())
+                .then(data => {
+                    const tbody = document.getElementById('isi-tabel');
+                    tbody.innerHTML = '';
+                    if(data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#999;padding:20px;">Riwayat tidak ditemukan</td></tr>';
+                        return;
+                    }
+                    data.forEach(item => {
+                        const row = `<tr>
+                            <td><div style="display:flex;align-items:center;">${getIcon(item.tipe)} ${item.catatan}</div></td>
+                            <td style="text-align:center;"><span class="status-badge ${getStatusClassByAction(item.tipe)}">${item.status}</span></td>
+                            <td>${item.admin}</td>
+                            <td>${formatWaktuIndo(item.waktu)}</td>
+                        </tr>`;
+                        tbody.innerHTML += row;
+                    });
+                });
+        }
+
+        inputCari.addEventListener('input', muatData);
+        document.getElementById('btn-update').addEventListener('click', muatData);
+        document.getElementById('btn-bersihkan').addEventListener('click', () => {
+            inputCari.value = '';
+            selectAdmin.value = 'Pilihan Admin';
+            kalender.clear();
+            muatData();
+        });
+        window.onload = muatData;
+    </script>
+</body>
+</html>

@@ -2,12 +2,11 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Dikemas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Pesanan</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='8_2-novalrizkym.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
-
 </head>
-
 <body>
 
 <div class="background">
@@ -16,81 +15,55 @@
 
         <a href="/pembeli/pesanan" class="back">← Kembali</a>
 
+        <!-- Status Progress -->
         <div class="status-box atas">
 
-            <div class="status active">
+            <div class="status {% if status == 'Disiapkan' or status == 'Siap diambil' or status == 'Selesai' or status == 'Sudah diambil' %}active{% endif %}">
                 <img src="{{ url_for('static', filename='gambar dan icon/cardboard-box-11-svgrepo-com.svg') }}" class="icon-kecil">
                 <p>Dikemas</p>
             </div>
 
-            <div class="line active-line"></div>
+            <div class="line {% if status == 'Siap diambil' or status == 'Selesai' or status == 'Sudah diambil' %}active-line{% endif %}"></div>
 
-            <div class="status">
+            <div class="status {% if status == 'Siap diambil' or status == 'Selesai' or status == 'Sudah diambil' %}active{% endif %}">
                 <img src="{{ url_for('static', filename='gambar dan icon/shopping-bag-svgrepo-com (1).svg') }}" class="icon-kecil">
                 <p>Siap Diambil</p>
             </div>
 
-            <div class="line"></div>
+            <div class="line {% if status == 'Selesai' or status == 'Sudah diambil' %}active-line{% endif %}"></div>
 
-            <div class="status">
+            <div class="status {% if status == 'Selesai' or status == 'Sudah diambil' %}active{% endif %}">
                 <img src="{{ url_for('static', filename='gambar dan icon/check-mark-circle-svgrepo-com (1).svg') }}" class="icon-kecil">
                 <p>Selesai</p>
             </div>
 
         </div>
 
+        <!-- Detail Produk -->
         <div class="detail-box">
 
+            {% for item in barang %}
             <div class="produk">
                 <div>
-                    <h2>Roti Tawar</h2>
-                    <p>2 × 8.000</p>
-                    <p>Diskon</p>
+                    <h2>{{ item.nama }}</h2>
+                    <p>{{ item.jumlah }} x {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</p>
                 </div>
-
                 <div class="harga">
-                    <h2>Rp 16.000</h2>
-                    <p>Rp 2.000</p>
+                    <h2>Rp {{ "{:,.0f}".format(item.jumlah * item.harga).replace(",", ".") }}</h2>
                 </div>
             </div>
-
-            <div class="produk">
-                <div>
-                    <h2>Air Mineral</h2>
-                    <p>3 × 3.000</p>
-                </div>
-
-                <div class="harga">
-                    <h2>Rp 9.000</h2>
-                </div>
-            </div>
-
-            <div class="produk">
-                <div>
-                    <h2>Kopi Sachet</h2>
-                    <p>1 × 5.000</p>
-                </div>
-
-                <div class="harga">
-                    <h2>Rp 5.000</h2>
-                </div>
-            </div>
+            {% endfor %}
 
             <hr>
 
             <div class="total">
                 <div>
-                    <p>Sub total</p>
-                    <p>Diskon</p>
+                    <p>Metode</p>
                     <h1>Total</h1>
-                    <p>Kembalian barang kosong</p>
                 </div>
-
                 <div class="harga">
-                    <p>Rp 30.000</p>
-                    <p>-2.000</p>
-                    <h1>Rp 28.000</h1>
-                    <p>Rp 0</p>
+                    <p>{{ metode }}</p>
+                    <h1>Rp {{ "{:,.0f}".format(total).replace(",", ".") }}</h1>
                 </div>
             </div>
 

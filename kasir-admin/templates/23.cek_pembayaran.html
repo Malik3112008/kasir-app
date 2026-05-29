@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Pembayaran</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='23.cek_pembayaran.css') }}">
+</head>
+<body>
+
+<nav>
+    <div class="nav-bar">
+        <a href="{{ url_for('admin_dashboard') }}">
+            <img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px">
+        </a>
+        <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" width="50" height="50">
+        <span>Admin Koperasi</span>
+    </div>
+    <ul>
+        <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+        <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+        <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+        <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
+    </ul>
+</nav>
+
+<div class="container">
+
+    <h1>Cek Pembayaran</h1>
+
+    <form method="GET" class="search-box">
+        <input type="text" name="cari" placeholder="Cari ID atau nama pelanggan..." value="{{ request.args.get('cari', '') }}">
+        <button type="submit">Cari</button>
+    </form>
+
+    <h3>Detail Transaksi</h3>
+
+    <div class="tabel-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tanggal</th>
+                    <th>ID Transaksi</th>
+                    <th>Pelanggan</th>
+                    <th>Barang</th>
+                    <th>Total</th>
+                    <th>Metode</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if transaksi %}
+                    {% for t in transaksi %}
+                    <tr>
+                        <td>{{ t.tanggal }}</td>
+                        <td>{{ t.id }}</td>
+                        <td>{{ t.pelanggan }}</td>
+                        <td>
+                            {% for b in t.barang %}
+                                {{ b.nama }} ({{ b.jumlah }}){% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>Rp {{ "{:,.0f}".format(t.total).replace(",", ".") }}</td>
+                        <td>
+                            <span class="{% if t.metode == 'QRIS' %}qris{% else %}tunai{% endif %}">
+                                {{ t.metode }}
+                            </span>
+                        </td>
+                        <td>{{ t.status }}</td>
+                        <td>
+                            <a href="/admin/detail-transaksi/{{ t.id }}" class="lihat">Lihat</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="8" class="empty-msg">Belum ada transaksi</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if total_pages > 1 %}
+    <div style="display:flex; justify-content:center; gap:6px; padding:20px 0; flex-wrap:wrap; align-items:center;">
+        <span style="font-size:13px; color:#666; width:100%; text-align:center; margin-bottom:6px;">
+            Halaman {{ page }} dari {{ total_pages }} ({{ total }} transaksi)
+        </span>
+        {% if page > 1 %}
+        <a href="/admin/cek-pembayaran?page={{ page - 1 }}&cari={{ request.args.get('cari', '') }}" style="padding:8px 14px; border:1px solid #ddd; border-radius:8px; text-decoration:none; font-size:13px; color:#333; background:white;">&laquo; Sebelumnya</a>
+        {% endif %}
+        {% for p in range(1, total_pages + 1) %}
+            {% if p == page %}
+            <span style="padding:8px 14px; border-radius:8px; font-size:13px; background:#4d95d9; color:white; font-weight:600;">{{ p }}</span>
+            {% elif p <= 3 or p >= total_pages - 1 or (p >= page - 1 and p <= page + 1) %}
+            <a href="/admin/cek-pembayaran?page={{ p }}&cari={{ request.args.get('cari', '') }}" style="padding:8px 14px; border:1px solid #ddd; border-radius:8px; text-decoration:none; font-size:13px; color:#333; background:white;">{{ p }}</a>
+            {% elif (p == 4 and page > 5) or (p == total_pages - 2 and page < total_pages - 4) %}
+            <span style="padding:0 4px; color:#999;">...</span>
+            {% endif %}
+        {% endfor %}
+        {% if page < total_pages %}
+        <a href="/admin/cek-pembayaran?page={{ page + 1 }}&cari={{ request.args.get('cari', '') }}" style="padding:8px 14px; border:1px solid #ddd; border-radius:8px; text-decoration:none; font-size:13px; color:#333; background:white;">Selanjutnya &raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

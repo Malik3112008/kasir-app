@@ -4,10 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="{{ url_for('static', filename='18-reyhandiky.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
-
+<link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
 <title>Keranjang Belanja</title>
-
 <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: Arial, sans-serif; background: #dff7ff; }
@@ -49,16 +47,12 @@
     }
     .item:last-of-type { border-bottom: none; }
 
-    .item img {
-        width: 80px;
-        height: 80px;
-        object-fit: cover;
-        border-radius: 8px;
+    .item-info {
+        flex: 1;
+        min-width: 0;
     }
-
-    .nama { flex: 1; min-width: 0; }
-    .nama h2 { font-size: 16px; margin-bottom: 4px; }
-    .nama p { font-size: 14px; color: #666; }
+    .item-info h2 { font-size: 16px; margin-bottom: 4px; }
+    .item-info p { font-size: 14px; color: #666; }
 
     .control {
         display: flex;
@@ -110,10 +104,25 @@
     }
     .checkout:hover { background: #5a8fe0; }
 
+    .empty-cart {
+        text-align: center;
+        padding: 40px 20px;
+        color: #888;
+    }
+    .empty-cart p { font-size: 18px; margin-bottom: 16px; }
+    .empty-cart a {
+        display: inline-block;
+        background: #78a7ff;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
     @media (max-width: 600px) {
         .container { padding: 16px; margin: 16px; }
         .item { flex-wrap: wrap; gap: 12px; }
-        .item img { width: 60px; height: 60px; }
         h1 { font-size: 20px; }
         .total { font-size: 20px; }
     }
@@ -130,100 +139,49 @@
 
     <h1>Keranjang Belanja</h1>
 
-    <div class="item" id="roti">
-        <img src="{{ url_for('static', filename='gambar dan icon/roti.jpg') }}" alt="Roti Aoka">
-        <div class="nama">
-            <h2>Roti Aoka</h2>
-            <p>4000 x 1</p>
+    {% if cart %}
+        {% for nama, item in cart.items() %}
+        <div class="item">
+            <div class="item-info">
+                <h2>{{ nama }}</h2>
+                <p>{{ "{:,.0f}".format(item.harga).replace(",", ".") }} x {{ item.jumlah }}</p>
+            </div>
+            <div class="control">
+                <form method="POST" action="/pembeli/update-keranjang" style="display:inline;">
+                    <input type="hidden" name="nama" value="{{ nama }}">
+                    <input type="hidden" name="aksi" value="kurang">
+                    <button type="submit">-</button>
+                </form>
+                <span>{{ item.jumlah }}</span>
+                <form method="POST" action="/pembeli/update-keranjang" style="display:inline;">
+                    <input type="hidden" name="nama" value="{{ nama }}">
+                    <input type="hidden" name="aksi" value="tambah">
+                    <button type="submit">+</button>
+                </form>
+            </div>
+            <form method="POST" action="/pembeli/update-keranjang" style="display:inline;">
+                <input type="hidden" name="nama" value="{{ nama }}">
+                <input type="hidden" name="aksi" value="hapus">
+                <button type="submit" class="hapus">&#128465;</button>
+            </form>
         </div>
-        <div class="control">
-            <button onclick="kurang('roti')">-</button>
-            <span id="jumlah-roti">1</span>
-            <button onclick="tambah('roti')">+</button>
-        </div>
-        <button class="hapus" onclick="hapusItem(this)">&#128465;</button>
-    </div>
+        {% endfor %}
 
-    <div class="item" id="air">
-        <img src="{{ url_for('static', filename='gambar dan icon/ades.jpg') }}" alt="Air Mineral">
-        <div class="nama">
-            <h2>Air Mineral</h2>
-            <p>3000 x 1</p>
+        <div class="total">
+            Total: Rp {{ "{:,.0f}".format(total).replace(",", ".") }}
         </div>
-        <div class="control">
-            <button onclick="kurang('air')">-</button>
-            <span id="jumlah-air">1</span>
-            <button onclick="tambah('air')">+</button>
-        </div>
-        <button class="hapus" onclick="hapusItem(this)">&#128465;</button>
-    </div>
 
-    <div class="item" id="bolpoin">
-        <img src="{{ url_for('static', filename='gambar dan icon/bilpoin.jpg') }}" alt="Bolpoin">
-        <div class="nama">
-            <h2>Bolpoin</h2>
-            <p>4000 x 1</p>
+        <a href="/pembeli/pilih-pembayaran" class="checkout">
+            Lanjutkan ke Pembayaran
+        </a>
+    {% else %}
+        <div class="empty-cart">
+            <p>Keranjang masih kosong</p>
+            <a href="/pembeli">Mulai Belanja</a>
         </div>
-        <div class="control">
-            <button onclick="kurang('bolpoin')">-</button>
-            <span id="jumlah-bolpoin">1</span>
-            <button onclick="tambah('bolpoin')">+</button>
-        </div>
-        <button class="hapus" onclick="hapusItem(this)">&#128465;</button>
-    </div>
-
-    <div class="total" id="total">
-        Total: Rp 11.000
-    </div>
-
-    <a href="/pembeli/pilih-pembayaran" class="checkout">
-        Lanjutkan ke Pembayaran
-    </a>
+    {% endif %}
 
 </div>
-
-<script>
-let cart = {
-    roti: { harga: 4000, jumlah: 1 },
-    air: { harga: 3000, jumlah: 1 },
-    bolpoin: { harga: 4000, jumlah: 1 }
-};
-
-function updateTotal() {
-    let total = 0;
-    for (let item in cart) {
-        total += cart[item].harga * cart[item].jumlah;
-    }
-    document.getElementById("total").innerHTML = "Total: Rp " + total.toLocaleString("id-ID");
-}
-
-function tambah(item) {
-    cart[item].jumlah++;
-    document.getElementById("jumlah-" + item).innerHTML = cart[item].jumlah;
-    updateTotal();
-}
-
-function kurang(item) {
-    if (cart[item].jumlah > 1) {
-        cart[item].jumlah--;
-        document.getElementById("jumlah-" + item).innerHTML = cart[item].jumlah;
-    } else {
-        delete cart[item];
-        document.getElementById(item).remove();
-    }
-    updateTotal();
-}
-
-function hapusItem(button) {
-    let itemDiv = button.parentElement;
-    let itemId = itemDiv.id;
-    delete cart[itemId];
-    itemDiv.remove();
-    updateTotal();
-}
-
-updateTotal();
-</script>
 
 </body>
 </html>

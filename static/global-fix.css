@@ -113,6 +113,64 @@ textarea:focus-visible {
     outline-offset: 2px;
 }
 
+/* ============================================
+   SHARED ANIMATIONS
+   ============================================ */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Page load animation */
+body {
+    animation: fadeIn 0.4s ease;
+}
+
+/* Card hover effect */
+.card, .kotak, .content-box, .info-card > div {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover, .kotak:hover, .info-card > div:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+/* Table row hover */
+tr {
+    transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+    background-color: #f0f7ff;
+}
+
+/* Icon hover */
+nav img, .nav-icon img {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+nav img:hover, .nav-icon img:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
+/* Navbar animation */
+nav, .navbar {
+    animation: slideDown 0.3s ease;
+}
+
 /* Responsive breakpoint */
 @media (max-width: 768px) {
     h1 { font-size: 24px; }

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Transaksi Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='06.RiwayatTransaksi.css') }}">
+</head>
+<body>
+
+<nav>
+    <div class="nav-bar">
+        <li>
+            <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+        </li>
+        <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" width="70" height="70">
+        <span>Admin Koperasi</span>
+    </div>
+    <ul>
+        <li>
+            <a href="/admin/notifikasi"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a>
+        </li>
+        <li>
+            <a href="/admin/pengaturan"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a>
+        </li>
+        <li>
+            <a href="/admin/kelola_akun_penjual"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a>
+        </li>
+        <li>
+            <a href="/admin/logout"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a>
+        </li>
+    </ul>
+</nav>
+
+<div class="container">
+
+    <h2>RIWAYAT TRANSAKSI</h2>
+
+    <div class="filter">
+        <input type="date" id="filter-date" onchange="filterByDate()">
+        <button class="btn-reset" onclick="resetFilter()">Reset</button>
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Transaksi</th>
+                    <th>Tanggal</th>
+                    <th>Pelanggan</th>
+                    <th>Total</th>
+                    <th>Metode</th>
+                    <th>Status</th>
+                    <th>Detail</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in pesanan %}
+                <tr class="data-row" data-tanggal="{{ p.tanggal }}">
+                    <td>{{ p.id }}</td>
+                    <td>{{ p.tanggal }}</td>
+                    <td>{{ p.pelanggan }}</td>
+                    <td>Rp {{ "{:,.0f}".format(p.total).replace(",", ".") }}</td>
+                    <td>
+                        {% if p.metode == 'Tunai' %}
+                            <span class="badge tunai">Tunai</span>
+                        {% else %}
+                            <span class="badge qris">QRIS</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if p.status == 'Selesai' or p.status == 'Sudah diambil' %}
+                            <span class="badge selesai">{{ p.status }}</span>
+                        {% elif p.status == 'Siap diambil' %}
+                            <span class="badge siap">{{ p.status }}</span>
+                        {% elif p.status == 'Disiapkan' %}
+                            <span class="badge proses">{{ p.status }}</span>
+                        {% else %}
+                            <span class="badge">{{ p.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="#" class="detail" onclick="showDetail('{{ p.id }}', '{{ p.pelanggan }}', '{{ p.metode }}', '{{ p.status }}', '{{ p.tanggal }}', '{{ p.barang }}', '{{ p.total }}')">Detail</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- Modal Detail -->
+<div class="modal-overlay" id="modal" onclick="closeModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <h3>Detail Transaksi</h3>
+        <div class="modal-body">
+            <p><b>ID:</b> <span id="m-id"></span></p>
+            <p><b>Pelanggan:</b> <span id="m-pelanggan"></span></p>
+            <p><b>Tanggal:</b> <span id="m-tanggal"></span></p>
+            <p><b>Metode:</b> <span id="m-metode"></span></p>
+            <p><b>Status:</b> <span id="m-status"></span></p>
+            <p><b>Total:</b> <span id="m-total"></span></p>
+        </div>
+        <button class="btn-close" onclick="closeModal()">Tutup</button>
+    </div>
+</div>
+
+<script>
+function filterByDate() {
+    let filter = document.getElementById('filter-date').value;
+    document.querySelectorAll('.data-row').forEach(row => {
+        if (!filter || row.dataset.tanggal === filter) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+function resetFilter() {
+    document.getElementById('filter-date').value = '';
+    document.querySelectorAll('.data-row').forEach(row => row.style.display = '');
+}
+
+function showDetail(id, pelanggan, metode, status, tanggal, barang, total) {
+    document.getElementById('m-id').textContent = id;
+    document.getElementById('m-pelanggan').textContent = pelanggan;
+    document.getElementById('m-tanggal').textContent = tanggal;
+    document.getElementById('m-metode').textContent = metode;
+    document.getElementById('m-status').textContent = status;
+    document.getElementById('m-total').textContent = 'Rp ' + Number(total).toLocaleString('id-ID');
+    document.getElementById('modal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+}
+</script>
+
+</body>
+</html>

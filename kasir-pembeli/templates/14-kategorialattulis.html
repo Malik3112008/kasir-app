@@ -2,173 +2,181 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Toko Alat Tulis</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='14-putrifarisa.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Awal Pembelian</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='14-halaman-awal-pembeli.css') }}">
 </head>
-<body>
+<body class="p-8">
 
-<div class="header">
-    <a href="/pembeli/login" style="font-size:18px; font-weight:bold; color:#333;">← Kembali</a>
-
-    <div class="top-menu">
-        <input type="text" id="search" placeholder="Cari barang">
-
-        <select onchange="pindahHalaman(this)">
-            <option value="/pembeli">Alat tulis</option>
-            <option value="/pembeli">Makanan</option>
-            <option value="/pembeli">Minuman</option>
-        </select>
-    </div>
-    <div style="display:flex; align-items:center; gap:16px;">
-        <a href="/pembeli/keranjang" style="font-size:24px; display:flex; align-items:center; min-height:44px;">🛒</a>
-        <span style="font-size:14px; color:#666;">{{ session.get('nama', 'Guest') }}</span>
-        <a href="/pembeli/logout" style="font-size:14px; color:#e74c3c; font-weight:600; display:flex; align-items:center; min-height:44px;">Logout</a>
-    </div>
-</div>
-
-<div class="container">
-
-    <div class="card">
-        <img src="{{ url_for('static', filename='gambar dan icon/gambar pensil.jpeg') }}">
-
-        <h3>Pensil</h3>
-        <p class="harga">Rp.2.000</p>
-        <p>Stok : 30</p>
-        <p>⭐⭐⭐⭐</p>
-
-       <div class="aksi">
-
-    <button>Tambah ke Keranjang</button>
-
-    <div class="jumlah">
-        <button class="btn-jumlah" onclick="kurang(this)">-</button>
-
-        <span>0</span>
-
-        <button class="btn-jumlah" onclick="tambah(this)">+</button>
+    <!-- Navbar Cart -->
+    <div class="navbar-cart">
+        <a href="/pembeli/logout" style="display:inline-block; text-decoration:none; color:#7aa7ff; font-size:14px; font-weight:bold;">← Logout</a>
+        <div style="display:flex; align-items:center; gap:16px;">
+            <span style="font-size:14px; color:#666;">{{ session.get('nama', 'Guest') }}</span>
+        </div>
+        <a href="/pembeli/keranjang" class="cart-link">
+            <span class="cart-icon">🛒</span>
+            <span class="cart-badge" id="cart-count">{{ cart_count }}</span>
+        </a>
     </div>
 
-</div>
+    {% if request.args.get('added') == '1' %}
+    <div id="notif" style="position:fixed; top:20px; right:20px; background:#22c55e; color:white; padding:12px 24px; border-radius:10px; font-weight:bold; z-index:999; animation: fadeInUp 0.3s ease;">
+        ✓ Berhasil ditambahkan ke keranjang
+    </div>
+    <script>setTimeout(() => { document.getElementById('notif').style.display = 'none'; }, 2000);</script>
+    {% endif %}
+
+    <div class="max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-sm border border-gray-200">
+
+        <!-- Judul Halaman -->
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Halaman Awal Pembelian</h1>
+
+        <!-- Bar Pencarian dan Dropdown Kategori -->
+        <div class="flex flex-col sm:flex-row gap-4 mb-8">
+            <div class="relative flex-1 max-w-md">
+                <input type="text" id="search" placeholder="Cari produk" class="w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700">
+                <i class="fa-solid fa-magnifying-glass absolute right-3 top-3 text-gray-500"></i>
+            </div>
+            <div class="relative w-full sm:w-52">
+                <select id="kategori-filter" class="w-full px-4 py-2 border border-gray-400 rounded-lg appearance-none bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 pr-10">
+                    <option value="">Semua Kategori</option>
+                    <option value="Makanan">Makanan</option>
+                    <option value="Minuman">Minuman</option>
+                    <option value="Alat Tulis">Alat Tulis</option>
+                </select>
+                <i class="fa-solid fa-chevron-down absolute right-3 top-3.5 text-gray-500 pointer-events-none"></i>
+            </div>
+        </div>
+
+        <!-- Grid Produk -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8" id="product-grid">
+
+            {% for item in barang %}
+            <div class="product-card border border-gray-300 rounded-2xl p-4 flex flex-col justify-between bg-white shadow-sm" data-nama="{{ item.nama }}" data-kategori="{{ item.kategori }}">
+                <div>
+                    <div class="h-28 flex items-center justify-center mb-3">
+                        {% if item.gambar and item.gambar != '' %}
+                        <img src="{{ url_for('static', filename=item.gambar) }}" alt="{{ item.nama }}" style="max-height:100%; max-width:100%; object-fit:contain;">
+                        {% else %}
+                        <span style="font-size:48px;">{{ item.emoji or '📦' }}</span>
+                        {% endif %}
+                    </div>
+                    <h3 class="font-bold text-gray-900 text-sm leading-tight">{{ item.nama }}</h3>
+                    <p class="text-blue-600 font-bold text-sm mt-0.5">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</p>
+                    <p class="text-[11px] text-gray-500 mt-1">Stok : {{ item.stok }}</p>
+                    <p class="text-[11px] text-gray-500">Kategori : {{ item.kategori }}</p>
+                    <p>
+                        {% for i in range(5) %}
+                            {% if i < item.rating %}⭐{% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="mt-3">
+                    {% if item.stok > 0 %}
+                    <form method="POST" action="/pembeli/tambah-keranjang" class="flex items-center gap-2">
+                        <input type="hidden" name="nama" value="{{ item.nama }}">
+                        <input type="hidden" name="harga" value="{{ item.harga }}">
+                        <input type="hidden" name="jumlah" value="0" class="qty-input">
+                        <button type="button" class="minus-btn w-8 h-8 rounded-full bg-sky-400 text-white font-bold flex items-center justify-center">-</button>
+                        <span class="qty-number text-sm">0</span>
+                        <button type="button" class="plus-btn w-8 h-8 rounded-full bg-sky-400 text-white font-bold flex items-center justify-center">+</button>
+                        <button type="submit" class="flex-1 bg-sky-400 text-white text-[11px] py-1.5 px-1 rounded-md hover:bg-sky-500 transition">
+                            Tambah
+                        </button>
+                    </form>
+                    {% else %}
+                    <button class="w-full btn-stok-habis text-white text-[11px] py-1.5 px-2 rounded-md font-medium cursor-not-allowed">
+                        Stok habis
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex justify-end items-center gap-2 mt-4 text-blue-600 font-bold">
+            <button class="hover:text-blue-800 p-1">
+                <i class="fa-solid fa-caret-left text-xl"></i>
+            </button>
+            <div class="flex gap-1 text-xs items-center text-gray-400">
+                <span class="inline-block w-2 h-2 rounded-full border border-blue-600 bg-transparent"></span>
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+            </div>
+            <button class="hover:text-blue-800 p-1">
+                <i class="fa-solid fa-caret-right text-xl"></i>
+            </button>
+        </div>
+
     </div>
 
+    <script>
+        // Search filter
+        // Plus / Minus buttons
+        document.querySelectorAll('.plus-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                let form = btn.closest('form');
+                let num = form.querySelector('.qty-number');
+                let input = form.querySelector('.qty-input');
+                let val = parseInt(num.innerText) + 1;
+                num.innerText = val;
+                input.value = val;
+            });
+        });
 
-    <div class="card">
-        <img src="{{ url_for('static', filename='gambar dan icon/gambar pulpen.jpeg') }}">
+        document.querySelectorAll('.minus-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                let form = btn.closest('form');
+                let num = form.querySelector('.qty-number');
+                let input = form.querySelector('.qty-input');
+                let val = parseInt(num.innerText);
+                if (val > 0) {
+                    val--;
+                    num.innerText = val;
+                    input.value = val;
+                }
+            });
+        });
 
-        <h3>Bolpoin</h3>
-        <p class="harga">Rp.4.000</p>
-        <p>Stok : 40</p>
-        <p>⭐⭐⭐</p>
+        // Search filter
+        document.getElementById('search').addEventListener('keyup', function () {
+            let keyword = this.value.toLowerCase();
+            document.querySelectorAll('.product-card').forEach(card => {
+                let nama = card.dataset.nama.toLowerCase();
+                card.style.display = nama.includes(keyword) ? 'block' : 'none';
+            });
+        });
 
-       <div class="aksi">
+        // Validate form submit - jumlah harus > 0
+        document.querySelectorAll('form[action="/pembeli/tambah-keranjang"]').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                let qty = parseInt(this.querySelector('.qty-input').value);
+                if (qty <= 0) {
+                    e.preventDefault();
+                    alert('Pilih jumlah barang terlebih dahulu!');
+                }
+            });
+        });
 
-    <button>Tambah ke Keranjang</button>
-
-    <div class="jumlah">
-        <button class="btn-jumlah" onclick="kurang(this)">-</button>
-
-        <span>0</span>
-
-        <button class="btn-jumlah" onclick="tambah(this)">+</button>
-    </div>
-
-</div>
-    </div>
-
-
-    <div class="card">
-        <img src="{{ url_for('static', filename='gambar dan icon/gambar penghapus.jpeg') }}">
-
-        <h3>Penghapus</h3>
-        <p class="harga">Rp.2.000</p>
-        <p>Stok : 20</p>
-        <p>⭐⭐</p>
-
-        <div class="aksi">
-
-    <button>Tambah ke Keranjang</button>
-
-    <div class="jumlah">
-        <button class="btn-jumlah" onclick="kurang(this)">-</button>
-
-        <span>0</span>
-
-        <button class="btn-jumlah" onclick="tambah(this)">+</button>
-    </div>
-
-</div>
-    </div>
-
-
-    <div class="card">
-        <img src="{{ url_for('static', filename='gambar dan icon/gambar tipe ex.jpeg') }}">
-
-        <h3>Tip X</h3>
-        <p class="harga">Rp.5.000</p>
-        <p>Stok : 25</p>
-        <p>⭐⭐⭐⭐⭐</p>
-
-        <div class="aksi">
-
-    <button>Tambah ke Keranjang</button>
-
-    <div class="jumlah">
-        <button class="btn-jumlah" onclick="kurang(this)">-</button>
-
-        <span>0</span>
-
-        <button class="btn-jumlah" onclick="tambah(this)">+</button>
-    </div>
-
-</div>
-    </div>
-
-</div>
-
-<script>
-    function tambah(button) {
-        let jumlah = button.parentElement.querySelector("span");
-        jumlah.innerText = parseInt(jumlah.innerText) + 1;
-    }
-
-    function kurang(button) {
-        let jumlah = button.parentElement.querySelector("span");
-        let angka = parseInt(jumlah.innerText);
-
-        if (angka > 0) {
-            jumlah.innerText = angka - 1;
-        }
-    }
-
-    const search = document.getElementById("search");
-
-search.addEventListener("keyup", function () {
-
-    let keyword = search.value.toLowerCase();
-
-    let cards = document.querySelectorAll(".card");
-
-    cards.forEach(function(card){
-
-        let namaProduk = card.querySelector("h3").innerText.toLowerCase();
-
-        if(namaProduk.includes(keyword)){
-            card.style.display = "block";
-        } else {
-            card.style.display = "none";
-        }
-
-    });
-
-});
-
-function pindahHalaman(select){
-    window.location.href = select.value;
-}
-    
-</script>
+        // Category filter
+        document.getElementById('kategori-filter').addEventListener('change', function () {
+            let kategori = this.value;
+            document.querySelectorAll('.product-card').forEach(card => {
+                if (!kategori || card.dataset.kategori === kategori) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>

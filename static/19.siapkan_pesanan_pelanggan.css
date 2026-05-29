@@ -43,7 +43,7 @@ nav ul {
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 .theading {
-    margin: 10px;
+    margin-top: 20px;
 }
 .info-box {
     background: #D9EEFF;
@@ -67,7 +67,7 @@ nav ul {
     border-radius: 10px;
 }
 thead {
-    background-color: #136702;
+    background-color: #6194C3;
     color: white;
 }
 .tabel-box tbody {
@@ -77,6 +77,7 @@ thead {
 .tabel-box th,.tabel-box td {
     padding: 16px 12px;
     text-align: left;
+    white-space: nowrap;
 }
 .tabel-box th:last-child,
 .tabel-box td:last-child {
@@ -91,42 +92,58 @@ thead {
     color: blue;
 }
 .status {
+    width: 190px;
+    height: 30px;
     padding: 5px;
-    background-color: rgb(255, 236, 65);
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background-color: rgb(255, 233, 34);
     border-radius: 10px;
-    display: inline-block;
+}
+.status.disiapkan {
+    background-color: rgb(255, 233, 34);
 }
 .status.siap-diambil {
     background-color: rgb(92, 206, 255);
 }
-.status.menunggu {
+.status.menunggu-pembayaran{
     background-color: rgb(255, 166, 32);
 }
 .status.sudah-diambil {
     background-color: rgb(10, 159, 52);
 }
-.Aksi{
+.aksi{
     display: flex;
     gap: 8px;
 }
-.lanjut {
+.dropdown-aksi select {
+    width: 210px;
     height: 30px;
-    padding: 0 12px;
-    font-size: 13px;
-    font-weight: 600;
-    background-color: rgb(26, 149, 26);
+    text-align: center;
+    background-color: rgb(26, 152, 26);
     color: white;
-    border-radius: 8px;
     border: none;
+    border-radius: 10px;
+    padding: 0 12px;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
-    white-space: nowrap;
 }
-.lanjut:hover {
-    background-color: rgb(23, 111, 23);
+.dropdown-aksi select:hover {
+    background-color: rgb(22, 122, 22);
+}
+.dropdown-aksi option {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    font-size: 14px;
 }
 .selesai {
     color: #136702;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    text-align: center;
 }
 .buka-btn{
     width: 30px;
@@ -256,4 +273,52 @@ thead {
 }
 .tutup-btn:hover{
     background-color: #c7c5c5;
+}
+
+/* Pagination */
+.pagination{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    padding:20px 0;
+    margin-top:10px;
+}
+.page-info{
+    font-size:13px;
+    color:#666;
+}
+.page-nav{
+    display:flex;
+    gap:6px;
+    align-items:center;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+.page-btn{
+    display:inline-block;
+    padding:8px 14px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:600;
+    color:#333;
+    background:white;
+    transition:all 0.2s;
+}
+.page-btn:hover{
+    background:#eef2ff;
+    border-color:#5f8fff;
+    color:#5f8fff;
+}
+.page-btn.active{
+    background:#5f8fff;
+    color:white;
+    border-color:#5f8fff;
+}
+.page-dots{
+    padding:0 4px;
+    color:#999;
+    font-size:13px;
 }

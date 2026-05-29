@@ -734,12 +734,16 @@ def admin_siapkan_pesanan():
         return redirect(url_for('admin_login'))
     if request.method == 'POST':
         trx_id = request.form["trx_id"]
+        new_status = request.form.get("status")
         for i in pesanan:
             if i['id'] == trx_id:
-                ganti = get_status_list(i)
-                ubah = ganti.index(i['status'])
-                if ubah + 1 < len(ganti):
-                    i['status'] = ganti[ubah + 1]
+                if new_status:
+                    i['status'] = new_status
+                else:
+                    ganti = get_status_list(i)
+                    ubah = ganti.index(i['status'])
+                    if ubah + 1 < len(ganti):
+                        i['status'] = ganti[ubah + 1]
                 break
         return redirect('/admin/siapkan-pesanan')
     # Pagination
@@ -752,7 +756,7 @@ def admin_siapkan_pesanan():
     end = start + per_page
     pesanan_page = pesanan[start:end]
     return render_template('19.SiapkanPesanan.html', pesanan=pesanan_page, formatRp=formatRp,
-                           page=page, total_pages=total_pages, total=total)
+                           status=get_status_list, page=page, total_pages=total_pages, total=total)
 
 @app.route("/admin/hapus-barang", methods=["POST"])
 def admin_hapus_barang():
@@ -1054,7 +1058,18 @@ def pembeli_qris():
 
 @app.route('/pembeli/selesai')
 def pembeli_selesai():
-    return render_template('8_2-detailpesanan.html', items=get_items_bayar(), status='selesai')
+    pelanggan = session.get('nama', '')
+    pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan]
+    if pesanan_user:
+        order = pesanan_user[-1]
+        barang = order["barang"]
+        metode = order["metode"]
+        total = order["total"]
+    else:
+        barang = get_items_bayar()
+        metode = session.get('metode', 'Tunai')
+        total = sum(item["jumlah"] * item["harga"] for item in barang)
+    return render_template('8_2-detailpesanan.html', barang=barang, status='Selesai', metode=metode, total=total)
 # ============================================================
 
 @app.route('/pembeli/pesanan')

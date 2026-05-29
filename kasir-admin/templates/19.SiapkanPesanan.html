@@ -72,16 +72,25 @@
                         </td>
                         <td>
                             {% if p.status != 'Sudah diambil' %}
-                            <div class="Aksi">
+                            <div class="aksi">
                                 <button class="buka-btn" onclick="bukaModal('{{ p.id }}')">
                                     <img src="{{ url_for('static', filename='rincian-svgrepo-com.svg') }}" alt="Rincian" width="20px"
                                         height="20px" />
                                 </button>
-                                <form method="POST">
-                                    <input type="hidden" name="trx_id" value="{{ p.id }}" />
-                                    <button type="submit" class="lanjut">
-                                        Langkah Selanjutnya
-                                    </button>
+                                <form method="POST" action="{{ url_for('admin_siapkan_pesanan') }}">
+                                    <input type="hidden" name="trx_id" value="{{ p.id }}">
+                                    <div class="dropdown-aksi">
+                                        <select name="status" onchange="this.form.submit()">
+                                            {% set daftar_status = status(p) %}
+                                            {% set posisi = daftar_status.index(p.status) %}
+                                            {% for s in daftar_status %}
+                                            <option value="{{ s }}" {% if s == p.status %} selected {% endif %} {% if
+                                                daftar_status.index(s) < posisi %} disabled {% endif %}>
+                                                {{ s }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
                                 </form>
                             </div>
                             {% else %}
@@ -93,6 +102,34 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Pagination -->
+        {% if total_pages > 1 %}
+        <div class="pagination">
+            <span class="page-info">Halaman {{ page }} dari {{ total_pages }} ({{ total }} pesanan)</span>
+            <div class="page-nav">
+                {% if page > 1 %}
+                <a href="/admin/siapkan-pesanan?page={{ page - 1 }}" class="page-btn">&laquo; Sebelumnya</a>
+                {% endif %}
+
+                {% for p in range(1, total_pages + 1) %}
+                    {% if p == page %}
+                    <span class="page-btn active">{{ p }}</span>
+                    {% elif p <= 3 or p >= total_pages - 1 or (p >= page - 1 and p <= page + 1) %}
+                    <a href="/admin/siapkan-pesanan?page={{ p }}" class="page-btn">{{ p }}</a>
+                    {% elif p == 4 and page > 5 %}
+                    <span class="page-dots">...</span>
+                    {% elif p == total_pages - 2 and page < total_pages - 4 %}
+                    <span class="page-dots">...</span>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page < total_pages %}
+                <a href="/admin/siapkan-pesanan?page={{ page + 1 }}" class="page-btn">Selanjutnya &raquo;</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
         {% for p in pesanan %}
         <div class="overlay" id="overlay-{{ p.id }}">
             <div class="modal">
@@ -128,7 +165,7 @@
                         </div>
                         <div class="subtotal">
                             <span>{{ formatRp(a.jumlah * a.harga) }}</span>
-                            <form method="POST" action="/admin/hapus-barang">
+                            <form method="POST" action="{{ url_for('admin_hapus_barang') }}">
                                 <input type="hidden" name="trx_id" value="{{ p.id }}" />
                                 <input type="hidden" name="nama_barang" value="{{ a.nama }}" />
                                 <button type="submit" class="hapus-btn" onclick="('{{ a.nama }}')">

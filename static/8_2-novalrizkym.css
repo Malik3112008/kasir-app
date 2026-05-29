@@ -1,52 +1,57 @@
 body{
     margin:0;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family:'Segoe UI', Arial, Helvetica, sans-serif;
+    background:#e8f4f5;
 }
 
 .background{
-    background:#58a8ad;
     min-height:100vh;
     display:flex;
     justify-content:center;
-    align-items:center;
-    padding:40px;
+    align-items:flex-start;
+    padding:30px 20px;
 }
 
 .container{
     background:white;
-    width:910px;
-    padding:30px;
+    width:100%;
+    max-width:600px;
+    padding:24px;
+    border-radius:16px;
+    box-shadow:0 2px 12px rgba(0,0,0,0.08);
 }
 
 .card{
-    background:#cfdcff;
-    border-radius:20px;
-    padding:25px;
-    margin-top:20px;
+    background:#eef2ff;
+    border-radius:14px;
+    padding:20px;
+    margin-top:16px;
 }
 
 .back{
     color:#5f8fff;
     text-decoration:none;
-    font-size:20px;
-    font-weight:bold;
+    font-size:15px;
+    font-weight:600;
 }
 
 .status-box{
-    background:#efefef;
-    border:2px solid #888;
+    background:#fff;
+    border:1px solid #ddd;
     border-radius:12px;
-    padding:30px;
+    padding:16px;
     display:flex;
     justify-content:space-around;
     align-items:center;
+    box-shadow:0 1px 4px rgba(0,0,0,0.04);
 }
 
 .status{
     text-align:center;
     text-decoration:none;
-    color:#666;
-    font-weight:bold;
+    color:#999;
+    font-weight:600;
+    font-size:13px;
 }
 
 .status.active{
@@ -54,60 +59,74 @@ body{
 }
 
 .icon{
-    width:70px;
-    height:70px;
+    width:40px;
+    height:40px;
 }
 
 .icon-kecil{
-    width:30px;
-    height:30px;
+    width:24px;
+    height:24px;
 }
 
 .icon-circle{
     position:relative;
+    display:inline-block;
 }
 
 .badge{
     position:absolute;
-    top:-5px;
-    right:-5px;
+    top:-4px;
+    right:-4px;
     background:#2f66ff;
     color:white;
     border-radius:50%;
-    padding:4px 9px;
-    font-size:14px;
+    padding:2px 6px;
+    font-size:10px;
+    font-weight:bold;
 }
 
 .judul-pesanan{
-    margin-top:30px;
+    margin-top:24px;
+    font-size:17px;
+    color:#333;
 }
 
 .pesanan-item{
-    background:#efefef;
-    border:2px solid #888;
+    background:#fff;
+    border:1px solid #ddd;
     border-radius:10px;
-    padding:20px;
-    margin-top:15px;
+    padding:14px 18px;
+    margin-top:10px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    font-size:35px;
-    font-weight:bold;
+    font-size:15px;
+    font-weight:600;
+    color:#333;
+    box-shadow:0 1px 4px rgba(0,0,0,0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.pesanan-item:hover{
+    transform:translateY(-1px);
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
 }
 
 .pesanan-item a{
     text-decoration:none;
-    color:#555;
+    color:#5f8fff;
+    font-size:14px;
 }
 
 .atas{
-    margin-bottom:20px;
+    margin-bottom:16px;
 }
 
 .line{
-    width:120px;
+    width:80px;
     height:3px;
-    background:#999;
+    background:#ddd;
+    border-radius:2px;
 }
 
 .active-line{
@@ -115,26 +134,28 @@ body{
 }
 
 .detail-box{
-    background:#efefef;
-    border:2px solid #888;
+    background:#fff;
+    border:1px solid #ddd;
     border-radius:12px;
-    padding:20px;
+    padding:16px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.04);
 }
 
 .produk{
     display:flex;
     justify-content:space-between;
-    margin-bottom:25px;
+    margin-bottom:16px;
 }
 
 .produk h2{
-    font-size:28px;
+    font-size:16px;
     margin:0;
+    color:#333;
 }
 
 .produk p{
-    font-size:20px;
-    margin:5px 0;
+    font-size:14px;
+    margin:4px 0;
     color:#777;
 }
 
@@ -145,16 +166,20 @@ body{
 .total{
     display:flex;
     justify-content:space-between;
+    padding-top:12px;
+    border-top:1px solid #eee;
 }
 
 .total p{
-    font-size:22px;
-    margin:5px 0;
+    font-size:15px;
+    margin:4px 0;
+    color:#555;
 }
 
 .total h1{
-    font-size: 35px;
-    margin:5px 0;
+    font-size:20px;
+    margin:4px 0;
+    color:#1a1a1a;
 }
 
 .tengah{
@@ -163,11 +188,53 @@ body{
 
 .btn-kembali{
     display:inline-block;
-    margin-top:20px;
+    margin-top:16px;
     background:#5f8fff;
     color:white;
-    padding:15px 30px;
+    padding:12px 24px;
     border-radius:10px;
     text-decoration:none;
-    font-size:25px;
+    font-size:15px;
+    font-weight:600;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-kembali:hover {
+    background: #3a6adf;
+    transform: translateY(-2px);
+}
+
+/* Animations */
+.container {
+    animation: fadeInUp 0.4s ease;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.pesanan-item {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pesanan-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.detail-box {
+    transition: transform 0.2s ease;
+}
+
+.detail-box:hover {
+    transform: translateY(-1px);
+}
+
+.back {
+    transition: color 0.2s ease;
+}
+
+.back:hover {
+    color: #3a6adf;
 }

@@ -3,98 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Kasir</title>
-
+    <title>Pilih Pembayaran</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='34-yunirohmawati.css') }}">
 </head>
 <body>
 
+<a href="/pembeli/keranjang" class="kembali">← Kembali</a>
+
 <div class="container">
 
     <div class="card">
-
+        <div class="judul">Pesanan Anda</div>
+        {% for item in items %}
         <div class="produk">
-            <img src="{{ url_for('static', filename='gambar dan icon/gambar le mineral.jpeg') }}">
-
             <div>
-                <h3>Le Mineral</h3>
-                <p>Rp 3.000 x 1</p>
+                <h3>{{ item.nama }}</h3>
+                <p>Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }} x {{ item.qty }}</p>
             </div>
         </div>
-
-        <div class="produk">
-            <img src="{{ url_for('static', filename='gambar dan icon/gambar pulpen.jpeg') }}">
-
-            <div>
-                <h3>Pulpen</h3>
-                <p>Rp 4.000 x 1</p>
-            </div>
-        </div>
-
-        <div class="produk">
-            <img src="{{ url_for('static', filename='gambar dan icon/gambar roti aoka.jpeg') }}">
-
-            <div>
-                <h3>Roti Aoka</h3>
-                <p>Rp 8.000 x 1</p>
-            </div>
-        </div>
-
+        {% endfor %}
     </div>
 
     <div class="card">
-
-        <div class="judul">
-            Metode Pembayaran
-        </div>
+        <div class="judul">Metode Pembayaran</div>
 
         <form id="paymentForm">
 
-            <label class="metode">
-
-                <div class="kiri">
-                    <img src="{{ url_for('static', filename='gambar dan icon/gambar tunai.jpeg') }}">
-
-                    <div>
-                        <b>Tunai</b>
-                    </div>
-                </div>
-
-                <input
-                    type="radio"
-                    name="metode"
-                    value="tunai"
-                    class="check"
-                >
-
-            </label>
-
-            <label class="metode">
-
-                <div class="kiri">
-                    <img src="{{ url_for('static', filename='gambar dan icon/gambar qr.jpeg') }}">
-
-                    <div>
-                        <b>QRIS</b>
-                    </div>
-                </div>
-
-                <input
-                    type="radio"
-                    name="metode"
-                    value="qris"
-                    class="check"
-                >
-
-            </label>
-
-            <div class="total">
-                Total : Rp 15.000
+            <div class="metode-group">
+                <button type="button" class="metode-btn" data-value="tunai" onclick="pilihMetode(this)">
+                    💵 Tunai
+                </button>
+                <button type="button" class="metode-btn" data-value="qris" onclick="pilihMetode(this)">
+                    📱 QRIS
+                </button>
             </div>
 
-            <button type="submit">
+            <input type="hidden" name="metode" id="metodeInput" value="">
+
+            <div class="total">
+                Total : {{ total }}
+            </div>
+
+            <button type="submit" class="btn-next">
                 Selanjutnya
             </button>
 
@@ -105,28 +56,25 @@
 </div>
 
 <script>
+function pilihMetode(btn) {
+    document.querySelectorAll('.metode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('metodeInput').value = btn.dataset.value;
+}
 
-document.getElementById("paymentForm").addEventListener("submit", function(e){
-
+document.getElementById("paymentForm").addEventListener("submit", function(e) {
     e.preventDefault();
-
-    let metode = document.querySelector('input[name="metode"]:checked');
-
-    if(!metode){
+    let metode = document.getElementById('metodeInput').value;
+    if (!metode) {
         alert("Pilih metode pembayaran dulu!");
         return;
     }
-
-    if(metode.value === "tunai"){
+    if (metode === "tunai") {
         window.location.href = "/pembeli/tunai";
-    }
-
-    else if(metode.value === "qris"){
+    } else if (metode === "qris") {
         window.location.href = "/pembeli/qris";
     }
-
 });
-
 </script>
 
 </body>

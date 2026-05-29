@@ -81,6 +81,7 @@ function editMode() {
                     <th>Akun</th>
                     <th>Email</th>
                     <th>Status</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
 
@@ -98,6 +99,10 @@ function editMode() {
                         {% else %}
                             <span class="status nonaktif">Tidak aktif</span>
                         {% endif %}
+                    </td>
+                    <td>
+                        <a href="/admin/edit-akun/{{ item.id }}" class="edit-link">✏️</a>
+                        <a href="/admin/hapus-akun/{{ item.id }}" class="hapus-link" onclick="return confirm('Yakin hapus akun ini?')">🗑️</a>
                     </td>
                 </tr>
                 {% endfor %}

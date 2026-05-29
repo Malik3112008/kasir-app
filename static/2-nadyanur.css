@@ -331,4 +331,38 @@ saturate(7481%)
     padding: 6px 12px;
     border-radius: 10px;
     cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.selengkapnya-btn:hover {
+    background-color: #bfdbfe;
+    transform: translateY(-1px);
+}
+
+/* Animations */
+.container {
+    animation: fadeInUp 0.4s ease;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.ulasan-box, .stat-box {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ulasan-box:hover, .stat-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.review-produk {
+    transition: background-color 0.2s ease;
+}
+
+.review-produk:hover {
+    background-color: #f0f7ff;
+    border-radius: 8px;
 }

@@ -1,0 +1,248 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #dbeafe; 
+}
+
+nav {
+    background-color: white;
+    display: flex;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 20px;
+    margin: 0;
+}
+
+.nav-bar {
+    display: flex;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    list-style: none;
+    font-weight: 700;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 15px;
+}
+
+.back-link {
+    text-decoration: none; 
+    color: #2563eb; 
+    font-weight: bold; 
+    margin-left: 20px;
+    font-size: 20px;
+}
+
+.container {
+    display: flex;
+    margin-top: 16px;
+    padding: 0 20px 20px 20px;
+    gap: 20px;
+}
+
+.main-content {
+    flex: 3;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    box-sizing: border-box;
+}
+
+.sidebar {
+    flex: 1;
+}
+
+h1 {
+    font-size: 24px;
+    margin-top: 0;
+    font-weight: bold;
+}
+
+.search-container {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.icon-cari {
+    position: absolute;
+    right: 20px;
+    top: 13px;
+    color: #999;
+}
+
+.table-scroll-wrapper {
+    max-height: 440px; 
+    overflow-y: auto;   
+    border-radius: 4px;
+    padding-right: 5px;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+.table-scroll-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 10px;
+}
+.table-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: #c1c1c1; 
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+th {
+    text-align: left;
+    padding: 12px 10px;
+    border-bottom: 2px solid #edf2f7;
+    color: #666;
+    position: sticky; 
+    top: 0;
+    background: white;
+    z-index: 2;
+}
+
+td {
+    padding: 14px 10px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+/* --- LOGIKA ATURAN WARNA STATUS AKTIVITAS BARU --- */
+.status-badge {
+    display: inline-block;
+    width: 95px;
+    padding: 6px 0;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 6px;
+}
+
+/* 1. Login System -> Biru */
+.status-login {
+    background-color: #bfdbfe;
+    color: #1e3a8a;
+}
+
+/* 2. Log Out -> Merah */
+.status-logout {
+    background-color: #fca5a5;
+    color: #7f1d1d;
+}
+
+/* 3. Tambah Barang & Restok -> Hijau */
+.status-tambah-stok {
+    background-color: #a7f3d0;
+    color: #065f46;
+}
+
+/* 4. Hapus & Ubah Harga -> Abu-Abu */
+.status-hapus-ubah {
+    background-color: #e2e8f0;
+    color: #334155;
+}
+
+.status-default {
+    background-color: #f1f5f9;
+    color: #475569;
+}
+
+/* Dropdown Wrapper & Arrow Properties */
+.filter-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.filter-card h3 {
+    font-size: 15px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.custom-dropdown {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+select, .filter-card input {
+    width: 100%;
+    padding: 12px 40px 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 14px;
+    background-color: #fff;
+    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.arrow-icon {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    width: 0;
+    height: 0;
+    margin-top: -3px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #555; 
+    transition: transform 0.3s ease; 
+    pointer-events: none;
+}
+
+.custom-dropdown.open .arrow-icon {
+    transform: rotate(180deg); 
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    border: none;
+}
+
+.btn-update {
+    background-color: #001eff; 
+    color: white;
+}
+
+.btn-update:hover {
+    background-color: #0016cc;
+}
+
+.btn-clear {
+    background-color: white;
+    border: 1px solid #ccc;
+    color: #333;
+}

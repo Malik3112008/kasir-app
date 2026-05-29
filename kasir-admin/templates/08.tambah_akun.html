@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Akun</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='08.pengelola_akun_penjual.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+</head>
+<body>
+    <nav>
+        <div class="nav-bar">
+            <li>
+                <a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+            </li>
+            <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" width="70" height="70">
+            <span>Admin Koperasi</span>
+        </div>
+        <ul>
+            <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
+        </ul>
+    </nav>
+
+<div class="form-container">
+
+    <h1>Tambah Akun</h1>
+
+    <form method="POST">
+        <input type="text" name="nama" placeholder="Nama" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <select name="status">
+            <option>Aktif</option>
+            <option>Tidak aktif</option>
+        </select>
+        <button type="submit">Simpan</button>
+    </form>
+
+    <a href="{{ url_for('admin_kelola_akun_penjual') }}" class="btn-kembali">Kembali</a>
+
+</div>
+
+</body>
+</html>

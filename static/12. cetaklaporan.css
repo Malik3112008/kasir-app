@@ -179,3 +179,45 @@ td{
     font-size: 13px;
     font-weight: bold;
 }
+
+/* Animations */
+.container {
+    animation: fadeInUp 0.4s ease;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.btn-pilihan {
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-pilihan:hover {
+    background-color: #2a4a70;
+    transform: translateY(-1px);
+}
+
+.pdf, .excel {
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pdf:hover {
+    background-color: #c41010;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231,24,24,0.3);
+}
+
+.excel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+    background-color: #f0f7ff;
+}
