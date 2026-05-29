@@ -1212,7 +1212,11 @@ def pembeli_pesanan():
     count_dikemas = len([p for p in pesanan_user if p["status"] == "Disiapkan"])
     count_siap = len([p for p in pesanan_user if p["status"] == "Siap diambil"])
     count_selesai = len([p for p in pesanan_user if p["status"] in ("Selesai", "Sudah diambil")])
-    return render_template('8-lihatpesanan.html', pesanan_list=pesanan_user, status=status, total_barang=total_barang, count_dikemas=count_dikemas, count_siap=count_siap, count_selesai=count_selesai)
+    if pesanan_user:
+        items = pesanan_user[-1]["barang"]
+    else:
+        items = get_items_bayar()
+    return render_template('8-lihatpesanan.html', items=items, status=status, count_dikemas=count_dikemas, count_siap=count_siap, count_selesai=count_selesai)
 
 @app.route('/pembeli/status')
 def pembeli_status():
@@ -1235,7 +1239,10 @@ def pembeli_status():
 def siap_diambil():
     pelanggan = session.get('nama', '')
     pesanan_siap = [p for p in pesanan if p["status"] == "Siap diambil" and p["pelanggan"] == pelanggan]
-    return render_template("8-lihatpesanan.html", pesanan_list=pesanan_siap, status="Siap diambil", total_barang=0)
+    count_dikemas = 0
+    count_siap = len(pesanan_siap)
+    count_selesai = 0
+    return render_template("8-lihatpesanan.html", pesanan_list=pesanan_siap, status="Siap diambil", total_barang=0, count_dikemas=count_dikemas, count_siap=count_siap, count_selesai=count_selesai)
 
 # ============================================================
 # PEMBELI: PENILAIAN
