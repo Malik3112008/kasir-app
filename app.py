@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, make_response, Response, jsonify
+from werkzeug.utils import secure_filename
 from jinja2 import ChoiceLoader, FileSystemLoader
 import os
 import secrets
@@ -72,14 +73,14 @@ def admin_beranda_awal():
 # ============================================================
 
 CARDS_DATA = [
-    {"id": 1, "text": "Rak Makanan Ringan", "icon": "fa-solid fa-cookie-bite", "href": "/admin/denah/makanan_ringan", "width": 290, "height": 120, "left": 40, "top": 130},
-    {"id": 2, "text": "Rak Snack", "icon": "fa-solid fa-candy-cane", "href": "/admin/denah/makanan_ringan", "width": 290, "height": 120, "left": 40, "top": 300},
-    {"id": 3, "text": "Rak Cemilan", "icon": "fa-solid fa-pizza-slice", "href": "/admin/denah/makanan_ringan", "width": 290, "height": 120, "left": 40, "top": 470},
-    {"id": 4, "text": "Meja Kasir", "icon": "fa-solid fa-cash-register", "href": "/admin/denah/meja_kasir", "width": 220, "height": 180, "left": 520, "top": 140},
-    {"id": 5, "text": "Rak Alat Tulis", "icon": "fa-solid fa-book-open", "href": "/admin/denah/alat_tulis", "width": 180, "height": 230, "left": 870, "top": 130},
-    {"id": 6, "text": "Rak Makanan", "icon": "fa-solid fa-burger", "href": "/admin/denah/makanan", "width": 180, "height": 230, "left": 870, "top": 430},
-    {"id": 7, "text": "Rak Minuman", "icon": "fa-solid fa-bottle-water", "href": "/admin/denah/minuman", "width": 180, "height": 430, "left": 1160, "top": 120},
-    {"id": 8, "text": "Pintu Masuk/Keluar", "icon": "fa-solid fa-door-open", "href": "/admin/denah/pintu", "width": 420, "height": 120, "left": 430, "top": 640},
+    {"id": 1, "text": "Rak Makanan Ringan", "icon": "fa-solid fa-cookie-bite", "href": "/admin/denah/makanan_ringan", "width": 290, "height": 120, "left": 40, "top": 130, "image": "images/makanan_ringan/gambar1.jpg"},
+    {"id": 2, "text": "Rak Snack", "icon": "fa-solid fa-candy-cane", "href": "/admin/denah/makanan_ringan", "width": 290, "height": 120, "left": 40, "top": 300, "image": "images/makanan_ringan/gambar1.jpg"},
+    {"id": 3, "text": "Rak Cemilan", "icon": "fa-solid fa-pizza-slice", "href": "/admin/denah/makanan_ringan", "width": 290, "height": 120, "left": 40, "top": 470, "image": "images/makanan_ringan/gambar1.jpg"},
+    {"id": 4, "text": "Meja Kasir", "icon": "fa-solid fa-cash-register", "href": "/admin/denah/meja_kasir", "width": 220, "height": 180, "left": 520, "top": 140, "image": "images/meja_kasir/gambar1.jpg"},
+    {"id": 5, "text": "Rak Alat Tulis", "icon": "fa-solid fa-book-open", "href": "/admin/denah/alat_tulis", "width": 180, "height": 230, "left": 870, "top": 130, "image": "images/alat_tulis/gambar1.jpg"},
+    {"id": 6, "text": "Rak Makanan", "icon": "fa-solid fa-burger", "href": "/admin/denah/makanan", "width": 180, "height": 230, "left": 870, "top": 430, "image": "images/makanan/gambar1.jpg"},
+    {"id": 7, "text": "Rak Minuman", "icon": "fa-solid fa-bottle-water", "href": "/admin/denah/minuman", "width": 180, "height": 430, "left": 1160, "top": 120, "image": "images/minuman/gambar1.jpg"},
+    {"id": 8, "text": "Pintu Masuk/Keluar", "icon": "fa-solid fa-door-open", "href": "/admin/denah/pintu", "width": 420, "height": 120, "left": 430, "top": 640, "image": "images/pintu/gambar1.jpg"},
 ]
 
 def load_cards():
@@ -514,21 +515,21 @@ def admin_stok_tersedia_hapus(id):
 # ============================================================
 
 data_barang = [
-    {"no": 1, "nama": "Roti Aoka", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "aoka.png", "rating": 5, "emoji": "🍞"},
-    {"no": 2, "nama": "Donat", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "donat.jpg", "rating": 4, "emoji": "🍩"},
-    {"no": 3, "nama": "Mie Instan", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal": "2026-05-08", "gambar": "pop mie.png", "rating": 4, "emoji": "🍜"},
+    {"no": 1, "nama": "Roti Aoka", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar dan icon/gambar roti aoka.jpeg", "rating": 5, "emoji": "🍞"},
+    {"no": 2, "nama": "Donat", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar dan icon/roti.jpg", "rating": 4, "emoji": "🍩"},
+    {"no": 3, "nama": "Mie Instan", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal": "2026-05-08", "gambar": "gambar dan icon/roti.jpg", "rating": 4, "emoji": "🍜"},
     {"no": 4, "nama": "Keripik Kentang", "stok": 22, "harga": 10000, "kategori": "Makanan", "tanggal": "2026-05-11", "gambar": "", "rating": 4, "emoji": "🥔"},
     {"no": 5, "nama": "Sosis", "stok": 20, "harga": 2000, "kategori": "Makanan", "tanggal": "2026-05-12", "gambar": "", "rating": 3, "emoji": "🌭"},
-    {"no": 6, "nama": "Air Mineral", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal": "2026-05-06", "gambar": "air mineral.png", "rating": 5, "emoji": "💧"},
-    {"no": 7, "nama": "Teh Botol", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal": "2026-05-07", "gambar": "teh botol.png", "rating": 3, "emoji": "🍵"},
-    {"no": 8, "nama": "Susu Kotak", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal": "2026-05-10", "gambar": "ultramilk.png", "rating": 4, "emoji": "🥛"},
+    {"no": 6, "nama": "Air Mineral", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal": "2026-05-06", "gambar": "gambar dan icon/ades.jpg", "rating": 5, "emoji": "💧"},
+    {"no": 7, "nama": "Teh Botol", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal": "2026-05-07", "gambar": "gambar dan icon/gambar le mineral.jpeg", "rating": 3, "emoji": "🍵"},
+    {"no": 8, "nama": "Susu Kotak", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal": "2026-05-10", "gambar": "gambar dan icon/gambar le mineral.jpeg", "rating": 4, "emoji": "🥛"},
     {"no": 9, "nama": "Kopi Sachet", "stok": 30, "harga": 4000, "kategori": "Minuman", "tanggal": "2026-05-13", "gambar": "", "rating": 3, "emoji": "☕"},
     {"no": 10, "nama": "Es Krim", "stok": 15, "harga": 4500, "kategori": "Minuman", "tanggal": "2026-05-14", "gambar": "", "rating": 4, "emoji": "🍦"},
-    {"no": 11, "nama": "Pensil", "stok": 30, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-03", "gambar": "pensil.jpg", "rating": 4, "emoji": "✏️"},
-    {"no": 12, "nama": "Bolpoin", "stok": 25, "harga": 4000, "kategori": "Alat Tulis", "tanggal": "2026-05-04", "gambar": "bolpoin.png", "rating": 3, "emoji": "🖊️"},
-    {"no": 13, "nama": "Buku Tulis", "stok": 40, "harga": 6000, "kategori": "Alat Tulis", "tanggal": "2026-05-05", "gambar": "buku tulis.jpg", "rating": 4, "emoji": "📓"},
-    {"no": 14, "nama": "Penghapus", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-09", "gambar": "penghapus.png", "rating": 5, "emoji": "🧽"},
-    {"no": 15, "nama": "Spidol", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal": "2026-05-12", "gambar": "bolpoin.png", "rating": 4, "emoji": "🖍️"},
+    {"no": 11, "nama": "Pensil", "stok": 30, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-03", "gambar": "gambar dan icon/gambar pensil.jpeg", "rating": 4, "emoji": "✏️"},
+    {"no": 12, "nama": "Bolpoin", "stok": 25, "harga": 4000, "kategori": "Alat Tulis", "tanggal": "2026-05-04", "gambar": "gambar dan icon/bulpoin.jpg", "rating": 3, "emoji": "🖊️"},
+    {"no": 13, "nama": "Buku Tulis", "stok": 40, "harga": 6000, "kategori": "Alat Tulis", "tanggal": "2026-05-05", "gambar": "gambar dan icon/gambar pensil.jpeg", "rating": 4, "emoji": "📓"},
+    {"no": 14, "nama": "Penghapus", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-09", "gambar": "gambar dan icon/gambar penghapus.jpeg", "rating": 5, "emoji": "🧽"},
+    {"no": 15, "nama": "Spidol", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal": "2026-05-12", "gambar": "gambar dan icon/gambar pulpen.jpeg", "rating": 4, "emoji": "🖍️"},
     {"no": 16, "nama": "Tipe X", "stok": 25, "harga": 5000, "kategori": "Alat Tulis", "tanggal": "2026-05-15", "gambar": "gambar dan icon/gambar tipe ex.jpeg", "rating": 5, "emoji": "📝"},
 ]
 
@@ -889,6 +890,16 @@ def admin_simpan_pengaturan():
     data_koperasi['telepon'] = request.form.get('telepon', data_koperasi['telepon'])
     data_koperasi['jam'] = request.form.get('jam', data_koperasi['jam'])
     data_koperasi['hari'] = request.form.get('hari', data_koperasi['hari'])
+
+    # Handle logo file upload (from modal form field "gambar")
+    file = request.files.get('gambar')
+    if file and file.filename:
+        filename = secure_filename(file.filename)
+        upload_dir = app.config['UPLOAD_FOLDER']
+        os.makedirs(upload_dir, exist_ok=True)
+        file.save(os.path.join(upload_dir, filename))
+        data_koperasi['logo'] = filename
+
     save_data(data_koperasi)
     return redirect(url_for('admin_pengaturan'))
 

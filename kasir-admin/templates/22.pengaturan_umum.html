@@ -13,7 +13,7 @@
     <div class="nav-bar">
       <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='/back-svgrepo-com.svg') }}"
           alt="Kembali" width="30px" height="30px" /></a>
-      <img src="{{ url_for('static', filename='/' + logo) }}" class="Logo-navbar" alt="logo" />
+      <img src="{{ url_for('static', filename='gambar/' + logo) }}" class="Logo-navbar" alt="logo" />
       <span>{{nama}}</span>
     </div>
     <ul>
@@ -63,32 +63,28 @@
         <p>Letakkan Media Disini</p>
         <span>Atau</span>
         <br />
-        <a href="#modal-upload" class="btn-upload">pilih gambar</a>
+        <label for="logo-input" class="btn-upload">pilih gambar</label>
+        <input type="file" id="logo-input" name="gambar" accept=".jpg,.jpeg,.png,.svg" hidden />
       </div>
-      <img src="{{ url_for('static', filename='gambar/' + logo) }}" class="Logo" />
+      <img src="{{ url_for('static', filename='gambar/' + logo) }}" class="Logo" id="logo-preview" />
     </div>
 
     <button type="submit" class="btn-simpan">Simpan Pengaturan</button>
   </form>
 
-  <div id="modal-upload" class="modal">
-    <div class="modal-box">
-      <a href="#" class="close">&times;</a>
-      <h3>Unggah Gambar</h3>
-      <div class="info">
-        ✅ Format: <strong>JPG, JPEG,PNG</strong>
-        <br />
-        📏 Maksimal: <strong>5 MB</strong>
-      </div>
-      <label for="input-gambar" class="custom-file">Pilih Gambar</label>
+  <script>
+    document.getElementById('logo-input').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          document.getElementById('logo-preview').src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
 
-      <form action="{{ url_for('admin_simpan_pengaturan') }}" method="POST" enctype="multipart/form-data">
-        <input type="file" id="input-gambar" name="gambar" accept=".jpg,.jpeg,.png" hidden required />
-
-        <button type="submit" class="btn-submit">Unggah permanen</button>
-      </form>
-    </div>
-  </div>
 </body>
 
 </html>
