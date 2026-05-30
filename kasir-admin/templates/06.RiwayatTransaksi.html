@@ -75,7 +75,7 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a href="/admin/detail-transaksi/{{ p.id }}" class="detail">Lihat</a>
+                        <a href="{{ url_for('admin_detail_transaksi', trx_id=p.id) }}" class="detail">Lihat</a>
                     </td>
                 </tr>
                 {% endfor %}

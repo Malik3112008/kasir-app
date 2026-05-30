@@ -14,7 +14,7 @@
 
     <div class="container">
 
-        <a href="/pembeli" class="back">← Kembali</a>
+        <a href="{{ url_for('pembeli_home') }}" class="back">← Kembali</a>
 
         <div class="card">
 
@@ -22,7 +22,7 @@
 
             <div class="status-box">
 
-                <a href="/pembeli/pesanan" class="status {% if status == 'Disiapkan' or status == 'dikemas' %}active{% endif %}">
+                <a href="{{ url_for('pembeli_pesanan') }}" class="status {% if status == 'Disiapkan' or status == 'dikemas' %}active{% endif %}">
                     <div class="icon-circle">
                         <img src="{{ url_for('static', filename='cardboard-box-11-svgrepo-com.svg') }}" class="icon">
                         {% if count_dikemas > 0 %}
@@ -32,12 +32,12 @@
                     <p>Dikemas</p>
                 </a>
 
-                <a href="/pembeli/pesanan?status=siap" class="status {% if status == 'Siap diambil' or status == 'siap' %}active{% endif %}">
+                <a href="{{ url_for('pembeli_pesanan') }}?status=siap" class="status {% if status == 'Siap diambil' or status == 'siap' %}active{% endif %}">
                     <img src="{{ url_for('static', filename='shopping-bag-svgrepo-com (1).svg') }}" class="icon">
                     <p>Siap Diambil</p>
                 </a>
 
-                <a href="/pembeli/pesanan?status=selesai" class="status {% if status == 'Selesai' or status == 'Sudah diambil' or status == 'selesai' %}active{% endif %}">
+                <a href="{{ url_for('pembeli_pesanan') }}?status=selesai" class="status {% if status == 'Selesai' or status == 'Sudah diambil' or status == 'selesai' %}active{% endif %}">
                     <img src="{{ url_for('static', filename='check-mark-circle-svgrepo-com (1).svg') }}" class="icon">
                     <p>Pesanan Selesai</p>
                 </a>

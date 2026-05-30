@@ -11,7 +11,7 @@
 <body>
                                                                                                                                                                      
     <div class="container">
-        <a href="/pembeli/pilih-pembayaran" class="back">← Kembali</a>
+        <a href="{{ url_for('pembeli_pilih_pembayaran') }}" class="back">← Kembali</a>
 
         <h1>Pembayaran QRIS</h1>
 
@@ -33,7 +33,7 @@
         <p class="total-text">Total pembayaran</p>
         <h2>{{ formatRp(total) }}</h2>
 
-        <a href="/pembeli/struk">
+        <a href="{{ url_for('pembeli_struk') }}">
         <button class="upload-btn">
             Cetak Struk
         </button>

@@ -150,11 +150,14 @@
     </div>
 
     <div class="button-group">
-        <a href="/admin/cetak_pdf"><button class="pdf">CETAK PDF</button></a>
-        <a href="/admin/cetak_excel"><button class="excel">CETAK EXCEL</button></a>
+        <a href="{{ url_for('admin_cetak_pdf') }}"><button class="pdf">CETAK PDF</button></a>
+        <a href="{{ url_for('admin_cetak_excel') }}"><button class="excel">CETAK EXCEL</button></a>
     </div>
 
     <script>
+        var cetakLaporanBarangUrl = "{{ url_for('admin_cetak_laporan_barang') }}";
+        var cetakLaporanUrl = "{{ url_for('admin_cetak_laporan') }}";
+
         function toggleDropdown() {
             const menu = document.getElementById('cetakDropdown');
             menu.classList.toggle('show');
@@ -175,13 +178,13 @@
 
             if (type === 'barang') {
                 if (awal && akhir) {
-                    window.location.href = '/admin/cetak_laporan_barang?tanggal_awal=' + awal + '&tanggal_akhir=' + akhir;
+                    window.location.href = cetakLaporanBarangUrl + '?tanggal_awal=' + awal + '&tanggal_akhir=' + akhir;
                 } else {
-                    window.location.href = '/admin/cetak_laporan_barang';
+                    window.location.href = cetakLaporanBarangUrl;
                 }
             } else {
                 if (awal && akhir) {
-                    window.location.href = '/admin/cetak_laporan?tanggal_awal=' + awal + '&tanggal_akhir=' + akhir;
+                    window.location.href = cetakLaporanUrl + '?tanggal_awal=' + awal + '&tanggal_akhir=' + akhir;
                 }
             }
         }

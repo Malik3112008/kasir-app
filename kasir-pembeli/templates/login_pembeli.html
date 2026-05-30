@@ -9,7 +9,7 @@
 </head>
 <body>
 
-    <a href="/admin" class="back">← Kembali</a>
+    <a href="{{ url_for('admin_beranda_awal') }}" class="back">← Kembali</a>
 
     <div class="container">
 
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="forgot">
-                    <a href="/pembeli/reset-password">Lupa Sandi?</a>
+                    <a href="{{ url_for('pembeli_reset_password') }}">Lupa Sandi?</a>
                 </div>
 
                 <button type="submit">MASUK</button>
