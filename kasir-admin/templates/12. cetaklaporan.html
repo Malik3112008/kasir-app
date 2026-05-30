@@ -151,19 +151,18 @@
 
     <div class="button-group">
         <a href="{{ url_for('admin_cetak_pdf') }}"><button class="pdf">CETAK PDF</button></a>
-        <a href="{{ url_for('admin_cetak_excel') }}"><button class="excel">CETAK EXCEL</button></a>
+        <a href="{{ url_for('admin_cetak_excel') }}"><button class="excel">CETAK CSV</button></a>
     </div>
 
     <script>
+        var pengaturanLaporanUrl = "{{ url_for('admin_pengaturan_laporan') }}";
         var cetakLaporanBarangUrl = "{{ url_for('admin_cetak_laporan_barang') }}";
-        var cetakLaporanUrl = "{{ url_for('admin_cetak_laporan') }}";
 
         function toggleDropdown() {
             const menu = document.getElementById('cetakDropdown');
             menu.classList.toggle('show');
         }
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
             const wrapper = document.querySelector('.dropdown-wrapper');
             if (!wrapper.contains(e.target)) {
@@ -176,16 +175,10 @@
             const akhir = document.getElementById('tanggal-akhir').value;
             document.getElementById('cetakDropdown').classList.remove('show');
 
-            if (type === 'barang') {
-                if (awal && akhir) {
-                    window.location.href = cetakLaporanBarangUrl + '?tanggal_awal=' + awal + '&tanggal_akhir=' + akhir;
-                } else {
-                    window.location.href = cetakLaporanBarangUrl;
-                }
-            } else {
-                if (awal && akhir) {
-                    window.location.href = cetakLaporanUrl + '?tanggal_awal=' + awal + '&tanggal_akhir=' + akhir;
-                }
+            if (type === 'transaksi') {
+                window.location.href = pengaturanLaporanUrl;
+            } else if (type === 'barang') {
+                window.location.href = cetakLaporanBarangUrl;
             }
         }
     </script>

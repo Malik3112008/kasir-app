@@ -48,7 +48,7 @@ nav ul {
 .info-box {
     background: #D9EEFF;
     padding: 20px;
-    border-radius: 6px;
+    border-radius: 10px;
     margin: 20px 0;
     display: flex;
     align-items: center;
@@ -306,7 +306,7 @@ thead {
     color: #9ca3af;
     font-size: 14px;
     padding: 4px;
-    border-radius: 6px;
+    border-radius: 10px;
     transition: all 0.2s;
 }
 .hapus-btn:hover {

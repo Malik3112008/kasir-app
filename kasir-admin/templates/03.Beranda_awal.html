@@ -12,7 +12,7 @@
 <body>
 
     <!-- Tombol Admin -->
-    <a href="/admin" class="admin-btn">
+    <a href="{{ url_for('admin_login') }}" class="admin-btn">
         <button class="admin-btn">
             Masuk Admin
         </button>
@@ -33,13 +33,13 @@
             Koperasi siswa adalah organisasi di sekolah yang dikelola oleh siswa dengan bimbingan guru. Koperasi ini menyediakan kebutuhan sekolah seperti alat tulis, makanan, dan seragam. Tujuan koperasi siswa adalah melatih kerja sama, tanggung jawab, dan jiwa usaha pada siswa.
         </p>
 
-        <a href="/admin/denah">
+        <a href="{{ url_for('admin_denah') }}">
             <button class="menu-btn">
                 DENAH KOPERASI
             </button>
         </a>
 
-        <a href="/pembeli">
+        <a href="{{ url_for('pembeli_home') }}">
             <button class="menu-btn">
                 BERBELANJA
             </button>

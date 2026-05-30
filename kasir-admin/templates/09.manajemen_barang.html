@@ -41,31 +41,6 @@
             </a>
         </div>
 
-        <!-- Info Ringkas -->
-        <div class="info-ringkas">
-            <div class="info-card">
-                <i class="fa fa-boxes-stacked"></i>
-                <div>
-                    <span class="info-label">Total Barang</span>
-                    <span class="info-value">{{ data | length }}</span>
-                </div>
-            </div>
-            <div class="info-card tersedia">
-                <i class="fa fa-check-circle"></i>
-                <div>
-                    <span class="info-label">Tersedia</span>
-                    <span class="info-value">{{ data | selectattr('stok', 'gt', 0) | list | length }}</span>
-                </div>
-            </div>
-            <div class="info-card kosong">
-                <i class="fa fa-exclamation-circle"></i>
-                <div>
-                    <span class="info-label">Stok Habis</span>
-                    <span class="info-value">{{ data | selectattr('stok', 'equalto', 0) | list | length }}</span>
-                </div>
-            </div>
-        </div>
-
         <!-- Tabel -->
         <div class="table-wrapper">
             <table>
@@ -73,7 +48,6 @@
                     <tr>
                         <th>No</th>
                         <th>Nama Barang</th>
-                        <th>Kategori</th>
                         <th>Harga</th>
                         <th>Stok</th>
                         <th>Status</th>
@@ -85,7 +59,6 @@
                     <tr>
                         <td>{{ item.no }}</td>
                         <td>{{ item.nama }}</td>
-                        <td>{{ item.kategori }}</td>
                         <td>Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
                         <td>{{ item.stok }}</td>
                         <td>
@@ -101,15 +74,6 @@
                             <a href="{{ url_for('admin_pengisian_barang_restok', id=item.no) }}" class="btn-restok" title="Restok">
                                 <i class="fa fa-plus"></i>
                             </a>
-                            <a href="{{ url_for('admin_stok_tersedia_edit', id=item.no) }}" class="btn-edit" title="Edit">
-                                <i class="fa fa-pen"></i>
-                            </a>
-                            <form method="POST" action="{{ url_for('admin_hapus_barang') }}" style="display:inline;">
-                                <input type="hidden" name="id" value="{{ item.no }}">
-                                <button type="submit" class="btn-hapus" title="Hapus" onclick="return confirm('Yakin hapus {{ item.nama }}?')">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </form>
                         </td>
                     </tr>
                     {% endfor %}

@@ -9,18 +9,18 @@
 body {
     background-color: #63dce3;
     font-family: Arial, sans-serif;
-    padding: 20px;
+    padding: 0;
     min-height: 100vh;
 }
 
-/* ===== NAVBAR (RIFKY: white, no sticky, no shadow) ===== */
+/* ===== NAVBAR ===== */
 nav {
     background-color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    margin-bottom: 20px;
+    margin-bottom: 0;
 }
 
 .nav-bar {
@@ -55,8 +55,9 @@ nav ul li a img:hover {
 
 /* ===== CONTAINER (RIFKY: light cyan bg) ===== */
 .container {
-    width: 90%;
-    margin: auto;
+    width: 95%;
+    max-width: 1400px;
+    margin: 20px auto;
     background: #dff8f6;
     padding: 20px;
 }

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan Laporan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='16-pengaturan-laporan.css') }}">
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-bar">
+            <li>
+                <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+            </li>
+            <img src="{{ url_for('static', filename='newlogo.jpeg') }}" alt="Logo" width="70" height="70">
+            <span>Admin Koperasi</span>
+        </div>
+        <ul>
+            <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+
+        <h1>Pengaturan Laporan</h1>
+
+        <hr class="garis">
+
+        <form method="GET" action="{{ url_for('admin_pengaturan_laporan') }}">
+
+            <div class="tanggal-box">
+                <label>Laporan Barang pada</label>
+                <input type="date" name="tanggal_awal" value="{{ tanggal_awal }}">
+                <span class="sd">sd</span>
+                <input type="date" name="tanggal_akhir" value="{{ tanggal_akhir }}">
+                <button type="submit" class="btn-filter">Filter</button>
+            </div>
+
+            <select name="laporan" onchange="this.form.submit()">
+                <option value="barang" {% if laporan_type == 'barang' %}selected{% endif %}>Cetak Laporan Data Barang</option>
+                <option value="transaksi" {% if laporan_type == 'transaksi' %}selected{% endif %}>Cetak Laporan Transaksi</option>
+            </select>
+
+        </form>
+
+        <hr class="garis">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Nama Barang</th>
+                    <th>Stok</th>
+                    <th>Harga</th>
+                    <th>Kategori</th>
+                    <th>Tanggal</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in barang %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ item.nama }}</td>
+                    <td>
+                        <span class="stok">{{ item.stok }}</span>
+                    </td>
+                    <td>Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
+                    <td>{{ item.kategori }}</td>
+                    <td>{{ item.tanggal }}</td>
+                    <td>Rp {{ "{:,.0f}".format(item.harga * item.stok).replace(",", ".") }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="button-box">
+            <a href="{{ url_for('admin_cetak_pdf') }}?tanggal_awal={{ tanggal_awal }}&tanggal_akhir={{ tanggal_akhir }}">
+                <button class="pdf">Cetak PDF</button>
+            </a>
+            <a href="{{ url_for('admin_cetak_excel') }}?tanggal_awal={{ tanggal_awal }}&tanggal_akhir={{ tanggal_akhir }}">
+                <button class="excel">Cetak CSV</button>
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>

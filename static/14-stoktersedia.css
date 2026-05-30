@@ -79,14 +79,14 @@ h2 {
 .filter input {
     padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
     width: 200px;
 }
 
 .filter select {
     padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 
 /* ===== TABLE ===== */
@@ -220,5 +220,5 @@ tr {
 .bulat.aktif {
     background: #3A82C4;
     width: 28px;
-    border-radius: 5px;
+    border-radius: 8px;
 }

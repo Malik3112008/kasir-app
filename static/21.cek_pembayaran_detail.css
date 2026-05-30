@@ -136,7 +136,7 @@ td{
     color: white;
     font-size: 16px;
     font-weight: bold;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
     transition: background 0.2s;
 }

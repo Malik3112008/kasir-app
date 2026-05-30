@@ -56,20 +56,22 @@ nav ul li a img:hover {
 
 /* CONTAINER */
 .container {
-    padding: 20px;
+    max-width: 450px;
+    margin: 20px auto;
+    padding: 0 20px;
     animation: fadeInUp 0.4s ease;
 }
 
 /* CARD */
 .card {
     background: white;
-    padding: 30px;
+    padding: 25px;
     border-radius: 0 0 8px 8px;
 }
 
 .card h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 20px;
+    margin-bottom: 15px;
     text-align: center;
     color: #333;
 }
@@ -77,9 +79,9 @@ nav ul li a img:hover {
 /* LABELS */
 .card label {
     display: block;
-    margin-bottom: 8px;
-    margin-top: 15px;
-    font-size: 16px;
+    margin-bottom: 5px;
+    margin-top: 12px;
+    font-size: 14px;
     font-weight: bold;
     color: #333;
 }
@@ -107,17 +109,17 @@ nav ul li a img:hover {
 .card select,
 .card textarea {
     width: 100%;
-    padding: 0 20px;
+    padding: 0 15px;
     border: 2px solid #dcdcdc;
-    border-radius: 12px;
-    font-size: 16px;
+    border-radius: 10px;
+    font-size: 14px;
     box-sizing: border-box;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card input,
 .card select {
-    height: 50px;
+    height: 42px;
 }
 
 .card textarea {
@@ -158,7 +160,7 @@ nav ul li a img:hover {
     height: 40px;
     padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 6px;
+    border-radius: 10px;
     font-size: 14px;
 }
 
@@ -209,15 +211,15 @@ nav ul li a img:hover {
 }
 
 /* BUTTON */
-.btn {
+.card button[type="submit"] {
     width: 100%;
-    height: 55px;
-    margin-top: 25px;
+    height: 42px;
+    margin-top: 15px;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     background: #6fa4ff;
     color: white;
-    font-size: 22px;
+    font-size: 15px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;

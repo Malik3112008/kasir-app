@@ -635,6 +635,19 @@ def admin_cetak_laporan():
         untung_rugi=untung_rugi,
         data_transaksi=data_transaksi)
 
+@app.route('/admin/pengaturan-laporan')
+def admin_pengaturan_laporan():
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    tanggal_awal = request.args.get('tanggal_awal', '')
+    tanggal_akhir = request.args.get('tanggal_akhir', '')
+    laporan_type = request.args.get('laporan', 'barang')
+    return render_template("16.pengaturan_laporan.html",
+                           barang=data_barang,
+                           tanggal_awal=tanggal_awal,
+                           tanggal_akhir=tanggal_akhir,
+                           laporan_type=laporan_type)
+
 @app.route('/admin/cetak_laporan_barang')
 def admin_cetak_laporan_barang():
     if not session.get('user'):
