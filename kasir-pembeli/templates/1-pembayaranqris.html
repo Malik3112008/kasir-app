@@ -24,6 +24,12 @@
             <img src="{{ url_for('static', filename='gambar dan icon/qr code.png') }}" alt="QRIS Code" class="qris-image">
         </div>
 
+        <div class="info">
+            <p><b>Toko:</b> Koperasi Siswa</p>
+            <p><b>Metode:</b> QRIS</p>
+            <p><b>Status:</b> <span class="status-tag">Belum Dibayar</span></p>
+        </div>
+
         <p class="total-text">Total pembayaran</p>
         <h2>{{ formatRp(total) }}</h2>
 

@@ -200,19 +200,20 @@
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <nav>
-        <div class="nav-left">
-            <a href="/admin/dashboard" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
-            <img src="{{ url_for('static', filename='newlogo.jpeg') }}" alt="Logo">
-            <h2>Admin Koperasi</h2>
+        <div class="nav-bar">
+            <li>
+                <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+            </li>
+            <img src="{{ url_for('static', filename='newlogo.jpeg') }}" alt="Logo" width="70" height="70">
+            <span>Admin Koperasi</span>
         </div>
-        <div class="nav-right">
-            <a href="/admin/notifikasi" class="nav-icon"><i class="fa-solid fa-bell"></i></a>
-            <a href="/admin/pengaturan" class="nav-icon"><i class="fa-solid fa-gear"></i></a>
-            <a href="/admin/kelola_akun_penjual" class="nav-icon"><i class="fa-solid fa-user"></i></a>
-            <a href="/admin/logout" class="nav-icon"><i class="fa-solid fa-right-from-bracket"></i></a>
-        </div>
+        <ul>
+            <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
+        </ul>
     </nav>
 
     <!-- MAIN -->

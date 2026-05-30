@@ -4,153 +4,117 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Awal Pembelian</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='14-halaman-awal-pembeli.css') }}">
 </head>
-<body class="p-8">
-
-    <!-- Navbar Cart -->
-    <div class="navbar-cart">
-        <a href="/pembeli/logout" style="display:inline-block; text-decoration:none; color:#7aa7ff; font-size:14px; font-weight:bold;">← Logout</a>
-        <div style="display:flex; align-items:center; gap:16px;">
-            <span style="font-size:14px; color:#666;">{{ session.get('nama', 'Guest') }}</span>
-        </div>
-        <a href="/pembeli/keranjang" class="cart-link">
-            <span class="cart-icon">🛒</span>
-            <span class="cart-badge" id="cart-count">{{ cart_count }}</span>
-        </a>
-    </div>
+<body>
 
     {% if request.args.get('added') == '1' %}
-    <div id="notif" style="position:fixed; top:20px; right:20px; background:#22c55e; color:white; padding:12px 24px; border-radius:10px; font-weight:bold; z-index:999; animation: fadeInUp 0.3s ease;">
+    <div id="notif">
         ✓ Berhasil ditambahkan ke keranjang
     </div>
     <script>setTimeout(() => { document.getElementById('notif').style.display = 'none'; }, 2000);</script>
     {% endif %}
 
-    <div class="max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-sm border border-gray-200">
-
-        <!-- Judul Halaman -->
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">Halaman Awal Pembelian</h1>
-
-        <!-- Bar Pencarian dan Dropdown Kategori -->
-        <div class="flex flex-col sm:flex-row gap-4 mb-8">
-            <div class="relative flex-1 max-w-md">
-                <input type="text" id="search" placeholder="Cari produk" class="w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700">
-                <i class="fa-solid fa-magnifying-glass absolute right-3 top-3 text-gray-500"></i>
-            </div>
-            <div class="relative w-full sm:w-52">
-                <select id="kategori-filter" class="w-full px-4 py-2 border border-gray-400 rounded-lg appearance-none bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 pr-10">
-                    <option value="">Semua Kategori</option>
-                    <option value="Makanan">Makanan</option>
-                    <option value="Minuman">Minuman</option>
-                    <option value="Alat Tulis">Alat Tulis</option>
-                </select>
-                <i class="fa-solid fa-chevron-down absolute right-3 top-3.5 text-gray-500 pointer-events-none"></i>
-            </div>
+    <div class="header">
+        <a href="/pembeli/logout" class="back-link">← Logout</a>
+        <span class="user-name">{{ session.get('nama', 'Guest') }}</span>
+        <div class="top-menu">
+            <input type="text" id="search" placeholder="Cari barang">
+            <select id="kategori-filter">
+                <option value="">Semua Kategori</option>
+                <option value="Makanan">Makanan</option>
+                <option value="Minuman">Minuman</option>
+                <option value="Alat Tulis">Alat Tulis</option>
+            </select>
         </div>
+        <a href="/pembeli/keranjang" class="keranjang" id="cart-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <span class="badge" id="cart-count">{{ cart_count }}</span>
+        </a>
+    </div>
 
-        <!-- Grid Produk -->
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8" id="product-grid">
-
-            {% for item in barang %}
-            <div class="product-card border border-gray-300 rounded-2xl p-4 flex flex-col justify-between bg-white shadow-sm" data-nama="{{ item.nama }}" data-kategori="{{ item.kategori }}">
-                <div>
-                    <div class="h-28 flex items-center justify-center mb-3">
-                        {% if item.gambar and item.gambar != '' %}
-                        <img src="{{ url_for('static', filename=item.gambar) }}" alt="{{ item.nama }}" style="max-height:100%; max-width:100%; object-fit:contain;">
-                        {% else %}
-                        <span style="font-size:48px;">{{ item.emoji or '📦' }}</span>
-                        {% endif %}
+    <div class="container">
+        {% for item in barang %}
+        <div class="card" data-nama="{{ item.nama }}" data-kategori="{{ item.kategori }}">
+            {% if item.gambar and item.gambar != '' %}
+            <img src="{{ url_for('static', filename=item.gambar) }}" alt="{{ item.nama }}">
+            {% else %}
+            <div class="no-img">{{ item.emoji or '📦' }}</div>
+            {% endif %}
+            <h3>{{ item.nama }}</h3>
+            <p class="harga">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</p>
+            <p>Stok : {{ item.stok }}</p>
+            <p class="rating">
+                {% for i in range(5) %}
+                    {% if i < item.rating %}⭐{% endif %}
+                {% endfor %}
+            </p>
+            {% if item.stok > 0 %}
+            <form method="POST" action="/pembeli/tambah-keranjang">
+                <input type="hidden" name="nama" value="{{ item.nama }}">
+                <input type="hidden" name="harga" value="{{ item.harga }}">
+                <input type="hidden" name="jumlah" value="0" class="qty-input">
+                <div class="aksi">
+                    <button type="submit" class="btn-tambah">Tambah</button>
+                    <div class="jumlah">
+                        <button type="button" class="btn-jumlah" onclick="kurang(this)">-</button>
+                        <span class="qty-number">0</span>
+                        <button type="button" class="btn-jumlah" onclick="tambah(this)">+</button>
                     </div>
-                    <h3 class="font-bold text-gray-900 text-sm leading-tight">{{ item.nama }}</h3>
-                    <p class="text-blue-600 font-bold text-sm mt-0.5">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</p>
-                    <p class="text-[11px] text-gray-500 mt-1">Stok : {{ item.stok }}</p>
-                    <p class="text-[11px] text-gray-500">Kategori : {{ item.kategori }}</p>
-                    <p>
-                        {% for i in range(5) %}
-                            {% if i < item.rating %}⭐{% endif %}
-                        {% endfor %}
-                    </p>
                 </div>
-                <div class="mt-3">
-                    {% if item.stok > 0 %}
-                    <form method="POST" action="/pembeli/tambah-keranjang" class="flex items-center gap-2">
-                        <input type="hidden" name="nama" value="{{ item.nama }}">
-                        <input type="hidden" name="harga" value="{{ item.harga }}">
-                        <input type="hidden" name="jumlah" value="0" class="qty-input">
-                        <button type="button" class="minus-btn w-8 h-8 rounded-full bg-sky-400 text-white font-bold flex items-center justify-center">-</button>
-                        <span class="qty-number text-sm">0</span>
-                        <button type="button" class="plus-btn w-8 h-8 rounded-full bg-sky-400 text-white font-bold flex items-center justify-center">+</button>
-                        <button type="submit" class="flex-1 bg-sky-400 text-white text-[11px] py-1.5 px-1 rounded-md hover:bg-sky-500 transition">
-                            Tambah
-                        </button>
-                    </form>
-                    {% else %}
-                    <button class="w-full btn-stok-habis text-white text-[11px] py-1.5 px-2 rounded-md font-medium cursor-not-allowed">
-                        Stok habis
-                    </button>
-                    {% endif %}
-                </div>
-            </div>
-            {% endfor %}
-
+            </form>
+            {% else %}
+            <button class="btn-stok-habis" disabled>Stok habis</button>
+            {% endif %}
         </div>
-
-        <!-- Pagination -->
-        <div class="flex justify-end items-center gap-2 mt-4 text-blue-600 font-bold">
-            <button class="hover:text-blue-800 p-1">
-                <i class="fa-solid fa-caret-left text-xl"></i>
-            </button>
-            <div class="flex gap-1 text-xs items-center text-gray-400">
-                <span class="inline-block w-2 h-2 rounded-full border border-blue-600 bg-transparent"></span>
-                <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-300"></span>
-                <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-300"></span>
-                <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-300"></span>
-                <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-300"></span>
-            </div>
-            <button class="hover:text-blue-800 p-1">
-                <i class="fa-solid fa-caret-right text-xl"></i>
-            </button>
-        </div>
-
+        {% endfor %}
     </div>
 
     <script>
-        // Search filter
-        // Plus / Minus buttons
-        document.querySelectorAll('.plus-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                let form = btn.closest('form');
-                let num = form.querySelector('.qty-number');
-                let input = form.querySelector('.qty-input');
-                let val = parseInt(num.innerText) + 1;
+        function tambah(button) {
+            let form = button.closest('form');
+            let num = form.querySelector('.qty-number');
+            let input = form.querySelector('.qty-input');
+            let val = parseInt(num.innerText) + 1;
+            num.innerText = val;
+            input.value = val;
+        }
+
+        function kurang(button) {
+            let form = button.closest('form');
+            let num = form.querySelector('.qty-number');
+            let input = form.querySelector('.qty-input');
+            let val = parseInt(num.innerText);
+            if (val > 0) {
+                val--;
                 num.innerText = val;
                 input.value = val;
-            });
-        });
-
-        document.querySelectorAll('.minus-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                let form = btn.closest('form');
-                let num = form.querySelector('.qty-number');
-                let input = form.querySelector('.qty-input');
-                let val = parseInt(num.innerText);
-                if (val > 0) {
-                    val--;
-                    num.innerText = val;
-                    input.value = val;
-                }
-            });
-        });
+            }
+        }
 
         // Search filter
         document.getElementById('search').addEventListener('keyup', function () {
             let keyword = this.value.toLowerCase();
-            document.querySelectorAll('.product-card').forEach(card => {
+            document.querySelectorAll('.card').forEach(card => {
                 let nama = card.dataset.nama.toLowerCase();
-                card.style.display = nama.includes(keyword) ? 'block' : 'none';
+                card.style.display = nama.includes(keyword) ? '' : 'none';
+            });
+        });
+
+        // Category filter
+        document.getElementById('kategori-filter').addEventListener('change', function () {
+            let kategori = this.value;
+            document.querySelectorAll('.card').forEach(card => {
+                if (!kategori || card.dataset.kategori === kategori) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
             });
         });
 
@@ -161,18 +125,6 @@
                 if (qty <= 0) {
                     e.preventDefault();
                     alert('Pilih jumlah barang terlebih dahulu!');
-                }
-            });
-        });
-
-        // Category filter
-        document.getElementById('kategori-filter').addEventListener('change', function () {
-            let kategori = this.value;
-            document.querySelectorAll('.product-card').forEach(card => {
-                if (!kategori || card.dataset.kategori === kategori) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
                 }
             });
         });

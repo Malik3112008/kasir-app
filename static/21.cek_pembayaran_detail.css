@@ -22,7 +22,12 @@ nav ul {
     list-style: none;
     align-items: center;
     padding: 10px 0;
-    gap: 18px;
+    gap: 0;
+}
+
+nav ul li {
+    margin: 0;
+    padding: 0;
 }
 
 .nav-bar {
@@ -33,7 +38,12 @@ nav ul {
     font-weight: 700;
     align-items: center;
     padding: 10px 0;
-    gap: 12px;
+    gap: 0;
+}
+
+.nav-bar li {
+    margin: 0;
+    padding: 0;
 }
 
 nav ul li a img {
@@ -49,7 +59,7 @@ nav ul li a img:hover {
 
 .container{
     width: 100%;
-    max-width: 900px;
+    max-width: 1400px;
     margin: 0 auto;
     background-color: white;
     padding: 24px;
@@ -174,6 +184,27 @@ td{
 
 .btn-back:hover{
     color: #2c5282;
+}
+
+.btn-unduh{
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    background: #3182ce;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    text-align: center;
+}
+
+.btn-unduh:hover{
+    background: #2c5282;
+    transform: translateY(-1px);
 }
 
 @keyframes fadeInUp {

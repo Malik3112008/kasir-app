@@ -12,24 +12,16 @@
     <nav>
         <div class="nav-bar">
             <li>
-                <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30" height="30"></a>
+                <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
             </li>
             <img src="{{ url_for('static', filename='newlogo.jpeg') }}" alt="Logo" width="70" height="70">
             <span>Admin Koperasi</span>
         </div>
         <ul>
-            <li>
-                <a href="/admin/notifikasi"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30" height="30"></a>
-            </li>
-            <li>
-                <a href="/admin/pengaturan"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30" height="30"></a>
-            </li>
-            <li>
-                <a href="/admin/kelola_akun_penjual"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30" height="30"></a>
-            </li>
-            <li>
-                <a href="/admin/logout"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30" height="30"></a>
-            </li>
+            <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
         </ul>
     </nav>
 
@@ -54,10 +46,11 @@
                 <tr>
                     <th>No</th>
                     <th>Nama Barang</th>
+                    <th>Berat Satuan</th>
                     <th>Kategori</th>
                     <th>Stok</th>
                     <th>Harga</th>
-                    <th>Tanggal</th>
+                    <th>Tanggal Restok</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -66,15 +59,15 @@
                 <tr>
                     <td>{{ item.no }}</td>
                     <td>{{ item.nama }}</td>
+                    <td>{{ item.berat }}</td>
                     <td>{{ item.kategori }}</td>
                     <td>
-                        {{ item.stok }}
                         {% if item.stok == 0 %}
-                            <span class="stok-habis">Habis</span>
+                            <span class="stok-badge stok-habis">{{ item.stok }}</span>
                         {% elif item.stok <= 10 %}
-                            <span class="stok-menipis">Menipis</span>
+                            <span class="stok-badge stok-menipis">{{ item.stok }}</span>
                         {% else %}
-                            <span class="stok-tersedia">Tersedia</span>
+                            <span class="stok-badge stok-tersedia">{{ item.stok }}</span>
                         {% endif %}
                     </td>
                     <td class="harga">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
@@ -84,11 +77,6 @@
                             <a href="/admin/stok-tersedia/edit/{{ item.no }}" class="icon edit" title="Edit">
                                 <i class="fa fa-pen"></i>
                             </a>
-                            <form method="POST" action="/admin/stok-tersedia/hapus/{{ item.no }}" style="display:inline;">
-                                <button type="submit" style="background:none;border:none;cursor:pointer;">
-                                    <img src="{{ url_for('static', filename='trash-bin-trash-svgrepo-com.svg') }}" alt="Hapus" class="icon hapus">
-                                </button>
-                            </form>
                         </div>
                     </td>
                 </tr>
@@ -98,17 +86,23 @@
 
         <div class="pagination">
             {% if page > 1 %}
-            <a href="/admin/stok-tersedia?page={{ page - 1 }}&cari={{ keyword }}&kategori={{ kategori }}" class="panah-kiri">&laquo;</a>
+            <a href="/admin/stok-tersedia?page={{ page - 1 }}&cari={{ keyword }}&kategori={{ kategori }}" class="panah-kiri">◀️</a>
+            {% else %}
+            <span class="panah-kiri disabled">◀️</span>
             {% endif %}
 
             <div class="bulat-container">
-                {% for p in range(1, total_halaman + 1) %}
-                <div class="bulat {% if p == page %}aktif{% endif %}"></div>
+                {% for i in range(1, total_halaman + 1) %}
+                    <a href="/admin/stok-tersedia?page={{ i }}&cari={{ keyword }}&kategori={{ kategori }}"
+                       class="bulat {% if i == page %}aktif{% endif %}">
+                    </a>
                 {% endfor %}
             </div>
 
             {% if page < total_halaman %}
-            <a href="/admin/stok-tersedia?page={{ page + 1 }}&cari={{ keyword }}&kategori={{ kategori }}" class="panah-kanan">&raquo;</a>
+            <a href="/admin/stok-tersedia?page={{ page + 1 }}&cari={{ keyword }}&kategori={{ kategori }}" class="panah-kanan">▶️</a>
+            {% else %}
+            <span class="panah-kanan disabled">▶️</span>
             {% endif %}
         </div>
     </div>

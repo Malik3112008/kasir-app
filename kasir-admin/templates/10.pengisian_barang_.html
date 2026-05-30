@@ -9,158 +9,104 @@
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <nav>
-        <div class="nav-left">
-            <a href="/admin/dashboard" class="back-btn">
-                <img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}"
-                alt="Kembali"
-                width="30"
-                height="30">
-            </a>
-            <img src="{{ url_for('static', filename='newlogo.jpeg') }}"
-            alt="Logo"
-            width="70"
-            height="70">
+        <div class="nav-bar">
+            <li>
+                <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+            </li>
+            <img src="{{ url_for('static', filename='newlogo.jpeg') }}" alt="Logo" width="70" height="70">
             <span>Admin Koperasi</span>
         </div>
-        <ul class="nav-right">
-            <li>
-                <a href="/admin/notifikasi">
-                    <img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}"
-                    alt="Notifikasi"
-                    width="30"
-                    height="30">
-                </a>
-            </li>
-            <li>
-                <a href="/admin/pengaturan">
-                    <img src="{{ url_for('static', filename='setting-svgrepo.svg') }}"
-                    alt="Setting"
-                    width="30"
-                    height="30">
-                </a>
-            </li>
-            <li>
-                <a href="/admin/kelola_akun_penjual">
-                    <img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}"
-                    alt="Pengguna"
-                    width="30"
-                    height="30">
-                </a>
-            </li>
-            <li>
-                <a href="/admin/logout">
-                    <img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}"
-                    alt="Keluar"
-                    width="30"
-                    height="30">
-                </a>
-            </li>
+        <ul>
+            <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
         </ul>
     </nav>
 
     <!-- FORM -->
     <div class="container">
 
-        <h1>TAMBAH DATA BARANG</h1>
+        <div class="card">
+
+        <h2>TAMBAH DATA BARANG</h2>
 
         <form action="/admin/simpan" method="POST" enctype="multipart/form-data">
             {% if barang %}
             <input type="hidden" name="restok_id" value="{{ barang.no }}">
             {% endif %}
 
-            <div class="input-group">
-                <label>Pilih Kategori</label>
-                <select name="kategori" required>
-                    <option value="">Pilih Kategori</option>
-                    <option value="Makanan" {% if barang and barang.kategori == 'Makanan' %}selected{% endif %}>Makanan</option>
-                    <option value="Minuman" {% if barang and barang.kategori == 'Minuman' %}selected{% endif %}>Minuman</option>
-                    <option value="Alat Tulis" {% if barang and barang.kategori == 'Alat Tulis' %}selected{% endif %}>Alat Tulis</option>
-                </select>
-            </div>
+            <label>Pilih Kategori</label>
+            <select name="kategori" required>
+                <option value="">Pilih Kategori</option>
+                <option value="Makanan" {% if barang and barang.kategori == 'Makanan' %}selected{% endif %}>Makanan</option>
+                <option value="Minuman" {% if barang and barang.kategori == 'Minuman' %}selected{% endif %}>Minuman</option>
+                <option value="Alat Tulis" {% if barang and barang.kategori == 'Alat Tulis' %}selected{% endif %}>Alat Tulis</option>
+            </select>
 
-            <div class="input-group">
-                <label>Nama Barang</label>
-                <input type="text" name="nama_barang" placeholder="Masukkan nama barang" value="{{ barang.nama if barang else '' }}" required>
-            </div>
+            <label>Nama Barang</label>
+            <input type="text" name="nama_barang" placeholder="Masukkan nama barang" value="{{ barang.nama if barang else '' }}" required>
 
-            <!-- DETAIL PRODUK -->
-            <div class="input-group">
-                <label>Detail Produk</label>
-                <div class="detail-box">
-                    <div class="detail-item">
-                        <span>Variasi :</span>
-                        <input type="text" name="variasi" placeholder="Contoh: Le Mineral">
-                    </div>
-                    <div class="detail-item">
-                        <span>Volume :</span>
-                        <input type="text" name="volume" placeholder="Contoh: 600 ml">
-                    </div>
-                    <div class="detail-item">
-                        <span>Rasa :</span>
-                        <input type="text" name="rasa" placeholder="Contoh: Original">
-                    </div>
-                    <div class="detail-item">
-                        <span>Expired :</span>
-                        <input type="text" name="expired" placeholder="Contoh: April-2028">
-                    </div>
+            <label>Detail Produk</label>
+            <div class="detail-box">
+                <div class="detail-item">
+                    <span>Variasi :</span>
+                    <input type="text" name="variasi" placeholder="Contoh: Le Mineral">
+                </div>
+                <div class="detail-item">
+                    <span>Volume :</span>
+                    <input type="text" name="volume" placeholder="Contoh: 600 ml">
+                </div>
+                <div class="detail-item">
+                    <span>Rasa :</span>
+                    <input type="text" name="rasa" placeholder="Contoh: Original">
+                </div>
+                <div class="detail-item">
+                    <span>Expired :</span>
+                    <input type="text" name="expired" placeholder="Contoh: April-2028">
                 </div>
             </div>
 
-            <!-- DESKRIPSI -->
-            <div class="input-group">
-                <label>Deskripsi</label>
-                <details class="deskripsi-box">
-                    <summary></summary>
-                    <textarea name="catatan" rows="6" placeholder="Tulis deskripsi barang..."></textarea>
-                </details>
-            </div>
+            <label>Deskripsi</label>
+            <details class="deskripsi-box">
+                <summary></summary>
+                <textarea name="catatan" rows="6" placeholder="Tulis deskripsi barang..."></textarea>
+            </details>
 
             <div class="row">
                 <div class="col">
-                    <div class="input-group">
-                        <label>Harga Beli</label>
-                        <input type="number" name="harga_beli" min="1" step="1" placeholder="2500" required>
-                    </div>
+                    <label>Harga Beli</label>
+                    <input type="number" name="harga_beli" min="1" step="1" placeholder="2500" required>
                 </div>
                 <div class="col">
-                    <div class="input-group">
-                        <label>Harga Jual</label>
-                        <input type="number" name="harga_jual" min="1" step="1" placeholder="3000" value="{{ barang.harga if barang else '' }}" required>
-                    </div>
+                    <label>Harga Jual</label>
+                    <input type="number" name="harga_jual" min="1" step="1" placeholder="3000" value="{{ barang.harga if barang else '' }}" required>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col">
-                    <div class="input-group">
-                        <label>Jumlah</label>
-                        <input type="number" name="jumlah" min="1" step="1" placeholder="35" required>
-                    </div>
+                    <label>Jumlah</label>
+                    <input type="number" name="jumlah" min="1" step="1" placeholder="35" required>
                 </div>
-            </div>
-
-            <div class="row">
                 <div class="col">
-                    <div class="input-group">
-                        <label>Tanggal Penambahan</label>
-                        <input type="date" name="tanggal" required>
-                    </div>
+                    <label>Tanggal Penambahan</label>
+                    <input type="date" name="tanggal" required>
                 </div>
             </div>
 
-            <div class="input-group">
-                <label>Upload Foto</label>
-                <input type="file" name="foto" accept=".jpg,.jpeg,.png" onchange="previewImage(event)">
-                <img id="foto-preview" src="#" alt="Preview" style="display:none; max-width:200px; margin-top:10px; border-radius:8px;">
-            </div>
+            <label>Upload Foto</label>
+            <input type="file" name="foto" accept=".jpg,.jpeg,.png" onchange="previewImage(event)">
+            <img id="foto-preview" src="#" alt="Preview" style="display:none; max-width:200px; margin-top:10px; border-radius:8px;">
 
             <button type="submit" class="btn">
-                Simpan Barang
+                SIMPAN
             </button>
 
         </form>
+
+        </div>
 
     </div>
 

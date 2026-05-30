@@ -5,23 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Pembayaran</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='21.cek_pembayaran_detail.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='21.cek_pembayaran_detail.css') }}?v=2">
 </head>
 <body>
 
 <nav>
     <div class="nav-bar">
         <li>
-            <a href="/admin/cek-pembayaran"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+            <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
         </li>
-        <img src="{{ url_for('static', filename='newlogo.jpeg') }}" alt="Logo" width="60" height="60">
+        <img src="{{ url_for('static', filename='newlogo.jpeg') }}" alt="Logo" width="70" height="70">
         <span>Admin Koperasi</span>
     </div>
     <ul>
-        <li><a href="/admin/notifikasi"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
-        <li><a href="/admin/pengaturan"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
-        <li><a href="/admin/kelola_akun_penjual"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
-        <li><a href="/admin/logout"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
+        <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+        <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+        <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+        <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
     </ul>
 </nav>
 
@@ -69,7 +69,115 @@
         TOTAL : Rp {{ "{:,.0f}".format(order.total).replace(",", ".") }}
     </div>
 
+    <button class="btn-unduh" onclick="unduhStruk()">↓ unduh struk</button>
+
 </div>
+
+<!-- RECEIPT BLUEPRINT (hidden, used for PDF generation) -->
+<div id="receipt-blueprint" style="display:none;">
+    <div id="receipt-content" style="width:300px; font-family:'Courier New',monospace; font-size:12px; color:#222; padding:20px; background:#fff;">
+        <!-- Header Brand Block -->
+        <div style="text-align:center; margin-bottom:8px;">
+            <div style="font-size:22px; font-weight:900; letter-spacing:3px;">INOMART</div>
+            <div style="font-size:10px; margin-top:4px; line-height:1.4;">
+                SMK Negeri 2 Singosari<br>
+                JL. PERUSAHAAN No 20, Tunjungtirto, Singosari<br>
+                No.Telp 0812345678
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div style="border-top:1px dashed #888; margin:8px 0;"></div>
+
+        <!-- Metadata Rows -->
+        <div style="font-size:11px; line-height:1.6;">
+            <div id="receipt-tanggal"></div>
+            <div id="receipt-kode"></div>
+            <div>Nama Penjual: Naura</div>
+        </div>
+
+        <!-- Divider -->
+        <div style="border-top:1px dashed #888; margin:8px 0;"></div>
+
+        <!-- Line Items -->
+        <div id="receipt-items" style="font-size:12px;"></div>
+
+        <!-- Divider -->
+        <div style="border-top:1px dashed #888; margin:8px 0;"></div>
+
+        <!-- Summary Block -->
+        <div id="receipt-summary" style="font-size:12px; line-height:1.8;"></div>
+
+        <!-- Divider -->
+        <div style="border-top:1px dashed #888; margin:8px 0;"></div>
+
+        <!-- Footnote -->
+        <div style="text-align:center; font-size:10px; color:#666; margin-top:8px;">
+            terimakasih telah berbelanja di inomart
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+    const orderData = {
+        id: {{ order.id | tojson }},
+        tanggal: {{ order.tanggal | tojson }},
+        pelanggan: {{ order.pelanggan | tojson }},
+        metode: {{ order.metode | tojson }},
+        status: {{ order.status | tojson }},
+        barang: {{ order.barang | tojson }},
+        total: {{ order.total }}
+    };
+
+    function formatRp(val) {
+        return 'Rp' + val.toLocaleString('id-ID').replace(/,/g, '.');
+    }
+
+    function unduhStruk() {
+        const kode = 'KODE ' + Math.floor(1000 + Math.random() * 9000);
+
+        // Metadata
+        document.getElementById('receipt-tanggal').textContent = orderData.tanggal + '  ' + new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+        document.getElementById('receipt-kode').textContent = kode;
+
+        // Line Items
+        let itemsHtml = '';
+        let totalProduk = 0;
+        orderData.barang.forEach(item => {
+            totalProduk += item.jumlah;
+            const subtotal = item.jumlah * item.harga;
+            itemsHtml += '<div style="margin-bottom:6px;">';
+            itemsHtml += '<div style="display:flex; justify-content:space-between;">';
+            itemsHtml += '<span>' + item.nama + '</span>';
+            itemsHtml += '<span>' + formatRp(subtotal) + '</span>';
+            itemsHtml += '</div>';
+            itemsHtml += '<div style="font-size:11px; color:#555;">' + item.jumlah + ' x ' + formatRp(item.harga) + '</div>';
+            itemsHtml += '</div>';
+        });
+        document.getElementById('receipt-items').innerHTML = itemsHtml;
+
+        // Summary
+        let summaryHtml = '';
+        summaryHtml += '<div style="display:flex; justify-content:space-between;"><span>Total produk</span><span>' + totalProduk + '</span></div>';
+        summaryHtml += '<div style="display:flex; justify-content:space-between;"><span>Sub Total</span><span>' + formatRp(orderData.total) + '</span></div>';
+        summaryHtml += '<div style="display:flex; justify-content:space-between;"><span>Anda Hemat</span><span>Rp0</span></div>';
+        summaryHtml += '<div style="display:flex; justify-content:space-between; font-weight:900; font-size:15px; margin-top:4px; padding-top:4px; border-top:2px solid #222;"><span>Total</span><span>' + formatRp(orderData.total) + '</span></div>';
+        document.getElementById('receipt-summary').innerHTML = summaryHtml;
+
+        // Generate PDF
+        const element = document.getElementById('receipt-content');
+        const opt = {
+            margin:       10,
+            filename:     'struk-' + orderData.id + '.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true },
+            jsPDF:        { unit: 'mm', format: [80, 200], orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save();
+    }
+</script>
 
 </body>
 </html>

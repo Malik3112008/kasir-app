@@ -42,7 +42,9 @@ nav ul {
 
 .container {
     display: flex;
-    margin-top: 16px;
+    max-width: 1400px;
+    width: 95%;
+    margin: 16px auto;
     padding: 0 20px 20px 20px;
     gap: 20px;
 }

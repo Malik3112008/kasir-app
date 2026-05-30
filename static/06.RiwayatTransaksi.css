@@ -35,7 +35,7 @@ nav ul {
 }
 
 .container {
-    max-width: 1100px;
+    max-width: 1400px;
     margin: 25px auto;
     padding: 0 30px;
 }
@@ -53,6 +53,13 @@ h2 {
     gap: 12px;
     margin-bottom: 20px;
     align-items: center;
+}
+
+.filter-separator {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
 }
 
 .filter input[type="date"] {

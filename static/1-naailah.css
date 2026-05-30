@@ -62,6 +62,23 @@ h1 {
     object-fit: contain;
 }
 
+.info {
+    text-align: left;
+    margin: 14px 0;
+    font-size: 13px;
+    color: #333;
+    line-height: 1.8;
+}
+
+.info b {
+    color: #1a1a1a;
+}
+
+.status-tag {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
 .total-text {
     margin-top: 14px;
     font-size: 13px;

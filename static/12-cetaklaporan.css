@@ -1,4 +1,4 @@
-/* 12. cetaklaporan.css - merged tito + existing */
+/* 12. cetaklaporan.css - tito student visual design */
 
 * {
     margin: 0;
@@ -12,31 +12,43 @@ body {
     min-height: 100vh;
 }
 
-/* ===== NAVBAR ===== */
+/* ===== NAVBAR (TITO: transparent bg, border-bottom) ===== */
 nav {
-    background-color: white;
+    background-color: transparent;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 25px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    padding: 10px 20px;
+    border-bottom: 1px solid #eee;
 }
 
-.nav-kiri {
+nav ul {
     display: flex;
+    list-style: none;
     align-items: center;
-    gap: 15px;
+    padding: 10px 20px;
+    gap: 20px;
 }
 
-.nav-kiri h2 {
-    font-size: 22px;
+nav ul li {
     margin: 0;
+    padding: 0;
 }
 
-.nav-kanan {
+.nav-bar {
     display: flex;
-    gap: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    list-style: none;
+    font-weight: 700;
     align-items: center;
+    padding: 10px 20px;
+    gap: 15px;
+}
+
+.nav-bar li {
+    margin: 0;
+    padding: 0;
 }
 
 nav ul li a img {
@@ -50,19 +62,17 @@ nav ul li a img:hover {
     transform: scale(1.1);
 }
 
-/* ===== JUDUL ===== */
+/* ===== JUDUL (TITO: large top margin) ===== */
 h1 {
-    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 30px;
     font-size: 28px;
-    margin: 30px 0;
 }
 
-/* ===== LAPORAN BOX (TITO) ===== */
+/* ===== LAPORAN BOX (TITO: wider, larger text) ===== */
 .laporan-box {
     background: #73a0ff;
     width: 90%;
-    max-width: 900px;
-    margin: 0 auto;
     padding: 15px 20px;
     border-radius: 30px;
     display: flex;
@@ -72,22 +82,22 @@ h1 {
 
 .laporan-box label {
     color: white;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: bold;
 }
 
 .tanggal {
     display: flex;
-    gap: 15px;
+    gap: 50px;
 }
 
 .tanggal input {
-    width: 200px;
+    width: 220px;
     height: 35px;
     border-radius: 50px;
     border: 2px solid #ddd;
     padding-left: 20px;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 /* ===== CETAK BOX ===== */
@@ -113,28 +123,27 @@ h1 {
     transform: translateY(-1px);
 }
 
-/* ===== LINE ===== */
+/* ===== LINE (TITO: full width) ===== */
 .line {
-    width: 90%;
-    max-width: 900px;
+    width: 100%;
     height: 2px;
     background: #444;
-    margin: 30px auto;
+    margin: 30px 0;
 }
 
-/* ===== CARDS (TITO) ===== */
+/* ===== CARDS (TITO: taller, larger text, wider gap) ===== */
 .card-container {
     display: flex;
     justify-content: center;
-    gap: 40px;
-    margin: 30px auto;
+    gap: 60px;
+    margin-top: 50px;
     flex-wrap: wrap;
-    max-width: 900px;
+    width: 100%;
 }
 
 .card {
     width: 180px;
-    height: 200px;
+    height: 220px;
     background: white;
     border: 2px solid black;
     border-radius: 20px;
@@ -156,12 +165,12 @@ h1 {
     width: 50px;
     height: 50px;
     object-fit: contain;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .card h3 {
-    font-size: 16px;
-    margin: 8px 0;
+    font-size: 20px;
+    margin: 10px 0;
 }
 
 .card p {
@@ -170,11 +179,10 @@ h1 {
     margin: 0;
 }
 
-/* ===== TABLE ===== */
+/* ===== TABLE (TITO: larger text, more padding) ===== */
 .table-container {
-    margin: 30px auto;
-    width: 90%;
-    max-width: 900px;
+    margin-top: 40px;
+    width: 100%;
 }
 
 table {
@@ -186,16 +194,16 @@ table {
 th {
     background: #6ea8ff;
     color: white;
-    padding: 12px;
+    padding: 15px;
     border: 1px solid #999;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 td {
-    padding: 12px;
+    padding: 15px;
     border: 1px solid #999;
     text-align: center;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 tr:hover {
@@ -206,22 +214,22 @@ tbody tr {
     transition: background-color 0.2s ease;
 }
 
-/* ===== BUTTONS ===== */
+/* ===== BUTTONS (TITO: smaller, brighter green) ===== */
 .button-group {
     display: flex;
     justify-content: center;
-    gap: 40px;
-    margin: 40px auto;
-    max-width: 900px;
+    gap: 50px;
+    margin-top: 40px;
+    width: 100%;
 }
 
 .pdf, .excel {
     background: red;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 8px 14px;
     border-radius: 12px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
@@ -234,13 +242,13 @@ tbody tr {
 }
 
 .excel {
-    background: rgb(3, 200, 60);
+    background: rgb(3, 246, 60);
 }
 
 .excel:hover {
-    background: rgb(2, 160, 48);
+    background: rgb(2, 200, 48);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(3,200,60,0.3);
+    box-shadow: 0 4px 12px rgba(3,246,60,0.3);
 }
 
 /* ===== STOK BADGE ===== */
@@ -274,6 +282,10 @@ tbody tr {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
+    h1 {
+        margin-top: 50px;
+    }
+
     .laporan-box {
         flex-direction: column;
         gap: 10px;

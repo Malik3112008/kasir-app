@@ -10,17 +10,19 @@
 <body>
 
     <nav>
-        <div class="nav-kiri">
-            <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" width="28" alt="Kembali"></a>
-            <img src="{{ url_for('static', filename='newlogo.jpeg') }}" width="45" alt="Logo">
-            <h2>Admin Koperasi</h2>
+        <div class="nav-bar">
+            <li>
+                <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+            </li>
+            <img src="{{ url_for('static', filename='newlogo.jpeg') }}" alt="Logo" width="70" height="70">
+            <span>Admin Koperasi</span>
         </div>
-        <div class="nav-kanan">
-            <a href="/admin/notifikasi"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" width="25" alt="Notifikasi"></a>
-            <a href="/admin/pengaturan"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" width="25" alt="Setting"></a>
-            <a href="/admin/kelola_akun_penjual"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" width="25" alt="Profil"></a>
-            <a href="/admin/logout"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" width="25" alt="Logout"></a>
-        </div>
+        <ul>
+            <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
+        </ul>
     </nav>
 
     <h1>PENGATURAN LAPORAN</h1>

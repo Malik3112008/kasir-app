@@ -10,20 +10,19 @@
 </head>
 <body>
 
-    <!-- Navbar -->
     <nav>
         <div class="nav-bar">
             <li>
-                <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" width="30"></a>
+                <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
             </li>
-            <img src="{{ url_for('static', filename='newlogo.jpeg') }}" width="70" height="70">
+            <img src="{{ url_for('static', filename='newlogo.jpeg') }}" alt="Logo" width="70" height="70">
             <span>Admin Koperasi</span>
         </div>
         <ul>
-            <li><a href="/admin/notifikasi"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" width="30"></a></li>
-            <li><a href="/admin/pengaturan"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" width="30"></a></li>
-            <li><a href="/admin/kelola_akun_penjual"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" width="30"></a></li>
-            <li><a href="/admin/logout"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" width="30"></a></li>
+            <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
         </ul>
     </nav>
 

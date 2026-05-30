@@ -12,24 +12,16 @@
 <nav>
     <div class="nav-bar">
         <li>
-            <a href="/admin/dashboard"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+            <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
         </li>
         <img src="{{ url_for('static', filename='newlogo.jpeg') }}" alt="Logo" width="70" height="70">
         <span>Admin Koperasi</span>
     </div>
     <ul>
-        <li>
-            <a href="/admin/notifikasi"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a>
-        </li>
-        <li>
-            <a href="/admin/pengaturan"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a>
-        </li>
-        <li>
-            <a href="/admin/kelola_akun_penjual"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a>
-        </li>
-        <li>
-            <a href="/admin/logout"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a>
-        </li>
+        <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+        <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+        <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+        <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
     </ul>
 </nav>
 
@@ -38,7 +30,9 @@
     <h2>RIWAYAT TRANSAKSI</h2>
 
     <div class="filter">
-        <input type="date" id="filter-date" onchange="filterByDate()">
+        <input type="date" id="filter-date-start" onchange="filterByDate()">
+        <span class="filter-separator">sampai</span>
+        <input type="date" id="filter-date-end" onchange="filterByDate()">
         <button class="btn-reset" onclick="resetFilter()">Reset</button>
     </div>
 
@@ -81,7 +75,7 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a href="#" class="detail" onclick='showDetail("{{ p.id }}", "{{ p.pelanggan }}", "{{ p.metode }}", "{{ p.status }}", "{{ p.tanggal }}", {{ p.barang | tojson }}, "{{ p.total }}")'>Detail</a>
+                        <a href="/admin/detail-transaksi/{{ p.id }}" class="detail">Lihat</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -91,81 +85,23 @@
 
 </div>
 
-<!-- Modal Detail -->
-<div class="modal-overlay" id="modal" onclick="closeModal()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <h3>Detail Transaksi</h3>
-        <div class="modal-body">
-            <p><b>ID:</b> <span id="m-id"></span></p>
-            <p><b>Pelanggan:</b> <span id="m-pelanggan"></span></p>
-            <p><b>Tanggal:</b> <span id="m-tanggal"></span></p>
-            <p><b>Metode:</b> <span id="m-metode"></span></p>
-            <p><b>Status:</b> <span id="m-status"></span></p>
-            <p><b>Total:</b> <span id="m-total"></span></p>
-            <div class="modal-barang-section">
-                <p class="barang-title"><b>Daftar Barang:</b></p>
-                <table class="barang-table">
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Jumlah</th>
-                            <th>Harga</th>
-                            <th>Subtotal</th>
-                        </tr>
-                    </thead>
-                    <tbody id="m-barang"></tbody>
-                </table>
-            </div>
-        </div>
-        <button class="btn-close" onclick="closeModal()">Tutup</button>
-    </div>
-</div>
-
 <script>
 function filterByDate() {
-    let filter = document.getElementById('filter-date').value;
+    let startDate = document.getElementById('filter-date-start').value;
+    let endDate = document.getElementById('filter-date-end').value;
     document.querySelectorAll('.data-row').forEach(row => {
-        if (!filter || row.dataset.tanggal === filter) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
+        let tanggal = row.dataset.tanggal;
+        let show = true;
+        if (startDate && tanggal < startDate) show = false;
+        if (endDate && tanggal > endDate) show = false;
+        row.style.display = show ? '' : 'none';
     });
 }
 
 function resetFilter() {
-    document.getElementById('filter-date').value = '';
+    document.getElementById('filter-date-start').value = '';
+    document.getElementById('filter-date-end').value = '';
     document.querySelectorAll('.data-row').forEach(row => row.style.display = '');
-}
-
-function showDetail(id, pelanggan, metode, status, tanggal, barang, total) {
-    document.getElementById('m-id').textContent = id;
-    document.getElementById('m-pelanggan').textContent = pelanggan;
-    document.getElementById('m-tanggal').textContent = tanggal;
-    document.getElementById('m-metode').textContent = metode;
-    document.getElementById('m-status').textContent = status;
-    document.getElementById('m-total').textContent = 'Rp ' + Number(total).toLocaleString('id-ID');
-
-    // Render barang list
-    var tbody = document.getElementById('m-barang');
-    tbody.innerHTML = '';
-    if (Array.isArray(barang)) {
-        barang.forEach(function(item) {
-            var subtotal = item.jumlah * item.harga;
-            var tr = document.createElement('tr');
-            tr.innerHTML = '<td>' + item.nama + '</td>'
-                + '<td>' + item.jumlah + '</td>'
-                + '<td>Rp ' + Number(item.harga).toLocaleString('id-ID') + '</td>'
-                + '<td>Rp ' + Number(subtotal).toLocaleString('id-ID') + '</td>';
-            tbody.appendChild(tr);
-        });
-    }
-
-    document.getElementById('modal').style.display = 'flex';
-}
-
-function closeModal() {
-    document.getElementById('modal').style.display = 'none';
 }
 </script>
 

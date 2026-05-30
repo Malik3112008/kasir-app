@@ -560,6 +560,7 @@ def admin_stok_tersedia_edit(id):
         return "Barang tidak ditemukan", 404
     if request.method == 'POST':
         barang['nama'] = request.form.get('nama', barang['nama'])
+        barang['berat'] = request.form.get('berat', barang['berat'])
         barang['kategori'] = request.form.get('kategori', barang['kategori'])
         barang['stok'] = int(request.form.get('stok', barang['stok']))
         barang['harga'] = int(request.form.get('harga', barang['harga']))
@@ -581,22 +582,22 @@ def admin_stok_tersedia_hapus(id):
 # ============================================================
 
 data_barang = [
-    {"no": 1, "nama": "Roti Aoka", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar dan icon/gambar roti aoka.jpeg", "rating": 5, "emoji": "🍞"},
-    {"no": 2, "nama": "Donat", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar dan icon/roti.jpg", "rating": 4, "emoji": "🍩"},
-    {"no": 3, "nama": "Mie Instan", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal": "2026-05-08", "gambar": "gambar dan icon/roti.jpg", "rating": 4, "emoji": "🍜"},
-    {"no": 4, "nama": "Keripik Kentang", "stok": 22, "harga": 10000, "kategori": "Makanan", "tanggal": "2026-05-11", "gambar": "", "rating": 4, "emoji": "🥔"},
-    {"no": 5, "nama": "Sosis", "stok": 20, "harga": 2000, "kategori": "Makanan", "tanggal": "2026-05-12", "gambar": "", "rating": 3, "emoji": "🌭"},
-    {"no": 6, "nama": "Air Mineral", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal": "2026-05-06", "gambar": "gambar dan icon/ades.jpg", "rating": 5, "emoji": "💧"},
-    {"no": 7, "nama": "Teh Botol", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal": "2026-05-07", "gambar": "gambar dan icon/gambar le mineral.jpeg", "rating": 3, "emoji": "🍵"},
-    {"no": 8, "nama": "Susu Kotak", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal": "2026-05-10", "gambar": "gambar dan icon/gambar le mineral.jpeg", "rating": 4, "emoji": "🥛"},
-    {"no": 9, "nama": "Kopi Sachet", "stok": 30, "harga": 4000, "kategori": "Minuman", "tanggal": "2026-05-13", "gambar": "", "rating": 3, "emoji": "☕"},
-    {"no": 10, "nama": "Es Krim", "stok": 15, "harga": 4500, "kategori": "Minuman", "tanggal": "2026-05-14", "gambar": "", "rating": 4, "emoji": "🍦"},
-    {"no": 11, "nama": "Pensil", "stok": 30, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-03", "gambar": "gambar dan icon/gambar pensil.jpeg", "rating": 4, "emoji": "✏️"},
-    {"no": 12, "nama": "Bolpoin", "stok": 25, "harga": 4000, "kategori": "Alat Tulis", "tanggal": "2026-05-04", "gambar": "gambar dan icon/bulpoin.jpg", "rating": 3, "emoji": "🖊️"},
-    {"no": 13, "nama": "Buku Tulis", "stok": 40, "harga": 6000, "kategori": "Alat Tulis", "tanggal": "2026-05-05", "gambar": "gambar dan icon/gambar pensil.jpeg", "rating": 4, "emoji": "📓"},
-    {"no": 14, "nama": "Penghapus", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-09", "gambar": "gambar dan icon/gambar penghapus.jpeg", "rating": 5, "emoji": "🧽"},
-    {"no": 15, "nama": "Spidol", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal": "2026-05-12", "gambar": "gambar dan icon/gambar pulpen.jpeg", "rating": 4, "emoji": "🖍️"},
-    {"no": 16, "nama": "Tipe X", "stok": 25, "harga": 5000, "kategori": "Alat Tulis", "tanggal": "2026-05-15", "gambar": "gambar dan icon/gambar tipe ex.jpeg", "rating": 5, "emoji": "📝"},
+    {"no": 1, "nama": "Roti Aoka", "berat": "100 gram", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar dan icon/gambar roti aoka.jpeg", "rating": 5, "emoji": "🍞"},
+    {"no": 2, "nama": "Donat", "berat": "80 gram", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar dan icon/roti.jpg", "rating": 4, "emoji": "🍩"},
+    {"no": 3, "nama": "Mie Instan", "berat": "75 gram", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal": "2026-05-08", "gambar": "gambar dan icon/roti.jpg", "rating": 4, "emoji": "🍜"},
+    {"no": 4, "nama": "Keripik Kentang", "berat": "50 gram", "stok": 22, "harga": 10000, "kategori": "Makanan", "tanggal": "2026-05-11", "gambar": "gambar dan icon/roti.jpg", "rating": 4, "emoji": "🥔"},
+    {"no": 5, "nama": "Sosis", "berat": "60 gram", "stok": 20, "harga": 2000, "kategori": "Makanan", "tanggal": "2026-05-12", "gambar": "gambar dan icon/roti.jpg", "rating": 3, "emoji": "🌭"},
+    {"no": 6, "nama": "Air Mineral", "berat": "500 ml", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal": "2026-05-06", "gambar": "gambar dan icon/ades.jpg", "rating": 5, "emoji": "💧"},
+    {"no": 7, "nama": "Teh Botol", "berat": "350 ml", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal": "2026-05-07", "gambar": "gambar dan icon/gambar le mineral.jpeg", "rating": 3, "emoji": "🍵"},
+    {"no": 8, "nama": "Susu Kotak", "berat": "250 ml", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal": "2026-05-10", "gambar": "gambar dan icon/gambar le mineral.jpeg", "rating": 4, "emoji": "🥛"},
+    {"no": 9, "nama": "Kopi Sachet", "berat": "20 gram", "stok": 30, "harga": 4000, "kategori": "Minuman", "tanggal": "2026-05-13", "gambar": "gambar dan icon/ades.jpg", "rating": 3, "emoji": "☕"},
+    {"no": 10, "nama": "Es Krim", "berat": "100 ml", "stok": 15, "harga": 4500, "kategori": "Minuman", "tanggal": "2026-05-14", "gambar": "gambar dan icon/gambar le mineral.jpeg", "rating": 4, "emoji": "🍦"},
+    {"no": 11, "nama": "Pensil", "berat": "10 gram", "stok": 30, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-03", "gambar": "gambar dan icon/gambar pensil.jpeg", "rating": 4, "emoji": "✏️"},
+    {"no": 12, "nama": "Bolpoin", "berat": "15 gram", "stok": 25, "harga": 4000, "kategori": "Alat Tulis", "tanggal": "2026-05-04", "gambar": "gambar dan icon/bulpoin.jpg", "rating": 3, "emoji": "🖊️"},
+    {"no": 13, "nama": "Buku Tulis", "berat": "200 gram", "stok": 40, "harga": 6000, "kategori": "Alat Tulis", "tanggal": "2026-05-05", "gambar": "gambar dan icon/gambar pensil.jpeg", "rating": 4, "emoji": "📓"},
+    {"no": 14, "nama": "Penghapus", "berat": "20 gram", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-09", "gambar": "gambar dan icon/gambar penghapus.jpeg", "rating": 5, "emoji": "🧽"},
+    {"no": 15, "nama": "Spidol", "berat": "25 gram", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal": "2026-05-12", "gambar": "gambar dan icon/gambar pulpen.jpeg", "rating": 4, "emoji": "🖍️"},
+    {"no": 16, "nama": "Tipe X", "berat": "30 gram", "stok": 25, "harga": 5000, "kategori": "Alat Tulis", "tanggal": "2026-05-15", "gambar": "gambar dan icon/gambar tipe ex.jpeg", "rating": 5, "emoji": "📝"},
 ]
 
 @app.route('/admin/cetak_laporan', methods=['GET', 'POST'])
@@ -811,13 +812,13 @@ status_qris  = ["Disiapkan", "Siap diambil", "Sudah diambil"]
 
 pesanan = [
     {"id": "TRX001", "tanggal": "2025-11-15", "pelanggan": "Ahmad Rizki", "metode": "Tunai", "status": "Disiapkan",
-     "barang": [{"nama": "Roti Tawar", "jumlah": 2, "harga": 8000}, {"nama": "Air Mineral", "jumlah": 1, "harga": 3000}]},
+     "barang": [{"nama": "Roti Tawar", "jumlah": 2, "harga": 8000, "gambar": "gambar dan icon/gambar roti aoka.jpeg"}, {"nama": "Air Mineral", "jumlah": 1, "harga": 3000, "gambar": "gambar dan icon/ades.jpg"}]},
     {"id": "TRX002", "tanggal": "2025-11-15", "pelanggan": "Siti Nurhazila", "metode": "QRIS", "status": "Disiapkan",
-     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000}, {"nama": "Pensil", "jumlah": 4, "harga": 10000}]},
+     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar dan icon/gambar pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar dan icon/gambar penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar dan icon/gambar pensil.jpeg"}]},
     {"id": "TRX003", "tanggal": "2025-11-15", "pelanggan": "Diki Nurhazila", "metode": "Tunai", "status": "Disiapkan",
-     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000}, {"nama": "Pensil", "jumlah": 4, "harga": 10000}]},
+     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar dan icon/gambar pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar dan icon/gambar penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar dan icon/gambar pensil.jpeg"}]},
     {"id": "TRX004", "tanggal": "2025-11-15", "pelanggan": "Siti riki", "metode": "QRIS", "status": "Disiapkan",
-     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000}, {"nama": "Pensil", "jumlah": 4, "harga": 10000}]},
+     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar dan icon/gambar pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar dan icon/gambar penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar dan icon/gambar pensil.jpeg"}]},
 ]
 
 def hitung_total_barang(barang):
