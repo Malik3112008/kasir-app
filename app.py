@@ -317,6 +317,23 @@ data_aktivitas = [
     {"tipe": "login", "catatan": "Log in system", "status": "Sukses", "admin": "Admin", "waktu": "2026-05-27 08:00"},
 ]
 
+@app.route("/admin/riwayat-notifikasi")
+def admin_riwayat_notifikasi():
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    return render_template("06.RiwayatNotifikasi.html", riwayat=riwayat)
+
+@app.route("/admin/hapus-riwayat", methods=['POST'])
+def admin_hapus_riwayat():
+    riwayat.clear()
+    return redirect(url_for('admin_riwayat_notifikasi'))
+
+@app.route("/admin/hapus-riwayat-satuan/<int:index>", methods=['POST'])
+def admin_hapus_riwayat_satuan(index):
+    if 0 <= index < len(riwayat):
+        riwayat.pop(index)
+    return redirect(url_for('admin_riwayat_notifikasi'))
+
 @app.route("/admin/riwayat-aktivitas")
 def admin_riwayat_aktivitas():
     if not session.get('user'):
@@ -1164,11 +1181,12 @@ def pembeli_tambah_keranjang():
     nama = request.form.get('nama', '').strip()
     harga = int(request.form.get('harga', 0))
     jumlah = int(request.form.get('jumlah', 1))
+    gambar = request.form.get('gambar', '')
     if nama and jumlah > 0:
         if nama in cart:
             cart[nama]['jumlah'] += jumlah
         else:
-            cart[nama] = {'harga': harga, 'jumlah': jumlah}
+            cart[nama] = {'harga': harga, 'jumlah': jumlah, 'gambar': gambar}
     return redirect('/pembeli?added=1')
 
 @app.route('/pembeli/update-keranjang', methods=['POST'])
@@ -1205,7 +1223,7 @@ def pembeli_pilih_pembayaran():
         item = cart[nama]
         subtotal = item['harga'] * item['jumlah']
         total_int += subtotal
-        items.append({'nama': nama, 'harga': item['harga'], 'qty': item['jumlah'], 'subtotal': subtotal})
+        items.append({'nama': nama, 'harga': item['harga'], 'qty': item['jumlah'], 'subtotal': subtotal, 'gambar': item.get('gambar', '')})
     total = formatRp(total_int)
     return render_template('34-pilihpembayaran.html', items=items, total=total, formatRp=formatRp)
 
@@ -1249,16 +1267,26 @@ def pembeli_tunai():
     session['metode'] = 'Tunai'
     items = get_items_bayar()
     buat_pesanan_dari_cart('Tunai')
-    subtotal = 0
-    total_diskon = 0
+    total = 0
     for item in items:
-        subtotal += item["jumlah"] * item["harga"]
-        total_diskon += item["diskon"]
-    total = subtotal - total_diskon
+        total += item["jumlah"] * item["harga"]
+    nama = session.get('nama', 'Guest')
+    kode = random.randint(1000, 9999)
+    session['tunai_items'] = items
+    session['tunai_total'] = total
+    session['tunai_kode'] = kode
+    return render_template('11-rincian-tunai.html', items=items, total=total, nama=nama, kode=kode, status='belum')
+
+@app.route('/pembeli/struk')
+def pembeli_struk():
+    items = session.get('tunai_items', [])
+    total = session.get('tunai_total', 0)
+    kode = session.get('tunai_kode', 0)
     sekarang = datetime.now()
     tanggal = sekarang.strftime("%d-%m-%Y")
     jam = sekarang.strftime("%H:%M:%S")
-    kode = random.randint(1000, 9999)
+    subtotal = total
+    total_diskon = 0
     return render_template('12-pembayarantunai.html', items=items, subtotal=subtotal, total_diskon=total_diskon, total=total, tanggal=tanggal, jam=jam, kode=kode)
 
 # ============================================================

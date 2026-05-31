@@ -17,6 +17,9 @@
         <div class="judul">Pesanan Anda</div>
         {% for item in items %}
         <div class="produk">
+            {% if item.gambar %}
+            <img src="{{ url_for('static', filename=item.gambar) }}" alt="{{ item.nama }}" style="width:50px; height:50px; object-fit:contain; border-radius:8px;">
+            {% endif %}
             <div>
                 <h3>{{ item.nama }}</h3>
                 <p>Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }} x {{ item.qty }}</p>

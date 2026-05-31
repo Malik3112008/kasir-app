@@ -142,9 +142,12 @@
     {% if cart %}
         {% for nama, item in cart.items() %}
         <div class="item">
+            {% if item.gambar %}
+            <img src="{{ url_for('static', filename=item.gambar) }}" alt="{{ nama }}" style="width:60px; height:60px; object-fit:contain; border-radius:8px;">
+            {% endif %}
             <div class="item-info">
                 <h2>{{ nama }}</h2>
-                <p>{{ "{:,.0f}".format(item.harga).replace(",", ".") }} x {{ item.jumlah }}</p>
+                <p>Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }} x {{ item.jumlah }}</p>
             </div>
             <div class="control">
                 <form method="POST" action="/pembeli/update-keranjang" style="display:inline;">

@@ -61,6 +61,7 @@
             <form method="POST" action="/pembeli/tambah-keranjang">
                 <input type="hidden" name="nama" value="{{ item.nama }}">
                 <input type="hidden" name="harga" value="{{ item.harga }}">
+                <input type="hidden" name="gambar" value="{{ item.gambar }}">
                 <input type="hidden" name="jumlah" value="0" class="qty-input">
                 <div class="aksi">
                     <button type="submit" class="btn-tambah">Tambah</button>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran Tunai</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='11-rincian-tunai.css') }}">
+</head>
+<body>
+
+<div class="rincian-container">
+
+    <a href="{{ url_for('pembeli_pilih_pembayaran') }}" class="kembali">← Kembali</a>
+
+    {% if status == 'belum' %}
+    <div class="status belum">BELUM DIBAYAR</div>
+    {% else %}
+    <div class="status lunas">SUDAH DIBAYAR</div>
+    {% endif %}
+
+    <h2>Kode Pengambilan</h2>
+    <div class="kode">{{ kode }}</div>
+
+    <div class="detail">
+        <div class="baris">
+            <span>Nama</span>
+            <span>{{ nama }}</span>
+        </div>
+        <div class="baris">
+            <span>Metode Pembayaran</span>
+            <span>Tunai</span>
+        </div>
+    </div>
+
+    <table>
+        <tr>
+            <th>Barang</th>
+            <th>Jumlah</th>
+            <th>Harga Satuan</th>
+            <th>Subtotal</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.nama }}</td>
+            <td>{{ item.jumlah }}</td>
+            <td>Rp {{ "{:,}".format(item.harga).replace(",", ".") }}</td>
+            <td>Rp {{ "{:,}".format(item.jumlah * item.harga).replace(",", ".") }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="box-total">
+        <div class="total-baris">
+            <span>Total Pembayaran</span>
+            <span class="harga-bayar">Rp {{ "{:,}".format(total).replace(",", ".") }}</span>
+        </div>
+    </div>
+
+    <a href="{{ url_for('pembeli_struk') }}" class="btn-selanjutnya">Selanjutnya</a>
+
+</div>
+
+</body>
+</html>
