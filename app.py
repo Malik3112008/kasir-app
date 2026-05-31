@@ -323,17 +323,6 @@ def admin_riwayat_notifikasi():
         return redirect(url_for('admin_login'))
     return render_template("06.RiwayatNotifikasi.html", riwayat=riwayat)
 
-@app.route("/admin/hapus-riwayat", methods=['POST'])
-def admin_hapus_riwayat():
-    riwayat.clear()
-    return redirect(url_for('admin_riwayat_notifikasi'))
-
-@app.route("/admin/hapus-riwayat-satuan/<int:index>", methods=['POST'])
-def admin_hapus_riwayat_satuan(index):
-    if 0 <= index < len(riwayat):
-        riwayat.pop(index)
-    return redirect(url_for('admin_riwayat_notifikasi'))
-
 @app.route("/admin/riwayat-aktivitas")
 def admin_riwayat_aktivitas():
     if not session.get('user'):
@@ -1276,18 +1265,6 @@ def pembeli_tunai():
     session['tunai_total'] = total
     session['tunai_kode'] = kode
     return render_template('11-rincian-tunai.html', items=items, total=total, nama=nama, kode=kode, status='belum')
-
-@app.route('/pembeli/struk')
-def pembeli_struk():
-    items = session.get('tunai_items', [])
-    total = session.get('tunai_total', 0)
-    kode = session.get('tunai_kode', 0)
-    sekarang = datetime.now()
-    tanggal = sekarang.strftime("%d-%m-%Y")
-    jam = sekarang.strftime("%H:%M:%S")
-    subtotal = total
-    total_diskon = 0
-    return render_template('12-pembayarantunai.html', items=items, subtotal=subtotal, total_diskon=total_diskon, total=total, tanggal=tanggal, jam=jam, kode=kode)
 
 # ============================================================
 # PEMBELI: BAYAR QRIS

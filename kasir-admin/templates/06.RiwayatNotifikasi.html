@@ -40,7 +40,7 @@
                         Batal
                     </label>
 
-                    <form action="/admin/hapus-riwayat" method="POST">
+                    <form action="{{ url_for('admin_hapus_riwayat') }}" method="POST">
                         <button type="submit" class="hapus-btn">
                             Hapus
                         </button>
@@ -84,7 +84,7 @@
 
             </div>
 
-            <form action="/admin/hapus-riwayat-satuan/{{ loop.index0 }}" method="POST">
+            <form action="{{ url_for('admin_hapus_riwayat_satuan', index=loop.index0) }}" method="POST">
 
                 <button type="submit" class="hapus-satuan">
 
