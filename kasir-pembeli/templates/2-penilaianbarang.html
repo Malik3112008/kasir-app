@@ -18,7 +18,7 @@
         <!-- Statistik -->
         <div class="stats">
             <div class="ulasan-box">
-                <img src="{{ url_for('static', filename='gambar dan icon/profil.jpg') }}" alt="Profil">
+                <img src="{{ url_for('static', filename='gambar-dan-icon/profil.jpg') }}" alt="Profil">
                 <h3>{{ session.get('nama', 'Guest') }}</h3>
             </div>
             <div class="stat-item">
@@ -40,7 +40,7 @@
                 <h2>Belum Dinilai</h2>
                 {% for item in produk %}
                 <div class="card">
-                    <img src="{{ url_for('static', filename='gambar dan icon/' + item.gambar) }}" alt="{{ item.nama }}">
+                    <img src="{{ url_for('static', filename='gambar-dan-icon/' + item.gambar) }}" alt="{{ item.nama }}">
                     <div class="produk">
                         <div>
                             <h3>{{ item.nama }}</h3>
@@ -63,7 +63,7 @@
                 <div id="review-container" hidden>
                     {% for item in penilaian %}
                     <div class="review-card">
-                        <img src="{{ url_for('static', filename='gambar dan icon/profil.jpg') }}" alt="profil" class="profil-kecil">
+                        <img src="{{ url_for('static', filename='gambar-dan-icon/profil.jpg') }}" alt="profil" class="profil-kecil">
                         <div class="info-user">
                             <span class="username">{{ session.get('nama', 'Guest') }}</span>
                             <div class="bintang">
@@ -76,13 +76,13 @@
                             </div>
                             <p class="tanggal">{{ item.tanggal }}</p>
                             <div class="review-produk">
-                                <img src="{{ url_for('static', filename='gambar dan icon/' + item.gambar) }}" alt="{{ item.nama }}">
+                                <img src="{{ url_for('static', filename='gambar-dan-icon/' + item.gambar) }}" alt="{{ item.nama }}">
                                 <span>{{ item.nama }}</span>
                             </div>
                             <span class="text-membantu">Membantu</span>
                             <label class="jempol">
                                 <input type="checkbox" class="like-check">
-                                <img src="{{ url_for('static', filename='gambar dan icon/thumb-up-svgrepo-com (2).svg') }}" class="icon-jempol">
+                                <img src="{{ url_for('static', filename='gambar-dan-icon/thumb-up-svgrepo-com-(2).svg') }}" class="icon-jempol">
                             </label>
                         </div>
                     </div>

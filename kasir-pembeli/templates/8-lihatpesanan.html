@@ -33,12 +33,12 @@
                 </a>
 
                 <a href="{{ url_for('pembeli_pesanan') }}?status=siap" class="status {% if status == 'Siap diambil' or status == 'siap' %}active{% endif %}">
-                    <img src="{{ url_for('static', filename='shopping-bag-svgrepo-com (1).svg') }}" class="icon">
+                    <img src="{{ url_for('static', filename='shopping-bag-svgrepo-com-(1).svg') }}" class="icon">
                     <p>Siap Diambil</p>
                 </a>
 
                 <a href="{{ url_for('pembeli_pesanan') }}?status=selesai" class="status {% if status == 'Selesai' or status == 'Sudah diambil' or status == 'selesai' %}active{% endif %}">
-                    <img src="{{ url_for('static', filename='check-mark-circle-svgrepo-com (1).svg') }}" class="icon">
+                    <img src="{{ url_for('static', filename='check-mark-circle-svgrepo-com-(1).svg') }}" class="icon">
                     <p>Pesanan Selesai</p>
                 </a>
 

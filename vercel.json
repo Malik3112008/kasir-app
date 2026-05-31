@@ -10,7 +10,9 @@
           "static/**",
           "kasir-admin/templates/**",
           "kasir-pembeli/templates/**",
-          "data_koperasi.json"
+          "data_koperasi.json",
+          "data_barang",
+          "pesanan"
         ]
       }
     }

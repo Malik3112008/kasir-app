@@ -79,14 +79,14 @@ h2 {
 .filter input {
     padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
     width: 200px;
 }
 
 .filter select {
     padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 
 /* ===== TABLE ===== */
@@ -168,54 +168,57 @@ tr {
     transform: scale(1.2);
 }
 
-/* ===== PAGINATION (numeric buttons) ===== */
+/* ===== PAGINATION (dot navigation) ===== */
 .pagination {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
-    gap: 6px;
+    gap: 16px;
     margin-top: 20px;
-    margin-right: 20px;
+    padding: 12px 0;
 }
 
-.page-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 32px;
-    height: 32px;
-    padding: 0 10px;
-    background: #fff;
-    color: #333;
+.pagination a,
+.pagination span {
     text-decoration: none;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    cursor: pointer;
     font-size: 14px;
-    font-weight: 600;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    transition: opacity 0.2s;
+}
+
+.pagination a:hover {
+    opacity: 0.7;
+}
+
+.pagination .disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.bulat-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bulat {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ccc;
+    transition: background 0.2s, transform 0.2s;
     cursor: pointer;
 }
 
-.page-btn:hover {
-    background: #f0f4ff;
-    border-color: #3A82C4;
-    color: #3A82C4;
+.bulat:hover {
+    background: #888;
+    transform: scale(1.2);
 }
 
-.page-btn.aktif {
+.bulat.aktif {
     background: #3A82C4;
-    color: white;
-    border-color: #3A82C4;
-}
-
-.page-btn.prev-next {
-    min-width: auto;
-    padding: 0 12px;
-    font-size: 13px;
-}
-
-.page-btn.disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    pointer-events: none;
+    width: 28px;
+    border-radius: 8px;
 }

@@ -19,21 +19,21 @@
         <div class="status-box atas">
 
             <div class="status {% if status == 'Disiapkan' or status == 'Siap diambil' or status == 'Selesai' or status == 'Sudah diambil' %}active{% endif %}">
-                <img src="{{ url_for('static', filename='gambar dan icon/cardboard-box-11-svgrepo-com.svg') }}" class="icon-kecil">
+                <img src="{{ url_for('static', filename='gambar-dan-icon/cardboard-box-11-svgrepo-com.svg') }}" class="icon-kecil">
                 <p>Dikemas</p>
             </div>
 
             <div class="line {% if status == 'Siap diambil' or status == 'Selesai' or status == 'Sudah diambil' %}active-line{% endif %}"></div>
 
             <div class="status {% if status == 'Siap diambil' or status == 'Selesai' or status == 'Sudah diambil' %}active{% endif %}">
-                <img src="{{ url_for('static', filename='gambar dan icon/shopping-bag-svgrepo-com (1).svg') }}" class="icon-kecil">
+                <img src="{{ url_for('static', filename='gambar-dan-icon/shopping-bag-svgrepo-com-(1).svg') }}" class="icon-kecil">
                 <p>Siap Diambil</p>
             </div>
 
             <div class="line {% if status == 'Selesai' or status == 'Sudah diambil' %}active-line{% endif %}"></div>
 
             <div class="status {% if status == 'Selesai' or status == 'Sudah diambil' %}active{% endif %}">
-                <img src="{{ url_for('static', filename='gambar dan icon/check-mark-circle-svgrepo-com (1).svg') }}" class="icon-kecil">
+                <img src="{{ url_for('static', filename='gambar-dan-icon/check-mark-circle-svgrepo-com-(1).svg') }}" class="icon-kecil">
                 <p>Selesai</p>
             </div>
 

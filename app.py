@@ -535,7 +535,7 @@ def admin_konfirmasi_barang():
     kategori = request.args.get('kategori', '-')
     harga = request.args.get('harga', '0')
     jumlah = request.args.get('jumlah', '0')
-    return render_template('17. konfirmasi barang.html', nama_barang=nama_barang, kategori=kategori, harga=harga, jumlah=jumlah)
+    return render_template('17.-konfirmasi-barang.html', nama_barang=nama_barang, kategori=kategori, harga=harga, jumlah=jumlah)
 
 # ============================================================
 # ADMIN: STOK TERSEDIA
@@ -560,7 +560,7 @@ def admin_stok_tersedia():
     start = (page - 1) * per_page
     data_page = filtered[start:start + per_page]
 
-    return render_template('14. stoktersedia.html',
+    return render_template('14.-stoktersedia.html',
         data=data_page, page=page, total_halaman=total_halaman,
         keyword=request.args.get('cari', ''), kategori=kategori)
 
@@ -582,7 +582,7 @@ def admin_stok_tersedia_edit(id):
         barang['stok'] = int(request.form.get('stok', barang['stok']))
         barang['harga'] = int(request.form.get('harga', barang['harga']))
         return redirect(url_for('admin_stok_tersedia'))
-    return render_template('14. stoktersedia.html',
+    return render_template('14.-stoktersedia.html',
         data=[barang], page=1, total_halaman=1,
         keyword='', kategori='', edit_item=barang)
 
@@ -599,16 +599,16 @@ def admin_stok_tersedia_hapus(id):
 # ============================================================
 
 data_barang = [
-    {"no": 1, "nama": "Roti Aoka", "berat": "100 gram", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar dan icon/gambar roti aoka.jpeg", "rating": 5, "emoji": "🍞"},
-    {"no": 2, "nama": "Donat", "berat": "80 gram", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar dan icon/donat.jpg", "rating": 4, "emoji": "🍩"},
-    {"no": 3, "nama": "Mie Instan", "berat": "75 gram", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal": "2026-05-08", "gambar": "gambar dan icon/pop mie.png", "rating": 4, "emoji": "🍜"},
-    {"no": 4, "nama": "Air Mineral", "berat": "500 ml", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal": "2026-05-06", "gambar": "gambar dan icon/ades.jpg", "rating": 5, "emoji": "💧"},
-    {"no": 5, "nama": "Teh Botol", "berat": "350 ml", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal": "2026-05-07", "gambar": "gambar dan icon/teh botol.png", "rating": 3, "emoji": "🍵"},
-    {"no": 6, "nama": "Susu Kotak", "berat": "250 ml", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal": "2026-05-10", "gambar": "gambar dan icon/ultramilk.png", "rating": 4, "emoji": "🥛"},
-    {"no": 7, "nama": "Pensil", "berat": "10 gram", "stok": 30, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-03", "gambar": "gambar dan icon/gambar pensil.jpeg", "rating": 4, "emoji": "✏️"},
-    {"no": 8, "nama": "Buku Tulis", "berat": "200 gram", "stok": 40, "harga": 6000, "kategori": "Alat Tulis", "tanggal": "2026-05-05", "gambar": "gambar dan icon/buku tulis.jpg", "rating": 4, "emoji": "📓"},
-    {"no": 9, "nama": "Penghapus", "berat": "20 gram", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-09", "gambar": "gambar dan icon/penghapus.png", "rating": 5, "emoji": "🧽"},
-    {"no": 10, "nama": "Spidol", "berat": "25 gram", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal": "2026-05-12", "gambar": "gambar dan icon/gambar pulpen.jpeg", "rating": 4, "emoji": "🖍️"},
+    {"no": 1, "nama": "Roti Aoka", "berat": "100 gram", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/gambar roti aoka.jpeg", "rating": 5, "emoji": "🍞"},
+    {"no": 2, "nama": "Donat", "berat": "80 gram", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/donat.jpg", "rating": 4, "emoji": "🍩"},
+    {"no": 3, "nama": "Mie Instan", "berat": "75 gram", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal": "2026-05-08", "gambar": "gambar-dan-icon/pop-mie.png", "rating": 4, "emoji": "🍜"},
+    {"no": 4, "nama": "Air Mineral", "berat": "500 ml", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal": "2026-05-06", "gambar": "gambar-dan-icon/ades.jpg", "rating": 5, "emoji": "💧"},
+    {"no": 5, "nama": "Teh Botol", "berat": "350 ml", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal": "2026-05-07", "gambar": "gambar-dan-icon/teh-botol.png", "rating": 3, "emoji": "🍵"},
+    {"no": 6, "nama": "Susu Kotak", "berat": "250 ml", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/ultramilk.png", "rating": 4, "emoji": "🥛"},
+    {"no": 7, "nama": "Pensil", "berat": "10 gram", "stok": 30, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/gambar pensil.jpeg", "rating": 4, "emoji": "✏️"},
+    {"no": 8, "nama": "Buku Tulis", "berat": "200 gram", "stok": 40, "harga": 6000, "kategori": "Alat Tulis", "tanggal": "2026-05-05", "gambar": "gambar-dan-icon/buku-tulis.jpg", "rating": 4, "emoji": "📓"},
+    {"no": 9, "nama": "Penghapus", "berat": "20 gram", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-09", "gambar": "gambar-dan-icon/penghapus.png", "rating": 5, "emoji": "🧽"},
+    {"no": 10, "nama": "Spidol", "berat": "25 gram", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal": "2026-05-12", "gambar": "gambar-dan-icon/gambar pulpen.jpeg", "rating": 4, "emoji": "🖍️"},
 ]
 
 @app.route('/admin/cetak_laporan', methods=['GET', 'POST'])
@@ -639,7 +639,7 @@ def admin_cetak_laporan():
     modal_barang = int(total_pendapatan * 0.7)
     untung_rugi = total_pendapatan - modal_barang
 
-    return render_template('12. cetaklaporan.html',
+    return render_template('12.-cetaklaporan.html',
         barang=data_barang, formatRp=formatRp,
         total_pendapatan=total_pendapatan,
         modal_barang=modal_barang,
@@ -664,7 +664,7 @@ def admin_cetak_laporan_barang():
     if not session.get('user'):
         return redirect(url_for('admin_login'))
     total_nilai = sum(b['harga'] * b['stok'] for b in data_barang)
-    return render_template('12. cetaklaporan_barang.html',
+    return render_template('12.-cetaklaporan_barang.html',
         data_barang=data_barang,
         total_nilai=total_nilai)
 
@@ -836,13 +836,13 @@ status_qris  = ["Disiapkan", "Siap diambil", "Sudah diambil"]
 
 pesanan = [
     {"id": "TRX001", "tanggal": "2025-11-15", "pelanggan": "Ahmad Rizki", "metode": "Tunai", "status": "Disiapkan",
-     "barang": [{"nama": "Roti Tawar", "jumlah": 2, "harga": 8000, "gambar": "gambar dan icon/gambar roti aoka.jpeg"}, {"nama": "Air Mineral", "jumlah": 1, "harga": 3000, "gambar": "gambar dan icon/ades.jpg"}]},
+     "barang": [{"nama": "Roti Tawar", "jumlah": 2, "harga": 8000, "gambar": "gambar-dan-icon/gambar roti aoka.jpeg"}, {"nama": "Air Mineral", "jumlah": 1, "harga": 3000, "gambar": "gambar-dan-icon/ades.jpg"}]},
     {"id": "TRX002", "tanggal": "2025-11-15", "pelanggan": "Siti Nurhazila", "metode": "QRIS", "status": "Disiapkan",
-     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar dan icon/gambar pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar dan icon/gambar penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar dan icon/gambar pensil.jpeg"}]},
+     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar pensil.jpeg"}]},
     {"id": "TRX003", "tanggal": "2025-11-15", "pelanggan": "Diki Nurhazila", "metode": "Tunai", "status": "Disiapkan",
-     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar dan icon/gambar pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar dan icon/gambar penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar dan icon/gambar pensil.jpeg"}]},
+     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar pensil.jpeg"}]},
     {"id": "TRX004", "tanggal": "2025-11-15", "pelanggan": "Siti riki", "metode": "QRIS", "status": "Disiapkan",
-     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar dan icon/gambar pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar dan icon/gambar penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar dan icon/gambar pensil.jpeg"}]},
+     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar pensil.jpeg"}]},
 ]
 
 def hitung_total_barang(barang):
@@ -1470,7 +1470,7 @@ def admin_cetak_pdf():
     modal_barang = int(total_pendapatan * 0.7)
     untung_rugi = total_pendapatan - modal_barang
 
-    return render_template('12. cetaklaporan_pdf.html',
+    return render_template('12.-cetaklaporan_pdf.html',
         total_pendapatan=total_pendapatan,
         modal_barang=modal_barang,
         untung_rugi=untung_rugi,
