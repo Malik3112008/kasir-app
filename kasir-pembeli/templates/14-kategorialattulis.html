@@ -42,11 +42,13 @@
         {% for item in barang %}
         <div class="card" data-nama="{{ item.nama }}" data-kategori="{{ item.kategori }}">
             {% if item.gambar and item.gambar != '' %}
-            <img src="{{ url_for('static', filename=item.gambar) }}" alt="{{ item.nama }}">
+            <img src="{{ url_for('static', filename=item.gambar) }}" alt="{{ item.nama }}" {% if item.stok == 0 %}class="stok-habis"{% endif %}>
             {% else %}
-            <div class="no-img">{{ item.emoji or '📦' }}</div>
+            <div class="no-img{% if item.stok == 0 %} stok-habis{% endif %}">{{ item.emoji or '📦' }}</div>
             {% endif %}
-            <h3>{{ item.nama }}</h3>
+            <a href="{{ url_for('pembeli_detail_barang', id=item.no) }}" class="detail-link">
+                <h3>{{ item.nama }}</h3>
+            </a>
             <p class="harga">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</p>
             <p>Stok : {{ item.stok }}</p>
             <p class="rating">
@@ -54,6 +56,7 @@
                     {% if i < item.rating %}⭐{% endif %}
                 {% endfor %}
             </p>
+            <a href="{{ url_for('pembeli_penilaian') }}" class="rating-link">Lihat Rating</a>
             {% if item.stok > 0 %}
             <form method="POST" action="/pembeli/tambah-keranjang">
                 <input type="hidden" name="nama" value="{{ item.nama }}">

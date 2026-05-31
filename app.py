@@ -583,21 +583,15 @@ def admin_stok_tersedia_hapus(id):
 
 data_barang = [
     {"no": 1, "nama": "Roti Aoka", "berat": "100 gram", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar dan icon/gambar roti aoka.jpeg", "rating": 5, "emoji": "🍞"},
-    {"no": 2, "nama": "Donat", "berat": "80 gram", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar dan icon/roti.jpg", "rating": 4, "emoji": "🍩"},
-    {"no": 3, "nama": "Mie Instan", "berat": "75 gram", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal": "2026-05-08", "gambar": "gambar dan icon/roti.jpg", "rating": 4, "emoji": "🍜"},
-    {"no": 4, "nama": "Keripik Kentang", "berat": "50 gram", "stok": 22, "harga": 10000, "kategori": "Makanan", "tanggal": "2026-05-11", "gambar": "gambar dan icon/roti.jpg", "rating": 4, "emoji": "🥔"},
-    {"no": 5, "nama": "Sosis", "berat": "60 gram", "stok": 20, "harga": 2000, "kategori": "Makanan", "tanggal": "2026-05-12", "gambar": "gambar dan icon/roti.jpg", "rating": 3, "emoji": "🌭"},
-    {"no": 6, "nama": "Air Mineral", "berat": "500 ml", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal": "2026-05-06", "gambar": "gambar dan icon/ades.jpg", "rating": 5, "emoji": "💧"},
-    {"no": 7, "nama": "Teh Botol", "berat": "350 ml", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal": "2026-05-07", "gambar": "gambar dan icon/gambar le mineral.jpeg", "rating": 3, "emoji": "🍵"},
-    {"no": 8, "nama": "Susu Kotak", "berat": "250 ml", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal": "2026-05-10", "gambar": "gambar dan icon/gambar le mineral.jpeg", "rating": 4, "emoji": "🥛"},
-    {"no": 9, "nama": "Kopi Sachet", "berat": "20 gram", "stok": 30, "harga": 4000, "kategori": "Minuman", "tanggal": "2026-05-13", "gambar": "gambar dan icon/ades.jpg", "rating": 3, "emoji": "☕"},
-    {"no": 10, "nama": "Es Krim", "berat": "100 ml", "stok": 15, "harga": 4500, "kategori": "Minuman", "tanggal": "2026-05-14", "gambar": "gambar dan icon/gambar le mineral.jpeg", "rating": 4, "emoji": "🍦"},
-    {"no": 11, "nama": "Pensil", "berat": "10 gram", "stok": 30, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-03", "gambar": "gambar dan icon/gambar pensil.jpeg", "rating": 4, "emoji": "✏️"},
-    {"no": 12, "nama": "Bolpoin", "berat": "15 gram", "stok": 25, "harga": 4000, "kategori": "Alat Tulis", "tanggal": "2026-05-04", "gambar": "gambar dan icon/bulpoin.jpg", "rating": 3, "emoji": "🖊️"},
-    {"no": 13, "nama": "Buku Tulis", "berat": "200 gram", "stok": 40, "harga": 6000, "kategori": "Alat Tulis", "tanggal": "2026-05-05", "gambar": "gambar dan icon/gambar pensil.jpeg", "rating": 4, "emoji": "📓"},
-    {"no": 14, "nama": "Penghapus", "berat": "20 gram", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-09", "gambar": "gambar dan icon/gambar penghapus.jpeg", "rating": 5, "emoji": "🧽"},
-    {"no": 15, "nama": "Spidol", "berat": "25 gram", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal": "2026-05-12", "gambar": "gambar dan icon/gambar pulpen.jpeg", "rating": 4, "emoji": "🖍️"},
-    {"no": 16, "nama": "Tipe X", "berat": "30 gram", "stok": 25, "harga": 5000, "kategori": "Alat Tulis", "tanggal": "2026-05-15", "gambar": "gambar dan icon/gambar tipe ex.jpeg", "rating": 5, "emoji": "📝"},
+    {"no": 2, "nama": "Donat", "berat": "80 gram", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar dan icon/donat.jpg", "rating": 4, "emoji": "🍩"},
+    {"no": 3, "nama": "Mie Instan", "berat": "75 gram", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal": "2026-05-08", "gambar": "gambar dan icon/pop mie.png", "rating": 4, "emoji": "🍜"},
+    {"no": 4, "nama": "Air Mineral", "berat": "500 ml", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal": "2026-05-06", "gambar": "gambar dan icon/ades.jpg", "rating": 5, "emoji": "💧"},
+    {"no": 5, "nama": "Teh Botol", "berat": "350 ml", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal": "2026-05-07", "gambar": "gambar dan icon/teh botol.png", "rating": 3, "emoji": "🍵"},
+    {"no": 6, "nama": "Susu Kotak", "berat": "250 ml", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal": "2026-05-10", "gambar": "gambar dan icon/ultramilk.png", "rating": 4, "emoji": "🥛"},
+    {"no": 7, "nama": "Pensil", "berat": "10 gram", "stok": 30, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-03", "gambar": "gambar dan icon/gambar pensil.jpeg", "rating": 4, "emoji": "✏️"},
+    {"no": 8, "nama": "Buku Tulis", "berat": "200 gram", "stok": 40, "harga": 6000, "kategori": "Alat Tulis", "tanggal": "2026-05-05", "gambar": "gambar dan icon/buku tulis.jpg", "rating": 4, "emoji": "📓"},
+    {"no": 9, "nama": "Penghapus", "berat": "20 gram", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-09", "gambar": "gambar dan icon/penghapus.png", "rating": 5, "emoji": "🧽"},
+    {"no": 10, "nama": "Spidol", "berat": "25 gram", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal": "2026-05-12", "gambar": "gambar dan icon/gambar pulpen.jpeg", "rating": 4, "emoji": "🖍️"},
 ]
 
 @app.route('/admin/cetak_laporan', methods=['GET', 'POST'])

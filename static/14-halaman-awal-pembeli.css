@@ -128,9 +128,37 @@ select#kategori-filter {
     font-size: 48px;
 }
 
+img.stok-habis,
+.no-img.stok-habis {
+    filter: grayscale(1) brightness(0.5);
+    opacity: 0.7;
+}
+
 .card h3 {
     margin: 8px 0 4px;
     font-size: 16px;
+}
+
+.detail-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.detail-link:hover h3 {
+    color: #00bfff;
+    text-decoration: underline;
+}
+
+.rating-link {
+    display: inline-block;
+    font-size: 12px;
+    color: #00bfff;
+    text-decoration: none;
+    margin-top: 4px;
+}
+
+.rating-link:hover {
+    text-decoration: underline;
 }
 
 .harga {
