@@ -47,11 +47,11 @@
 
         <div class="admin-profile">
             <h2 class="admin-menu"> Admin Menu </h2>
-            <a href="#">
+            <a href="{{ url_for('admin_pengaturan') }}">
                 <img src="{{ url_for('static', filename='image/profile.png') }}" alt="admin-profile" class="admin-profile-picture" />
             </a>
             <p class="admin-greeting">Selamat Datang</p>
-            <a href="#">
+            <a href="{{ url_for('admin_pengaturan') }}">
                 <p class="admin-greeting-name">Admin</p>
             </a>
         </div>
@@ -62,25 +62,25 @@
                 <h3>Informasi</h3>
                 <ul class="sidebar-list">
                     <li>
-                        <a href="/admin/denah">
+                        <a href="{{ url_for('admin_denah') }}">
                             <i class="fa-regular fa-map"></i>
                             <span>Lihat Denah</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/laporan_penjualan">
+                        <a href="{{ url_for('admin_laporan_penjualan') }}">
                             <i class="fa-solid fa-chart-column"></i>
                             <span>Laporan Penjualan</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url_for('admin_pengaturan_laporan') }}">
+                        <a href="{{ url_for('admin_cetak_laporan') }}">
                             <i class="fa-solid fa-print"></i>
                             <span>Cetak Laporan</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/manajemen-barang">
+                        <a href="{{ url_for('admin_manajemen_barang') }}">
                             <i class="fa-solid fa-cubes"></i>
                             <span>Manajemen Barang</span>
                         </a>
@@ -92,13 +92,19 @@
                 <h3>Pengelolaan Produk</h3>
                 <ul class="sidebar-list">
                     <li>
-                        <a href="/admin/pengisian_barang">
+                        <a href="{{ url_for('admin_tambah_data_barang') }}">
                             <i class="fa-solid fa-box"></i>
                             <span>Tambah Data Barang</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/stok-tersedia">
+                        <a href="{{ url_for('admin_pengisian_barang') }}">
+                            <i class="fa-solid fa-rotate-right"></i>
+                            <span>Restok & Update Barang</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('admin_stok_tersedia') }}">
                             <i class="fa-solid fa-pen-to-square"></i>
                             <span>Daftar Stok</span>
                         </a>
@@ -109,15 +115,21 @@
                 <h3>Transaksi</h3>
                 <ul class="sidebar-list">
                     <li>
-                        <a href="/admin/riwayat">
-                            <i class="fa-regular fa-alarm-clock"></i>
+                        <a href="{{ url_for('admin_riwayat') }}">
+                            <i class="fa-solid fa-list"></i>
                             <span>Daftar Transaksi</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/siapkan-pesanan">
+                        <a href="{{ url_for('admin_siapkan_pesanan') }}">
                             <i class="fa-solid fa-receipt"></i>
                             <span>Siapkan Pesanan Pelanggan</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('admin_riwayat_aktivitas') }}">
+                            <i class="fa-regular fa-alarm-clock"></i>
+                            <span>Riwayat Transaksi</span>
                         </a>
                     </li>
                 </ul>
@@ -133,7 +145,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/riwayat-aktivitas">
+                        <a href="{{ url_for('admin_riwayat_aktivitas') }}">
                             <i class="fa-solid fa-calendar"></i>
                             <span>Riwayat Aktivitas</span>
                         </a>

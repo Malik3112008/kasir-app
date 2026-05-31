@@ -15,14 +15,16 @@
 <div class="container">
     <h1>Beri Rating & Ulasan</h1>
 
+    <form method="POST" action="{{ url_for('pembeli_submit_rating') }}" enctype="multipart/form-data">
+    <input type="hidden" name="produk_nama" value="{{ nama_produk }}">
+    <input type="hidden" name="rating" id="rating_value" value="0">
+
     <div class="produk">
-        <img src="{{ url_for('static', 
-        filename='gambar-dan-icon/roti.jpg') }}" alt="roti">
-        
+        <img src="{{ url_for('static', filename=gambar_produk) }}" alt="{{ nama_produk }}">
         <div class="info">
-            <h2>Roti Aoka</h2>
-            <p>Vanilla</p>
-            <b>Tanggal Pembelian: 28 Nov 2025</b>
+            <h2>{{ nama_produk }}</h2>
+            <p>{{ varian_produk }}</p>
+            <b>Tanggal Pembelian: {{ tanggal_pembelian }}</b>
         </div>
     </div>
 
@@ -45,26 +47,31 @@
         <button type="button">Bersih</button>
         <button type="button">Recommended</button>
     </div>
+    <input type="hidden" name="ulasan_tags" id="ulasan_tags" value="">
 
-    <textarea placeholder="Ceritakan pengalaman Anda...
+    <textarea name="ulasan" placeholder="Ceritakan pengalaman Anda...
 Bagaimana pengalaman Anda memesan dan mengambil produk di kopsis"></textarea>
 
     <h3>Tambah Foto</h3>
     <label for="foto" class="upload-label">
         + Tambahkan Foto
     </label>
-    <input type="file" id="foto" name="foto" hidden>
+    <input type="file" id="foto" name="foto" accept="image/*" hidden>
 
     <h3>Nama</h3>
-    <input type="text" placeholder="Masukkan nama">
+    <input type="text" name="nama" placeholder="Masukkan nama" value="{{ nama_pengguna }}">
 
-    <a href="/pembeli/penilaian" class="kirim">Kirim Rating</a>
+    <button type="submit" class="kirim" style="font-family:inherit;">Kirim Rating</button>
+    </form>
 </div>
 
 <script>
     const stars = document.querySelectorAll('.star');
+    let selectedRating = 0;
 
     function rating(nilai) {
+        selectedRating = nilai;
+        document.getElementById('rating_value').value = nilai;
         stars.forEach((star, index) => {
             if(index < nilai){
                 star.classList.add('active');
@@ -75,10 +82,22 @@ Bagaimana pengalaman Anda memesan dan mengambil produk di kopsis"></textarea>
     }
 
     const buttons = document.querySelectorAll('.ulasan-pilihan button');
+    const tagsInput = document.getElementById('ulasan_tags');
+
+    function updateTags() {
+        const selected = [];
+        buttons.forEach(btn => {
+            if (btn.classList.contains('selected')) {
+                selected.push(btn.textContent.trim());
+            }
+        });
+        tagsInput.value = selected.join(', ');
+    }
 
     buttons.forEach(btn => {
         btn.addEventListener('click', () => {
             btn.classList.toggle('selected');
+            updateTags();
         });
     });
 </script>

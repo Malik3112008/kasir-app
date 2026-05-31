@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cetak Laporan Transaksi</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='12-cetaklaporan.css') }}">
+</head>
+<body>
+
+<div class="table-container">
+    <h2 style="text-align:center;">Laporan Transaksi</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Tanggal</th>
+                <th>ID Transaksi</th>
+                <th>Pelanggan</th>
+                <th>Total</th>
+                <th>Metode</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in pesanan %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ t.tanggal }}</td>
+                <td>{{ t.id }}</td>
+                <td>{{ t.pelanggan }}</td>
+                <td>Rp {{ "{:,.0f}".format(t.total).replace(",", ".") }}</td>
+                <td>{{ t.metode }}</td>
+                <td>{{ t.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+window.addEventListener('load', function() {
+    setTimeout(function(){ window.print(); }, 200);
+});
+</script>
+
+</body>
+</html>

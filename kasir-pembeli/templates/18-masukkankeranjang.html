@@ -132,7 +132,7 @@
 <body>
 
 <div style="padding: 16px;">
-    <a href="/pembeli" class="kembali">← Kembali</a>
+    <a href="{{ url_for('pembeli_home') }}" class="kembali">← Kembali</a>
 </div>
 
 <div class="container">
@@ -150,19 +150,19 @@
                 <p>Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }} x {{ item.jumlah }}</p>
             </div>
             <div class="control">
-                <form method="POST" action="/pembeli/update-keranjang" style="display:inline;">
+                <form method="POST" action="{{ url_for('pembeli_update_keranjang') }}" style="display:inline;">
                     <input type="hidden" name="nama" value="{{ nama }}">
                     <input type="hidden" name="aksi" value="kurang">
                     <button type="submit">-</button>
                 </form>
                 <span>{{ item.jumlah }}</span>
-                <form method="POST" action="/pembeli/update-keranjang" style="display:inline;">
+                <form method="POST" action="{{ url_for('pembeli_update_keranjang') }}" style="display:inline;">
                     <input type="hidden" name="nama" value="{{ nama }}">
                     <input type="hidden" name="aksi" value="tambah">
                     <button type="submit">+</button>
                 </form>
             </div>
-            <form method="POST" action="/pembeli/update-keranjang" style="display:inline;">
+            <form method="POST" action="{{ url_for('pembeli_update_keranjang') }}" style="display:inline;">
                 <input type="hidden" name="nama" value="{{ nama }}">
                 <input type="hidden" name="aksi" value="hapus">
                 <button type="submit" class="hapus">&#128465;</button>
@@ -174,13 +174,13 @@
             Total: Rp {{ "{:,.0f}".format(total).replace(",", ".") }}
         </div>
 
-        <a href="/pembeli/pilih-pembayaran" class="checkout">
+        <a href="{{ url_for('pembeli_pilih_pembayaran') }}" class="checkout">
             Lanjutkan ke Pembayaran
         </a>
     {% else %}
         <div class="empty-cart">
             <p>Keranjang masih kosong</p>
-            <a href="/pembeli">Mulai Belanja</a>
+            <a href="{{ url_for('pembeli_home') }}">Mulai Belanja</a>
         </div>
     {% endif %}
 

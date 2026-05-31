@@ -158,6 +158,8 @@ def dynamic_cards_css():
 
 @app.route('/admin/denah/<folder>')
 def admin_detail(folder):
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
     title = folder.replace('-', ' ').replace('_', ' ').title()
     return render_template('04.Denah.html', title=title, folder=folder, page='detail')
 
@@ -498,11 +500,44 @@ def admin_pengisian_barang_restok(id):
         return redirect(url_for('admin_pengisian_barang'))
     return render_template('10.pengisian_barang_.html', barang=barang)
 
+@app.route('/admin/tambah-data-barang')
+def admin_tambah_data_barang():
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    return render_template('25.tambah_data_barang.html')
+
+@app.route('/admin/simpan-barang-baru', methods=['POST'])
+def admin_simpan_barang_baru():
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    kategori = request.form.get('kategori', '')
+    nama_barang = request.form.get('nama_barang', '')
+    harga_beli = int(request.form.get('harga_beli', 0))
+    harga_jual = int(request.form.get('harga_jual', 0))
+    jumlah = int(request.form.get('jumlah', 0))
+    tanggal = request.form.get('tanggal', '')
+    variasi = request.form.get('variasi', '')
+    volume = request.form.get('volume', '')
+    rasa = request.form.get('rasa', '')
+    expired = request.form.get('expired', '')
+    deskripsi = request.form.get('deskripsi', '')
+    no_baru = max([b['no'] for b in data_barang], default=0) + 1
+    data_barang.append({
+        'no': no_baru, 'nama': nama_barang, 'berat': volume or '-',
+        'stok': jumlah, 'harga': harga_jual, 'kategori': kategori,
+        'tanggal': tanggal, 'gambar': '', 'rating': 0, 'emoji': '📦'
+    })
+    return render_template('17.-konfirmasi-barang.html',
+        nama_barang=nama_barang, kategori=kategori,
+        harga=harga_jual, jumlah=jumlah)
+
 @app.route('/admin/simpan', methods=['POST'])
 def admin_simpan():
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
     kategori = request.form['kategori']
     nama_barang = request.form['nama_barang']
-    tanggal = request.form['tanggal']
+    tanggal = request.form.get('tanggal', '')
     jumlah = request.form['jumlah']
     harga_beli = request.form.get('harga_beli', '0')
     harga_jual = request.form.get('harga_jual', request.form.get('harga', '0'))
@@ -520,6 +555,8 @@ def admin_simpan():
 
 @app.route('/admin/konfirmasi-barang')
 def admin_konfirmasi_barang():
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
     nama_barang = request.args.get('nama_barang', '-')
     kategori = request.args.get('kategori', '-')
     harga = request.args.get('harga', '0')
@@ -588,16 +625,16 @@ def admin_stok_tersedia_hapus(id):
 # ============================================================
 
 data_barang = [
-    {"no": 1, "nama": "Roti Aoka", "berat": "100 gram", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/gambar roti aoka.jpeg", "rating": 5, "emoji": "🍞"},
+    {"no": 1, "nama": "Roti Aoka", "berat": "100 gram", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg", "rating": 5, "emoji": "🍞"},
     {"no": 2, "nama": "Donat", "berat": "80 gram", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/donat.jpg", "rating": 4, "emoji": "🍩"},
     {"no": 3, "nama": "Mie Instan", "berat": "75 gram", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal": "2026-05-08", "gambar": "gambar-dan-icon/pop-mie.png", "rating": 4, "emoji": "🍜"},
     {"no": 4, "nama": "Air Mineral", "berat": "500 ml", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal": "2026-05-06", "gambar": "gambar-dan-icon/ades.jpg", "rating": 5, "emoji": "💧"},
     {"no": 5, "nama": "Teh Botol", "berat": "350 ml", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal": "2026-05-07", "gambar": "gambar-dan-icon/teh-botol.png", "rating": 3, "emoji": "🍵"},
     {"no": 6, "nama": "Susu Kotak", "berat": "250 ml", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/ultramilk.png", "rating": 4, "emoji": "🥛"},
-    {"no": 7, "nama": "Pensil", "berat": "10 gram", "stok": 30, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/gambar pensil.jpeg", "rating": 4, "emoji": "✏️"},
+    {"no": 7, "nama": "Pensil", "berat": "10 gram", "stok": 30, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "rating": 4, "emoji": "✏️"},
     {"no": 8, "nama": "Buku Tulis", "berat": "200 gram", "stok": 40, "harga": 6000, "kategori": "Alat Tulis", "tanggal": "2026-05-05", "gambar": "gambar-dan-icon/buku-tulis.jpg", "rating": 4, "emoji": "📓"},
     {"no": 9, "nama": "Penghapus", "berat": "20 gram", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-09", "gambar": "gambar-dan-icon/penghapus.png", "rating": 5, "emoji": "🧽"},
-    {"no": 10, "nama": "Spidol", "berat": "25 gram", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal": "2026-05-12", "gambar": "gambar-dan-icon/gambar pulpen.jpeg", "rating": 4, "emoji": "🖍️"},
+    {"no": 10, "nama": "Spidol", "berat": "25 gram", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal": "2026-05-12", "gambar": "gambar-dan-icon/gambar-pulpen.jpeg", "rating": 4, "emoji": "🖍️"},
 ]
 
 @app.route('/admin/cetak_laporan', methods=['GET', 'POST'])
@@ -628,12 +665,46 @@ def admin_cetak_laporan():
     modal_barang = int(total_pendapatan * 0.7)
     untung_rugi = total_pendapatan - modal_barang
 
+    tanggal_awal = request.args.get('tanggal_awal', '')
+    tanggal_akhir = request.args.get('tanggal_akhir', '')
+
     return render_template('12.-cetaklaporan.html',
         barang=data_barang, formatRp=formatRp,
         total_pendapatan=total_pendapatan,
         modal_barang=modal_barang,
         untung_rugi=untung_rugi,
-        data_transaksi=data_transaksi)
+        data_transaksi=data_transaksi,
+        data_barang_list=data_barang,
+        pesanan_list=pesanan,
+        tanggal_awal=tanggal_awal,
+        tanggal_akhir=tanggal_akhir)
+
+@app.route('/admin/cetak_transaksi_pdf')
+def admin_cetak_transaksi_pdf():
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    return render_template('12.-cetaklaporan_transaksi_pdf.html', pesanan=pesanan)
+
+@app.route('/admin/cetak_transaksi_excel')
+def admin_cetak_transaksi_excel():
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    from openpyxl import Workbook
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Laporan Transaksi"
+    ws.append(['No', 'Tanggal', 'ID Transaksi', 'Pelanggan', 'Total', 'Metode', 'Status'])
+    for i, p in enumerate(pesanan, 1):
+        total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
+        ws.append([i, p['tanggal'], p['id'], p['pelanggan'], total_barang, p['metode'], p['status']])
+    output = io.BytesIO()
+    wb.save(output)
+    output.seek(0)
+    return Response(
+        output.getvalue(),
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        headers={'Content-Disposition': 'attachment;filename=laporan_transaksi.xlsx'}
+    )
 
 @app.route('/admin/pengaturan-laporan')
 def admin_pengaturan_laporan():
@@ -656,6 +727,35 @@ def admin_cetak_laporan_barang():
     return render_template('12.-cetaklaporan_barang.html',
         data_barang=data_barang,
         total_nilai=total_nilai)
+
+@app.route('/admin/cetak_barang_pdf')
+def admin_cetak_barang_pdf():
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    total_nilai = sum(b['harga'] * b['stok'] for b in data_barang)
+    return render_template('12.-cetaklaporan_barang_pdf.html',
+        data_barang=data_barang,
+        total_nilai=total_nilai)
+
+@app.route('/admin/cetak_barang_excel')
+def admin_cetak_barang_excel():
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    from openpyxl import Workbook
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Laporan Data Barang"
+    ws.append(['No', 'Nama', 'Stok', 'Harga', 'Kategori', 'Tanggal', 'Total'])
+    for b in data_barang:
+        ws.append([b['no'], b['nama'], b['stok'], b['harga'], b['kategori'], b['tanggal'], b['harga'] * b['stok']])
+    output = io.BytesIO()
+    wb.save(output)
+    output.seek(0)
+    return Response(
+        output.getvalue(),
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        headers={'Content-Disposition': 'attachment;filename=laporan_data_barang.xlsx'}
+    )
 
 @app.route('/admin/laporan_penjualan', methods=['GET', 'POST'])
 def admin_laporan_penjualan():
@@ -825,13 +925,13 @@ status_qris  = ["Disiapkan", "Siap diambil", "Sudah diambil"]
 
 pesanan = [
     {"id": "TRX001", "tanggal": "2025-11-15", "pelanggan": "Ahmad Rizki", "metode": "Tunai", "status": "Disiapkan",
-     "barang": [{"nama": "Roti Tawar", "jumlah": 2, "harga": 8000, "gambar": "gambar-dan-icon/gambar roti aoka.jpeg"}, {"nama": "Air Mineral", "jumlah": 1, "harga": 3000, "gambar": "gambar-dan-icon/ades.jpg"}]},
+     "barang": [{"nama": "Roti Tawar", "jumlah": 2, "harga": 8000, "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg"}, {"nama": "Air Mineral", "jumlah": 1, "harga": 3000, "gambar": "gambar-dan-icon/ades.jpg"}]},
     {"id": "TRX002", "tanggal": "2025-11-15", "pelanggan": "Siti Nurhazila", "metode": "QRIS", "status": "Disiapkan",
-     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar pensil.jpeg"}]},
+     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar-penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}]},
     {"id": "TRX003", "tanggal": "2025-11-15", "pelanggan": "Diki Nurhazila", "metode": "Tunai", "status": "Disiapkan",
-     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar pensil.jpeg"}]},
+     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar-penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}]},
     {"id": "TRX004", "tanggal": "2025-11-15", "pelanggan": "Siti riki", "metode": "QRIS", "status": "Disiapkan",
-     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar pensil.jpeg"}]},
+     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar-penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}]},
 ]
 
 def hitung_total_barang(barang):
@@ -1115,7 +1215,7 @@ def pembeli_ganti_password():
             session.pop('otp_verified', None)
             session.pop('reset_email', None)
             return render_template('notifikasi_berhasil_pembeli.html', message='Kata sandi berhasil diubah. Silakan login dengan kata sandi baru.')
-    return render_template('reset_pembeli.html', error=error)
+    return render_template('reset_pembeli.html', error=error, show_password_form=True)
 
 # ============================================================
 # PEMBELI: HOME
@@ -1133,10 +1233,10 @@ def pembeli_home():
 # ============================================================
 
 barang_pembeli = [
-    {"id": 1, "nama": "Pensil", "harga": 2000, "stok": 30, "rating": 4, "gambar": "gambar/gambar pensil.jpeg", "kategori": "Alat Tulis", "deskripsi": "Pensil HB standar untuk menulis dan menggambar."},
-    {"id": 2, "nama": "Bolpoin", "harga": 4000, "stok": 40, "rating": 3, "gambar": "gambar/gambar pulpen.jpeg", "kategori": "Alat Tulis", "deskripsi": "Bolpoin hitam dengan tinta lancar."},
-    {"id": 3, "nama": "Penghapus", "harga": 2000, "stok": 20, "rating": 2, "gambar": "gambar/gambar penghapus.jpeg", "kategori": "Alat Tulis", "deskripsi": "Penghapus lembut tidak merusak kertas."},
-    {"id": 4, "nama": "Tipe x", "harga": 5000, "stok": 25, "rating": 5, "gambar": "gambar/gambar tipe ex.jpeg", "kategori": "Alat Tulis", "deskripsi": "Tipe-X kering cepat kering dan rapi."},
+    {"id": 1, "nama": "Pensil", "harga": 2000, "stok": 30, "rating": 4, "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "kategori": "Alat Tulis", "deskripsi": "Pensil HB standar untuk menulis dan menggambar."},
+    {"id": 2, "nama": "Bolpoin", "harga": 4000, "stok": 40, "rating": 3, "gambar": "gambar-dan-icon/gambar-pulpen.jpeg", "kategori": "Alat Tulis", "deskripsi": "Bolpoin hitam dengan tinta lancar."},
+    {"id": 3, "nama": "Penghapus", "harga": 2000, "stok": 20, "rating": 2, "gambar": "gambar-dan-icon/penghapus.png", "kategori": "Alat Tulis", "deskripsi": "Penghapus lembut tidak merusak kertas."},
+    {"id": 4, "nama": "Tipe x", "harga": 5000, "stok": 25, "rating": 5, "gambar": "gambar-dan-icon/gambar-tipe-ex.jpeg", "kategori": "Alat Tulis", "deskripsi": "Tipe-X kering cepat kering dan rapi."},
 ]
 
 @app.route('/pembeli/detail-barang/<int:id>')
@@ -1152,8 +1252,8 @@ def pembeli_detail_barang(id):
         for b in data_barang:
             if b['no'] == id:
                 barang = {'id': b['no'], 'nama': b['nama'], 'harga': b['harga'], 'stok': b['stok'],
-                          'gambar': '/static/img/default.png', 'kategori': b['kategori'], 'rating': 4,
-                          'deskripsi': f"{b['nama']} dari kategori {b['kategori']}."}
+                          'gambar': b.get('gambar', ''), 'kategori': b['kategori'], 'rating': b.get('rating', 4),
+                          'berat': b.get('berat', ''), 'deskripsi': f"{b['nama']} dari kategori {b['kategori']}."}
                 break
     if not barang:
         return "Barang tidak ditemukan", 404
@@ -1195,6 +1295,31 @@ def pembeli_update_keranjang():
 
 @app.route('/pembeli/keranjang')
 def pembeli_keranjang():
+    # Handle ?tambah=ID from detail barang page
+    tambah_id = request.args.get('tambah')
+    if tambah_id:
+        tambah_id = int(tambah_id)
+        barang = None
+        for b in barang_pembeli:
+            if b['id'] == tambah_id:
+                barang = b
+                break
+        if not barang:
+            for b in data_barang:
+                if b['no'] == tambah_id:
+                    barang = {'id': b['no'], 'nama': b['nama'], 'harga': b['harga'], 'stok': b['stok'],
+                              'gambar': b.get('gambar', ''), 'kategori': b['kategori']}
+                    break
+        if barang and barang.get('stok', 0) > 0:
+            nama = barang['nama']
+            gambar = barang.get('gambar', '')
+            if nama in cart:
+                if cart[nama]['jumlah'] < barang['stok']:
+                    cart[nama]['jumlah'] += 1
+            else:
+                cart[nama] = {'harga': barang['harga'], 'jumlah': 1, 'gambar': gambar}
+        return redirect('/pembeli/keranjang')
+
     total = 0
     for nama in cart:
         total += cart[nama]['harga'] * cart[nama]['jumlah']
@@ -1352,15 +1477,15 @@ def siap_diambil():
 # ============================================================
 
 produk_belum_dinilai = [
-    {"id": 1, "nama": "Roti Aoka", "gambar": "roti.jpg"},
-    {"id": 2, "nama": "Air Mineral Ades", "gambar": "ades.jpg"},
-    {"id": 3, "nama": "Bulpoin", "gambar": "bulpoin.jpg"},
+    {"id": 1, "nama": "Roti Aoka", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg"},
+    {"id": 2, "nama": "Air Mineral Ades", "gambar": "gambar-dan-icon/ades.jpg"},
+    {"id": 3, "nama": "Bulpoin", "gambar": "gambar-dan-icon/bulpoin.jpg"},
 ]
 
 penilaian_saya = [
-    {"id": 1, "nama": "Roti Aoka", "gambar": "roti.jpg", "rating": 4, "tanggal": "01-01-2026 11:24"},
-    {"id": 2, "nama": "Air Mineral Ades", "gambar": "ades.jpg", "rating": 5, "tanggal": "20-12-2025 18:22"},
-    {"id": 3, "nama": "Bulpoin", "gambar": "bulpoin.jpg", "rating": 3, "tanggal": "18-12-2025 11:35"},
+    {"id": 1, "nama": "Roti Aoka", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg", "rating": 4, "tanggal": "01-01-2026 11:24"},
+    {"id": 2, "nama": "Air Mineral Ades", "gambar": "gambar-dan-icon/ades.jpg", "rating": 5, "tanggal": "20-12-2025 18:22"},
+    {"id": 3, "nama": "Bulpoin", "gambar": "gambar-dan-icon/bulpoin.jpg", "rating": 3, "tanggal": "18-12-2025 11:35"},
 ]
 
 @app.route("/pembeli/penilaian")
@@ -1369,7 +1494,71 @@ def pembeli_penilaian():
 
 @app.route("/pembeli/rating")
 def pembeli_rating():
-    return render_template("4-inputpenilaian.html")
+    produk_id = request.args.get('id', type=int)
+    nama_produk = "Roti Aoka"
+    gambar_produk = "gambar-dan-icon/roti.jpg"
+    varian_produk = "Vanilla"
+    tanggal_pembelian = "28 Nov 2025"
+    nama_pengguna = session.get('nama', '')
+
+    if produk_id:
+        for b in data_barang:
+            if b['no'] == produk_id:
+                nama_produk = b['nama']
+                gambar_produk = b['gambar']
+                varian_produk = b.get('berat', '')
+                break
+
+    return render_template("4-inputpenilaian.html",
+        nama_produk=nama_produk,
+        gambar_produk=gambar_produk,
+        varian_produk=varian_produk,
+        tanggal_pembelian=tanggal_pembelian,
+        nama_pengguna=nama_pengguna)
+
+@app.route("/pembeli/submit-rating", methods=["POST"])
+def pembeli_submit_rating():
+    nama_produk = request.form.get('produk_nama', '')
+    rating = int(request.form.get('rating', 0))
+    ulasan = request.form.get('ulasan', '').strip()
+    ulasan_tags = request.form.get('ulasan_tags', '').strip()
+    nama = request.form.get('nama', '').strip()
+
+    if not nama:
+        nama = session.get('nama', 'Anonim')
+
+    if rating < 1:
+        rating = 1
+
+    foto_filename = None
+    foto = request.files.get('foto')
+    if foto and foto.filename:
+        foto_filename = secure_filename(foto.filename)
+        upload_dir = os.path.join(BASE_DIR, 'static', 'uploads', 'rating')
+        os.makedirs(upload_dir, exist_ok=True)
+        foto.save(os.path.join(upload_dir, foto_filename))
+
+    now = datetime.now()
+    tanggal = now.strftime("%d-%m-%Y %H:%M")
+
+    penilaian_saya.insert(0, {
+        "id": len(penilaian_saya) + 1,
+        "nama": nama_produk,
+        "gambar": foto_filename or "default.jpg",
+        "rating": rating,
+        "tanggal": tanggal,
+        "ulasan": ulasan,
+        "ulasan_tags": ulasan_tags,
+        "oleh": nama,
+    })
+
+    # Update rating on data_barang if matching
+    for b in data_barang:
+        if b['nama'] == nama_produk:
+            b['rating'] = rating
+            break
+
+    return redirect(url_for('pembeli_penilaian'))
 
 @app.route("/pembeli/like", methods=["POST"])
 def pembeli_like():
@@ -1457,16 +1646,20 @@ def admin_cetak_pdf():
 def admin_cetak_excel():
     if not session.get('user'):
         return redirect(url_for('admin_login'))
-    si = io.StringIO()
-    writer = csv.writer(si)
-    writer.writerow(['No', 'Nama', 'Stok', 'Harga', 'Kategori', 'Tanggal'])
+    from openpyxl import Workbook
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Laporan Barang"
+    ws.append(['No', 'Nama', 'Stok', 'Harga', 'Kategori', 'Tanggal'])
     for b in data_barang:
-        writer.writerow([b['no'], b['nama'], b['stok'], b['harga'], b['kategori'], b['tanggal']])
-    output = si.getvalue()
+        ws.append([b['no'], b['nama'], b['stok'], b['harga'], b['kategori'], b['tanggal']])
+    output = io.BytesIO()
+    wb.save(output)
+    output.seek(0)
     return Response(
-        output,
-        mimetype='text/csv',
-        headers={'Content-Disposition': 'attachment;filename=laporan_barang.csv'}
+        output.getvalue(),
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        headers={'Content-Disposition': 'attachment;filename=laporan_barang.xlsx'}
     )
 
 # ============================================================

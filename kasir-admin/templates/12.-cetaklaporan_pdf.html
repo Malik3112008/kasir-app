@@ -10,17 +10,31 @@
 
     <div class="card-container" style="margin-top: 20px;">
         <div class="card">
-            <img src="{{ url_for('static', filename='money.png') }}" alt="Pendapatan">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="24" cy="24" r="22" fill="#27ae60" opacity="0.15"/>
+                <circle cx="24" cy="24" r="18" fill="#27ae60" opacity="0.3"/>
+                <text x="24" y="30" text-anchor="middle" font-size="22" font-weight="bold" fill="#27ae60">Rp</text>
+            </svg>
             <h3>Total Pendapatan</h3>
             <p>Rp {{ "{:,.0f}".format(total_pendapatan).replace(",", ".") }}</p>
         </div>
         <div class="card">
-            <img src="{{ url_for('static', filename='box.png') }}" alt="Modal">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="16" width="32" height="24" rx="3" fill="#3498db" opacity="0.2" stroke="#3498db" stroke-width="2"/>
+                <path d="M8 22h32" stroke="#3498db" stroke-width="2"/>
+                <path d="M20 16v-4a4 4 0 0 1 8 0v4" stroke="#3498db" stroke-width="2" fill="none"/>
+                <rect x="18" y="26" width="12" height="8" rx="2" fill="#3498db" opacity="0.4"/>
+            </svg>
             <h3>Modal Barang</h3>
             <p>Rp {{ "{:,.0f}".format(modal_barang).replace(",", ".") }}</p>
         </div>
         <div class="card">
-            <img src="{{ url_for('static', filename='wallet.png') }}" alt="Untung/Rugi">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="14" width="36" height="24" rx="4" fill="#f39c12" opacity="0.2" stroke="#f39c12" stroke-width="2"/>
+                <path d="M6 22h36" stroke="#f39c12" stroke-width="2"/>
+                <rect x="16" y="26" width="10" height="6" rx="1.5" fill="#f39c12" opacity="0.5"/>
+                <path d="M14 14V12a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2" stroke="#f39c12" stroke-width="2" fill="none"/>
+            </svg>
             <h3>Untung/Rugi Bersih</h3>
             <p>
                 {% if untung_rugi >= 0 %}

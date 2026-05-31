@@ -221,6 +221,65 @@ tbody tr {
     transition: background-color 0.2s ease;
 }
 
+/* ===== STOK BADGE ===== */
+.stok-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    min-width: 32px;
+    background: #ffe08a;
+    color: #d48800;
+}
+
+/* ===== STATUS BADGES ===== */
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge.tunai {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.badge.qris {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.badge.selesai {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.badge.proses {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+/* ===== SELECT & SD ===== */
+.laporan-box select {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+    font-size: 15px;
+    font-weight: bold;
+    background: white;
+    cursor: pointer;
+}
+
+.sd {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
 /* ===== BUTTONS (TITO: smaller, brighter green) ===== */
 .button-group {
     display: flex;

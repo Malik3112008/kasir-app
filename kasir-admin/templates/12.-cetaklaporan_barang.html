@@ -270,10 +270,10 @@
             </div>
 
             <div class="export-section">
-                <a href="/admin/cetak_barang_pdf" class="btn-export btn-pdf">
+                <a href="{{ url_for('admin_cetak_barang_pdf') }}" class="btn-export btn-pdf">
                     <i class="fa-solid fa-file-pdf"></i> Cetak PDF
                 </a>
-                <a href="/admin/cetak_barang_excel" class="btn-export btn-excel">
+                <a href="{{ url_for('admin_cetak_barang_excel') }}" class="btn-export btn-excel">
                     <i class="fa-solid fa-file-excel"></i> Cetak Excel
                 </a>
             </div>

@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<a href="/pembeli/keranjang" class="kembali">← Kembali</a>
+<a href="{{ url_for('pembeli_keranjang') }}" class="kembali">← Kembali</a>
 
 <div class="container">
 
@@ -59,6 +59,9 @@
 </div>
 
 <script>
+const tunaiUrl = "{{ url_for('pembeli_tunai') }}";
+const qrisUrl = "{{ url_for('pembeli_qris') }}";
+
 function pilihMetode(btn) {
     document.querySelectorAll('.metode-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -73,9 +76,9 @@ document.getElementById("paymentForm").addEventListener("submit", function(e) {
         return;
     }
     if (metode === "tunai") {
-        window.location.href = "/pembeli/tunai";
+        window.location.href = tunaiUrl;
     } else if (metode === "qris") {
-        window.location.href = "/pembeli/qris";
+        window.location.href = qrisUrl;
     }
 });
 </script>
