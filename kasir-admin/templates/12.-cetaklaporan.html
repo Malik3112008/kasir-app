@@ -132,17 +132,22 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Status</th>
                             <th>No.</th>
                             <th>Tanggal</th>
                             <th>No. Transaksi</th>
                             <th>Total</th>
                             <th>Metode</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for t in pesanan_list %}
                         <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ t.tanggal }}</td>
+                            <td>{{ t.id }}</td>
+                            <td>Rp {{ "{:,.0f}".format(t.total).replace(",", ".") }}</td>
+                            <td><span class="badge {{ 'tunai' if t.metode == 'Tunai' else 'qris' }}">{{ t.metode }}</span></td>
                             <td>
                                 {% if t.status == 'Selesai' or t.status == 'Sudah diambil' %}
                                     <span class="badge-status selesai">{{ t.status }}</span>
@@ -156,11 +161,6 @@
                                     <span class="badge-status">{{ t.status }}</span>
                                 {% endif %}
                             </td>
-                            <td>{{ loop.index }}</td>
-                            <td>{{ t.tanggal }}</td>
-                            <td>{{ t.id }}</td>
-                            <td>Rp {{ "{:,.0f}".format(t.total).replace(",", ".") }}</td>
-                            <td><span class="badge {{ 'tunai' if t.metode == 'Tunai' else 'qris' }}">{{ t.metode }}</span></td>
                         </tr>
                         {% endfor %}
                     </tbody>
