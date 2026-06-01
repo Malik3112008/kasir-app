@@ -36,7 +36,7 @@ nav ul {
     width: 90%;
     height: auto;
     max-width: 1400px;
-    padding: 24px 30px;
+    padding: 24px 36px;
     background-color: white;
     margin: 40px auto;
     border-radius: 12px;
@@ -70,11 +70,15 @@ nav ul {
 }
 .tabel-box {
     overflow-x: auto;
+    margin: 12px 16px;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
 .tabel-box table {
     width: 100%;
     border-collapse: collapse;
     border-radius: 10px;
+    border-spacing: 0;
 }
 thead {
     background-color: #6194C3;
