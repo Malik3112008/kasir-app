@@ -1064,7 +1064,7 @@ def load_data():
         'telepon': '0341-123456',
         'jam': '07.00 - 15.00',
         'hari': 'Senin - Jumat',
-        'logo': 'newlogo.jpeg'
+        'logo': 'logo_3.png'
     }
 
 def save_data(data):
@@ -1674,4 +1674,12 @@ def admin_cetak_excel():
 # ============================================================
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    import socket
+    port = 5000
+    while port <= 5010:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            if s.connect_ex(('127.0.0.1', port)) != 0:
+                break
+        port += 1
+    print(f"Starting server on port {port}")
+    app.run(debug=True, port=port)
