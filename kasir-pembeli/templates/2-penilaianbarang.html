@@ -40,7 +40,7 @@
                 <h2>Belum Dinilai</h2>
                 {% for item in produk %}
                 <div class="card">
-                    <img src="{{ url_for('static', filename='gambar-dan-icon/' + item.gambar) }}" alt="{{ item.nama }}">
+                    <img src="{{ url_for('static', filename='' + item.gambar) }}" alt="{{ item.nama }}">
                     <div class="produk">
                         <div>
                             <h3>{{ item.nama }}</h3>
@@ -76,7 +76,7 @@
                             </div>
                             <p class="tanggal">{{ item.tanggal }}</p>
                             <div class="review-produk">
-                                <img src="{{ url_for('static', filename='gambar-dan-icon/' + item.gambar) }}" alt="{{ item.nama }}">
+                                <img src="{{ url_for('static', filename='' + item.gambar) }}" alt="{{ item.nama }}">
                                 <span>{{ item.nama }}</span>
                             </div>
                             <span class="text-membantu">Membantu</span>

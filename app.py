@@ -261,7 +261,11 @@ notifikasi = [
     {"judul": "Pembayaran Dikonfirmasi", "isi": "Pembayaran QRIS oleh Putri Amel senilai 10.000 telah divalidasi", "waktu": "20 menit lalu", "warna": "hijau"},
 ]
 
-riwayat = []
+riwayat = [
+    {"warna": "biru", "judul": "Pesanan Baru", "isi": "Pesanan TRX001 dari Ahmad Rizki masuk", "waktu": "29 Mei 2026, 08:00"},
+    {"warna": "hijau", "judul": "Pembayaran Berhasil", "isi": "Pembayaran QRIS untuk TRX002 berhasil", "waktu": "29 Mei 2026, 09:15"},
+    {"warna": "orange", "judul": "Stok Menipis", "isi": "Stok Roti Tawar tersisa 3 unit", "waktu": "29 Mei 2026, 10:30"},
+]
 
 @app.route("/admin/notifikasi")
 def admin_notifikasi():
@@ -632,7 +636,7 @@ data_barang = [
     {"no": 5, "nama": "Teh Botol", "berat": "350 ml", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal": "2026-05-07", "gambar": "gambar-dan-icon/teh-botol.png", "rating": 3, "emoji": "🍵"},
     {"no": 6, "nama": "Susu Kotak", "berat": "250 ml", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/ultramilk.png", "rating": 4, "emoji": "🥛"},
     {"no": 7, "nama": "Pensil", "berat": "10 gram", "stok": 0, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "rating": 4, "emoji": "✏️"},
-    {"no": 8, "nama": "Tip Ex", "berat": "200 gram", "stok": 0, "harga": 6000, "kategori": "Alat Tulis", "tanggal": "2026-05-05", "gambar": "gambar-dan-icon/gambar-tipe-ex.jpeg", "rating": 4, "emoji": "📓"},
+    {"no": 8, "nama": "Buku Tulis", "berat": "100 gram", "stok": 0, "harga": 5000, "kategori": "Alat Tulis", "tanggal": "2026-05-05", "gambar": "gambar-dan-icon/buku-tulis.jpg", "rating": 4, "emoji": "📓"},
     {"no": 9, "nama": "Penghapus", "berat": "20 gram", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-09", "gambar": "gambar-dan-icon/penghapus.png", "rating": 5, "emoji": "🧽"},
     {"no": 10, "nama": "Spidol", "berat": "25 gram", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal": "2026-05-12", "gambar": "gambar-dan-icon/gambar-pulpen.jpeg", "rating": 4, "emoji": "🖍️"},
 ]
@@ -1064,7 +1068,7 @@ def load_data():
         'telepon': '0341-123456',
         'jam': '07.00 - 15.00',
         'hari': 'Senin - Jumat',
-        'logo': 'logo_3.png'
+        'logo': 'image/logo_3.png'
     }
 
 def save_data(data):
@@ -1241,7 +1245,7 @@ def pembeli_home():
 
 barang_pembeli = [
     {"id": 7, "nama": "Pensil", "harga": 2000, "stok": 0, "rating": 4, "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "kategori": "Alat Tulis", "deskripsi": "Pensil HB standar untuk menulis dan menggambar."},
-    {"id": 8, "nama": "Tip Ex", "harga": 6000, "stok": 0, "rating": 4, "gambar": "gambar-dan-icon/gambar-tipe-ex.jpeg", "kategori": "Alat Tulis", "deskripsi": "Tipe-X kering cepat kering dan rapi."},
+    {"id": 8, "nama": "Buku Tulis", "harga": 5000, "stok": 0, "rating": 4, "gambar": "gambar-dan-icon/buku-tulis.jpg", "kategori": "Alat Tulis", "deskripsi": "Buku tulis 38 lembar untuk keperluan sekolah."},
     {"id": 9, "nama": "Penghapus", "harga": 2000, "stok": 15, "rating": 5, "gambar": "gambar-dan-icon/penghapus.png", "kategori": "Alat Tulis", "deskripsi": "Penghapus lembut tidak merusak kertas."},
     {"id": 10, "nama": "Spidol", "harga": 8000, "stok": 14, "rating": 4, "gambar": "gambar-dan-icon/gambar-pulpen.jpeg", "kategori": "Alat Tulis", "deskripsi": "Spidol warna-warni untuk presentasi."},
 ]

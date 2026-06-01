@@ -14,7 +14,7 @@
             <li>
                 <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
             </li>
-            <img src="{{ url_for('static', filename='logo_3.png') }}" alt="Logo" width="70" height="70">
+            <img src="{{ url_for('static', filename='image/logo_3.png') }}" alt="Logo" width="70" height="70">
             <span>Admin Koperasi</span>
         </div>
         <ul>
@@ -132,10 +132,10 @@
                 <table>
                     <thead>
                         <tr>
+                            <th>Status</th>
                             <th>No.</th>
                             <th>Tanggal</th>
                             <th>No. Transaksi</th>
-                            <th>Pelanggan</th>
                             <th>Total</th>
                             <th>Metode</th>
                         </tr>
@@ -143,10 +143,22 @@
                     <tbody>
                         {% for t in pesanan_list %}
                         <tr>
+                            <td>
+                                {% if t.status == 'Selesai' or t.status == 'Sudah diambil' %}
+                                    <span class="badge-status selesai">{{ t.status }}</span>
+                                {% elif t.status == 'Siap diambil' %}
+                                    <span class="badge-status siap">{{ t.status }}</span>
+                                {% elif t.status == 'Disiapkan' %}
+                                    <span class="badge-status proses">{{ t.status }}</span>
+                                {% elif t.status == 'Menunggu Pembayaran' %}
+                                    <span class="badge-status tunggu">{{ t.status }}</span>
+                                {% else %}
+                                    <span class="badge-status">{{ t.status }}</span>
+                                {% endif %}
+                            </td>
                             <td>{{ loop.index }}</td>
                             <td>{{ t.tanggal }}</td>
                             <td>{{ t.id }}</td>
-                            <td>{{ t.pelanggan }}</td>
                             <td>Rp {{ "{:,.0f}".format(t.total).replace(",", ".") }}</td>
                             <td><span class="badge {{ 'tunai' if t.metode == 'Tunai' else 'qris' }}">{{ t.metode }}</span></td>
                         </tr>

@@ -14,7 +14,7 @@
         <li>
             <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
         </li>
-        <img src="{{ url_for('static', filename='logo_3.png') }}" alt="Logo" width="70" height="70">
+        <img src="{{ url_for('static', filename='image/logo_3.png') }}" alt="Logo" width="70" height="70">
         <span>Admin Koperasi</span>
     </div>
     <ul>
@@ -55,7 +55,7 @@
         <label for="logo-input" class="btn-upload">pilih gambar</label>
         <input type="file" id="logo-input" name="gambar" accept=".jpg,.jpeg,.png,.svg" hidden />
       </div>
-      <img src="{{ url_for('static', filename='gambar/logo_3.png') }}" class="Logo" id="logo-preview" />
+      <img src="{{ url_for('static', filename='image/logo_3.png') }}" class="Logo" id="logo-preview" />
     </div>
 
     <button type="submit" class="btn-simpan">Simpan Pengaturan</button>
