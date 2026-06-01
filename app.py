@@ -989,6 +989,14 @@ def admin_siapkan_pesanan():
     start = (page - 1) * per_page
     end = start + per_page
     pesanan_page = pesanan[start:end]
+    bulan_id = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember']
+    for p in pesanan_page:
+        try:
+            from datetime import datetime
+            tgl = datetime.strptime(p['tanggal'], '%Y-%m-%d')
+            p['tanggal_fmt'] = f"{tgl.day} {bulan_id[tgl.month-1]} {tgl.year}"
+        except:
+            p['tanggal_fmt'] = p['tanggal']
     return render_template('19.SiapkanPesanan.html', pesanan=pesanan_page, formatRp=formatRp,
                            status=get_status_list, page=page, total_pages=total_pages, total=total)
 

@@ -54,7 +54,7 @@
                     {% for p in pesanan %}
                     <tr>
                         <td>{{p.id}}</td>
-                        <td>{{ p.tanggal }}</td>
+                        <td>{{ p.tanggal_fmt }}</td>
                         <td>{{ p.pelanggan }}</td>
                         <td><span class="rp">{{ formatRp(p.total) }}</span></td>
                         <td>
