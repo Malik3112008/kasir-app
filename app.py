@@ -646,19 +646,26 @@ def admin_cetak_laporan():
     data_transaksi = []
     for p in pesanan:
         total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
+        # Format tanggal ke dd/mm/yyyy
+        try:
+            from datetime import datetime
+            tgl_obj = datetime.strptime(p['tanggal'], '%Y-%m-%d')
+            tgl_fmt = f"{tgl_obj.day:02d}/{tgl_obj.month:02d}/{tgl_obj.year}"
+        except:
+            tgl_fmt = p['tanggal']
         data_transaksi.append({
-            'tanggal': p['tanggal'],
+            'tanggal': tgl_fmt,
             'id': p['id'],
-            'jumlah': sum(b['jumlah'] for b in p['barang']),
+            'jumlah_item': sum(b['jumlah'] for b in p['barang']),
             'total': total_barang
         })
 
     # Tambah data sample jika pesanan kosong
     if not data_transaksi:
         data_transaksi = [
-            {'tanggal': '2026-05-01', 'id': 'TRX001', 'jumlah': 3, 'total': 15000},
-            {'tanggal': '2026-05-02', 'id': 'TRX002', 'jumlah': 5, 'total': 25000},
-            {'tanggal': '2026-05-03', 'id': 'TRX003', 'jumlah': 2, 'total': 10000},
+            {'tanggal': '01/05/2026', 'id': 'TRX001', 'jumlah_item': 3, 'total': 15000},
+            {'tanggal': '02/05/2026', 'id': 'TRX002', 'jumlah_item': 5, 'total': 25000},
+            {'tanggal': '03/05/2026', 'id': 'TRX003', 'jumlah_item': 2, 'total': 10000},
         ]
 
     total_pendapatan = sum(t['total'] for t in data_transaksi)
@@ -925,7 +932,7 @@ status_qris  = ["Disiapkan", "Siap diambil", "Sudah diambil"]
 
 pesanan = [
     {"id": "TRX001", "tanggal": "2025-11-15", "pelanggan": "Ahmad Rizki", "metode": "Tunai", "status": "Disiapkan",
-     "barang": [{"nama": "Roti Tawar", "jumlah": 2, "harga": 8000, "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg"}, {"nama": "Air Mineral", "jumlah": 1, "harga": 3000, "gambar": "gambar-dan-icon/ades.jpg"}]},
+     "barang": [{"nama": "Sabun", "jumlah": 2, "harga": 5000, "gambar": "gambar-dan-icon/sabun.jpg"}, {"nama": "Mie Instan", "jumlah": 3, "harga": 4000, "gambar": "gambar-dan-icon/pop-mie.png"}, {"nama": "Air Mineral", "jumlah": 1, "harga": 3000, "gambar": "gambar-dan-icon/ades.jpg"}]},
     {"id": "TRX002", "tanggal": "2025-11-15", "pelanggan": "Siti Nurhazila", "metode": "QRIS", "status": "Disiapkan",
      "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar-penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}]},
     {"id": "TRX003", "tanggal": "2025-11-15", "pelanggan": "Diki Nurhazila", "metode": "Tunai", "status": "Disiapkan",
