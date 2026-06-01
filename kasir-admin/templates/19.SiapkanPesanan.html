@@ -75,8 +75,9 @@
                                         <select name="status" onchange="this.form.submit()">
                                             {% set daftar_status = status(p) %}
                                             {% set posisi = daftar_status.index(p.status) %}
+                                            {% set next_pos = posisi + 1 if posisi + 1 < daftar_status|length else posisi %}
                                             {% for s in daftar_status %}
-                                            <option value="{{ s }}" {% if s == p.status %} selected {% endif %} {% if
+                                            <option value="{{ s }}" {% if loop.index0 == next_pos %} selected {% endif %} {% if
                                                 daftar_status.index(s) < posisi %} disabled {% endif %}>
                                                 {{ s }}
                                             </option>
