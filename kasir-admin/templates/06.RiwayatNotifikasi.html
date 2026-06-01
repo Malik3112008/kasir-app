@@ -1,16 +1,30 @@
-<html>
+<!DOCTYPE html>
+<html lang="id">
 
 <head>
-    <title>Riwayat Notifikasi </title>
-    <link rel="stylesheet" href="{{url_for('static',filename='06.RiwayatNotifikasi.css')}}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Notifikasi</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='06.RiwayatNotifikasi.css') }}">
 </head>
 
 <body>
-    <div class="back-button">
-        <a href="{{ url_for('admin_notifikasi') }}">← Kembali</a>
-    </div>
+    <nav>
+        <div class="nav-bar">
+            <li>
+                <a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+            </li>
+            <img src="{{ url_for('static', filename='newlogo.jpeg') }}" alt="Logo" width="70" height="70">
+            <span>Admin Koperasi</span>
+        </div>
+        <ul>
+            <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
+        </ul>
+    </nav>
     <div class="notif-warning">
         <img src="{{ url_for('static', filename='exclamation-mark-inside-a-circle-svgrepo-com.svg') }}">
         <p> Riwayat Notifikasi akan terhapus permanen secara otomatis

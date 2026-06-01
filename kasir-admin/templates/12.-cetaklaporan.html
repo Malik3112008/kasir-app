@@ -37,15 +37,12 @@
                 <option value="transaksi">Laporan Transaksi</option>
             </select>
             <div class="tanggal">
-                <input type="date" id="tanggal-awal" value="{{ tanggal_awal }}">
+                <input type="date" id="tanggal-awal" value="{{ tanggal_awal }}" onchange="filterData()">
                 <span class="sd">sd</span>
-                <input type="date" id="tanggal-akhir" value="{{ tanggal_akhir }}">
+                <input type="date" id="tanggal-akhir" value="{{ tanggal_akhir }}" onchange="filterData()">
             </div>
         </div>
 
-        <div class="cetak-box">
-            <button class="btn-laporan" onclick="filterData()">FILTER</button>
-        </div>
 
         <div class="line"></div>
 

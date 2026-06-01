@@ -26,11 +26,17 @@ body {
   border-bottom: 8px solid #3d3d68;
 }
 
-/* Tombol admin */
-.admin-btn {
+/* Tombol group */
+.tombol-group {
   position: absolute;
   top: 24px;
   right: 40px;
+  display: flex;
+  gap: 12px;
+  z-index: 100;
+}
+
+.admin-btn {
   min-height: 48px;
   padding: 12px 24px;
   border: none;
@@ -40,7 +46,6 @@ body {
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
-  z-index: 100;
   display: inline-flex;
   align-items: center;
   text-decoration: none;

@@ -125,6 +125,7 @@ def admin_update_card(card_id):
         if card['id'] == card_id:
             card['text'] = request.form.get('text', card['text'])
             card['icon'] = request.form.get('icon', card['icon'])
+            card['icon_size'] = int(request.form.get('icon_size', card.get('icon_size', 30)))
             card['width'] = int(request.form.get('width', card['width']))
             card['height'] = int(request.form.get('height', card['height']))
             break
@@ -258,7 +259,6 @@ notifikasi = [
     {"judul": "Pembelian Baru", "isi": "Transaksi #TRX005 oleh Ahmad Rizki senilai 18.000", "waktu": "10 menit lalu", "warna": "biru"},
     {"judul": "Stok Menipis", "isi": "Keripik singkong tersisa 3 unit", "waktu": "15 menit lalu", "warna": "orange"},
     {"judul": "Pembayaran Dikonfirmasi", "isi": "Pembayaran QRIS oleh Putri Amel senilai 10.000 telah divalidasi", "waktu": "20 menit lalu", "warna": "hijau"},
-    {"judul": "Pembelian Dibatalkan", "isi": "Pembelian oleh Putri Amel senilai 10.000 telah dibatalkan", "waktu": "30 menit lalu", "warna": "merah"},
 ]
 
 riwayat = []
@@ -631,8 +631,8 @@ data_barang = [
     {"no": 4, "nama": "Air Mineral", "berat": "500 ml", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal": "2026-05-06", "gambar": "gambar-dan-icon/ades.jpg", "rating": 5, "emoji": "💧"},
     {"no": 5, "nama": "Teh Botol", "berat": "350 ml", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal": "2026-05-07", "gambar": "gambar-dan-icon/teh-botol.png", "rating": 3, "emoji": "🍵"},
     {"no": 6, "nama": "Susu Kotak", "berat": "250 ml", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/ultramilk.png", "rating": 4, "emoji": "🥛"},
-    {"no": 7, "nama": "Pensil", "berat": "10 gram", "stok": 30, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "rating": 4, "emoji": "✏️"},
-    {"no": 8, "nama": "Buku Tulis", "berat": "200 gram", "stok": 40, "harga": 6000, "kategori": "Alat Tulis", "tanggal": "2026-05-05", "gambar": "gambar-dan-icon/buku-tulis.jpg", "rating": 4, "emoji": "📓"},
+    {"no": 7, "nama": "Pensil", "berat": "10 gram", "stok": 0, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "rating": 4, "emoji": "✏️"},
+    {"no": 8, "nama": "Tip Ex", "berat": "200 gram", "stok": 0, "harga": 6000, "kategori": "Alat Tulis", "tanggal": "2026-05-05", "gambar": "gambar-dan-icon/gambar-tipe-ex.jpeg", "rating": 4, "emoji": "📓"},
     {"no": 9, "nama": "Penghapus", "berat": "20 gram", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-09", "gambar": "gambar-dan-icon/penghapus.png", "rating": 5, "emoji": "🧽"},
     {"no": 10, "nama": "Spidol", "berat": "25 gram", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal": "2026-05-12", "gambar": "gambar-dan-icon/gambar-pulpen.jpeg", "rating": 4, "emoji": "🖍️"},
 ]
@@ -1233,10 +1233,10 @@ def pembeli_home():
 # ============================================================
 
 barang_pembeli = [
-    {"id": 1, "nama": "Pensil", "harga": 2000, "stok": 30, "rating": 4, "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "kategori": "Alat Tulis", "deskripsi": "Pensil HB standar untuk menulis dan menggambar."},
-    {"id": 2, "nama": "Bolpoin", "harga": 4000, "stok": 40, "rating": 3, "gambar": "gambar-dan-icon/gambar-pulpen.jpeg", "kategori": "Alat Tulis", "deskripsi": "Bolpoin hitam dengan tinta lancar."},
-    {"id": 3, "nama": "Penghapus", "harga": 2000, "stok": 20, "rating": 2, "gambar": "gambar-dan-icon/penghapus.png", "kategori": "Alat Tulis", "deskripsi": "Penghapus lembut tidak merusak kertas."},
-    {"id": 4, "nama": "Tipe x", "harga": 5000, "stok": 25, "rating": 5, "gambar": "gambar-dan-icon/gambar-tipe-ex.jpeg", "kategori": "Alat Tulis", "deskripsi": "Tipe-X kering cepat kering dan rapi."},
+    {"id": 7, "nama": "Pensil", "harga": 2000, "stok": 0, "rating": 4, "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "kategori": "Alat Tulis", "deskripsi": "Pensil HB standar untuk menulis dan menggambar."},
+    {"id": 8, "nama": "Tip Ex", "harga": 6000, "stok": 0, "rating": 4, "gambar": "gambar-dan-icon/gambar-tipe-ex.jpeg", "kategori": "Alat Tulis", "deskripsi": "Tipe-X kering cepat kering dan rapi."},
+    {"id": 9, "nama": "Penghapus", "harga": 2000, "stok": 15, "rating": 5, "gambar": "gambar-dan-icon/penghapus.png", "kategori": "Alat Tulis", "deskripsi": "Penghapus lembut tidak merusak kertas."},
+    {"id": 10, "nama": "Spidol", "harga": 8000, "stok": 14, "rating": 4, "gambar": "gambar-dan-icon/gambar-pulpen.jpeg", "kategori": "Alat Tulis", "deskripsi": "Spidol warna-warni untuk presentasi."},
 ]
 
 @app.route('/pembeli/detail-barang/<int:id>')

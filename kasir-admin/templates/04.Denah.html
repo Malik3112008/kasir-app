@@ -94,16 +94,23 @@
                                 <i class="fa-solid fa-pen"></i>
                             </a>
                         </div>
-                        <i class="{{ card.icon }} icon"></i>
+                        <i class="{{ card.icon }} icon" style="font-size: {{ card.icon_size or 30 }}px;"></i>
                         <div class="card-text">{{ card.text }}</div>
                     </div>
                     {% else %}
                     <a href="{{ card.href }}" class="card card-id-{{ card.id }}">
-                        <i class="{{ card.icon }} icon"></i>
+                        <i class="{{ card.icon }} icon" style="font-size: {{ card.icon_size or 30 }}px;"></i>
                         <div class="card-text">{{ card.text }}</div>
                     </a>
                     {% endif %}
                 {% endfor %}
+
+                <!-- Pintu Masuk/Keluar -->
+                <div class="pintu">
+                    <i class="fa-solid fa-door-open"></i>
+                    <span>Pintu Masuk / Keluar</span>
+                </div>
+
             </div>
         {% endif %}
     </div>
@@ -114,8 +121,18 @@
         <div class="modal-content">
             <h2>Edit Card</h2>
             <form method="POST" action="/admin/update/{{ edit_card.id }}">
-                <input type="text" name="text" value="{{ edit_card.text }}" placeholder="Nama Area">
-                <input type="text" name="icon" value="{{ edit_card.icon }}" placeholder="Icon Class" style="display:none;" value="{{ edit_card.icon }}">
+                <div class="modal-field">
+                    <label>Nama Area</label>
+                    <input type="text" name="text" value="{{ edit_card.text }}" placeholder="Nama Area">
+                </div>
+                <div class="modal-field">
+                    <label>Icon Class (Font Awesome)</label>
+                    <input type="text" name="icon" value="{{ edit_card.icon }}" placeholder="fa-solid fa-box">
+                </div>
+                <div class="modal-field">
+                    <label>Ukuran Icon (px)</label>
+                    <input type="number" name="icon_size" value="{{ edit_card.icon_size or 30 }}" min="10" max="100" placeholder="30">
+                </div>
                 <input type="number" name="width" value="{{ edit_card.width }}" style="display:none;">
                 <input type="number" name="height" value="{{ edit_card.height }}" style="display:none;">
                 <div class="modal-buttons">

@@ -71,6 +71,10 @@ body{
     width:1450px;
     height:860px;
     background:#f5f5f5;
+    background-image:
+        linear-gradient(to right, #d0d0d0 1px, transparent 1px),
+        linear-gradient(to bottom, #d0d0d0 1px, transparent 1px);
+    background-size: 100px 100px;
     border-radius:35px;
     margin:auto;
     position:relative;
@@ -180,6 +184,28 @@ a.edit-btn{
 }
 
 /* Card action buttons container (edit mode) */
+/* Pintu Masuk/Keluar */
+.pintu{
+    position:absolute;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:#6b7280;
+    color:white;
+    padding:8px 20px;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:600;
+    z-index:5;
+}
+
+.pintu i{
+    font-size:18px;
+}
+
 .card-actions{
     position:absolute;
     top:10px;
