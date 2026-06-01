@@ -122,7 +122,7 @@ p {
 
 .logo_2 {
   max-width: 90%;
-  width: 600px;
+  width: 350px;
   height: auto;
   position: absolute;
   top: 70%;
@@ -145,11 +145,11 @@ p,
   .tombol-group { top: 16px; right: 16px; }
   .admin-btn { padding: 10px 16px; font-size: 16px; }
   .menu-btn { width: 100%; font-size: 20px; }
-  .logo_2 { width: 400px; top: 80%; left: 50%; }
+  .logo_2 { width: 250px; top: 80%; left: 50%; }
   .title-box, h1, p, .menu-btn { top: 40px; }
 }
 
 @media (max-width: 480px) {
   .top-pattern { height: 80px; }
-  .logo_2 { width: 300px; }
+  .logo_2 { width: 200px; }
 }

@@ -67,9 +67,10 @@ nav ul li a img:hover {
     max-width: 1400px;
     margin:0 auto;
     background:white;
-    padding:24px;
+    padding:24px 30px;
     border-radius:12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    overflow-x: auto;
     animation: fadeInUp 0.4s ease;
 }
 

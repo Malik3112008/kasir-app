@@ -147,8 +147,6 @@
                     </div>
                     <div class="nama-barang">
                         <span>Nama Barang</span>
-                        <span>Jumlah</span>
-                        <span>Harga</span>
                         <span>Subtotal</span>
                         <span></span>
                     </div>
@@ -156,12 +154,7 @@
                     <div class="barang">
                         <div class="barang-info">
                             <p class="barang-nama">{{ a.nama }}</p>
-                        </div>
-                        <div class="barang-jumlah">
-                            <span>{{ a.jumlah }}</span>
-                        </div>
-                        <div class="barang-harga">
-                            <span>{{ formatRp(a.harga) }}</span>
+                            <small class="barang-detail">{{ a.jumlah }} x {{ formatRp(a.harga) }}</small>
                         </div>
                         <div class="barang-subtotal">
                             <span>{{ formatRp(a.jumlah * a.harga) }}</span>

@@ -45,8 +45,9 @@ nav ul li a img:hover {
 
 .container {
     width: 95%;
+    max-width: 1400px;
     margin: 20px auto;
-    padding: 0 20px;
+    padding: 0 30px;
 }
 
 h2 {
@@ -95,7 +96,7 @@ table {
     border-collapse: collapse;
     background: white;
     border-radius: 8px;
-    overflow: hidden;
+    overflow-x: auto;
 }
 
 thead {
