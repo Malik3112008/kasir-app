@@ -1181,10 +1181,7 @@ def admin_siapkan_pesanan():
                 if new_status:
                     ganti = get_status_list(i)
                     if new_status in ganti:
-                        posisi_sekarang = ganti.index(i['status'])
-                        posisi_baru = ganti.index(new_status)
-                        if posisi_baru >= posisi_sekarang:
-                            i['status'] = new_status
+                        i['status'] = new_status
                 else:
                     ganti = get_status_list(i)
                     ubah = ganti.index(i['status'])
