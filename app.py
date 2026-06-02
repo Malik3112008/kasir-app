@@ -553,10 +553,15 @@ def admin_dashboard():
     if not session.get('user'):
         return redirect(url_for('admin_login'))
 
-    totalProduk = 10
-    stokMenipis = 2
-    transaksiHariIni = 7
-    pendapatan = 1000000
+    totalProduk = len(data_barang)
+    stokMenipis = len([b for b in data_barang if b['stok'] <= 10])
+    
+    today_str = datetime.now().strftime("%Y-%m-%d")
+    today_trx = [p for p in pesanan if p['tanggal'] == today_str]
+    transaksiHariIni = len(today_trx) if today_trx else len(pesanan)
+    
+    total_income = sum(p['total'] for p in pesanan)
+    pendapatan = formatRp(total_income)
 
     hasil_penjualan = {
         "Senin": {"makanan": 5, "minuman": 2, "alat tulis": 2},
