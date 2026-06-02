@@ -63,14 +63,9 @@
         {% else %}
             <!-- COOPERATIVE PLAN VIEW (Home View) -->
             <div class="board">
-                <!-- Wall Labels -->
-                <div class="wall-label-left">Tembok Barat</div>
-                <div class="wall-label-right">Tembok Timur</div>
-
-                <!-- TITLE -->
+                <!-- TITLE (outside wall) -->
                 <div class="title-row">
                     <h1>Denah Tata Letak Koperasi</h1>
-
                     {% if is_admin %}
                         {% if edit_mode %}
                         <a href="/admin/denah" class="edit-toggle-btn active" title="Keluar Mode Edit">
@@ -84,37 +79,43 @@
                     {% endif %}
                 </div>
 
-                <!-- CARDS -->
-                {% for card in cards %}
-                    {% if is_admin and edit_mode %}
-                    <div class="card card-id-{{ card.id }}">
-                        <div class="card-actions">
-                            <form method="POST" action="/admin/delete/{{ card.id }}" class="delete-form">
-                                <button type="submit" class="action-btn delete-btn" title="Hapus">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </form>
-                            <a href="/admin/denah?edit=1&edit_card={{ card.id }}" class="action-btn edit-card-btn" title="Edit Nama">
-                                <i class="fa-solid fa-pen"></i>
-                            </a>
+                <!-- WALL (inner container with wall borders) -->
+                <div class="wall">
+                    <!-- Wall Labels -->
+                    <div class="wall-label-left">Tembok Barat</div>
+                    <div class="wall-label-right">Tembok Timur</div>
+
+                    <!-- CARDS -->
+                    {% for card in cards %}
+                        {% if is_admin and edit_mode %}
+                        <div class="card card-id-{{ card.id }}">
+                            <div class="card-actions">
+                                <form method="POST" action="/admin/delete/{{ card.id }}" class="delete-form">
+                                    <button type="submit" class="action-btn delete-btn" title="Hapus">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                                <a href="/admin/denah?edit=1&edit_card={{ card.id }}" class="action-btn edit-card-btn" title="Edit Nama">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                            </div>
+                            <i class="{{ card.icon }} icon" style="font-size: {{ card.icon_size or 30 }}px;"></i>
+                            <div class="card-text">{{ card.text }}</div>
                         </div>
-                        <i class="{{ card.icon }} icon" style="font-size: {{ card.icon_size or 30 }}px;"></i>
-                        <div class="card-text">{{ card.text }}</div>
+                        {% else %}
+                        <a href="{{ card.href }}" class="card card-id-{{ card.id }}">
+                            <i class="{{ card.icon }} icon" style="font-size: {{ card.icon_size or 30 }}px;"></i>
+                            <div class="card-text">{{ card.text }}</div>
+                        </a>
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- Pintu Masuk/Keluar -->
+                    <div class="pintu">
+                        <i class="fa-solid fa-door-open"></i>
+                        <span>Pintu Masuk / Keluar</span>
                     </div>
-                    {% else %}
-                    <a href="{{ card.href }}" class="card card-id-{{ card.id }}">
-                        <i class="{{ card.icon }} icon" style="font-size: {{ card.icon_size or 30 }}px;"></i>
-                        <div class="card-text">{{ card.text }}</div>
-                    </a>
-                    {% endif %}
-                {% endfor %}
-
-                <!-- Pintu Masuk/Keluar -->
-                <div class="pintu">
-                    <i class="fa-solid fa-door-open"></i>
-                    <span>Pintu Masuk / Keluar</span>
                 </div>
-
             </div>
         {% endif %}
     </div>

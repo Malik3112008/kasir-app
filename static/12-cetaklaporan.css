@@ -309,13 +309,13 @@ tbody tr {
 }
 
 .excel {
-    background: rgb(3, 246, 60);
+    background: #e57373;
 }
 
 .excel:hover {
-    background: rgb(2, 200, 48);
+    background: #d32f2f;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(3,246,60,0.3);
+    box-shadow: 0 4px 12px rgba(229,115,115,0.3);
 }
 
 /* ===== STATUS BADGE ===== */

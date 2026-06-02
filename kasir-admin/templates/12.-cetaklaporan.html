@@ -117,7 +117,7 @@
                             <td><span class="stok-badge">{{ item.stok }}</span></td>
                             <td>Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
                             <td>{{ item.kategori }}</td>
-                            <td>{{ item.tanggal }}</td>
+                            <td>{{ item.tanggal | tgl_indo }}</td>
                             <td>Rp {{ "{:,.0f}".format(item.harga * item.stok).replace(",", ".") }}</td>
                         </tr>
                         {% endfor %}

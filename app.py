@@ -28,8 +28,10 @@ app.jinja_loader = ChoiceLoader([
 @app.template_filter('tgl_indo')
 def tgl_indo_filter(tanggal_str):
     try:
-        parts = tanggal_str.split('-')
-        return f"{parts[2]}-{parts[1]}-{parts[0]}"
+        from datetime import datetime
+        bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember']
+        tgl = datetime.strptime(tanggal_str, '%Y-%m-%d')
+        return f"{tgl.day} {bulan[tgl.month-1]} {tgl.year}"
     except:
         return tanggal_str
 
