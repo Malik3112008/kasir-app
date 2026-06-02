@@ -17,7 +17,15 @@
 
 <body>
 
-    {{ admin_header(title=(title if page == 'detail' else 'Denah Tata Letak'), back_url=('/admin/denah' if page == 'detail' else None)) }}
+    {% if is_admin %}
+        {{ admin_header(title=(title if page == 'detail' else 'Denah Tata Letak'), back_url=('/admin/denah' if page == 'detail' else None)) }}
+    {% else %}
+        <div style="padding: 20px; display: flex; align-items: center; max-width: 1600px; margin: 0 auto; width: 100%;">
+            <a href="{{ '/pembeli/denah' if page == 'detail' else '/pembeli' }}" style="display: inline-flex; align-items: center; justify-content: center; width: 45px; height: 45px; background: white; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: all 0.2s; text-decoration: none;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                <img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="24px" height="24px">
+            </a>
+        </div>
+    {% endif %}
 
     <div class="container">
         {% if page == 'detail' %}
@@ -68,7 +76,7 @@
                                 <div class="card-text">{{ card.text }}</div>
                             </div>
                             {% else %}
-                            <a href="{{ card.href }}" class="card card-id-{{ card.id }}">
+                            <a href="{{ card.href | replace('/admin/denah/', '/pembeli/denah/') if not is_admin else card.href }}" class="card card-id-{{ card.id }}">
                                 <i class="{{ card.icon }} icon" style="font-size: {{ card.icon_size or 30 }}px;"></i>
                                 <div class="card-text">{{ card.text }}</div>
                             </a>

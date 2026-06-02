@@ -267,8 +267,10 @@ def save_cards(cards):
 def admin_denah():
     if not session.get('user'):
         return redirect(url_for('admin_login'))
+    if session.get('role') != 'admin':
+        return redirect('/pembeli/denah')
     cards = load_cards()
-    is_admin = True  # Always admin if logged in
+    is_admin = True
     edit_mode = request.args.get('edit') == '1'
     edit_card_id = request.args.get('edit_card', type=int) if edit_mode else None
     edit_card = None
@@ -333,8 +335,26 @@ def dynamic_cards_css():
 def admin_detail(folder):
     if not session.get('user'):
         return redirect(url_for('admin_login'))
+    if session.get('role') != 'admin':
+        return redirect(url_for('pembeli_detail', folder=folder))
     title = folder.replace('-', ' ').replace('_', ' ').title()
-    return render_template('04.Denah.html', title=title, folder=folder, page='detail')
+    return render_template('04.Denah.html', title=title, folder=folder, page='detail', is_admin=True)
+
+@app.route('/pembeli/denah')
+def pembeli_denah():
+    if not session.get('user'):
+        return redirect(url_for('pembeli_login'))
+    cards = load_cards()
+    is_admin = False
+    edit_mode = False
+    return render_template('04.Denah.html', cards=cards, edit_mode=edit_mode, edit_card=None, is_admin=is_admin, page='home')
+
+@app.route('/pembeli/denah/<folder>')
+def pembeli_detail(folder):
+    if not session.get('user'):
+        return redirect(url_for('pembeli_login'))
+    title = folder.replace('-', ' ').replace('_', ' ').title()
+    return render_template('04.Denah.html', title=title, folder=folder, page='detail', is_admin=False)
 
 # ============================================================
 # ADMIN: LOGIN, REGISTER, FORGOT PASSWORD
@@ -351,6 +371,7 @@ def admin_login():
         password = request.form.get('password', '').strip()
         if USERS.get(username) == password:
             session['user'] = username
+            session['role'] = 'admin'
             return redirect(url_for('admin_dashboard'))
         error = 'Nama akun atau kata sandi tidak cocok.'
     return render_template('05.1.login.html', error=error)
