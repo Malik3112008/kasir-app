@@ -33,22 +33,26 @@
 
             <form action="{{ url_for('admin_simpan') }}" method="POST">
 
+                {% if barang %}
+                <input type="hidden" name="restok_id" value="{{ barang.no }}">
+                {% endif %}
+
                 <label>Kategori</label>
                 <select name="kategori" required>
                     <option value="">Pilih Kategori</option>
-                    <option value="Makanan">Makanan</option>
-                    <option value="Minuman">Minuman</option>
-                    <option value="Alat Tulis">Alat Tulis</option>
+                    <option value="Makanan" {% if barang and barang.kategori == 'Makanan' %}selected{% endif %}>Makanan</option>
+                    <option value="Minuman" {% if barang and barang.kategori == 'Minuman' %}selected{% endif %}>Minuman</option>
+                    <option value="Alat Tulis" {% if barang and barang.kategori == 'Alat Tulis' %}selected{% endif %}>Alat Tulis</option>
                 </select>
 
                 <label>Nama Barang</label>
-                <input type="text" name="nama_barang" required>
+                <input type="text" name="nama_barang" required value="{{ barang.nama if barang else '' }}">
 
                 <label>Harga</label>
-                <input type="number" name="harga" min="0" step="1" required>
+                <input type="number" name="harga" min="0" step="1" required value="{{ barang.harga if barang else '' }}">
 
                 <label>Jumlah</label>
-                <input type="number" name="jumlah" min="0" step="1" required>
+                <input type="number" name="jumlah" min="0" step="1" required value="{{ barang.stok if barang else '' }}">
 
                 <button type="submit">SIMPAN</button>
 

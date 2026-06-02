@@ -73,6 +73,7 @@
                                     <i class="fa-solid fa-circle-exclamation info-aksi-icon" title="Detail pesanan" onclick="bukaModal('{{ p.id }}')"></i>
                                     <div class="dropdown-aksi">
                                         <select name="status" onchange="this.form.submit()">
+                                            <option value="" disabled>Langkah Selanjutnya</option>
                                             {% set daftar_status = status(p) %}
                                             {% set posisi = daftar_status.index(p.status) %}
                                             {% set next_pos = posisi + 1 if posisi + 1 < daftar_status|length else posisi %}

@@ -16,7 +16,7 @@
                 <th>No.</th>
                 <th>Tanggal</th>
                 <th>ID Transaksi</th>
-                <th>Pelanggan</th>
+                <th>Nama Produk</th>
                 <th>Total</th>
                 <th>Metode</th>
                 <th>Status</th>
@@ -26,9 +26,13 @@
             {% for t in pesanan %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td>{{ t.tanggal }}</td>
+                <td>{{ t.tanggal | tgl_indo }}</td>
                 <td>{{ t.id }}</td>
-                <td>{{ t.pelanggan }}</td>
+                <td>
+                    {% for b in t.barang %}
+                        {{ b.nama }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
                 <td>Rp {{ "{:,.0f}".format(t.total).replace(",", ".") }}</td>
                 <td>{{ t.metode }}</td>
                 <td>{{ t.status }}</td>

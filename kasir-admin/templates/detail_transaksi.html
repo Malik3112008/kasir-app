@@ -292,7 +292,6 @@
     <div class="main-container">
         <div class="card">
             <div class="card-header">
-                <h2>Detail Transaksi</h2>
                 <div class="meta-info">
                     <span class="label">Tanggal :</span>
                     <span class="value">{{ tanggal }}</span>
@@ -306,7 +305,6 @@
                             <th>PRODUK</th>
                             <th>ID TRANSAKSI</th>
                             <th>JUMLAH</th>
-                            <th>HARGA</th>
                             <th>AKSI</th>
                         </tr>
                     </thead>
@@ -336,7 +334,6 @@
                                     <button class="qty-btn" onclick="ubahQty({{ loop.index0 }}, 1)">+</button>
                                 </div>
                             </td>
-                            <td class="price-cell">RP.{{ "{:,.0f}".format(item.harga * item.jumlah).replace(",", ".") }}</td>
                             <td class="action-cell">
                                 <button class="trash-btn" onclick="hapusItem({{ loop.index0 }})" title="Hapus">
                                     <i class="fa-solid fa-trash-can"></i>
@@ -348,11 +345,6 @@
                 </table>
             </div>
 
-            <div class="total-section">
-                <div class="total-box">
-                    TOTAL: RP. {{ "{:,.0f}".format(total).replace(",", ".") }}
-                </div>
-            </div>
         </div>
     </div>
 

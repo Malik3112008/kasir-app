@@ -53,18 +53,17 @@ body{
 
 .card{
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
 
     border: 1px solid #eaf4ff;
     border-radius: 12px;
 
-    padding: 25px;
-    margin-bottom: 18px;
-    width: 70%;
-    min-height: 180px;
+    padding: 15px;
+    width: 220px;
+    min-height: auto;
 
-    margin: 20px auto;
+    margin: 10px;
 
     background-color: #eaf4ff;
     box-shadow: 0 3px 10px rgb(0,0,0,0.08);
@@ -78,10 +77,11 @@ body{
 
 .produk{
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
     width: 100%;
     gap: 8px;
+    text-align: center;
 }
 
 .produk div{
@@ -89,16 +89,16 @@ body{
 }
 
 .produk h3{
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     text-align: center;
-    font-size: 30px;
+    font-size: 16px;
 }
 
 .card img{
-    width: 90px;
-    height: 90px;
+    width: 100%;
+    height: 170px;
     object-fit: contain;
-    margin-right: 20px;
+    margin-right: 0;
 }
 
 .avatar img{
@@ -139,7 +139,7 @@ body{
     align-items: center;
 
     padding: 0 10px 0 20px;
-    margin-top: 50px;
+    margin-top: 10px;
 } 
 
 .spacer{

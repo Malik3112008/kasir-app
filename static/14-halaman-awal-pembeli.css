@@ -130,8 +130,7 @@ select#kategori-filter {
 
 img.stok-habis,
 .no-img.stok-habis {
-    filter: grayscale(1) brightness(0.5);
-    opacity: 0.7;
+    /* Out-of-stock items rendered normally, sorted to bottom */
 }
 
 .card h3 {
@@ -234,9 +233,9 @@ button.btn-jumlah:hover {
 button.btn-stok-habis {
     width: 100%;
     padding: 10px;
-    background-color: #dc2626;
-    color: white;
-    border: none;
+    background-color: transparent;
+    color: #000;
+    border: 1px solid #000;
     border-radius: 8px;
     cursor: not-allowed;
     font-weight: bold;

@@ -38,17 +38,15 @@
         <label>Nama Barang</label>
         <input type="text" value="{{ nama_barang }}" readonly>
 
-        <label>Tanggal</label>
-        <input type="text" value="{{ tanggal }}" readonly>
-
         <label>Jumlah</label>
         <input type="text" value="{{ jumlah }}" readonly>
 
         <label>Harga</label>
         <input type="text" value="{{ harga }}" readonly>
 
-        <label>Catatan</label>
-        <textarea readonly>{{ catatan }}</textarea>
+        <a href="{{ url_for('admin_manajemen_barang') }}">
+            <button type="button" style="margin-top:16px; padding:12px 28px; background:#3A82C4; color:#fff; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;">Selesai</button>
+        </a>
 
     </div>
 

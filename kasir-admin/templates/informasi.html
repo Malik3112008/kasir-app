@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informasi Koperasi</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='03.Beranda_utama.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+</head>
+<body>
+
+    <div class="tombol-group">
+        <a href="{{ url_for('admin_beranda_awal') }}">
+            <button class="admin-btn">Kembali</button>
+        </a>
+    </div>
+
+    <div class="container" style="text-align:center; max-width:600px; margin:40px auto; padding:30px; background:#fff; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+
+        <div style="margin-bottom:24px;">
+            <img src="{{ url_for('static', filename='image/logo_3.png') }}" alt="Logo" style="width:100px; height:100px; object-fit:contain;">
+        </div>
+
+        <h1 style="margin-bottom:8px;">{{ koperasi.get('nama', 'Koperasi Siswa') }}</h1>
+
+        <p style="color:#666; margin-bottom:24px;">Informasi lengkap tentang koperasi siswa kami.</p>
+
+        <div style="text-align:left; background:#f8f9fa; border-radius:12px; padding:24px; margin-bottom:20px;">
+            <div style="margin-bottom:16px;">
+                <strong>Nama:</strong>
+                <p>{{ koperasi.get('nama', '-') }}</p>
+            </div>
+            <div style="margin-bottom:16px;">
+                <strong>Alamat:</strong>
+                <p>{{ koperasi.get('alamat', '-') }}</p>
+            </div>
+            <div style="margin-bottom:16px;">
+                <strong>Telepon:</strong>
+                <p>{{ koperasi.get('telepon', '-') }}</p>
+            </div>
+            <div style="margin-bottom:16px;">
+                <strong>Jam Operasional:</strong>
+                <p>{{ koperasi.get('jam', '-') }}</p>
+            </div>
+            <div>
+                <strong>Hari Buka:</strong>
+                <p>{{ koperasi.get('hari', '-') }}</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -181,12 +181,12 @@
             box-shadow: 0 6px 16px rgba(236,72,153,0.4);
         }
         .btn-excel {
-            background: linear-gradient(135deg, #d946ef, #9333ea);
-            box-shadow: 0 4px 12px rgba(217,70,239,0.3);
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 4px 12px rgba(239,68,68,0.3);
         }
         .btn-excel:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(217,70,239,0.4);
+            box-shadow: 0 6px 16px rgba(239,68,68,0.4);
         }
 
         /* RESPONSIVE */
@@ -257,7 +257,7 @@
                             <td><span class="stok-badge">{{ item.stok }}</span></td>
                             <td class="harga-cell">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
                             <td>{{ item.kategori }}</td>
-                            <td>{{ item.tanggal }}</td>
+                            <td>{{ item.tanggal | tgl_indo }}</td>
                             <td class="harga-cell">Rp {{ "{:,.0f}".format(item.harga * item.stok).replace(",", ".") }}</td>
                         </tr>
                         {% endfor %}

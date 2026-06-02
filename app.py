@@ -25,6 +25,14 @@ app.jinja_loader = ChoiceLoader([
     FileSystemLoader(os.path.join(BASE_DIR, 'kasir-pembeli', 'templates')),
 ])
 
+@app.template_filter('tgl_indo')
+def tgl_indo_filter(tanggal_str):
+    try:
+        parts = tanggal_str.split('-')
+        return f"{parts[2]}-{parts[1]}-{parts[0]}"
+    except:
+        return tanggal_str
+
 # ============================================================
 # 404 NOT FOUND
 # ============================================================
@@ -68,6 +76,15 @@ def page_not_found(e):
 @app.route('/admin')
 def admin_beranda_awal():
     return render_template('03.Beranda_awal.html')
+
+@app.route('/informasi')
+def informasi():
+    try:
+        with open(os.path.join(BASE_DIR, 'data_koperasi.json'), 'r') as f:
+            koperasi = json.load(f)
+    except:
+        koperasi = {}
+    return render_template('informasi.html', koperasi=koperasi)
 
 # ============================================================
 # ADMIN: DENAH
@@ -612,9 +629,7 @@ def admin_stok_tersedia_edit(id):
         barang['stok'] = int(request.form.get('stok', barang['stok']))
         barang['harga'] = int(request.form.get('harga', barang['harga']))
         return redirect(url_for('admin_stok_tersedia'))
-    return render_template('14.-stoktersedia.html',
-        data=[barang], page=1, total_halaman=1,
-        keyword='', kategori='', edit_item=barang)
+    return render_template('14.-stoktersedia_edit.html', barang=barang)
 
 @app.route('/admin/stok-tersedia/hapus/<int:id>', methods=['POST'])
 def admin_stok_tersedia_hapus(id):
@@ -654,7 +669,7 @@ def admin_cetak_laporan():
         try:
             from datetime import datetime
             tgl_obj = datetime.strptime(p['tanggal'], '%Y-%m-%d')
-            tgl_fmt = f"{tgl_obj.day:02d}/{tgl_obj.month:02d}/{tgl_obj.year}"
+            tgl_fmt = f"{tgl_obj.day:02d}-{tgl_obj.month:02d}-{tgl_obj.year}"
         except:
             tgl_fmt = p['tanggal']
         data_transaksi.append({
@@ -704,10 +719,11 @@ def admin_cetak_transaksi_excel():
     wb = Workbook()
     ws = wb.active
     ws.title = "Laporan Transaksi"
-    ws.append(['No', 'Tanggal', 'ID Transaksi', 'Pelanggan', 'Total', 'Metode', 'Status'])
+    ws.append(['No', 'Tanggal', 'ID Transaksi', 'Nama Produk', 'Total', 'Metode', 'Status'])
     for i, p in enumerate(pesanan, 1):
         total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
-        ws.append([i, p['tanggal'], p['id'], p['pelanggan'], total_barang, p['metode'], p['status']])
+        nama_produk = ', '.join(b['nama'] for b in p['barang'])
+        ws.append([i, p['tanggal'], p['id'], nama_produk, total_barang, p['metode'], p['status']])
     output = io.BytesIO()
     wb.save(output)
     output.seek(0)
@@ -1245,7 +1261,8 @@ def pembeli_home():
     if not session.get('user'):
         return redirect(url_for('pembeli_login'))
     cart_count = sum(item['jumlah'] for item in cart.values())
-    return render_template('14-kategorialattulis.html', barang=data_barang, cart_count=cart_count)
+    sorted_barang = sorted(data_barang, key=lambda b: (b['stok'] == 0, b['nama']))
+    return render_template('14-kategorialattulis.html', barang=sorted_barang, cart_count=cart_count)
 
 # ============================================================
 # PEMBELI: KATEGORI ALAT TULIS
@@ -1624,9 +1641,9 @@ def pembeli_struk():
     sekarang = datetime.now()
     tanggal = sekarang.strftime("%d-%m-%Y")
     jam = sekarang.strftime("%H:%M:%S")
-    kode = random.randint(1000, 9999)
+    kode = session.get('tunai_kode', random.randint(1000, 9999))
 
-    return render_template('5-strukpembayaran.html', produk=daftar_produk, subtotal=subtotal, total_diskon=total_diskon, total=total, tunai=tunai, kembali=kembali, tanggal=tanggal, jam=jam, kode=kode, total_produk=total_produk, metode=metode)
+    return render_template('5-strukpembayaran.html', produk=daftar_produk, subtotal=subtotal, total_diskon=total_diskon, total=total, tunai=tunai, kembali=kembali, tanggal=tanggal, jam=jam, kode=kode, total_produk=total_produk, metode=metode, nama=pelanggan)
 
 
 @app.route('/admin/cetak_pdf')

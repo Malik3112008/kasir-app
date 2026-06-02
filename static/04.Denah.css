@@ -79,8 +79,8 @@ body{
     margin:auto;
     position:relative;
     padding:30px;
-    border:4px solid #d6e6ff;
-    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    border:6px solid #555;
+    box-shadow:inset 0 0 0 2px #888, 0 10px 25px rgba(0,0,0,0.08);
 }
 
 .title-row{
@@ -163,6 +163,15 @@ a.edit-btn{
     box-shadow:0 6px 0 #7691d8, 0 10px 20px rgba(0,0,0,0.08);
     user-select:none;
 }
+
+.card-id-1{ border-color:#e74c3c; color:#e74c3c; box-shadow:0 6px 0 #c0392b, 0 10px 20px rgba(0,0,0,0.08); }
+.card-id-2{ border-color:#f39c12; color:#f39c12; box-shadow:0 6px 0 #d68910, 0 10px 20px rgba(0,0,0,0.08); }
+.card-id-3{ border-color:#e67e22; color:#e67e22; box-shadow:0 6px 0 #d35400, 0 10px 20px rgba(0,0,0,0.08); }
+.card-id-4{ border-color:#27ae60; color:#27ae60; box-shadow:0 6px 0 #1e8449, 0 10px 20px rgba(0,0,0,0.08); }
+.card-id-5{ border-color:#8e44ad; color:#8e44ad; box-shadow:0 6px 0 #7d3c98, 0 10px 20px rgba(0,0,0,0.08); }
+.card-id-6{ border-color:#d35400; color:#d35400; box-shadow:0 6px 0 #ba4a00, 0 10px 20px rgba(0,0,0,0.08); }
+.card-id-7{ border-color:#2980b9; color:#2980b9; box-shadow:0 6px 0 #2471a3, 0 10px 20px rgba(0,0,0,0.08); }
+.card-id-8{ border-color:#555; color:#555; box-shadow:0 6px 0 #444, 0 10px 20px rgba(0,0,0,0.08); }
 
 .icon{
     font-size:52px;

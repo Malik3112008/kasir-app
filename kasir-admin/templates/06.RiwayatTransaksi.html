@@ -42,7 +42,7 @@
                 <tr>
                     <th>ID Transaksi</th>
                     <th>Tanggal</th>
-                    <th>Pelanggan</th>
+                    <th>Nama Produk</th>
                     <th>Total</th>
                     <th>Metode</th>
                     <th>Status</th>
@@ -54,7 +54,11 @@
                 <tr class="data-row" data-tanggal="{{ p.tanggal }}">
                     <td>{{ p.id }}</td>
                     <td>{{ p.tanggal }}</td>
-                    <td>{{ p.pelanggan }}</td>
+                    <td>
+                        {% for b in p.barang %}
+                            {{ b.nama }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
                     <td>Rp {{ "{:,.0f}".format(p.total).replace(",", ".") }}</td>
                     <td>
                         {% if p.metode == 'Tunai' %}

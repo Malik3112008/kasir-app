@@ -63,11 +63,11 @@
                     <td>{{ item.kategori }}</td>
                     <td>
                         {% if item.stok == 0 %}
-                            <span class="stok-badge stok-habis">{{ item.stok }}</span>
+                            <span class="stok-badge stok-habis">{{ "{:,.0f}".format(item.stok).replace(",", ".") }}</span>
                         {% elif item.stok <= 10 %}
-                            <span class="stok-badge stok-menipis">{{ item.stok }}</span>
+                            <span class="stok-badge stok-menipis">{{ "{:,.0f}".format(item.stok).replace(",", ".") }}</span>
                         {% else %}
-                            <span class="stok-badge stok-tersedia">{{ item.stok }}</span>
+                            <span class="stok-badge stok-tersedia">{{ "{:,.0f}".format(item.stok).replace(",", ".") }}</span>
                         {% endif %}
                     </td>
                     <td class="harga">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>

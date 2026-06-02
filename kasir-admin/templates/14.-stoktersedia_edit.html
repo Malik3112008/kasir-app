@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Data Barang</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='14.-stoktersedia.css') }}">
+</head>
+<body>
+
+<nav>
+    <div class="nav-bar">
+        <li>
+            <a href="{{ url_for('admin_stok_tersedia') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+        </li>
+        <img src="{{ url_for('static', filename='image/logo_3.png') }}" alt="Logo" width="70" height="70">
+        <span>Admin Koperasi</span>
+    </div>
+    <ul>
+        <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+        <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+        <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+        <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
+    </ul>
+</nav>
+
+<div class="container" style="max-width:600px; margin:40px auto; padding:30px; background:#fff; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+
+    <h2 style="margin-bottom:24px;">Edit Data Barang</h2>
+
+    <form action="/admin/stok-tersedia/edit/{{ barang.no }}" method="POST" style="display:flex; flex-direction:column; gap:16px;">
+
+        <div>
+            <label style="font-weight:600; margin-bottom:4px; display:block;">Nama Barang</label>
+            <input type="text" name="nama" value="{{ barang.nama }}" required style="width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:8px; font-size:14px;">
+        </div>
+
+        <div>
+            <label style="font-weight:600; margin-bottom:4px; display:block;">Kategori</label>
+            <select name="kategori" required style="width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:8px; font-size:14px;">
+                <option value="Makanan" {% if barang.kategori == 'Makanan' %}selected{% endif %}>Makanan</option>
+                <option value="Minuman" {% if barang.kategori == 'Minuman' %}selected{% endif %}>Minuman</option>
+                <option value="Alat Tulis" {% if barang.kategori == 'Alat Tulis' %}selected{% endif %}>Alat Tulis</option>
+            </select>
+        </div>
+
+        <div>
+            <label style="font-weight:600; margin-bottom:4px; display:block;">Stok</label>
+            <input type="number" name="stok" value="{{ barang.stok }}" required style="width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:8px; font-size:14px;">
+        </div>
+
+        <div>
+            <label style="font-weight:600; margin-bottom:4px; display:block;">Harga</label>
+            <input type="number" name="harga" value="{{ barang.harga }}" required style="width:100%; padding:10px 14px; border:1px solid #ddd; border-radius:8px; font-size:14px;">
+        </div>
+
+        <div style="display:flex; gap:12px; margin-top:10px;">
+            <button type="submit" style="padding:12px 28px; background:#3A82C4; color:#fff; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;">Simpan</button>
+            <a href="{{ url_for('admin_stok_tersedia') }}" style="padding:12px 28px; background:#e5e7eb; color:#333; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; text-decoration:none; display:inline-block;">Batal</a>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>
