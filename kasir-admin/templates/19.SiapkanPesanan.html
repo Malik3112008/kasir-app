@@ -53,16 +53,16 @@
                             <div class="aksi">
                                 <form method="POST" action="{{ url_for('admin_siapkan_pesanan') }}" style="display:flex;align-items:center;gap:6px;">
                                     <input type="hidden" name="trx_id" value="{{ p.id }}">
-                                    <i class="fa-solid fa-circle-exclamation info-aksi-icon" title="Detail pesanan" onclick="bukaModal('{{ p.id }}')"></i>
+                                    <button class="buka-btn" type="button" onclick="bukaModal('{{ p.id }}')">
+                                        <img src="{{ url_for('static', filename='rincian-svgrepo-com.svg') }}" alt="Rincian" width="20px" height="20px" />
+                                    </button>
                                     <div class="dropdown-aksi">
                                         <select name="status" onchange="this.form.submit()">
-                                            <option value="" disabled>Langkah Selanjutnya</option>
+                                            <option selected disabled hidden>Langkah Selanjutnya</option>
                                             {% set daftar_status = status(p) %}
                                             {% set posisi = daftar_status.index(p.status) %}
-                                            {% set next_pos = posisi + 1 if posisi + 1 < daftar_status|length else posisi %}
                                             {% for s in daftar_status %}
-                                            <option value="{{ s }}" {% if loop.index0 == next_pos %} selected {% endif %} {% if
-                                                daftar_status.index(s) < posisi %} disabled {% endif %}>
+                                            <option value="{{ s }}" {% if daftar_status.index(s) < posisi %} disabled {% endif %}>
                                                 {{ s }}
                                             </option>
                                             {% endfor %}
