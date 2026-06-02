@@ -1,53 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Konfirmasi Barang</title>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='17.-konfirmasi-barang.css') }}">
-
-
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
-    <div class="container">
+    <p class="title-small">Konfirmasi Barang Baru Disimpan</p>
 
-        <div class="card">
-
-            <div class="atas">
-                <div class="icon">
-                    <i class="fa-solid fa-check"></i>
-                </div>
-
-                <h1>BARANG BERHASIL DISIMPAN!</h1>
+    <div class="card">
+        <div class="success-header">
+            <div class="check-icon">
+                <i class="fa-solid fa-check"></i>
             </div>
-
-            <div class="isi">
-
-                <div class="text">
-                    <p>Nama Barang: {{ nama_barang }}</p>
-                    <p>Pilih Kategori : {{ kategori }}</p>
-                    <p>Harga &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : {{ harga }}</p>
-                    <p>Jumlah &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : {{ jumlah }}</p>
-                </div>
-
-                <div class="gambar">
-                    <img src="{{ url_for('static', filename='gambar-dan-icon/gambar-le-mineral.jpeg') }}" alt="">
-                </div>
-
-            </div>
-
-            <div class="button">
-                <a href="{{ url_for('admin_pengisian_barang') }}"><button>Kembali Input</button></a>
-                <a href="{{ url_for('admin_manajemen_barang') }}"><button>Manajemen Barang</button></a>
-            </div>
-
+            <h1>BARANG BERHASIL DISIMPAN!</h1>
         </div>
 
+        <div class="info-box">
+            <div class="details">
+                <p>Pilih Kategori : {{ kategori }}</p>
+                <p>Nama Barang : {{ nama_barang }}</p>
+                <p>Variasi : {{ variasi }}</p>
+                <p>Ukuran : {{ ukuran }}</p>
+                <p>Rasa : {{ rasa }}</p>
+                <p>Expired : {{ expired }}</p>
+                <p>Deskripsi : {{ deskripsi }}</p>
+                <p>Harga Beli : {{ harga_beli }}</p>
+                <p>Harga Jual : {{ harga_jual }}</p>
+                <p>Jumlah : {{ jumlah }}</p>
+                <p>Tanggal : {{ tanggal }}</p>
+            </div>
+
+            <div class="image-box">
+                <!-- Using a placeholder or the default image as shown in the mockup -->
+                <img src="{{ url_for('static', filename='teh-botol.png') }}" alt="Gambar Barang">
+            </div>
+        </div>
+
+        <div class="button-group">
+            <a href="{{ url_for('admin_tambah_data_barang') }}">
+                <button>Kembali Masuk</button>
+            </a>
+            <a href="{{ url_for('admin_dashboard') }}">
+                <button>Beranda</button>
+            </a>
+        </div>
     </div>
 
 </body>

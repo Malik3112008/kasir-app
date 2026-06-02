@@ -3,36 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stok Tersedia</title>
+    <title>Daftar Stok</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='14.-stoktersedia.css') }}">
 </head>
 <body>
     <nav>
         <div class="nav-bar">
-            <li>
-                <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
-            </li>
-            <img src="{{ url_for('static', filename='image/logo_3.png') }}" alt="Logo" width="70" height="70">
+            <a href="{{ url_for('admin_dashboard') }}">
+                <img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="24" height="24" style="margin-right: 10px;">
+            </a>
+            <img src="{{ url_for('static', filename='image/logo_3.png') }}" alt="Logo" width="40" height="40">
             <span>Admin Koperasi</span>
         </div>
         <ul>
-            <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
-            <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
-            <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
-            <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi"></a></li>
+            <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting"></a></li>
+            <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna"></a></li>
+            <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar"></a></li>
         </ul>
     </nav>
 
     <div class="container">
         <div class="header">
-            <h2>Stok Tersedia</h2>
+            <h2>Daftar Stok</h2>
             <div class="filter">
                 <form method="GET" action="/admin/stok-tersedia">
-                    <input type="text" name="cari" placeholder="Cari barang..." value="{{ keyword }}">
+                    <input type="text" name="cari" placeholder="Cari Barang..." value="{{ keyword }}">
                     <select name="kategori">
-                        <option value="">Semua Kategori</option>
+                        <option value="">Pilih kategori</option>
                         <option value="Makanan" {% if kategori == 'Makanan' %}selected{% endif %}>Makanan</option>
                         <option value="Minuman" {% if kategori == 'Minuman' %}selected{% endif %}>Minuman</option>
                         <option value="Alat Tulis" {% if kategori == 'Alat Tulis' %}selected{% endif %}>Alat Tulis</option>
@@ -44,14 +44,15 @@
         <table>
             <thead>
                 <tr>
-                    <th>No</th>
+                    <th width="50">No</th>
                     <th>Nama Barang</th>
                     <th>Berat Satuan</th>
                     <th>Kategori</th>
-                    <th>Stok</th>
-                    <th>Harga</th>
+                    <th style="text-align: center;">Stok</th>
+                    <th>Harga Jual</th>
                     <th>Tanggal Restok</th>
-                    <th>Aksi</th>
+                    <th>Expired</th>
+                    <th width="80" style="text-align: center;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,23 +60,24 @@
                 <tr>
                     <td>{{ item.no }}</td>
                     <td>{{ item.nama }}</td>
-                    <td>{{ item.berat }}</td>
+                    <td>{{ item.berat }}{{ item.satuan if item.satuan else '' }}</td>
                     <td>{{ item.kategori }}</td>
-                    <td>
+                    <td style="text-align: center;">
                         {% if item.stok == 0 %}
-                            <span class="stok-badge stok-habis">{{ "{:,.0f}".format(item.stok).replace(",", ".") }}</span>
+                            <span class="stok-badge stok-habis">{{ item.stok }}</span>
                         {% elif item.stok <= 10 %}
-                            <span class="stok-badge stok-menipis">{{ "{:,.0f}".format(item.stok).replace(",", ".") }}</span>
+                            <span class="stok-badge stok-menipis">{{ item.stok }}</span>
                         {% else %}
-                            <span class="stok-badge stok-tersedia">{{ "{:,.0f}".format(item.stok).replace(",", ".") }}</span>
+                            <span class="stok-badge stok-tersedia">{{ item.stok }}</span>
                         {% endif %}
                     </td>
-                    <td class="harga">{{ "{:,.2f}".format(item.harga).replace(",", "X").replace(".", ",").replace("X", ".") }}</td>
-                    <td class="tanggal-cell" data-tanggal="{{ item.tanggal }}">{{ item.tanggal }}</td>
-                    <td>
-                        <div class="aksi">
+                    <td class="harga-jual">Rp{{ "{:,.2f}".format(item.harga).replace(",", "X").replace(".", ",").replace("X", ".") }}</td>
+                    <td class="tanggal-cell" data-tanggal="{{ item.tanggal_restok if item.tanggal_restok else item.tanggal }}">{{ item.tanggal_restok if item.tanggal_restok else item.tanggal }}</td>
+                    <td>{{ item.expired if item.expired else '-' }}</td>
+                    <td style="text-align: center;">
+                        <div class="aksi" style="justify-content: center;">
                             <a href="/admin/stok-tersedia/edit/{{ item.no }}" class="icon edit" title="Edit">
-                                <i class="fa fa-pen"></i>
+                                <i class="fa-solid fa-pencil" style="color: #bfdbfe;"></i>
                             </a>
                         </div>
                     </td>
@@ -86,9 +88,9 @@
 
         <div class="pagination">
             {% if page > 1 %}
-            <a href="/admin/stok-tersedia?page={{ page - 1 }}&cari={{ keyword }}&kategori={{ kategori }}" class="panah-kiri">◀️</a>
+            <a href="/admin/stok-tersedia?page={{ page - 1 }}&cari={{ keyword }}&kategori={{ kategori }}" class="panah-kiri"><i class="fa-solid fa-caret-left"></i></a>
             {% else %}
-            <span class="panah-kiri disabled">◀️</span>
+            <span class="panah-kiri disabled"><i class="fa-solid fa-caret-left"></i></span>
             {% endif %}
 
             <div class="bulat-container">
@@ -100,15 +102,14 @@
             </div>
 
             {% if page < total_halaman %}
-            <a href="/admin/stok-tersedia?page={{ page + 1 }}&cari={{ keyword }}&kategori={{ kategori }}" class="panah-kanan">▶️</a>
+            <a href="/admin/stok-tersedia?page={{ page + 1 }}&cari={{ keyword }}&kategori={{ kategori }}" class="panah-kanan"><i class="fa-solid fa-caret-right"></i></a>
             {% else %}
-            <span class="panah-kanan disabled">▶️</span>
+            <span class="panah-kanan disabled"><i class="fa-solid fa-caret-right"></i></span>
             {% endif %}
         </div>
     </div>
 
     <script>
-        // Auto-submit search form on category change or typing (with debounce)
         const searchForm = document.querySelector('.filter form');
         const searchInput = searchForm ? searchForm.querySelector('input[name="cari"]') : null;
         const kategoriSelect = searchForm ? searchForm.querySelector('select[name="kategori"]') : null;
@@ -129,7 +130,6 @@
             });
         }
 
-        // Convert dates to Indonesian format: "dd Bulan yyyy"
         const bulanIndo = [
             'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
             'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
@@ -137,16 +137,13 @@
 
         document.querySelectorAll('.tanggal-cell').forEach(cell => {
             const raw = cell.getAttribute('data-tanggal') || cell.textContent.trim();
-            if (!raw) return;
+            if (!raw || raw === '-') return;
 
-            // Try parsing common date formats: YYYY-MM-DD, DD/MM/YYYY, DD-MM-YYYY
             let date = null;
-            // Format: YYYY-MM-DD
             let match = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
             if (match) {
                 date = new Date(match[1], match[2] - 1, match[3]);
             }
-            // Format: DD/MM/YYYY or DD-MM-YYYY
             if (!date) {
                 match = raw.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
                 if (match) {

@@ -430,24 +430,33 @@ def admin_dashboard():
 # ============================================================
 
 data_penjual = [
-    {"nama": "Zulfikar Aril", "email": "aril_10@gmail.com", "status": "Aktif", "foto": "profile.png"},
-    {"nama": "Nafilah Yasmin", "email": "yasmin18@gmail.com", "status": "Tidak aktif", "foto": "profile.png"},
-    {"nama": "Febriyanto", "email": "febri1711@gmail.com", "status": "Aktif", "foto": "profile.png"},
-    {"nama": "Shafira Amelia", "email": "shafiramel@gmail.com", "status": "Aktif", "foto": "profile.png"},
+    {"id": 1, "nama": "Zulfikar Aril", "email": "aril_10@gmail.com", "status": "Aktif", "foto": "profile.png"},
+    {"id": 2, "nama": "Nafilah Yasmin", "email": "yasmin18@gmail.com", "status": "Tidak aktif", "foto": "profile.png"},
+    {"id": 3, "nama": "Febriyanto", "email": "febri1711@gmail.com", "status": "Aktif", "foto": "profile.png"},
+    {"id": 4, "nama": "Shafira Amelia", "email": "shafiramel@gmail.com", "status": "Aktif", "foto": "profile.png"},
 ]
 
 @app.route('/admin/kelola_akun_penjual')
 def admin_kelola_akun_penjual():
     if not session.get('user'):
         return redirect(url_for('admin_login'))
-    return render_template('08.pengelola_akun_penjual.html', penjual=data_penjual)
+    
+    keyword = request.args.get('cari', '').lower()
+    if keyword:
+        filtered = [p for p in data_penjual if keyword in p['nama'].lower() or keyword in p['email'].lower()]
+    else:
+        filtered = data_penjual
+        
+    return render_template('08.pengelola_akun_penjual.html', penjual=filtered, keyword=keyword)
 
 @app.route('/admin/tambah-akun', methods=['GET', 'POST'])
 def admin_tambah_akun():
     if not session.get('user'):
         return redirect(url_for('admin_login'))
     if request.method == 'POST':
+        max_id = max([p['id'] for p in data_penjual], default=0)
         akun_baru = {
+            'id': max_id + 1,
             'nama': request.form['nama'],
             'email': request.form['email'],
             'status': request.form['status'],
@@ -461,9 +470,11 @@ def admin_tambah_akun():
 def admin_edit_akun(id):
     if not session.get('user'):
         return redirect(url_for('admin_login'))
-    if id < 0 or id >= len(data_penjual):
+    
+    akun = next((p for p in data_penjual if p['id'] == id), None)
+    if not akun:
         return redirect(url_for('admin_kelola_akun_penjual'))
-    akun = data_penjual[id]
+        
     if request.method == 'POST':
         akun['nama'] = request.form['nama']
         akun['email'] = request.form['email']
@@ -475,9 +486,9 @@ def admin_edit_akun(id):
 def admin_hapus_akun(id):
     if not session.get('user'):
         return redirect(url_for('admin_login'))
+    
     global data_penjual
-    if 0 <= id < len(data_penjual):
-        data_penjual.pop(id)
+    data_penjual = [p for p in data_penjual if p['id'] != id]
     return redirect(url_for('admin_kelola_akun_penjual'))
 
 # ============================================================
@@ -547,7 +558,10 @@ def admin_simpan_barang_baru():
     })
     return render_template('17.-konfirmasi-barang.html',
         nama_barang=nama_barang, kategori=kategori,
-        harga=harga_jual, jumlah=jumlah)
+        harga_beli=harga_beli, harga_jual=harga_jual, 
+        jumlah=jumlah, tanggal=tanggal, variasi=variasi,
+        ukuran=volume, rasa=rasa, expired=expired,
+        deskripsi=deskripsi)
 
 @app.route('/admin/simpan', methods=['POST'])
 def admin_simpan():
@@ -577,9 +591,21 @@ def admin_konfirmasi_barang():
         return redirect(url_for('admin_login'))
     nama_barang = request.args.get('nama_barang', '-')
     kategori = request.args.get('kategori', '-')
-    harga = request.args.get('harga', '0')
+    variasi = request.args.get('variasi', '-')
+    ukuran = request.args.get('ukuran', '-')
+    rasa = request.args.get('rasa', '-')
+    expired = request.args.get('expired', '-')
+    deskripsi = request.args.get('deskripsi', '-')
+    harga_beli = request.args.get('harga_beli', '0')
+    harga_jual = request.args.get('harga_jual', '0')
     jumlah = request.args.get('jumlah', '0')
-    return render_template('17.-konfirmasi-barang.html', nama_barang=nama_barang, kategori=kategori, harga=harga, jumlah=jumlah)
+    tanggal = request.args.get('tanggal', '-')
+    
+    return render_template('17.-konfirmasi-barang.html', 
+        nama_barang=nama_barang, kategori=kategori, variasi=variasi,
+        ukuran=ukuran, rasa=rasa, expired=expired, deskripsi=deskripsi,
+        harga_beli=harga_beli, harga_jual=harga_jual, jumlah=jumlah, 
+        tanggal=tanggal)
 
 # ============================================================
 # ADMIN: STOK TERSEDIA
@@ -625,6 +651,10 @@ def admin_stok_tersedia_edit(id):
         barang['kategori'] = request.form.get('kategori', barang['kategori'])
         barang['stok'] = int(request.form.get('stok', barang['stok']))
         barang['harga'] = int(request.form.get('harga', barang['harga']))
+        barang['satuan'] = request.form.get('satuan', barang.get('satuan', ''))
+        barang['tanggal_restok'] = request.form.get('tanggal_restok', barang.get('tanggal_restok', ''))
+        barang['expired'] = request.form.get('expired', barang.get('expired', ''))
+        barang['alasan'] = request.form.get('alasan', barang.get('alasan', ''))
         return redirect(url_for('admin_stok_tersedia'))
     return render_template('14.-stoktersedia_edit.html', barang=barang)
 
@@ -641,16 +671,11 @@ def admin_stok_tersedia_hapus(id):
 # ============================================================
 
 data_barang = [
-    {"no": 1, "nama": "Roti Aoka", "berat": "100 gram", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg", "rating": 5, "emoji": "🍞"},
-    {"no": 2, "nama": "Donat", "berat": "80 gram", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/donat.jpg", "rating": 4, "emoji": "🍩"},
-    {"no": 3, "nama": "Mie Instan", "berat": "75 gram", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal": "2026-05-08", "gambar": "gambar-dan-icon/pop-mie.png", "rating": 4, "emoji": "🍜"},
-    {"no": 4, "nama": "Air Mineral", "berat": "500 ml", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal": "2026-05-06", "gambar": "gambar-dan-icon/ades.jpg", "rating": 5, "emoji": "💧"},
-    {"no": 5, "nama": "Teh Botol", "berat": "350 ml", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal": "2026-05-07", "gambar": "gambar-dan-icon/teh-botol.png", "rating": 3, "emoji": "🍵"},
-    {"no": 6, "nama": "Susu Kotak", "berat": "250 ml", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/ultramilk.png", "rating": 4, "emoji": "🥛"},
-    {"no": 7, "nama": "Pensil", "berat": "10 gram", "stok": 0, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "rating": 4, "emoji": "✏️"},
-    {"no": 8, "nama": "Buku Tulis", "berat": "100 gram", "stok": 0, "harga": 5000, "kategori": "Alat Tulis", "tanggal": "2026-05-05", "gambar": "gambar-dan-icon/buku-tulis.jpg", "rating": 4, "emoji": "📓"},
-    {"no": 9, "nama": "Penghapus", "berat": "20 gram", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal": "2026-05-09", "gambar": "gambar-dan-icon/penghapus.png", "rating": 5, "emoji": "🧽"},
-    {"no": 10, "nama": "Spidol", "berat": "25 gram", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal": "2026-05-12", "gambar": "gambar-dan-icon/gambar-pulpen.jpeg", "rating": 4, "emoji": "🖍️"},
+    {"no": 1, "nama": "Indomie Goreng", "berat": "85", "satuan": "gr", "stok": 30, "harga": 3500, "kategori": "Makanan", "tanggal_restok": "2025-08-10", "expired": "Mei 2028", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/pop-mie.png", "rating": 5, "emoji": "🍜"},
+    {"no": 2, "nama": "Aqua Botol", "berat": "600", "satuan": "ml", "stok": 10, "harga": 4000, "kategori": "Minuman", "tanggal_restok": "2025-11-03", "expired": "Mei 2028", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/ades.jpg", "rating": 4, "emoji": "💧"},
+    {"no": 3, "nama": "Pulpen Standard", "berat": "15", "satuan": "gr", "stok": 150, "harga": 2500, "kategori": "Alat Tulis", "tanggal_restok": "2025-07-02", "expired": "Mei 2028", "tanggal": "2026-05-08", "gambar": "gambar-dan-icon/gambar-pulpen.jpeg", "rating": 4, "emoji": "🖋️"},
+    {"no": 4, "nama": "Roti Aoka Gulung", "berat": "60", "satuan": "gr", "stok": 50, "harga": 3000, "kategori": "Makanan", "tanggal_restok": "2025-09-25", "expired": "Mei 2028", "tanggal": "2026-05-06", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg", "rating": 5, "emoji": "🍞"},
+    {"no": 5, "nama": "Penggaris", "berat": "25", "satuan": "gr", "stok": 20, "harga": 4000, "kategori": "Alat Tulis", "tanggal_restok": "2025-05-06", "expired": "Mei 2028", "tanggal": "2026-05-07", "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "rating": 3, "emoji": "📏"},
 ]
 
 @app.route('/admin/cetak_laporan', methods=['GET', 'POST'])

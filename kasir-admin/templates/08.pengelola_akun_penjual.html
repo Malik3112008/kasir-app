@@ -8,31 +8,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
 
 </head>
-<script>
-function tambahMode() {
-    var form = document.getElementById("formTambah");
-
-    if (form.style.display == "none") {
-        form.style.display = "block";
-    } else {
-        form.style.display = "none";
-    }
-}
-
-function editMode() {
-    var sampah = document.querySelectorAll(".hapus");
-
-    sampah.forEach(function(item) {
-
-        if (item.style.display == "inline") {
-            item.style.display = "none";
-        } else {
-            item.style.display = "inline";
-        }
-
-    });
-}
-</script>
 <body><nav>
             <div class="nav-bar">
                 <li>
@@ -65,11 +40,13 @@ function editMode() {
 
     <div class="card">
 
-        <input type="text" placeholder="Cari akun" class="search">
+        <form method="GET" action="{{ url_for('admin_kelola_akun_penjual') }}" style="display: flex; gap: 10px; margin-bottom: 20px;">
+            <input type="text" name="cari" placeholder="Cari akun" class="search" value="{{ keyword or '' }}" style="flex: 1;">
+            <button type="submit" class="btn-cari" style="padding: 10px 20px; background: #3A82C4; color: white; border: none; border-radius: 8px; cursor: pointer;">Cari</button>
+        </form>
 
-        <div class="button-group">
-            <button class="btn tambah" onclick="tambahMode()">Tambah</button>
-            <button class="btn edit" onclick="editMode()">Edit</button>
+        <div class="button-group" style="margin-bottom: 20px;">
+            <a href="{{ url_for('admin_tambah_akun') }}" class="btn tambah" style="text-decoration: none; display: inline-block;">Tambah</a>
         </div>
         <table>
             <thead>
@@ -97,8 +74,8 @@ function editMode() {
                         {% endif %}
                     </td>
                     <td>
-                        <a href="/admin/edit-akun/{{ loop.index0 }}" class="edit-link">✏️</a>
-                        <a href="/admin/hapus-akun/{{ loop.index0 }}" class="hapus-link" onclick="return confirm('Yakin hapus akun ini?')">🗑️</a>
+                        <a href="/admin/edit-akun/{{ item.id }}" class="edit-link">✏️</a>
+                        <a href="/admin/hapus-akun/{{ item.id }}" class="hapus-link" onclick="return confirm('Yakin hapus akun ini?')">🗑️</a>
                     </td>
                 </tr>
                 {% endfor %}
