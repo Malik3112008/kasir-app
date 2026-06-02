@@ -721,7 +721,12 @@ def admin_cetak_transaksi_excel():
     for i, p in enumerate(pesanan, 1):
         total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
         nama_produk = ', '.join(b['nama'] for b in p['barang'])
-        ws.append([i, p['tanggal'], p['id'], nama_produk, total_barang, p['metode'], p['status']])
+        try:
+            tgl_obj = datetime.strptime(p['tanggal'], '%Y-%m-%d')
+            tgl_fmt = f"{tgl_obj.day:02d}/{tgl_obj.month:02d}/{tgl_obj.year}"
+        except:
+            tgl_fmt = p['tanggal']
+        ws.append([i, tgl_fmt, p['id'], nama_produk, total_barang, p['metode'], p['status']])
     output = io.BytesIO()
     wb.save(output)
     output.seek(0)
