@@ -35,6 +35,161 @@ def tgl_indo_filter(tanggal_str):
         return tanggal_str
 
 # ============================================================
+# PERSISTENCE HELPER FUNCTIONS & API ENDPOINTS
+# ============================================================
+
+BARANG_FILE = os.path.join(BASE_DIR, 'data_barang.json')
+PESANAN_FILE = os.path.join(BASE_DIR, 'pesanan.json')
+
+def hitung_total_barang(barang):
+    total = 0
+    for b in barang:
+        total += b["jumlah"] * b["harga"]
+    return total
+
+def load_data_barang():
+    if os.path.exists(BARANG_FILE):
+        try:
+            with open(BARANG_FILE, 'r') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error loading {BARANG_FILE}: {e}")
+    # static fallback
+    return [
+        {"no": 1, "nama": "Roti Aoka", "berat": "60", "satuan": "gr", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal_restok": "2025-09-25", "expired": "Mei 2028", "tanggal": "2026-05-06", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg", "rating": 5, "emoji": "🍞"},
+        {"no": 2, "nama": "Donat", "berat": "50", "satuan": "gr", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal_restok": "2025-10-01", "expired": "Mei 2028", "tanggal": "2026-05-05", "gambar": "gambar-dan-icon/donat.jpg", "rating": 4, "emoji": "🍩"},
+        {"no": 3, "nama": "Pop Mie", "berat": "85", "satuan": "gr", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal_restok": "2025-08-10", "expired": "Mei 2028", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/pop-mie.png", "rating": 4, "emoji": "🍜"},
+        {"no": 4, "nama": "Air Mineral", "berat": "600", "satuan": "ml", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal_restok": "2025-11-03", "expired": "Mei 2028", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/ades.jpg", "rating": 5, "emoji": "💧"},
+        {"no": 5, "nama": "Teh Botol", "berat": "350", "satuan": "ml", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal_restok": "2025-06-01", "expired": "Desember 2027", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/teh-botol.png", "rating": 3, "emoji": "🥤"},
+        {"no": 6, "nama": "Ultra Milk", "berat": "250", "satuan": "ml", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal_restok": "2025-06-01", "expired": "Desember 2027", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/ultramilk.png", "rating": 4, "emoji": "🧃"},
+        {"no": 7, "nama": "Pensil", "berat": "10", "satuan": "gr", "stok": 0, "harga": 2000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "rating": 4, "emoji": "✏️"},
+        {"no": 8, "nama": "Buku Tulis", "berat": "100", "satuan": "gr", "stok": 0, "harga": 6000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/buku-tulis.jpg", "rating": 4, "emoji": "📓"},
+        {"no": 9, "nama": "Penghapus", "berat": "20", "satuan": "gr", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/penghapus.png", "rating": 5, "emoji": "🧼"},
+        {"no": 10, "nama": "Bolpoin", "berat": "30", "satuan": "gr", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/gambar-pulpen.jpeg", "rating": 4, "emoji": "🖋️"}
+    ]
+
+def save_data_barang(data):
+    try:
+        with open(BARANG_FILE, 'w') as f:
+            json.dump(data, f, indent=4)
+    except Exception as e:
+        print(f"Error saving {BARANG_FILE}: {e}")
+
+def load_pesanan():
+    data = []
+    if os.path.exists(PESANAN_FILE):
+        try:
+            with open(PESANAN_FILE, 'r') as f:
+                data = json.load(f)
+        except Exception as e:
+            print(f"Error loading {PESANAN_FILE}: {e}")
+            data = get_default_pesanan()
+    else:
+        data = get_default_pesanan()
+        
+    for p in data:
+        if "total_awal" not in p:
+            p["total_awal"] = hitung_total_barang(p["barang"])
+        if "total" not in p:
+            p["total"] = p["total_awal"]
+        if "refund" not in p:
+            p["refund"] = 0
+    return data
+
+def get_default_pesanan():
+    return [
+        {"id": "TRX001", "tanggal": "2025-11-15", "pelanggan": "Ahmad Rizki", "metode": "Tunai", "status": "Disiapkan",
+         "barang": [{"nama": "Sabun", "jumlah": 2, "harga": 5000, "gambar": "gambar-dan-icon/sabun.jpg"}, {"nama": "Pop Mie", "jumlah": 3, "harga": 4000, "gambar": "gambar-dan-icon/pop-mie.png"}, {"nama": "Air Mineral", "jumlah": 1, "harga": 3000, "gambar": "gambar-dan-icon/ades.jpg"}]},
+        {"id": "TRX002", "tanggal": "2025-11-15", "pelanggan": "Siti Nurhazila", "metode": "QRIS", "status": "Disiapkan",
+         "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar-penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}]},
+        {"id": "TRX003", "tanggal": "2025-11-15", "pelanggan": "Diki Nurhazila", "metode": "Tunai", "status": "Disiapkan",
+         "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar-penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}]},
+        {"id": "TRX004", "tanggal": "2025-11-15", "pelanggan": "Siti riki", "metode": "QRIS", "status": "Disiapkan",
+         "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar-penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}]}
+    ]
+
+def save_pesanan(data):
+    try:
+        with open(PESANAN_FILE, 'w') as f:
+            json.dump(data, f, indent=4)
+    except Exception as e:
+        print(f"Error saving {PESANAN_FILE}: {e}")
+
+@app.before_request
+def load_db_to_globals():
+    global data_barang, pesanan
+    data_barang = load_data_barang()
+    pesanan = load_pesanan()
+
+# Expose REST API endpoints
+@app.route('/api/barang', methods=['GET', 'POST'])
+def api_barang():
+    global data_barang
+    if request.method == 'GET':
+        return jsonify(data_barang)
+    elif request.method == 'POST':
+        req_data = request.get_json() or request.form
+        if not req_data:
+            return jsonify({"error": "No data provided"}), 400
+        no_baru = max([b['no'] for b in data_barang], default=0) + 1
+        new_item = {
+            'no': no_baru,
+            'nama': req_data.get('nama', ''),
+            'berat': req_data.get('berat', '-'),
+            'satuan': req_data.get('satuan', ''),
+            'stok': int(req_data.get('stok', 0)),
+            'harga': int(req_data.get('harga', 0)),
+            'kategori': req_data.get('kategori', ''),
+            'tanggal_restok': req_data.get('tanggal_restok', ''),
+            'expired': req_data.get('expired', '-'),
+            'tanggal': req_data.get('tanggal', datetime.now().strftime("%Y-%m-%d")),
+            'gambar': req_data.get('gambar', ''),
+            'rating': int(req_data.get('rating', 0)),
+            'emoji': req_data.get('emoji', '📦')
+        }
+        data_barang.append(new_item)
+        save_data_barang(data_barang)
+        return jsonify(new_item), 201
+
+@app.route('/api/barang/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+def api_barang_detail(id):
+    global data_barang
+    item = next((b for b in data_barang if b['no'] == id), None)
+    if not item:
+        return jsonify({"error": "Product not found"}), 404
+        
+    if request.method == 'GET':
+        return jsonify(item)
+    elif request.method == 'PUT':
+        req_data = request.get_json() or request.form
+        if not req_data:
+            return jsonify({"error": "No data provided"}), 400
+        item['nama'] = req_data.get('nama', item['nama'])
+        item['berat'] = req_data.get('berat', item['berat'])
+        item['satuan'] = req_data.get('satuan', item.get('satuan', ''))
+        item['stok'] = int(req_data.get('stok', item['stok']))
+        item['harga'] = int(req_data.get('harga', item['harga']))
+        item['kategori'] = req_data.get('kategori', item['kategori'])
+        item['tanggal_restok'] = req_data.get('tanggal_restok', item.get('tanggal_restok', ''))
+        item['expired'] = req_data.get('expired', item.get('expired', ''))
+        item['gambar'] = req_data.get('gambar', item.get('gambar', ''))
+        item['rating'] = int(req_data.get('rating', item.get('rating', 0)))
+        item['emoji'] = req_data.get('emoji', item.get('emoji', '📦'))
+        save_data_barang(data_barang)
+        return jsonify(item)
+    elif request.method == 'DELETE':
+        data_barang = [b for b in data_barang if b['no'] != id]
+        save_data_barang(data_barang)
+        return jsonify({"message": "Product deleted successfully"})
+
+@app.route('/api/pesanan', methods=['GET'])
+def api_pesanan():
+    global pesanan
+    return jsonify(pesanan)
+
+# ============================================================
+
+# ============================================================
 # 404 NOT FOUND
 # ============================================================
 
@@ -555,6 +710,7 @@ def admin_simpan_barang_baru():
         'stok': jumlah, 'harga': harga_jual, 'kategori': kategori,
         'tanggal': tanggal, 'gambar': '', 'rating': 0, 'emoji': '📦'
     })
+    save_data_barang(data_barang)
     return render_template('17.-konfirmasi-barang.html',
         nama_barang=nama_barang, kategori=kategori,
         harga_beli=harga_beli, harga_jual=harga_jual, 
@@ -580,6 +736,7 @@ def admin_simpan():
         for b in data_barang:
             if str(b['no']) == str(restok_id):
                 b['stok'] = b.get('stok', 0) + int(jumlah)
+                save_data_barang(data_barang)
                 break
 
     return render_template('10.rekap_barang.html', kategori=kategori, nama_barang=nama_barang, tanggal=tanggal, jumlah=jumlah, harga=harga_jual, catatan=catatan)
@@ -654,33 +811,24 @@ def admin_stok_tersedia_edit(id):
         barang['tanggal_restok'] = request.form.get('tanggal_restok', barang.get('tanggal_restok', ''))
         barang['expired'] = request.form.get('expired', barang.get('expired', ''))
         barang['alasan'] = request.form.get('alasan', barang.get('alasan', ''))
+        save_data_barang(data_barang)
         return redirect(url_for('admin_stok_tersedia'))
     return render_template('14.-stoktersedia_edit.html', barang=barang)
-
+ 
 @app.route('/admin/stok-tersedia/hapus/<int:id>', methods=['POST'])
 def admin_stok_tersedia_hapus(id):
     if not session.get('user'):
         return redirect(url_for('admin_login'))
     global data_barang
     data_barang = [b for b in data_barang if b['no'] != id]
+    save_data_barang(data_barang)
     return redirect(url_for('admin_stok_tersedia'))
-
+ 
 # ============================================================
 # ADMIN: CETAK LAPORAN
 # ============================================================
-
-data_barang = [
-    {"no": 1, "nama": "Roti Aoka", "berat": "60", "satuan": "gr", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal_restok": "2025-09-25", "expired": "Mei 2028", "tanggal": "2026-05-06", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg", "rating": 5, "emoji": "🍞"},
-    {"no": 2, "nama": "Donat", "berat": "50", "satuan": "gr", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal_restok": "2025-10-01", "expired": "Mei 2028", "tanggal": "2026-05-05", "gambar": "gambar-dan-icon/donat.jpg", "rating": 4, "emoji": "🍩"},
-    {"no": 3, "nama": "Mie Instan", "berat": "85", "satuan": "gr", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal_restok": "2025-08-10", "expired": "Mei 2028", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/pop-mie.png", "rating": 4, "emoji": "🍜"},
-    {"no": 4, "nama": "Air Mineral", "berat": "600", "satuan": "ml", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal_restok": "2025-11-03", "expired": "Mei 2028", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/ades.jpg", "rating": 5, "emoji": "💧"},
-    {"no": 5, "nama": "Teh Botol", "berat": "350", "satuan": "ml", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal_restok": "2025-06-01", "expired": "Desember 2027", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/teh-botol.png", "rating": 3, "emoji": "🥤"},
-    {"no": 6, "nama": "Susu Kotak", "berat": "250", "satuan": "ml", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal_restok": "2025-06-01", "expired": "Desember 2027", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/ultramilk.png", "rating": 4, "emoji": "🧃"},
-    {"no": 7, "nama": "Pensil", "berat": "10", "satuan": "gr", "stok": 0, "harga": 2000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "rating": 4, "emoji": "✏️"},
-    {"no": 8, "nama": "Buku Tulis", "berat": "100", "satuan": "gr", "stok": 0, "harga": 6000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/buku-tulis.jpg", "rating": 4, "emoji": "📓"},
-    {"no": 9, "nama": "Penghapus", "berat": "20", "satuan": "gr", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/penghapus.png", "rating": 5, "emoji": "🧼"},
-    {"no": 10, "nama": "Spidol", "berat": "30", "satuan": "gr", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/gambar-pulpen.jpeg", "rating": 4, "emoji": "🖋️"},
-]
+ 
+data_barang = load_data_barang()
 
 @app.route('/admin/cetak_laporan', methods=['GET', 'POST'])
 def admin_cetak_laporan():
@@ -981,27 +1129,7 @@ def admin_laporan_penjualan():
 status_tunai = ["Disiapkan", "Siap diambil", "Menunggu Pembayaran", "Sudah diambil"]
 status_qris  = ["Disiapkan", "Siap diambil", "Sudah diambil"]
 
-pesanan = [
-    {"id": "TRX001", "tanggal": "2025-11-15", "pelanggan": "Ahmad Rizki", "metode": "Tunai", "status": "Disiapkan",
-     "barang": [{"nama": "Sabun", "jumlah": 2, "harga": 5000, "gambar": "gambar-dan-icon/sabun.jpg"}, {"nama": "Mie Instan", "jumlah": 3, "harga": 4000, "gambar": "gambar-dan-icon/pop-mie.png"}, {"nama": "Air Mineral", "jumlah": 1, "harga": 3000, "gambar": "gambar-dan-icon/ades.jpg"}]},
-    {"id": "TRX002", "tanggal": "2025-11-15", "pelanggan": "Siti Nurhazila", "metode": "QRIS", "status": "Disiapkan",
-     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar-penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}]},
-    {"id": "TRX003", "tanggal": "2025-11-15", "pelanggan": "Diki Nurhazila", "metode": "Tunai", "status": "Disiapkan",
-     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar-penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}]},
-    {"id": "TRX004", "tanggal": "2025-11-15", "pelanggan": "Siti riki", "metode": "QRIS", "status": "Disiapkan",
-     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar-penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}]},
-]
-
-def hitung_total_barang(barang):
-    total = 0
-    for b in barang:
-        total += b["jumlah"] * b["harga"]
-    return total
-
-for p in pesanan:
-    p["total_awal"] = hitung_total_barang(p["barang"])
-    p["total"] = p["total_awal"]
-    p["refund"] = 0
+pesanan = load_pesanan()
 
 def formatRp(rupiah):
     try:
@@ -1032,6 +1160,7 @@ def admin_siapkan_pesanan():
                     if ubah + 1 < len(ganti):
                         i['status'] = ganti[ubah + 1]
                 break
+        save_pesanan(pesanan)
         return redirect('/admin/siapkan-pesanan')
     # Pagination
     page = request.args.get('page', 1, type=int)
@@ -1066,10 +1195,18 @@ def admin_hapus_barang():
                     break
             if dihapus:
                 dihapus["jumlah"] -= 1
+                # Restore stock in data_barang
+                for db_item in data_barang:
+                    if db_item['nama'] == nama_barang:
+                        db_item['stok'] += 1
+                        break
+                save_data_barang(data_barang)
+                
                 if dihapus["jumlah"] <= 0:
                     p["barang"].remove(dihapus)
                 p["total"] = hitung_total_barang(p["barang"])
                 p["refund"] = p["total_awal"] - p["total"]
+                save_pesanan(pesanan)
             break
     return redirect("/admin/siapkan-pesanan")
 
@@ -1440,7 +1577,15 @@ def buat_pesanan_dari_cart(metode):
     pelanggan = session.get('nama', 'Guest')
     barang_list = []
     for nama in cart:
-        barang_list.append({"nama": nama, "jumlah": cart[nama]['jumlah'], "harga": cart[nama]['harga']})
+        qty = cart[nama]['jumlah']
+        barang_list.append({"nama": nama, "jumlah": qty, "harga": cart[nama]['harga']})
+        # Decrement stock in data_barang
+        for b in data_barang:
+            if b['nama'] == nama:
+                b['stok'] = max(0, b['stok'] - qty)
+                break
+    save_data_barang(data_barang)
+    
     pesanan_baru = {
         "id": trx_id,
         "tanggal": tanggal,
@@ -1453,6 +1598,7 @@ def buat_pesanan_dari_cart(metode):
         "refund": 0
     }
     pesanan.append(pesanan_baru)
+    save_pesanan(pesanan)
     cart = {}
 
 @app.route('/pembeli/tunai')
@@ -1567,13 +1713,13 @@ def siap_diambil():
 produk_belum_dinilai = [
     {"id": 1, "nama": "Roti Aoka", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg"},
     {"id": 2, "nama": "Air Mineral Ades", "gambar": "gambar-dan-icon/ades.jpg"},
-    {"id": 3, "nama": "Bulpoin", "gambar": "gambar-dan-icon/bulpoin.jpg"},
+    {"id": 3, "nama": "Bolpoin", "gambar": "gambar-dan-icon/bulpoin.jpg"},
 ]
 
 penilaian_saya = [
     {"id": 1, "nama": "Roti Aoka", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg", "rating": 4, "tanggal": "01-01-2026 11:24"},
     {"id": 2, "nama": "Air Mineral Ades", "gambar": "gambar-dan-icon/ades.jpg", "rating": 5, "tanggal": "20-12-2025 18:22"},
-    {"id": 3, "nama": "Bulpoin", "gambar": "gambar-dan-icon/bulpoin.jpg", "rating": 3, "tanggal": "18-12-2025 11:35"},
+    {"id": 3, "nama": "Bolpoin", "gambar": "gambar-dan-icon/bulpoin.jpg", "rating": 3, "tanggal": "18-12-2025 11:35"},
 ]
 
 @app.route("/pembeli/penilaian")
