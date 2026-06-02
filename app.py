@@ -92,14 +92,13 @@ def informasi():
 # ============================================================
 
 CARDS_DATA = [
-    {"id": 1, "text": "Rak Makanan Ringan", "icon": "fa-solid fa-cookie-bite", "href": "/admin/denah/makanan_ringan", "width": 290, "height": 120, "left": 40, "top": 130, "image": "images/makanan_ringan/gambar1.jpg"},
-    {"id": 2, "text": "Rak Snack", "icon": "fa-solid fa-candy-cane", "href": "/admin/denah/makanan_ringan", "width": 290, "height": 120, "left": 40, "top": 300, "image": "images/makanan_ringan/gambar1.jpg"},
-    {"id": 3, "text": "Rak Cemilan", "icon": "fa-solid fa-pizza-slice", "href": "/admin/denah/makanan_ringan", "width": 290, "height": 120, "left": 40, "top": 470, "image": "images/makanan_ringan/gambar1.jpg"},
-    {"id": 4, "text": "Meja Kasir", "icon": "fa-solid fa-cash-register", "href": "/admin/denah/meja_kasir", "width": 220, "height": 180, "left": 520, "top": 140, "image": "images/meja_kasir/gambar1.jpg"},
-    {"id": 5, "text": "Rak Alat Tulis", "icon": "fa-solid fa-book-open", "href": "/admin/denah/alat_tulis", "width": 180, "height": 230, "left": 870, "top": 130, "image": "images/alat_tulis/gambar1.jpg"},
-    {"id": 6, "text": "Rak Makanan", "icon": "fa-solid fa-burger", "href": "/admin/denah/makanan", "width": 180, "height": 230, "left": 870, "top": 430, "image": "images/makanan/gambar1.jpg"},
-    {"id": 7, "text": "Rak Minuman", "icon": "fa-solid fa-bottle-water", "href": "/admin/denah/minuman", "width": 180, "height": 750, "left": 1160, "top": 50, "image": "images/minuman/gambar1.jpg"},
-    {"id": 8, "text": "Pintu Masuk/Keluar", "icon": "fa-solid fa-door-open", "href": "/admin/denah/pintu", "width": 420, "height": 120, "left": 430, "top": 640, "image": "images/pintu/gambar1.jpg"},
+    {"id": 1, "text": "Rak Makanan Ringan", "icon": "fa-solid fa-cookie", "href": "/admin/denah/makanan_ringan", "width": 300, "height": 160, "left": 100, "top": 80, "image": "images/makanan_ringan/gambar1.jpg"},
+    {"id": 2, "text": "Rak Snack", "icon": "fa-solid fa-candy-cane", "href": "/admin/denah/snack", "width": 300, "height": 160, "left": 100, "top": 300, "image": "images/makanan_ringan/gambar1.jpg"},
+    {"id": 3, "text": "Rak Cemilan", "icon": "fa-solid fa-cookie-bite", "href": "/admin/denah/cemilan", "width": 300, "height": 160, "left": 100, "top": 520, "image": "images/makanan_ringan/gambar1.jpg"},
+    {"id": 4, "text": "Meja Kasir", "icon": "fa-solid fa-cash-register", "href": "/admin/denah/meja_kasir", "width": 250, "height": 220, "left": 550, "top": 80, "image": "images/meja_kasir/gambar1.jpg"},
+    {"id": 5, "text": "Rak Alat Tulis", "icon": "fa-solid fa-book", "href": "/admin/denah/alat_tulis", "width": 200, "height": 300, "left": 950, "top": 80, "image": "images/alat_tulis/gambar1.jpg"},
+    {"id": 6, "text": "Rak Makanan", "icon": "fa-solid fa-bowl-food", "href": "/admin/denah/makanan", "width": 200, "height": 300, "left": 950, "top": 420, "image": "images/makanan/gambar1.jpg"},
+    {"id": 7, "text": "Rak Minuman", "icon": "fa-solid fa-faucet-drip", "href": "/admin/denah/minuman", "width": 180, "height": 650, "left": 1250, "top": 80, "image": "images/minuman/gambar1.jpg"},
 ]
 
 def load_cards():
