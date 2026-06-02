@@ -46,27 +46,41 @@
 
             <h1 class="judul-pesanan">Pesanan Saya</h1>
 
-            {% if items %}
-            <div class="pesanan-header" onclick="toggleDetail()" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:#f0f7ff; border-radius:10px; margin-bottom:10px;">
-                <span style="font-weight:600;">Lihat Detail Pesanan</span>
-                <span id="toggle-icon" style="font-size:18px; transition:transform 0.3s;">&#9660;</span>
-            </div>
+            {% if pesanan_list %}
+                {% for p in pesanan_list %}
+                <div class="order-group" style="border: 1px solid #e0e0e0; border-radius: 12px; padding: 12px; margin-bottom: 20px; background: #fff;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom: 10px;">
+                        <span style="font-weight:bold; color:#555;">ID: {{ p.id }}</span>
+                        <span style="font-size:12px; color:#888;">{{ p.tanggal }}</span>
+                    </div>
 
-            <div id="detail-pesanan" style="display:none;">
-                {% for item in items %}
-                <div class="pesanan-item">
-                    <span>{{ item.nama }} ({{ item.jumlah }}x)</span>
-                    <span class="harga-item">{{ formatRp(item.jumlah * item.harga) }}</span>
+                    <div class="pesanan-header" onclick="toggleDetail('detail-{{ p.id }}', 'icon-{{ p.id }}')" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:#f0f7ff; border-radius:10px; margin-bottom:10px;">
+                        <span style="font-weight:600;">Lihat Detail Pesanan</span>
+                        <span id="icon-{{ p.id }}" style="font-size:18px; transition:transform 0.3s;">&#9660;</span>
+                    </div>
+
+                    <div id="detail-{{ p.id }}" style="display:none;">
+                        {% for item in p.barang %}
+                        <div class="pesanan-item">
+                            <span>{{ item.nama }} ({{ item.jumlah }}x)</span>
+                            <span class="harga-item">{{ formatRp(item.jumlah * item.harga) }}</span>
+                        </div>
+                        {% endfor %}
+
+                        <div style="margin-top:10px; padding-top:10px; border-top:1px dashed #ccc; display:flex; justify-content:space-between; font-weight:bold;">
+                            <span>Total</span>
+                            <span>{{ formatRp(p.total) }}</span>
+                        </div>
+
+                        {% if p.status == 'Selesai' or p.status == 'Sudah diambil' %}
+                        <div class="aksi-pesanan" style="display:flex; gap:12px; margin-top:16px; justify-content:center;">
+                            <a href="{{ url_for('pembeli_struk') }}?trx_id={{ p.id }}" style="display:inline-block; padding:10px 24px; background:#2196F3; color:#fff; text-decoration:none; border-radius:8px; font-weight:600;">Lihat Struk</a>
+                            <a href="{{ url_for('pembeli_penilaian') }}" style="display:inline-block; padding:10px 24px; background:#4CAF50; color:#fff; text-decoration:none; border-radius:8px; font-weight:600;">Beri Penilaian</a>
+                        </div>
+                        {% endif %}
+                    </div>
                 </div>
                 {% endfor %}
-
-                {% if status == 'Selesai' or status == 'Sudah diambil' %}
-                <div class="aksi-pesanan" style="display:flex; gap:12px; margin-top:16px; justify-content:center;">
-                    <a href="{{ url_for('pembeli_struk') }}" style="display:inline-block; padding:10px 24px; background:#2196F3; color:#fff; text-decoration:none; border-radius:8px; font-weight:600;">Lihat Struk</a>
-                    <a href="{{ url_for('pembeli_penilaian') }}" style="display:inline-block; padding:10px 24px; background:#4CAF50; color:#fff; text-decoration:none; border-radius:8px; font-weight:600;">Beri Penilaian</a>
-                </div>
-                {% endif %}
-            </div>
             {% else %}
             <div class="pesanan-item">
                 <span>Belum ada pesanan</span>
@@ -80,9 +94,9 @@
 </div>
 
 <script>
-function toggleDetail() {
-    var detail = document.getElementById('detail-pesanan');
-    var icon = document.getElementById('toggle-icon');
+function toggleDetail(detailId, iconId) {
+    var detail = document.getElementById(detailId);
+    var icon = document.getElementById(iconId);
     if (detail.style.display === 'none') {
         detail.style.display = 'block';
         icon.style.transform = 'rotate(180deg)';

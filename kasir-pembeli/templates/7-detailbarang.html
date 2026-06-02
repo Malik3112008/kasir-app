@@ -49,7 +49,7 @@
         </ul>
     </div>
 
-    <div class="kuantitas">
+    <div class="kuantitas" data-stok="{{ barang.stok }}">
         Kuantitas
         <button type="button" onclick="kurangAngka(this)">-</button>
         <span class="angka">0</span>
@@ -59,7 +59,7 @@
     <div class="tombol">
         <form action="{{ url_for('pembeli_keranjang') }}" method="GET" style="display:inline;">
             <input type="hidden" name="tambah" value="{{ barang.id }}">
-            <input type="hidden" name="qty" value="1" class="qty-input">
+            <input type="hidden" name="qty" value="0" class="qty-input">
             <button type="submit" class="btn-keranjang">🛒 Masukkan Keranjang</button>
         </form>
     </div>
@@ -77,9 +77,15 @@
     function tambahAngka(button) {
         let span = button.parentElement.querySelector('.angka');
         let qtyInput = document.querySelector('.qty-input');
+        let stok = parseInt(button.parentElement.dataset.stok);
         let val = parseInt(span.innerText) + 1;
-        span.innerText = val;
-        if (qtyInput) qtyInput.value = val;
+        
+        if (val <= stok) {
+            span.innerText = val;
+            if (qtyInput) qtyInput.value = val;
+        } else {
+            alert('Stok tidak mencukupi!');
+        }
     }
 
     function kurangAngka(button) {
@@ -92,6 +98,15 @@
             if (qtyInput) qtyInput.value = val;
         }
     }
+
+    // Validate form submit
+    document.querySelector('form[action="{{ url_for("pembeli_keranjang") }}"]').addEventListener('submit', function(e) {
+        let qty = parseInt(this.querySelector('.qty-input').value);
+        if (qty <= 0) {
+            e.preventDefault();
+            alert('Pilih jumlah barang terlebih dahulu!');
+        }
+    });
 </script>
 
 </body>

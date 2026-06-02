@@ -1004,6 +1004,10 @@ for p in pesanan:
     p["refund"] = 0
 
 def formatRp(rupiah):
+    try:
+        rupiah = float(rupiah)
+    except (ValueError, TypeError):
+        return rupiah
     return "Rp {:,.0f}".format(rupiah).replace(",", ".") + ",00"
 
 app.jinja_env.globals.update(formatRp=formatRp)
@@ -1328,11 +1332,21 @@ def pembeli_tambah_keranjang():
     harga = int(request.form.get('harga', 0))
     jumlah = int(request.form.get('jumlah', 1))
     gambar = request.form.get('gambar', '')
+    
+    barang = next((b for b in data_barang if b['nama'] == nama), None)
+    stok_tersedia = barang['stok'] if barang else 0
+
     if nama and jumlah > 0:
-        if nama in cart:
-            cart[nama]['jumlah'] += jumlah
+        current_qty = cart.get(nama, {}).get('jumlah', 0)
+        if current_qty + jumlah <= stok_tersedia:
+            if nama in cart:
+                cart[nama]['jumlah'] += jumlah
+            else:
+                cart[nama] = {'harga': harga, 'jumlah': jumlah, 'gambar': gambar}
         else:
-            cart[nama] = {'harga': harga, 'jumlah': jumlah, 'gambar': gambar}
+            # Cap at available stock
+            if stok_tersedia > 0:
+                cart[nama] = {'harga': harga, 'jumlah': stok_tersedia, 'gambar': gambar}
     return redirect('/pembeli?added=1')
 
 @app.route('/pembeli/update-keranjang', methods=['POST'])
@@ -1341,7 +1355,10 @@ def pembeli_update_keranjang():
     aksi = request.form.get('aksi', '')
     if nama in cart:
         if aksi == 'tambah':
-            cart[nama]['jumlah'] += 1
+            barang = next((b for b in data_barang if b['nama'] == nama), None)
+            stok_tersedia = barang['stok'] if barang else 0
+            if cart[nama]['jumlah'] < stok_tersedia:
+                cart[nama]['jumlah'] += 1
         elif aksi == 'kurang':
             cart[nama]['jumlah'] -= 1
             if cart[nama]['jumlah'] <= 0:
@@ -1354,27 +1371,32 @@ def pembeli_update_keranjang():
 def pembeli_keranjang():
     # Handle ?tambah=ID from detail barang page
     tambah_id = request.args.get('tambah')
+    qty = int(request.args.get('qty', 1))
     if tambah_id:
         tambah_id = int(tambah_id)
         barang = None
-        for b in barang_pembeli:
-            if b['id'] == tambah_id:
-                barang = b
+        for b in data_barang:
+            if b['no'] == tambah_id:
+                barang = {'id': b['no'], 'nama': b['nama'], 'harga': b['harga'], 'stok': b['stok'],
+                          'gambar': b.get('gambar', ''), 'kategori': b['kategori']}
                 break
-        if not barang:
-            for b in data_barang:
-                if b['no'] == tambah_id:
-                    barang = {'id': b['no'], 'nama': b['nama'], 'harga': b['harga'], 'stok': b['stok'],
-                              'gambar': b.get('gambar', ''), 'kategori': b['kategori']}
-                    break
-        if barang and barang.get('stok', 0) > 0:
+        
+        if barang:
+            stok_tersedia = barang.get('stok', 0)
             nama = barang['nama']
             gambar = barang.get('gambar', '')
-            if nama in cart:
-                if cart[nama]['jumlah'] < barang['stok']:
-                    cart[nama]['jumlah'] += 1
-            else:
-                cart[nama] = {'harga': barang['harga'], 'jumlah': 1, 'gambar': gambar}
+            
+            if stok_tersedia > 0:
+                current_qty = cart.get(nama, {}).get('jumlah', 0)
+                if current_qty + qty <= stok_tersedia:
+                    if nama in cart:
+                        cart[nama]['jumlah'] += qty
+                    else:
+                        cart[nama] = {'harga': barang['harga'], 'jumlah': qty, 'gambar': gambar}
+                else:
+                    # Cap at available stock
+                    cart[nama] = {'harga': barang['harga'], 'jumlah': stok_tersedia, 'gambar': gambar}
+        
         return redirect('/pembeli/keranjang')
 
     total = 0
@@ -1395,7 +1417,7 @@ def pembeli_pilih_pembayaran():
         subtotal = item['harga'] * item['jumlah']
         total_int += subtotal
         items.append({'nama': nama, 'harga': item['harga'], 'qty': item['jumlah'], 'subtotal': subtotal, 'gambar': item.get('gambar', '')})
-    total = formatRp(total_int)
+    total = total_int
     return render_template('34-pilihpembayaran.html', items=items, total=total, formatRp=formatRp)
 
 # ============================================================
@@ -1486,22 +1508,31 @@ def pembeli_selesai():
 @app.route('/pembeli/pesanan')
 def pembeli_pesanan():
     pelanggan = session.get('nama', '')
+    status_filter = request.args.get('status')
+    
     pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan]
-    if pesanan_user:
-        last_order = pesanan_user[-1]
-        status = last_order["status"]
-        total_barang = sum(b["jumlah"] for b in last_order["barang"])
+    
+    # Filter based on status
+    if status_filter == 'siap':
+        pesanan_to_show = [p for p in pesanan_user if p["status"] == "Siap diambil"]
+        current_status = "Siap diambil"
+    elif status_filter == 'selesai':
+        pesanan_to_show = [p for p in pesanan_user if p["status"] in ("Selesai", "Sudah diambil")]
+        current_status = "Selesai"
     else:
-        status = None
-        total_barang = 0
+        pesanan_to_show = [p for p in pesanan_user if p["status"] == "Disiapkan"]
+        current_status = "Disiapkan"
+
     count_dikemas = len([p for p in pesanan_user if p["status"] == "Disiapkan"])
     count_siap = len([p for p in pesanan_user if p["status"] == "Siap diambil"])
     count_selesai = len([p for p in pesanan_user if p["status"] in ("Selesai", "Sudah diambil")])
-    if pesanan_user:
-        items = pesanan_user[-1]["barang"]
-    else:
-        items = get_items_bayar()
-    return render_template('8-lihatpesanan.html', items=items, status=status, count_dikemas=count_dikemas, count_siap=count_siap, count_selesai=count_selesai)
+    
+    return render_template('8-lihatpesanan.html', 
+                           pesanan_list=pesanan_to_show, 
+                           status=current_status, 
+                           count_dikemas=count_dikemas, 
+                           count_siap=count_siap, 
+                           count_selesai=count_selesai)
 
 @app.route('/pembeli/status')
 def pembeli_status():
@@ -1627,13 +1658,32 @@ def pembeli_like():
 
 @app.route('/pembeli/struk')
 def pembeli_struk():
-    metode = session.get('metode', 'Tunai')
+    trx_id = request.args.get('trx_id')
     pelanggan = session.get('nama', '')
-    pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan]
-    if pesanan_user:
-        sumber = pesanan_user[-1]["barang"]
+    
+    if trx_id:
+        order = next((p for p in pesanan if p["id"] == trx_id and p["pelanggan"] == pelanggan), None)
+    else:
+        pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan]
+        order = pesanan_user[-1] if pesanan_user else None
+        
+    if order:
+        sumber = order["barang"]
+        metode = order["metode"]
+        total_final = order["total"]
+        # Use order's date if available
+        try:
+            sekarang = datetime.strptime(order["tanggal"], "%Y-%m-%d")
+        except:
+            sekarang = datetime.now()
+        trx_id = order["id"]
     else:
         sumber = get_items_bayar()
+        metode = session.get('metode', 'Tunai')
+        total_final = None # Will calculate
+        sekarang = datetime.now()
+        trx_id = "TRX-TEMP"
+
     daftar_produk = []
     for item in sumber:
         daftar_produk.append({
@@ -1650,7 +1700,8 @@ def pembeli_struk():
         subtotal += item["qty"] * item["harga"]
         total_diskon += item["diskon"]
         total_produk += item["qty"]
-    total = subtotal - total_diskon
+    
+    total = total_final if total_final is not None else (subtotal - total_diskon)
 
     if metode == "Tunai":
         tunai = 50000
@@ -1659,12 +1710,11 @@ def pembeli_struk():
         tunai = total
         kembali = 0
 
-    sekarang = datetime.now()
     tanggal = sekarang.strftime("%d-%m-%Y")
     jam = sekarang.strftime("%H:%M:%S")
     kode = session.get('tunai_kode', random.randint(1000, 9999))
 
-    return render_template('5-strukpembayaran.html', produk=daftar_produk, subtotal=subtotal, total_diskon=total_diskon, total=total, tunai=tunai, kembali=kembali, tanggal=tanggal, jam=jam, kode=kode, total_produk=total_produk, metode=metode, nama=pelanggan)
+    return render_template('5-strukpembayaran.html', produk=daftar_produk, subtotal=subtotal, total_diskon=total_diskon, total=total, tunai=tunai, kembali=kembali, tanggal=tanggal, jam=jam, kode=kode, total_produk=total_produk, metode=metode, nama=pelanggan, trx_id=trx_id)
 
 
 @app.route('/admin/cetak_pdf')

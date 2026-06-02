@@ -40,7 +40,7 @@
 
     <div class="container">
         {% for item in barang %}
-        <div class="card" data-nama="{{ item.nama }}" data-kategori="{{ item.kategori }}">
+        <div class="card" data-nama="{{ item.nama }}" data-kategori="{{ item.kategori }}" data-stok="{{ item.stok }}">
             {% if item.gambar and item.gambar != '' %}
             <img src="{{ url_for('static', filename=item.gambar) }}" alt="{{ item.nama }}" {% if item.stok == 0 %}class="stok-habis"{% endif %}>
             {% else %}
@@ -81,12 +81,19 @@
 
     <script>
         function tambah(button) {
+            let card = button.closest('.card');
+            let stok = parseInt(card.dataset.stok);
             let form = button.closest('form');
             let num = form.querySelector('.qty-number');
             let input = form.querySelector('.qty-input');
             let val = parseInt(num.innerText) + 1;
-            num.innerText = val;
-            input.value = val;
+            
+            if (val <= stok) {
+                num.innerText = val;
+                input.value = val;
+            } else {
+                alert('Stok tidak mencukupi!');
+            }
         }
 
         function kurang(button) {
