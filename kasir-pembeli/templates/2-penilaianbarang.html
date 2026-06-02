@@ -36,8 +36,9 @@
         </div>
 
         <div class="content">
-            <div class="left" style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center;">
+            <div class="left">
                 <h2>Belum Dinilai</h2>
+                <div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center;">
                 {% for item in produk %}
                 <div class="card">
                     <img src="{{ url_for('static', filename='' + item.gambar) }}" alt="{{ item.nama }}">
@@ -55,6 +56,7 @@
                     </div>
                 </div>
                 {% endfor %}
+                </div>
             </div>
 
             <div class="right">

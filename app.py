@@ -29,9 +29,8 @@ app.jinja_loader = ChoiceLoader([
 def tgl_indo_filter(tanggal_str):
     try:
         from datetime import datetime
-        bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember']
         tgl = datetime.strptime(tanggal_str, '%Y-%m-%d')
-        return f"{tgl.day} {bulan[tgl.month-1]} {tgl.year}"
+        return f"{tgl.day:02d}/{tgl.month:02d}/{tgl.year}"
     except:
         return tanggal_str
 
@@ -99,7 +98,7 @@ CARDS_DATA = [
     {"id": 4, "text": "Meja Kasir", "icon": "fa-solid fa-cash-register", "href": "/admin/denah/meja_kasir", "width": 220, "height": 180, "left": 520, "top": 140, "image": "images/meja_kasir/gambar1.jpg"},
     {"id": 5, "text": "Rak Alat Tulis", "icon": "fa-solid fa-book-open", "href": "/admin/denah/alat_tulis", "width": 180, "height": 230, "left": 870, "top": 130, "image": "images/alat_tulis/gambar1.jpg"},
     {"id": 6, "text": "Rak Makanan", "icon": "fa-solid fa-burger", "href": "/admin/denah/makanan", "width": 180, "height": 230, "left": 870, "top": 430, "image": "images/makanan/gambar1.jpg"},
-    {"id": 7, "text": "Rak Minuman", "icon": "fa-solid fa-bottle-water", "href": "/admin/denah/minuman", "width": 180, "height": 430, "left": 1160, "top": 120, "image": "images/minuman/gambar1.jpg"},
+    {"id": 7, "text": "Rak Minuman", "icon": "fa-solid fa-bottle-water", "href": "/admin/denah/minuman", "width": 180, "height": 750, "left": 1160, "top": 50, "image": "images/minuman/gambar1.jpg"},
     {"id": 8, "text": "Pintu Masuk/Keluar", "icon": "fa-solid fa-door-open", "href": "/admin/denah/pintu", "width": 420, "height": 120, "left": 430, "top": 640, "image": "images/pintu/gambar1.jpg"},
 ]
 
@@ -319,7 +318,7 @@ def admin_detail_transaksi(trx_id):
     try:
         tgl_obj = datetime.strptime(trx['tanggal'], '%Y-%m-%d')
         bulan_id = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember']
-        tanggal_fmt = f"{tgl_obj.day} {bulan_id[tgl_obj.month-1]} {tgl_obj.year}"
+        tanggal_fmt = f"{tgl_obj.day:02d}/{tgl_obj.month:02d}/{tgl_obj.year}"
     except:
         tanggal_fmt = trx['tanggal']
     return render_template("detail_transaksi.html", items=items, total=total, tanggal=tanggal_fmt)
@@ -1013,7 +1012,7 @@ def admin_siapkan_pesanan():
         try:
             from datetime import datetime
             tgl = datetime.strptime(p['tanggal'], '%Y-%m-%d')
-            p['tanggal_fmt'] = f"{tgl.day} {bulan_id[tgl.month-1]} {tgl.year}"
+            p['tanggal_fmt'] = f"{tgl.day:02d}/{tgl.month:02d}/{tgl.year}"
         except:
             p['tanggal_fmt'] = p['tanggal']
     return render_template('19.SiapkanPesanan.html', pesanan=pesanan_page, formatRp=formatRp,

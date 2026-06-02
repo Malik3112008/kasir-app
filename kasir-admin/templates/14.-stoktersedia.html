@@ -70,7 +70,7 @@
                             <span class="stok-badge stok-tersedia">{{ "{:,.0f}".format(item.stok).replace(",", ".") }}</span>
                         {% endif %}
                     </td>
-                    <td class="harga">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
+                    <td class="harga">{{ "{:,.2f}".format(item.harga).replace(",", "X").replace(".", ",").replace("X", ".") }}</td>
                     <td class="tanggal-cell" data-tanggal="{{ item.tanggal }}">{{ item.tanggal }}</td>
                     <td>
                         <div class="aksi">

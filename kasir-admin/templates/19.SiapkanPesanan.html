@@ -64,10 +64,6 @@
                         <td>
                             {% if p.status != 'Sudah diambil' %}
                             <div class="aksi">
-                                <button class="buka-btn" onclick="bukaModal('{{ p.id }}')">
-                                    <img src="{{ url_for('static', filename='rincian-svgrepo-com.svg') }}" alt="Rincian" width="20px"
-                                        height="20px" />
-                                </button>
                                 <form method="POST" action="{{ url_for('admin_siapkan_pesanan') }}" style="display:flex;align-items:center;gap:6px;">
                                     <input type="hidden" name="trx_id" value="{{ p.id }}">
                                     <i class="fa-solid fa-circle-exclamation info-aksi-icon" title="Detail pesanan" onclick="bukaModal('{{ p.id }}')"></i>
