@@ -36,70 +36,96 @@
         </div>
 
         <div class="content">
-            <div class="left">
-                <h2>Belum Dinilai</h2>
-                <div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center;">
-                {% for item in produk %}
-                <div class="card">
-                    <img src="{{ url_for('static', filename='' + item.gambar) }}" alt="{{ item.nama }}">
-                    <div class="produk">
-                        <div>
-                            <h3>{{ item.nama }}</h3>
-                            <div class="rating-box">
-                                <p>Nilai produk ini</p>
-                                <div class="stars">★★★★★</div>
-                            </div>
-                        </div>
-                        <button class="nilai-btn" type="button" onclick="window.location.href='/pembeli/rating'">
-                            Nilai
-                        </button>
-                    </div>
-                </div>
-                {% endfor %}
-                </div>
-            </div>
 
-            <div class="right">
-                <h2>Penilaian Saya</h2>
-                <p class="selengkapnya-btn" onclick="toggleReview()">Selengkapnya</p>
-                <div id="review-container" hidden>
-                    {% for item in penilaian %}
-                    <div class="review-card">
-                        <img src="{{ url_for('static', filename='gambar-dan-icon/profil.jpg') }}" alt="profil" class="profil-kecil">
-                        <div class="info-user">
-                            <span class="username">{{ session.get('nama', 'Guest') }}</span>
-                            <div class="bintang">
-                                {% for i in range(item.rating) %}
-                                <span class="star active">★</span>
-                                {% endfor %}
-                                {% for i in range(5 - item.rating) %}
-                                <span class="star inactive">★</span>
-                                {% endfor %}
+            <div class="left">
+
+                <h2>Belum Dinilai</h2>
+
+                <div class="produk-list">
+
+                    {% for item in produk %}
+                    <div class="card">
+                        <img src="{{ url_for('static', filename='' + item.gambar) }}" alt="{{ item.nama }}">
+
+                        <div class="produk">
+                            <div>
+                                <h3>{{ item.nama }}</h3>
+
+                                <div class="rating-box">
+                                    <p>Nilai produk ini</p>
+                                    <div class="stars">★★★★★</div>
+                                </div>
                             </div>
-                            <p class="tanggal">{{ item.tanggal }}</p>
-                            <div class="review-produk">
-                                <img src="{{ url_for('static', filename='' + item.gambar) }}" alt="{{ item.nama }}">
-                                <span>{{ item.nama }}</span>
-                            </div>
-                            <span class="text-membantu">Membantu</span>
-                            <label class="jempol">
-                                <input type="checkbox" class="like-check">
-                                <img src="{{ url_for('static', filename='gambar-dan-icon/thumb-up-svgrepo-com-(2).svg') }}" class="icon-jempol">
-                            </label>
+
+                            <button class="nilai-btn" type="button" onclick="window.location.href='/pembeli/rating'">
+                                Nilai
+                            </button>
                         </div>
                     </div>
                     {% endfor %}
+
                 </div>
+
             </div>
+
+            <div class="right">
+
+                <h2>Penilaian Saya</h2>
+
+                <details>
+                    <summary class="selengkapnya-btn">Selengkapnya</summary>
+
+                    <div class="review-list">
+
+                        {% for item in penilaian %}
+                        <div class="review-card">
+
+                            <div class="user-review">
+                                <img src="{{ url_for('static', filename='gambar-dan-icon/profil.jpg') }}" alt="profil" class="profil-kecil">
+
+                                <div class="info-user">
+                                    <span class="username">{{ session.get('nama', 'Guest') }}</span>
+
+                                    <div class="bintang">
+                                        {% for i in range(item.rating) %}
+                                        <span class="star active">★</span>
+                                        {% endfor %}
+                                        {% for i in range(5 - item.rating) %}
+                                        <span class="star inactive">★</span>
+                                        {% endfor %}
+                                    </div>
+
+                                    <p class="review-text">{{ item.review if item.review else '' }}</p>
+
+                                    <small class="tanggal">{{ item.tanggal }}</small>
+
+                                    <div class="review-produk">
+                                        <img src="{{ url_for('static', filename='' + item.gambar) }}" alt="produk" class="gambar-produk">
+                                        <span>{{ item.nama }}</span>
+                                    </div>
+
+                                    <div class="help">
+                                        <span class="text-membantu">Membantu</span>
+                                        <label>
+                                            <input type="checkbox" class="like-check">
+                                            <img src="{{ url_for('static', filename='gambar-dan-icon/thumb-up-svgrepo-com-(2).svg') }}" class="icon-jempol">
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </details>
+
+            </div>
+
         </div>
 
     </div>
 
-    <script>
-    function toggleReview() {
-        const review = document.getElementById("review-container");
-        review.hidden = !review.hidden;
-    }
-    </script>
 </body>
 </html>
