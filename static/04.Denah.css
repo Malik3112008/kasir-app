@@ -75,12 +75,61 @@ body{
         linear-gradient(to right, #d0d0d0 1px, transparent 1px),
         linear-gradient(to bottom, #d0d0d0 1px, transparent 1px);
     background-size: 100px 100px;
-    border-radius:35px;
+    border-radius:16px;
     margin:auto;
     position:relative;
-    padding:30px;
-    border:6px solid #555;
-    box-shadow:inset 0 0 0 2px #888, 0 10px 25px rgba(0,0,0,0.08);
+    padding:40px;
+    border-top:18px solid #8B6914;
+    border-bottom:18px solid #8B6914;
+    border-left:18px solid #8B6914;
+    border-right:18px solid #8B6914;
+    box-shadow:inset 0 0 0 3px #A0781E, 0 10px 25px rgba(0,0,0,0.12);
+}
+
+/* Wall labels */
+.board::before,
+.board::after {
+    position:absolute;
+    font-size:11px;
+    font-weight:700;
+    color:rgba(255,255,255,0.7);
+    letter-spacing:2px;
+    text-transform:uppercase;
+    pointer-events:none;
+}
+.board::before {
+    content:"TEMBOK UTARA";
+    top:3px;
+    left:50%;
+    transform:translateX(-50%);
+}
+.board::after {
+    content:"TEMBOK SELATAN";
+    bottom:3px;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+/* Side wall labels */
+.wall-label-left,
+.wall-label-right {
+    position:absolute;
+    font-size:11px;
+    font-weight:700;
+    color:rgba(255,255,255,0.7);
+    letter-spacing:2px;
+    text-transform:uppercase;
+    writing-mode:vertical-rl;
+    pointer-events:none;
+    top:50%;
+    transform:translateY(-50%);
+}
+.wall-label-left {
+    left:3px;
+    transform:translateY(-50%) rotate(180deg);
+}
+.wall-label-right {
+    right:3px;
 }
 
 .title-row{
