@@ -323,6 +323,7 @@ h1{
     cursor: pointer;
     transition: 0.2s;
     margin-left: auto;
+    flex-shrink: 0;
 }
 
 .hapus-satuan img{
@@ -334,6 +335,12 @@ h1{
 .hapus-satuan:hover{
     background-color: #ffd6d6;
     transform: scale(1.05);
+}
+
+.notif{
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
 }
 
 .notif{

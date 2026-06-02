@@ -280,11 +280,7 @@ notifikasi = [
     {"judul": "Pembayaran Dikonfirmasi", "isi": "Pembayaran QRIS oleh Putri Amel senilai 10.000 telah divalidasi", "waktu": "20 menit lalu", "warna": "hijau"},
 ]
 
-riwayat = [
-    {"warna": "biru", "judul": "Pesanan Baru", "isi": "Pesanan TRX001 dari Ahmad Rizki masuk", "waktu": "29 Mei 2026, 08:00"},
-    {"warna": "hijau", "judul": "Pembayaran Berhasil", "isi": "Pembayaran QRIS untuk TRX002 berhasil", "waktu": "29 Mei 2026, 09:15"},
-    {"warna": "orange", "judul": "Stok Menipis", "isi": "Stok Roti Tawar tersisa 3 unit", "waktu": "29 Mei 2026, 10:30"},
-]
+riwayat = []
 
 @app.route("/admin/notifikasi")
 def admin_notifikasi():
