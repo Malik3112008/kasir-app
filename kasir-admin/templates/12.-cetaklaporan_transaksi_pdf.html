@@ -33,7 +33,7 @@
                         {{ b.nama }}{% if not loop.last %}, {% endif %}
                     {% endfor %}
                 </td>
-                <td>Rp {{ "{:,.0f}".format(t.total).replace(",", ".") }}</td>
+                <td>{{ formatRp(t.total) }}</td>
                 <td>{{ t.metode }}</td>
                 <td>{{ t.status }}</td>
             </tr>

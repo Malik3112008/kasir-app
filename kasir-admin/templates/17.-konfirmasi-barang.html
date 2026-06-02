@@ -29,8 +29,8 @@
                 <p>Rasa : {{ rasa }}</p>
                 <p>Expired : {{ expired }}</p>
                 <p>Deskripsi : {{ deskripsi }}</p>
-                <p>Harga Beli : {{ harga_beli }}</p>
-                <p>Harga Jual : {{ harga_jual }}</p>
+                <p>Harga Beli : {{ formatRp(harga_beli|int) if harga_beli else '-' }}</p>
+                <p>Harga Jual : {{ formatRp(harga_jual|int) if harga_jual else '-' }}</p>
                 <p>Jumlah : {{ jumlah }}</p>
                 <p>Tanggal : {{ tanggal }}</p>
             </div>

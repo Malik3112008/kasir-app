@@ -255,15 +255,15 @@
                             <td>{{ loop.index }}</td>
                             <td>{{ item.nama }}</td>
                             <td><span class="stok-badge">{{ item.stok }}</span></td>
-                            <td class="harga-cell">{{ "{:,.2f}".format(item.harga).replace(",", "X").replace(".", ",").replace("X", ".") }}</td>
+                            <td class="harga-cell">{{ formatRp(item.harga) }}</td>
                             <td>{{ item.kategori }}</td>
                             <td>{{ item.tanggal | tgl_indo }}</td>
-                            <td class="harga-cell">{{ "{:,.2f}".format(item.harga * item.stok).replace(",", "X").replace(".", ",").replace("X", ".") }}</td>
+                            <td class="harga-cell">{{ formatRp(item.harga * item.stok) }}</td>
                         </tr>
                         {% endfor %}
                         <tr class="total-row">
                             <td colspan="6" style="text-align:right;">TOTAL</td>
-                            <td class="harga-cell">{{ "{:,.2f}".format(total_nilai).replace(",", "X").replace(".", ",").replace("X", ".") }}</td>
+                            <td class="harga-cell">{{ formatRp(total_nilai) }}</td>
                         </tr>
                     </tbody>
                 </table>

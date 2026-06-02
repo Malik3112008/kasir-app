@@ -1,3 +1,4 @@
+{% from 'macros.html' import admin_header %}
 <!DOCTYPE html>
 <html lang="id">
 
@@ -16,40 +17,7 @@
 
 <body>
 
-    <!-- NAVBAR (Inlined from navbar.html) -->
-    <div class="navbar">
-        <div class="nav-left">
-            {% if page == 'detail' %}
-            <a href="/admin/denah" class="back-btn">
-                <i class="fa-solid fa-arrow-left"></i>
-            </a>
-            <h2>{{ title }}</h2>
-            {% else %}
-            <a href="/admin/dashboard" class="back-btn">
-                <i class="fa-solid fa-arrow-left"></i>
-            </a>
-            <img src="{{ url_for('static', filename='image/logo_3.png') }}" alt="Logo" class="nav-logo">
-            <h2>Admin Koperasi</h2>
-            {% endif %}
-        </div>
-
-        {% if page != 'detail' %}
-        <div class="nav-right">
-            <a href="/admin/notifikasi" class="nav-icon" title="Notifikasi">
-                <img src="{{ url_for('static', filename='images/navbar/bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi">
-            </a>
-            <a href="/admin/pengaturan" class="nav-icon" title="Pengaturan">
-                <img src="{{ url_for('static', filename='images/navbar/setting-svgrepo.svg') }}" alt="Pengaturan">
-            </a>
-            <a href="/admin/kelola_akun_penjual" class="nav-icon" title="Profil">
-                <img src="{{ url_for('static', filename='images/navbar/profile-circle-svgrepo.svg') }}" alt="Profil">
-            </a>
-            <a href="/admin/logout" class="nav-icon" title="Logout">
-                <img src="{{ url_for('static', filename='images/navbar/logout-line-svgrepo.svg') }}" alt="Logout">
-            </a>
-        </div>
-        {% endif %}
-    </div>
+    {{ admin_header(title=(title if page == 'detail' else 'Denah Tata Letak'), back_url=('/admin/denah' if page == 'detail' else None)) }}
 
     <div class="container">
         {% if page == 'detail' %}

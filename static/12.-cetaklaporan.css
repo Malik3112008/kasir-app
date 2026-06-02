@@ -78,30 +78,55 @@ h1 {
     width: 100%;
     margin: 0 auto;
     padding: 15px 30px;
-    border-radius: 30px;
+    border-radius: 50px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    gap: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .laporan-box label {
     color: white;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: bold;
+    margin-right: -10px; /* Bring label closer to select */
+}
+
+#selectLaporan {
+    padding: 8px 20px;
+    border-radius: 50px;
+    border: 1px solid #fff;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+    min-width: 200px;
 }
 
 .tanggal {
     display: flex;
-    gap: 50px;
+    gap: 15px;
+    align-items: center;
+    margin-left: 10px;
 }
 
 .tanggal input {
-    width: 220px;
-    height: 35px;
+    width: 160px;
+    height: 40px;
     border-radius: 50px;
-    border: 2px solid #ddd;
-    padding-left: 20px;
-    font-size: 16px;
+    border: 1px solid #fff;
+    padding: 0 15px;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.sd {
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    padding: 0 5px;
 }
 
 /* ===== CETAK BOX ===== */
@@ -232,7 +257,7 @@ tbody tr {
 }
 
 .pdf, .excel {
-    background: red;
+    background: #EB6969;
     color: white;
     border: none;
     padding: 8px 14px;
@@ -243,20 +268,10 @@ tbody tr {
     transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.pdf:hover {
-    background: #c41010;
+.pdf:hover, .excel:hover {
+    background: #d45a5a;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(231,24,24,0.3);
-}
-
-.excel {
-    background: rgb(3, 246, 60);
-}
-
-.excel:hover {
-    background: rgb(2, 200, 48);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(3,246,60,0.3);
+    box-shadow: 0 4px 12px rgba(235, 105, 105, 0.3);
 }
 
 /* ===== STOK BADGE ===== */

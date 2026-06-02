@@ -44,8 +44,8 @@
         <tr>
             <td>{{ item.nama }}</td>
             <td>{{ item.jumlah }}</td>
-            <td>Rp {{ "{:,}".format(item.harga).replace(",", ".") }}</td>
-            <td>Rp {{ "{:,}".format(item.jumlah * item.harga).replace(",", ".") }}</td>
+            <td>{{ formatRp(item.harga) }}</td>
+            <td>{{ formatRp(item.jumlah * item.harga) }}</td>
         </tr>
         {% endfor %}
     </table>
@@ -53,7 +53,7 @@
     <div class="box-total">
         <div class="total-baris">
             <span>Total Pembayaran</span>
-            <span class="harga-bayar">Rp {{ "{:,}".format(total).replace(",", ".") }}</span>
+            <span class="harga-bayar">{{ formatRp(total) }}</span>
         </div>
     </div>
 

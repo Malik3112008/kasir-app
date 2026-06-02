@@ -38,15 +38,15 @@
                 <td>{{ loop.index }}</td>
                 <td>{{ item.nama }}</td>
                 <td>{{ item.stok }}</td>
-                <td>Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
+                <td>{{ formatRp(item.harga) }}</td>
                 <td>{{ item.kategori }}</td>
                 <td>{{ item.tanggal }}</td>
-                <td>Rp {{ "{:,.0f}".format(item.harga * item.stok).replace(",", ".") }}</td>
+                <td>{{ formatRp(item.harga * item.stok) }}</td>
             </tr>
             {% endfor %}
             <tr class="total-row">
                 <td colspan="6" style="text-align:right;">TOTAL</td>
-                <td>Rp {{ "{:,.0f}".format(total_nilai).replace(",", ".") }}</td>
+                <td>{{ formatRp(total_nilai) }}</td>
             </tr>
         </tbody>
     </table>

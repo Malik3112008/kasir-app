@@ -22,7 +22,7 @@
             {% endif %}
             <div>
                 <h3>{{ item.nama }}</h3>
-                <p>Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }} x {{ item.qty }}</p>
+                <p>{{ formatRp(item.harga) }} x {{ item.qty }}</p>
             </div>
         </div>
         {% endfor %}
@@ -45,7 +45,7 @@
             <input type="hidden" name="metode" id="metodeInput" value="">
 
             <div class="total">
-                Total : {{ total }}
+                Total : {{ formatRp(total) }}
             </div>
 
             <button type="submit" class="btn-next">

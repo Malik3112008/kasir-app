@@ -31,7 +31,7 @@
                     {% if i < barang.rating %}⭐{% else %}☆{% endif %}
                 {% endfor %}
             </div>
-            <div class="harga">Rp {{ "{:,.0f}".format(barang.harga).replace(",", ".") }}</div>
+            <div class="harga">{{ formatRp(barang.harga) }}</div>
         </div>
     </div>
 

@@ -16,7 +16,7 @@
                 <text x="24" y="30" text-anchor="middle" font-size="22" font-weight="bold" fill="#27ae60">Rp</text>
             </svg>
             <h3>Total Pendapatan</h3>
-            <p>Rp {{ "{:,.0f}".format(total_pendapatan).replace(",", ".") }}</p>
+            <p>{{ formatRp(total_pendapatan) }}</p>
         </div>
         <div class="card">
             <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -26,7 +26,7 @@
                 <rect x="18" y="26" width="12" height="8" rx="2" fill="#3498db" opacity="0.4"/>
             </svg>
             <h3>Modal Barang</h3>
-            <p>Rp {{ "{:,.0f}".format(modal_barang).replace(",", ".") }}</p>
+            <p>{{ formatRp(modal_barang) }}</p>
         </div>
         <div class="card">
             <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,9 +38,9 @@
             <h3>Untung/Rugi Bersih</h3>
             <p>
                 {% if untung_rugi >= 0 %}
-                    +Rp {{ "{:,.0f}".format(untung_rugi).replace(",", ".") }}
+                    +{{ formatRp(untung_rugi) }}
                 {% else %}
-                    -Rp {{ "{:,.0f}".format(untung_rugi|abs).replace(",", ".") }}
+                    -{{ formatRp(untung_rugi|abs) }}
                 {% endif %}
             </p>
         </div>
@@ -62,12 +62,12 @@
                     <td>{{ trx.tanggal }}</td>
                     <td>{{ trx.id }}</td>
                     <td>{{ trx.jumlah }}</td>
-                    <td>Rp {{ "{:,.0f}".format(trx.total).replace(",", ".") }}</td>
+                    <td>{{ formatRp(trx.total) }}</td>
                 </tr>
                 {% endfor %}
                 <tr>
                     <td colspan="3"><strong>Total</strong></td>
-                    <td><strong>Rp {{ "{:,.0f}".format(total_pendapatan).replace(",", ".") }}</strong></td>
+                    <td><strong>{{ formatRp(total_pendapatan) }}</strong></td>
                 </tr>
             </tbody>
         </table>

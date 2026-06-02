@@ -49,7 +49,7 @@
             <a href="{{ url_for('pembeli_detail_barang', id=item.no) }}" class="detail-link">
                 <h3>{{ item.nama }}</h3>
             </a>
-            <p class="harga">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</p>
+            <p class="harga">{{ formatRp(item.harga) }}</p>
             <p>Stok : {{ item.stok }}</p>
             <p class="rating">
                 {% for i in range(5) %}

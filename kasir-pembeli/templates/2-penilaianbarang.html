@@ -45,7 +45,11 @@
 
                     {% for item in produk %}
                     <div class="card">
-                        <img src="{{ url_for('static', filename='' + item.gambar) }}" alt="{{ item.nama }}">
+                        {% if item.gambar and item.gambar != '' %}
+                        <img src="{{ url_for('static', filename=item.gambar) }}" alt="{{ item.nama }}">
+                        {% else %}
+                        <div class="no-img" style="width:100%; height:180px; display:flex; align-items:center; justify-content:center; background:#f0f0f0; border-radius:15px; font-size:50px;">{{ item.emoji or '📦' }}</div>
+                        {% endif %}
 
                         <div class="produk">
                             <div>
@@ -75,46 +79,39 @@
                 <details>
                     <summary class="selengkapnya-btn">Selengkapnya</summary>
 
-                    <div class="review-list" id="review-container">
+                    <div class="produk-list" id="review-container">
 
                         {% for item in penilaian %}
-                        <div class="review-card">
+                        <div class="card">
+                            {% if item.gambar and item.gambar != '' %}
+                            <img src="{{ url_for('static', filename=item.gambar) }}" alt="{{ item.nama }}">
+                            {% else %}
+                            <div class="no-img" style="width:100%; height:180px; display:flex; align-items:center; justify-content:center; background:#f0f0f0; border-radius:15px; font-size:50px;">{{ item.emoji or '📦' }}</div>
+                            {% endif %}
 
-                            <div class="user-review">
-                                <img src="{{ url_for('static', filename='gambar-dan-icon/profil.jpg') }}" alt="profil" class="profil-kecil">
-
-                                <div class="info-user">
-                                    <span class="username">{{ session.get('nama', 'Guest') }}</span>
-
-                                    <div class="bintang">
-                                        {% for i in range(item.rating) %}
-                                        <span class="star active">★</span>
-                                        {% endfor %}
-                                        {% for i in range(5 - item.rating) %}
-                                        <span class="star inactive">★</span>
-                                        {% endfor %}
+                            <div class="produk">
+                                <div>
+                                    <h3>{{ item.nama }}</h3>
+                                    <div class="rating-box">
+                                        <p>Ulasan Anda</p>
+                                        <div class="stars" style="color: gold;">
+                                            {% for i in range(item.rating) %}★{% endfor %}{% for i in range(5 - item.rating) %}☆{% endfor %}
+                                        </div>
                                     </div>
+                                    <p class="review-text" style="font-size: 12px; height: 36px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-top: 5px;">
+                                        {{ item.review if item.review else 'Tidak ada ulasan' }}
+                                    </p>
+                                    <small class="tanggal" style="display: block; margin-top: 5px;">{{ item.tanggal }}</small>
+                                </div>
 
-                                    <p class="review-text">{{ item.review if item.review else '' }}</p>
-
-                                    <small class="tanggal">{{ item.tanggal }}</small>
-
-                                    <div class="review-produk">
-                                        <img src="{{ url_for('static', filename='' + item.gambar) }}" alt="produk" class="gambar-produk">
-                                        <span>{{ item.nama }}</span>
-                                    </div>
-
-                                    <div class="help">
-                                        <span class="text-membantu">Membantu</span>
-                                        <label>
-                                            <input type="checkbox" class="like-check">
-                                            <img src="{{ url_for('static', filename='gambar-dan-icon/thumb-up-svgrepo-com-(2).svg') }}" class="icon-jempol">
-                                        </label>
-                                    </div>
-
+                                <div class="help" style="width: 100%; justify-content: center; border-top: 1px solid #ddd; padding-top: 10px; margin-top: 10px;">
+                                    <span class="text-membantu">Terbantu?</span>
+                                    <label>
+                                        <input type="checkbox" class="like-check">
+                                        <img src="{{ url_for('static', filename='gambar-dan-icon/thumb-up-svgrepo-com-(2).svg') }}" class="icon-jempol">
+                                    </label>
                                 </div>
                             </div>
-
                         </div>
                         {% endfor %}
 

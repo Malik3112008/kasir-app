@@ -1,3 +1,4 @@
+{% from 'macros.html' import admin_header %}
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -9,21 +10,7 @@
 </head>
 <body>
 
-    <nav>
-        <div class="nav-bar">
-            <li>
-                <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
-            </li>
-            <img src="{{ url_for('static', filename='image/logo_3.png') }}" alt="Logo" width="70" height="70">
-            <span>Admin Koperasi</span>
-        </div>
-        <ul>
-            <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
-            <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
-            <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
-            <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
-        </ul>
-    </nav>
+    {{ admin_header('Admin Koperasi') }}
 
     <div class="container">
 
@@ -38,7 +25,7 @@
             </select>
             <div class="tanggal">
                 <input type="date" id="tanggal-awal" value="{{ tanggal_awal }}" onchange="filterData()">
-                <span class="sd">sd</span>
+                <span class="sd">sampai dengan</span>
                 <input type="date" id="tanggal-akhir" value="{{ tanggal_akhir }}" onchange="filterData()">
             </div>
         </div>
@@ -52,17 +39,17 @@
                 <div class="card">
                     <svg width="50" height="50" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#22c55e" opacity="0.2"/><text x="12" y="16" text-anchor="middle" fill="#22c55e" font-size="12" font-weight="bold">Rp</text></svg>
                     <h3>Total Pendapatan</h3>
-                    <p>{{ "{:,.2f}".format(total_pendapatan).replace(",", "X").replace(".", ",").replace("X", ".") }}</p>
+                    <p>{{ formatRp(total_pendapatan) }}</p>
                 </div>
                 <div class="card">
                     <svg width="50" height="50" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" fill="#3b82f6" opacity="0.2"/><rect x="7" y="7" width="10" height="10" rx="1" fill="#3b82f6" opacity="0.4"/></svg>
                     <h3>Modal Barang</h3>
-                    <p>{{ "{:,.2f}".format(modal_barang).replace(",", "X").replace(".", ",").replace("X", ".") }}</p>
+                    <p>{{ formatRp(modal_barang) }}</p>
                 </div>
                 <div class="card">
                     <svg width="50" height="50" viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="20" height="12" rx="2" fill="#f97316" opacity="0.2"/><path d="M6 12h12M12 6v12" stroke="#f97316" stroke-width="2"/></svg>
                     <h3>Untung/Rugi Bersih</h3>
-                    <p>{% if untung_rugi >= 0 %}+{% endif %}{{ "{:,.2f}".format(untung_rugi|abs).replace(",", "X").replace(".", ",").replace("X", ".") }}</p>
+                    <p>{% if untung_rugi >= 0 %}+{% endif %}{{ formatRp(untung_rugi|abs) }}</p>
                 </div>
             </div>
 
@@ -82,12 +69,12 @@
                             <td>{{ t.tanggal | tgl_indo }}</td>
                             <td>{{ t.id }}</td>
                             <td>{{ t.jumlah_item }}</td>
-                            <td>{{ "{:,.2f}".format(t.total).replace(",", "X").replace(".", ",").replace("X", ".") }}</td>
+                            <td>{{ formatRp(t.total) }}</td>
                         </tr>
                         {% endfor %}
                         <tr>
                             <td colspan="3"><strong>Total</strong></td>
-                            <td><strong>{{ "{:,.2f}".format(total_pendapatan).replace(",", "X").replace(".", ",").replace("X", ".") }}</strong></td>
+                            <td><strong>{{ formatRp(total_pendapatan) }}</strong></td>
                         </tr>
                     </tbody>
                 </table>
@@ -115,10 +102,10 @@
                             <td>{{ loop.index }}</td>
                             <td>{{ item.nama }}</td>
                             <td><span class="stok-badge">{{ item.stok }}</span></td>
-                            <td>{{ "{:,.2f}".format(item.harga).replace(",", "X").replace(".", ",").replace("X", ".") }}</td>
+                            <td>{{ formatRp(item.harga) }}</td>
                             <td>{{ item.kategori }}</td>
                             <td>{{ item.tanggal | tgl_indo }}</td>
-                            <td>{{ "{:,.2f}".format(item.harga * item.stok).replace(",", "X").replace(".", ",").replace("X", ".") }}</td>
+                            <td>{{ formatRp(item.harga * item.stok) }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -146,7 +133,7 @@
                             <td>{{ loop.index }}</td>
                             <td>{{ t.tanggal | tgl_indo }}</td>
                             <td>{{ t.id }}</td>
-                            <td>{{ "{:,.2f}".format(t.total).replace(",", "X").replace(".", ",").replace("X", ".") }}</td>
+                            <td>{{ formatRp(t.total) }}</td>
                             <td><span class="badge {{ 'tunai' if t.metode == 'Tunai' else 'qris' }}">{{ t.metode }}</span></td>
                             <td>
                                 {% if t.status == 'Selesai' or t.status == 'Sudah diambil' %}

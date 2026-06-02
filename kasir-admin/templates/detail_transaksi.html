@@ -322,7 +322,7 @@
                                     {% endif %}
                                     <div class="product-info">
                                         <div class="product-name">{{ item.nama }}</div>
-                                        <div class="product-sub">RP.{{ "{:,.0f}".format(item.harga).replace(",", ".") }} X {{ item.jumlah }}</div>
+                                        <div class="product-sub">{{ formatRp(item.harga) }} X {{ item.jumlah }}</div>
                                     </div>
                                 </div>
                             </td>

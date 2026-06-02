@@ -323,3 +323,32 @@ body{
     max-width: 800px;
     border-radius: 20px;
 }
+
+/* Specific Card Styling */
+.card-id-1{ background:#ffffff; border-color:#89B5EF; }
+.card-id-1 .icon{ color:#89B5EF; }
+.card-id-1 .card-text{ color:#89B5EF; }
+
+.card-id-2{ background:#ffffff; border-color:#4AC3FF; }
+.card-id-2 .icon{ color:#4AC3FF; }
+.card-id-2 .card-text{ color:#4AC3FF; }
+
+.card-id-3{ background:#ffffff; border-color:#68A9FF; }
+.card-id-3 .icon{ color:#68A9FF; }
+.card-id-3 .card-text{ color:#68A9FF; }
+
+.card-id-4{ background:#ffffff; border-color:#229EDB; }
+.card-id-4 .icon{ color:#229EDB; }
+.card-id-4 .card-text{ color:#229EDB; }
+
+.card-id-5{ background:#ffffff; border-color:#6994DF; }
+.card-id-5 .icon{ color:#6994DF; }
+.card-id-5 .card-text{ color:#6994DF; }
+
+.card-id-6{ background:#ffffff; border-color:#00AEFF; }
+.card-id-6 .icon{ color:#00AEFF; }
+.card-id-6 .card-text{ color:#00AEFF; }
+
+.card-id-7{ background:#ffffff; border-color:#00C2E4; }
+.card-id-7 .icon{ color:#00C2E4; }
+.card-id-7 .card-text{ color:#00C2E4; }

@@ -1,0 +1,22 @@
+{% macro admin_header(title="Admin Koperasi", back_url=None) %}
+{% set back_link = back_url if back_url else url_for('admin_dashboard') %}
+<nav>
+    <div class="nav-bar" style="display: flex; align-items: center; width: 100%;">
+        <div class="nav-left" style="display: flex; align-items: center; gap: 20px;">
+            <a href="{{ back_link }}" style="display: flex; align-items: center;">
+                <img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px">
+            </a>
+            <div class="header-content" style="display: flex; align-items: center; gap: 15px;">
+                <img src="{{ url_for('static', filename='image/logo_3.png') }}" alt="Logo" width="60" height="60" style="object-fit: contain;">
+                <span class="header-text" style="font-weight: 700; font-size: 22px; color: #333; white-space: nowrap;">{{ title }}</span>
+            </div>
+        </div>
+    </div>
+    <ul style="display: flex; list-style: none; align-items: center; gap: 20px; margin: 0; padding: 0;">
+        <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="28px" height="28px"></a></li>
+        <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="28px" height="28px"></a></li>
+        <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="28px" height="28px"></a></li>
+        <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="28px" height="28px"></a></li>
+    </ul>
+</nav>
+{% endmacro %}

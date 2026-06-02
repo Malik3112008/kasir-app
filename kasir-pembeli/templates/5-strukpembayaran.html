@@ -62,11 +62,11 @@
 
             <span>
                 {{ item.qty }} x
-                {{ "{:,.0f}".format(item.harga).replace(",", ".") }}
+                {{ formatRp(item.harga) }}
             </span>
 
             <span>
-                {{ "{:,.0f}".format(item.qty * item.harga).replace(",", ".") }}
+                {{ formatRp(item.qty * item.harga) }}
             </span>
 
         </div>
@@ -76,7 +76,7 @@
             <span>-Diskon</span>
 
             <span>
-                -{{ "{:,.0f}".format(item.diskon).replace(",", ".") }}
+                -{{ formatRp(item.diskon) }}
             </span>
 
         </div>
@@ -94,7 +94,7 @@
         <span>Sub Total</span>
 
         <span>
-            {{ "{:,.0f}".format(subtotal).replace(",", ".") }}
+            {{ formatRp(subtotal) }}
         </span>
 
     </div>
@@ -104,7 +104,7 @@
         <span>Anda Hemat</span>
 
         <span>
-            {{ "{:,.0f}".format(total_diskon).replace(",", ".") }}
+            {{ formatRp(total_diskon) }}
         </span>
 
     </div>
@@ -116,7 +116,7 @@
         <b>Total</b>
 
         <b>
-            {{ "{:,.0f}".format(total).replace(",", ".") }}
+            {{ formatRp(total) }}
         </b>
 
     </div>
@@ -130,7 +130,7 @@
         <span>Bayar (Tunai)</span>
 
         <span>
-            {{ "{:,.0f}".format(tunai).replace(",", ".") }}
+            {{ formatRp(tunai) }}
         </span>
 
     </div>
@@ -140,7 +140,7 @@
         <span>Kembali</span>
 
         <span>
-            {{ "{:,.0f}".format(kembali).replace(",", ".") }}
+            {{ formatRp(kembali) }}
         </span>
 
     </div>
@@ -152,7 +152,7 @@
         <span>Bayar (QRIS)</span>
 
         <span>
-            {{ "{:,.0f}".format(total).replace(",", ".") }}
+            {{ formatRp(total) }}
         </span>
 
     </div>
@@ -161,7 +161,7 @@
 
         <span>Kembali</span>
 
-        <span> 0</span>
+        <span> {{ formatRp(0) }}</span>
 
     </div>
 

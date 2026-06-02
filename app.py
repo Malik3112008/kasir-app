@@ -93,12 +93,12 @@ def informasi():
 
 CARDS_DATA = [
     {"id": 1, "text": "Rak Makanan Ringan", "icon": "fa-solid fa-cookie", "href": "/admin/denah/makanan_ringan", "width": 300, "height": 160, "left": 100, "top": 80, "image": "images/makanan_ringan/gambar1.jpg"},
-    {"id": 2, "text": "Rak Snack", "icon": "fa-solid fa-candy-cane", "href": "/admin/denah/snack", "width": 300, "height": 160, "left": 100, "top": 300, "image": "images/makanan_ringan/gambar1.jpg"},
-    {"id": 3, "text": "Rak Cemilan", "icon": "fa-solid fa-cookie-bite", "href": "/admin/denah/cemilan", "width": 300, "height": 160, "left": 100, "top": 520, "image": "images/makanan_ringan/gambar1.jpg"},
+    {"id": 2, "text": "Rak Snack", "icon": "fa-solid fa-candy-cane", "href": "/admin/denah/snack", "width": 300, "height": 160, "left": 100, "top": 300, "image": "images/snack/gambar1.jpg"},
+    {"id": 3, "text": "Rak Cemilan", "icon": "fa-solid fa-cookie-bite", "href": "/admin/denah/cemilan", "width": 300, "height": 160, "left": 100, "top": 520, "image": "images/cemilan/gambar1.jpg"},
     {"id": 4, "text": "Meja Kasir", "icon": "fa-solid fa-cash-register", "href": "/admin/denah/meja_kasir", "width": 250, "height": 220, "left": 550, "top": 80, "image": "images/meja_kasir/gambar1.jpg"},
     {"id": 5, "text": "Rak Alat Tulis", "icon": "fa-solid fa-book", "href": "/admin/denah/alat_tulis", "width": 200, "height": 300, "left": 950, "top": 80, "image": "images/alat_tulis/gambar1.jpg"},
     {"id": 6, "text": "Rak Makanan", "icon": "fa-solid fa-bowl-food", "href": "/admin/denah/makanan", "width": 200, "height": 300, "left": 950, "top": 420, "image": "images/makanan/gambar1.jpg"},
-    {"id": 7, "text": "Rak Minuman", "icon": "fa-solid fa-faucet-drip", "href": "/admin/denah/minuman", "width": 180, "height": 650, "left": 1250, "top": 80, "image": "images/minuman/gambar1.jpg"},
+    {"id": 7, "text": "Rak Minuman", "icon": "fa-solid fa-bottle-water", "href": "/admin/denah/minuman", "width": 180, "height": 650, "left": 1250, "top": 80, "image": "images/minuman/gambar1.jpg"},
 ]
 
 def load_cards():
@@ -670,11 +670,16 @@ def admin_stok_tersedia_hapus(id):
 # ============================================================
 
 data_barang = [
-    {"no": 1, "nama": "Indomie Goreng", "berat": "85", "satuan": "gr", "stok": 30, "harga": 3500, "kategori": "Makanan", "tanggal_restok": "2025-08-10", "expired": "Mei 2028", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/pop-mie.png", "rating": 5, "emoji": "🍜"},
-    {"no": 2, "nama": "Aqua Botol", "berat": "600", "satuan": "ml", "stok": 10, "harga": 4000, "kategori": "Minuman", "tanggal_restok": "2025-11-03", "expired": "Mei 2028", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/ades.jpg", "rating": 4, "emoji": "💧"},
-    {"no": 3, "nama": "Pulpen Standard", "berat": "15", "satuan": "gr", "stok": 150, "harga": 2500, "kategori": "Alat Tulis", "tanggal_restok": "2025-07-02", "expired": "Mei 2028", "tanggal": "2026-05-08", "gambar": "gambar-dan-icon/gambar-pulpen.jpeg", "rating": 4, "emoji": "🖋️"},
-    {"no": 4, "nama": "Roti Aoka Gulung", "berat": "60", "satuan": "gr", "stok": 50, "harga": 3000, "kategori": "Makanan", "tanggal_restok": "2025-09-25", "expired": "Mei 2028", "tanggal": "2026-05-06", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg", "rating": 5, "emoji": "🍞"},
-    {"no": 5, "nama": "Penggaris", "berat": "25", "satuan": "gr", "stok": 20, "harga": 4000, "kategori": "Alat Tulis", "tanggal_restok": "2025-05-06", "expired": "Mei 2028", "tanggal": "2026-05-07", "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "rating": 3, "emoji": "📏"},
+    {"no": 1, "nama": "Roti Aoka", "berat": "60", "satuan": "gr", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal_restok": "2025-09-25", "expired": "Mei 2028", "tanggal": "2026-05-06", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg", "rating": 5, "emoji": "🍞"},
+    {"no": 2, "nama": "Donat", "berat": "50", "satuan": "gr", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal_restok": "2025-10-01", "expired": "Mei 2028", "tanggal": "2026-05-05", "gambar": "gambar-dan-icon/donat.jpg", "rating": 4, "emoji": "🍩"},
+    {"no": 3, "nama": "Mie Instan", "berat": "85", "satuan": "gr", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal_restok": "2025-08-10", "expired": "Mei 2028", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/pop-mie.png", "rating": 4, "emoji": "🍜"},
+    {"no": 4, "nama": "Air Mineral", "berat": "600", "satuan": "ml", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal_restok": "2025-11-03", "expired": "Mei 2028", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/ades.jpg", "rating": 5, "emoji": "💧"},
+    {"no": 5, "nama": "Teh Botol", "berat": "350", "satuan": "ml", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal_restok": "2025-06-01", "expired": "Desember 2027", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/teh-botol.png", "rating": 3, "emoji": "🥤"},
+    {"no": 6, "nama": "Susu Kotak", "berat": "250", "satuan": "ml", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal_restok": "2025-06-01", "expired": "Desember 2027", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/ultramilk.png", "rating": 4, "emoji": "🧃"},
+    {"no": 7, "nama": "Pensil", "berat": "10", "satuan": "gr", "stok": 0, "harga": 2000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "rating": 4, "emoji": "✏️"},
+    {"no": 8, "nama": "Buku Tulis", "berat": "100", "satuan": "gr", "stok": 0, "harga": 6000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/buku-tulis.jpg", "rating": 4, "emoji": "📓"},
+    {"no": 9, "nama": "Penghapus", "berat": "20", "satuan": "gr", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/penghapus.png", "rating": 5, "emoji": "🧼"},
+    {"no": 10, "nama": "Spidol", "berat": "30", "satuan": "gr", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/gambar-pulpen.jpeg", "rating": 4, "emoji": "🖋️"},
 ]
 
 @app.route('/admin/cetak_laporan', methods=['GET', 'POST'])
@@ -749,7 +754,7 @@ def admin_cetak_transaksi_excel():
             tgl_fmt = f"{tgl_obj.day:02d}/{tgl_obj.month:02d}/{tgl_obj.year}"
         except:
             tgl_fmt = p['tanggal']
-        ws.append([i, tgl_fmt, p['id'], nama_produk, total_barang, p['metode'], p['status']])
+        ws.append([i, tgl_fmt, p['id'], nama_produk, formatRp(total_barang), p['metode'], p['status']])
     output = io.BytesIO()
     wb.save(output)
     output.seek(0)
@@ -800,7 +805,7 @@ def admin_cetak_barang_excel():
     ws.title = "Laporan Data Barang"
     ws.append(['No', 'Nama', 'Stok', 'Harga', 'Kategori', 'Tanggal', 'Total'])
     for b in data_barang:
-        ws.append([b['no'], b['nama'], b['stok'], b['harga'], b['kategori'], b['tanggal'], b['harga'] * b['stok']])
+        ws.append([b['no'], b['nama'], b['stok'], formatRp(b['harga']), b['kategori'], b['tanggal'], formatRp(b['harga'] * b['stok'])])
     output = io.BytesIO()
     wb.save(output)
     output.seek(0)
@@ -999,7 +1004,9 @@ for p in pesanan:
     p["refund"] = 0
 
 def formatRp(rupiah):
-    return "Rp {:,.0f}".format(rupiah).replace(",", ".")
+    return "Rp {:,.0f}".format(rupiah).replace(",", ".") + ",00"
+
+app.jinja_env.globals.update(formatRp=formatRp)
 
 def get_status_list(pesan):
     return status_qris if pesan['metode'].lower() == 'qris' else status_tunai
@@ -1294,29 +1301,17 @@ def pembeli_home():
 # PEMBELI: KATEGORI ALAT TULIS
 # ============================================================
 
-barang_pembeli = [
-    {"id": 7, "nama": "Pensil", "harga": 2000, "stok": 0, "rating": 4, "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "kategori": "Alat Tulis", "deskripsi": "Pensil HB standar untuk menulis dan menggambar."},
-    {"id": 8, "nama": "Buku Tulis", "harga": 5000, "stok": 0, "rating": 4, "gambar": "gambar-dan-icon/buku-tulis.jpg", "kategori": "Alat Tulis", "deskripsi": "Buku tulis 38 lembar untuk keperluan sekolah."},
-    {"id": 9, "nama": "Penghapus", "harga": 2000, "stok": 15, "rating": 5, "gambar": "gambar-dan-icon/penghapus.png", "kategori": "Alat Tulis", "deskripsi": "Penghapus lembut tidak merusak kertas."},
-    {"id": 10, "nama": "Spidol", "harga": 8000, "stok": 14, "rating": 4, "gambar": "gambar-dan-icon/gambar-pulpen.jpeg", "kategori": "Alat Tulis", "deskripsi": "Spidol warna-warni untuk presentasi."},
-]
-
 @app.route('/pembeli/detail-barang/<int:id>')
 def pembeli_detail_barang(id):
     if not session.get('user'):
         return redirect(url_for('pembeli_login'))
     barang = None
-    for b in barang_pembeli:
-        if b['id'] == id:
-            barang = b
+    for b in data_barang:
+        if b['no'] == id:
+            barang = {'id': b['no'], 'nama': b['nama'], 'harga': b['harga'], 'stok': b['stok'],
+                      'gambar': b.get('gambar', ''), 'kategori': b['kategori'], 'rating': b.get('rating', 4),
+                      'berat': b.get('berat', ''), 'deskripsi': f"{b['nama']} dari kategori {b['kategori']}."}
             break
-    if not barang:
-        for b in data_barang:
-            if b['no'] == id:
-                barang = {'id': b['no'], 'nama': b['nama'], 'harga': b['harga'], 'stok': b['stok'],
-                          'gambar': b.get('gambar', ''), 'kategori': b['kategori'], 'rating': b.get('rating', 4),
-                          'berat': b.get('berat', ''), 'deskripsi': f"{b['nama']} dari kategori {b['kategori']}."}
-                break
     if not barang:
         return "Barang tidak ditemukan", 404
     return render_template('7-detailbarang.html', barang=barang, formatRp=formatRp)
@@ -1714,7 +1709,7 @@ def admin_cetak_excel():
     ws.title = "Laporan Barang"
     ws.append(['No', 'Nama', 'Stok', 'Harga', 'Kategori', 'Tanggal'])
     for b in data_barang:
-        ws.append([b['no'], b['nama'], b['stok'], b['harga'], b['kategori'], b['tanggal']])
+        ws.append([b['no'], b['nama'], b['stok'], formatRp(b['harga']), b['kategori'], b['tanggal']])
     output = io.BytesIO()
     wb.save(output)
     output.seek(0)

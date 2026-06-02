@@ -46,10 +46,10 @@
             <div class="produk">
                 <div>
                     <h2>{{ item.nama }}</h2>
-                    <p>{{ item.jumlah }} x {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</p>
+                    <p>{{ item.jumlah }} x {{ formatRp(item.harga) }}</p>
                 </div>
                 <div class="harga">
-                    <h2>Rp {{ "{:,.0f}".format(item.jumlah * item.harga).replace(",", ".") }}</h2>
+                    <h2>{{ formatRp(item.jumlah * item.harga) }}</h2>
                 </div>
             </div>
             {% endfor %}
@@ -63,7 +63,7 @@
                 </div>
                 <div class="harga">
                     <p>{{ metode }}</p>
-                    <h1>Rp {{ "{:,.0f}".format(total).replace(",", ".") }}</h1>
+                    <h1>{{ formatRp(total) }}</h1>
                 </div>
             </div>
 

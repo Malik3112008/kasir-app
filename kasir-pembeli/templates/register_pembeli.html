@@ -13,11 +13,13 @@
 
     <div class="container">
 
-        <img src="{{ url_for('static', filename='image/logo_3.png') }}" class="logo">
-
         <div class="box">
 
             <h1>Daftar Akun Baru</h1>
+
+            <div class="logo-bos">
+                <img src="{{ url_for('static', filename='image/logo_3.png') }}" class="logo">
+            </div>
 
             {% if error %}
             <p class="error-message">{{ error }}</p>
@@ -31,13 +33,19 @@
                 <label>Kata Sandi</label>
                 <div class="password-field">
                     <input type="password" name="password" placeholder="Buat Kata Sandi" required>
-                    <span class="eye-icon" onclick="togglePassword(this)">👁</span>
+                    <span class="eye-icon" onclick="togglePassword(this)">
+                        <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <svg class="eye-closed" style="display:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                    </span>
                 </div>
 
                 <label>Konfirmasi Kata Sandi</label>
                 <div class="password-field">
                     <input type="password" name="confirm" placeholder="Konfirmasi Kata Sandi" required>
-                    <span class="eye-icon" onclick="togglePassword(this)">👁</span>
+                    <span class="eye-icon" onclick="togglePassword(this)">
+                        <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <svg class="eye-closed" style="display:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                    </span>
                 </div>
 
                 <button type="submit">Daftar Sekarang</button>
@@ -56,12 +64,17 @@
     <script>
     function togglePassword(el) {
         var input = el.parentElement.querySelector('input');
+        var eyeOpen = el.querySelector('.eye-open');
+        var eyeClosed = el.querySelector('.eye-closed');
+        
         if (input.type === 'password') {
             input.type = 'text';
-            el.textContent = '🙈';
+            eyeOpen.style.display = 'none';
+            eyeClosed.style.display = 'block';
         } else {
             input.type = 'password';
-            el.textContent = '👁';
+            eyeOpen.style.display = 'block';
+            eyeClosed.style.display = 'none';
         }
     }
     </script>
