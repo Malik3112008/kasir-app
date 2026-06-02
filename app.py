@@ -25,14 +25,89 @@ app.jinja_loader = ChoiceLoader([
     FileSystemLoader(os.path.join(BASE_DIR, 'kasir-pembeli', 'templates')),
 ])
 
+def format_kbbi_date(val):
+    if not val:
+        return ""
+    from datetime import datetime, date
+    tgl = None
+    if isinstance(val, (datetime, date)):
+        tgl = val
+    else:
+        val_str = str(val).strip()
+        if not val_str or val_str == '-':
+            return val_str
+        
+        # Try various formats
+        formats = [
+            '%Y-%m-%d %H:%M:%S',
+            '%Y-%m-%d %H:%M',
+            '%d-%m-%Y %H:%M',
+            '%d-%m-%Y %H:%M:%S',
+            '%d/%m/%Y %H:%M',
+            '%d/%m/%Y %H:%M:%S',
+            '%Y-%m-%d',
+            '%d-%m-%Y',
+            '%d/%m/%Y'
+        ]
+        for fmt in formats:
+            try:
+                tgl = datetime.strptime(val_str, fmt)
+                break
+            except ValueError:
+                continue
+                
+        if not tgl:
+            # Clean textual dates like "28 Nov 2025" or "10 Agustus 2025"
+            month_map = {
+                'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'mei': 5, 'may': 5, 'jun': 6, 'jul': 7,
+                'agu': 8, 'aug': 8, 'agt': 8, 'sep': 9, 'okt': 10, 'oct': 10, 'nov': 11, 'des': 12, 'dec': 12,
+                'januari': 1, 'februari': 2, 'maret': 3, 'april': 4, 'juni': 6, 'juli': 7, 'agustus': 8,
+                'september': 9, 'oktober': 10, 'november': 11, 'desember': 12, 'january': 1, 'february': 2,
+                'march': 3, 'june': 6, 'july': 7, 'august': 8, 'october': 10, 'december': 12
+            }
+            import re
+            m = re.search(r'(\d{1,2})\s+([a-zA-Z]+)\s+(\d{4})(?:\s+(\d{1,2})[:\.](\d{1,2}))?', val_str)
+            if m:
+                day = int(m.group(1))
+                mon_str = m.group(2).lower()
+                year = int(m.group(3))
+                hour = m.group(4)
+                minute = m.group(5)
+                if mon_str in month_map:
+                    mon = month_map[mon_str]
+                    if hour and minute:
+                        tgl = datetime(year, mon, day, int(hour), int(minute))
+                    else:
+                        tgl = datetime(year, mon, day)
+            
+            if not tgl:
+                return val_str
+
+    has_time = False
+    if isinstance(val, datetime):
+        if val.hour != 0 or val.minute != 0 or val.second != 0:
+            has_time = True
+    elif isinstance(val, str):
+        val_str = str(val).strip()
+        if ' ' in val_str and (':' in val_str or '.' in val_str):
+            has_time = True
+            
+    if has_time and hasattr(tgl, 'hour'):
+        return tgl.strftime('%d-%m-%Y %H:%M')
+    else:
+        return tgl.strftime('%d-%m-%Y')
+
 @app.template_filter('tgl_indo')
 def tgl_indo_filter(tanggal_str):
-    try:
-        from datetime import datetime
-        tgl = datetime.strptime(tanggal_str, '%Y-%m-%d')
-        return f"{tgl.day:02d}/{tgl.month:02d}/{tgl.year}"
-    except:
-        return tanggal_str
+    return format_kbbi_date(tanggal_str)
+
+@app.context_processor
+def inject_now():
+    from datetime import datetime
+    return {
+        'now': format_kbbi_date(datetime.now())
+    }
+
 
 # ============================================================
 # PERSISTENCE HELPER FUNCTIONS & API ENDPOINTS
@@ -489,13 +564,7 @@ def admin_detail_transaksi(trx_id):
             'gambar': b.get('gambar', '')
         })
     total = sum(b['harga'] * b['jumlah'] for b in trx['barang'])
-    from datetime import datetime
-    try:
-        tgl_obj = datetime.strptime(trx['tanggal'], '%Y-%m-%d')
-        bulan_id = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember']
-        tanggal_fmt = f"{tgl_obj.day:02d}/{tgl_obj.month:02d}/{tgl_obj.year}"
-    except:
-        tanggal_fmt = trx['tanggal']
+    tanggal_fmt = format_kbbi_date(trx['tanggal'])
     return render_template("detail_transaksi.html", items=items, total=total, tanggal=tanggal_fmt)
 
 # ============================================================
@@ -865,15 +934,8 @@ def admin_cetak_laporan():
     data_transaksi = []
     for p in pesanan:
         total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
-        # Format tanggal ke dd/mm/yyyy
-        try:
-            from datetime import datetime
-            tgl_obj = datetime.strptime(p['tanggal'], '%Y-%m-%d')
-            tgl_fmt = f"{tgl_obj.day:02d}-{tgl_obj.month:02d}-{tgl_obj.year}"
-        except:
-            tgl_fmt = p['tanggal']
         data_transaksi.append({
-            'tanggal': tgl_fmt,
+            'tanggal': p['tanggal'],
             'id': p['id'],
             'jumlah_item': sum(b['jumlah'] for b in p['barang']),
             'total': total_barang
@@ -923,11 +985,7 @@ def admin_cetak_transaksi_excel():
     for i, p in enumerate(pesanan, 1):
         total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
         nama_produk = ', '.join(b['nama'] for b in p['barang'])
-        try:
-            tgl_obj = datetime.strptime(p['tanggal'], '%Y-%m-%d')
-            tgl_fmt = f"{tgl_obj.day:02d}/{tgl_obj.month:02d}/{tgl_obj.year}"
-        except:
-            tgl_fmt = p['tanggal']
+        tgl_fmt = format_kbbi_date(p['tanggal'])
         ws.append([i, tgl_fmt, p['id'], nama_produk, formatRp(total_barang), p['metode'], p['status']])
     output = io.BytesIO()
     wb.save(output)
@@ -979,7 +1037,7 @@ def admin_cetak_barang_excel():
     ws.title = "Laporan Data Barang"
     ws.append(['No', 'Nama', 'Stok', 'Harga', 'Kategori', 'Tanggal', 'Total'])
     for b in data_barang:
-        ws.append([b['no'], b['nama'], b['stok'], formatRp(b['harga']), b['kategori'], b['tanggal'], formatRp(b['harga'] * b['stok'])])
+        ws.append([b['no'], b['nama'], b['stok'], formatRp(b['harga']), b['kategori'], format_kbbi_date(b['tanggal']), formatRp(b['harga'] * b['stok'])])
     output = io.BytesIO()
     wb.save(output)
     output.seek(0)
@@ -1884,7 +1942,7 @@ def pembeli_struk():
         tunai = total
         kembali = 0
 
-    tanggal = sekarang.strftime("%d-%m-%Y")
+    tanggal = format_kbbi_date(sekarang)
     jam = sekarang.strftime("%H:%M:%S")
     kode = session.get('tunai_kode', random.randint(1000, 9999))
 
@@ -1933,7 +1991,7 @@ def admin_cetak_excel():
     ws.title = "Laporan Barang"
     ws.append(['No', 'Nama', 'Stok', 'Harga', 'Kategori', 'Tanggal'])
     for b in data_barang:
-        ws.append([b['no'], b['nama'], b['stok'], formatRp(b['harga']), b['kategori'], b['tanggal']])
+        ws.append([b['no'], b['nama'], b['stok'], formatRp(b['harga']), b['kategori'], format_kbbi_date(b['tanggal'])])
     output = io.BytesIO()
     wb.save(output)
     output.seek(0)

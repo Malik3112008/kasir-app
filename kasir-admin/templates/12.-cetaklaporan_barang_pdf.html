@@ -40,7 +40,7 @@
                 <td>{{ item.stok }}</td>
                 <td>{{ formatRp(item.harga) }}</td>
                 <td>{{ item.kategori }}</td>
-                <td>{{ item.tanggal }}</td>
+                <td>{{ item.tanggal | tgl_indo }}</td>
                 <td>{{ formatRp(item.harga * item.stok) }}</td>
             </tr>
             {% endfor %}

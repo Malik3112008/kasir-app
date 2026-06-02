@@ -6,6 +6,9 @@
     <title>Laporan Penjualan</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='15.Laporan_Penjualan.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
 </head>
 
@@ -252,6 +255,16 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            flatpickr("input[type=date]", {
+                locale: "id",
+                altInput: true,
+                altFormat: "d-m-Y",
+                dateFormat: "Y-m-d"
+            });
+        });
+    </script>
 </body>
 
 </html>

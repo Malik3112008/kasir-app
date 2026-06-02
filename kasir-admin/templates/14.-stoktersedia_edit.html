@@ -6,6 +6,9 @@
     <title>Edit Barang</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='14.-stoktersedia_edit.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
 </head>
 <body>
 
@@ -58,7 +61,7 @@
 
         <div class="form-group">
             <label>Tanggal Restok</label>
-            <input type="text" name="tanggal_restok" value="{{ barang.tanggal_restok if barang.tanggal_restok else '' }}" placeholder="Contoh: 10 Agustus 2025">
+            <input type="date" id="tanggal_restok" name="tanggal_restok" value="{{ barang.tanggal_restok if barang.tanggal_restok else '' }}" placeholder="Contoh: 10 Agustus 2025">
         </div>
 
         <div class="form-group">
@@ -78,5 +81,15 @@
     </form>
 </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            flatpickr("#tanggal_restok", {
+                locale: "id",
+                altInput: true,
+                altFormat: "d-m-Y",
+                dateFormat: "Y-m-d"
+            });
+        });
+    </script>
 </body>
 </html>

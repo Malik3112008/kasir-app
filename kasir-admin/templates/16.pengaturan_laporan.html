@@ -7,6 +7,9 @@
     <title>Pengaturan Laporan</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='16-pengaturan-laporan.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
 </head>
 
 <body>
@@ -59,7 +62,7 @@
                     </td>
                     <td>{{ formatRp(item.harga) }}</td>
                     <td>{{ item.kategori }}</td>
-                    <td>{{ item.tanggal[8:10] }}/{{ item.tanggal[5:7] }}/{{ item.tanggal[0:4] }}</td>
+                    <td>{{ item.tanggal | tgl_indo }}</td>
                     <td>{{ formatRp(item.harga * item.stok) }}</td>
                 </tr>
                 {% endfor %}
@@ -77,5 +80,19 @@
 
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const config = {
+                locale: "id",
+                altInput: true,
+                altFormat: "d-m-Y",
+                dateFormat: "Y-m-d",
+                onChange: function(selectedDates, dateStr, instance) {
+                    instance.element.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            };
+            flatpickr("input[type=date]", config);
+        });
+    </script>
 </body>
 </html>

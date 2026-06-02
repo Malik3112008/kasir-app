@@ -7,6 +7,9 @@
     <title>Riwayat Transaksi Admin</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='06.RiwayatTransaksi.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
 </head>
 <body>
 
@@ -40,7 +43,7 @@
                 {% for p in pesanan %}
                 <tr class="data-row" data-tanggal="{{ p.tanggal }}">
                     <td>{{ p.id }}</td>
-                    <td>{{ p.tanggal }}</td>
+                    <td>{{ p.tanggal | tgl_indo }}</td>
                     <td>
                         {% for b in p.barang %}
                             {{ b.nama }}{% if not loop.last %}, {% endif %}
@@ -90,10 +93,29 @@ function filterByDate() {
 }
 
 function resetFilter() {
-    document.getElementById('filter-date-start').value = '';
-    document.getElementById('filter-date-end').value = '';
+    document.querySelectorAll('input[type=date]').forEach(input => {
+        if (input._flatpickr) {
+            input._flatpickr.clear();
+        } else {
+            input.value = '';
+        }
+    });
     document.querySelectorAll('.data-row').forEach(row => row.style.display = '');
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const config = {
+        locale: "id",
+        altInput: true,
+        altFormat: "d-m-Y",
+        dateFormat: "Y-m-d",
+        onChange: function(selectedDates, dateStr, instance) {
+            instance.element.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    };
+    flatpickr("#filter-date-start", config);
+    flatpickr("#filter-date-end", config);
+});
 </script>
 
 </body>

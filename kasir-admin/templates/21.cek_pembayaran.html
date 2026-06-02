@@ -41,7 +41,7 @@
             {% for t in pesanan %}
                 {% for b in t.barang %}
                 <tr>
-                    <td>{{ t.tanggal }}</td>
+                    <td>{{ t.tanggal | tgl_indo }}</td>
                     <td>{{ t.id }}</td>
                     <td>{{ b.nama }}</td>
                     <td>{{ b.jumlah }}</td>

@@ -59,7 +59,7 @@
             <tbody>
                 {% for trx in data_transaksi %}
                 <tr>
-                    <td>{{ trx.tanggal }}</td>
+                    <td>{{ trx.tanggal | tgl_indo }}</td>
                     <td>{{ trx.id }}</td>
                     <td>{{ trx.jumlah }}</td>
                     <td>{{ formatRp(trx.total) }}</td>

@@ -51,7 +51,7 @@
                 <div class="order-group" style="border: 1px solid #e0e0e0; border-radius: 12px; padding: 12px; margin-bottom: 20px; background: #fff;">
                     <div style="display:flex; justify-content:space-between; margin-bottom: 10px;">
                         <span style="font-weight:bold; color:#555;">ID: {{ p.id }}</span>
-                        <span style="font-size:12px; color:#888;">{{ p.tanggal }}</span>
+                        <span style="font-size:12px; color:#888;">{{ p.tanggal | tgl_indo }}</span>
                     </div>
 
                     <div class="pesanan-header" onclick="toggleDetail('detail-{{ p.id }}', 'icon-{{ p.id }}')" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:#f0f7ff; border-radius:10px; margin-bottom:10px;">

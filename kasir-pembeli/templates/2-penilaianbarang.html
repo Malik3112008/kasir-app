@@ -101,7 +101,7 @@
                                     <p class="review-text" style="font-size: 12px; height: 36px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-top: 5px;">
                                         {{ item.review if item.review else 'Tidak ada ulasan' }}
                                     </p>
-                                    <small class="tanggal" style="display: block; margin-top: 5px;">{{ item.tanggal }}</small>
+                                    <small class="tanggal" style="display: block; margin-top: 5px;">{{ item.tanggal | tgl_indo }}</small>
                                 </div>
 
                                 <div class="help">

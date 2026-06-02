@@ -86,10 +86,18 @@
         });
 
         function formatWaktuIndo(strWaktu) {
-            const [tgl, jam] = strWaktu.split(' ');
+            if (!strWaktu) return '';
+            const parts = strWaktu.split(' ');
+            const tgl = parts[0];
+            const jam = parts[1] || '';
             const [y, m, d] = tgl.split('-');
-            const namaBulan = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"][parseInt(m)-1];
-            return `${d} ${namaBulan} ${y}/${jam}`;
+            const tglFormatted = `${d.padStart(2, '0')}-${m.padStart(2, '0')}-${y}`;
+            if (jam) {
+                const jamParts = jam.split(':');
+                const jamFormatted = jamParts.slice(0, 2).join(':');
+                return `${tglFormatted} ${jamFormatted}`;
+            }
+            return tglFormatted;
         }
 
         function getIcon(tipe) {
