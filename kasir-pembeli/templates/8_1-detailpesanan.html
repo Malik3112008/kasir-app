@@ -79,6 +79,12 @@
                 <span>Total</span>
                 <strong>{{ formatRp(p.total) }}</strong>
             </div>
+
+            <div class="btn-group">
+                <button class="btn-struk" style="border: none; cursor: pointer; font-family: inherit; font-size: inherit;" onclick="event.stopPropagation(); window.open('{{ url_for('pembeli_struk') }}?trx_id={{ p.id }}', '_blank');">
+                    Lihat Struk
+                </button>
+            </div>
         </div>
     </div>
     {% endfor %}

@@ -58,9 +58,11 @@
                                     </button>
                                     <div class="dropdown-aksi">
                                         <select name="status" onchange="this.form.submit()">
+                                            <option value="" selected disabled hidden>Langkah Selanjutnya</option>
                                             {% set daftar_status = status(p) %}
+                                            {% set posisi = daftar_status.index(p.status) %}
                                             {% for s in daftar_status %}
-                                            <option value="{{ s }}" {% if s == p.status %} selected {% endif %}>
+                                            <option value="{{ s }}" {% if daftar_status.index(s) < posisi %} disabled {% endif %}>
                                                 {{ s }}
                                             </option>
                                             {% endfor %}
