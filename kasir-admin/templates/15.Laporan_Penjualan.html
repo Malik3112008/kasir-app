@@ -16,11 +16,11 @@
     {{ admin_header('Laporan Penjualan') }}
     <span class="Judul" style="display: block; text-align: center; margin-top: 20px;">Laporan Penjualan (Untung/Rugi)</span>
     <div class="Isi">
-        <form method="POST">
+        <form method="GET">
             <div class="kalender">
-                <input type="date" name="tanggal_awal" placeholder="dd/mm/yyyy" value="{{ tanggal_awal }}" min="2026-01-01" max="2027-12-31">
+                <input type="date" name="tanggal_awal" placeholder="dd/mm/yyyy" value="{{ tanggal_awal }}">
                 <span>Sampai</span>
-                <input type="date" name="tanggal_akhir" placeholder="dd/mm/yyyy" value="{{ tanggal_akhir }}" min="{{ tanggal_awal }}" max="2027-12-31">
+                <input type="date" name="tanggal_akhir" placeholder="dd/mm/yyyy" value="{{ tanggal_akhir }}">
                 <button type="submit">Konfirmasi</button>
             </div>
         </form>
@@ -260,8 +260,10 @@
             flatpickr("input[type=date]", {
                 locale: "id",
                 altInput: true,
-                altFormat: "j/n/Y",
-                dateFormat: "Y-m-d"
+                altFormat: "d-m-Y",
+                dateFormat: "Y-m-d",
+                minDate: "2026-01-01",
+                maxDate: "2027-12-31"
             });
         });
     </script>

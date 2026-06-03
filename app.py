@@ -1077,14 +1077,10 @@ def admin_laporan_penjualan():
         return redirect(url_for('admin_login'))
 
     # Kalender
-    tanggal_awal = "2026-01-01"
-    tanggal_akhir = "2026-12-31"
-
-    if request.method == "POST":
-        tanggal_awal = request.form.get("tanggal_awal", "2026-01-01")
-        tanggal_akhir = request.form.get("tanggal_akhir", "2026-12-31")
-        if tanggal_akhir < tanggal_awal:
-            tanggal_akhir = tanggal_awal
+    tanggal_awal = request.values.get("tanggal_awal") or "2026-01-01"
+    tanggal_akhir = request.values.get("tanggal_akhir") or "2026-12-31"
+    if tanggal_akhir < tanggal_awal:
+        tanggal_akhir = tanggal_awal
 
     def Rupiah(angka):
         return "Rp{:,.2f}".format(angka).replace(",", "X").replace(".", ",").replace("X", ".")
