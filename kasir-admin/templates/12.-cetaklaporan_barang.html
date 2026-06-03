@@ -182,22 +182,16 @@
             transition: all 0.2s;
             display: flex; align-items: center; gap: 8px;
             color: #fff;
+            text-decoration: none !important;
         }
-        .btn-pdf {
-            background: linear-gradient(135deg, #ec4899, #be185d);
-            box-shadow: 0 4px 12px rgba(236,72,153,0.3);
+        .btn-pdf, .btn-excel {
+            background: #EB6969;
+            box-shadow: 0 4px 12px rgba(235,105,105,0.3);
         }
-        .btn-pdf:hover {
+        .btn-pdf:hover, .btn-excel:hover {
+            background: #d45a5a;
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(236,72,153,0.4);
-        }
-        .btn-excel {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            box-shadow: 0 4px 12px rgba(239,68,68,0.3);
-        }
-        .btn-excel:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(239,68,68,0.4);
+            box-shadow: 0 6px 16px rgba(235,105,105,0.4);
         }
 
         /* RESPONSIVE */
@@ -314,6 +308,10 @@
                 if (akhir && tgl > akhir) show = false;
                 row.style.display = show ? '' : 'none';
             });
+
+            // Update export links
+            document.querySelector('.btn-pdf').href = "{{ url_for('admin_cetak_barang_pdf') }}?tanggal_awal=" + awal + "&tanggal_akhir=" + akhir;
+            document.querySelector('.btn-excel').href = "{{ url_for('admin_cetak_barang_excel') }}?tanggal_awal=" + awal + "&tanggal_akhir=" + akhir;
         }
 
         document.addEventListener("DOMContentLoaded", function() {

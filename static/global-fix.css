@@ -214,3 +214,27 @@ nav, .navbar {
         width: 100%;
     }
 }
+
+/* Flatpickr overrides to fix global input/select styling interference */
+.flatpickr-calendar select,
+.flatpickr-calendar input {
+    min-height: unset !important;
+    height: auto !important;
+    padding: 2px 4px !important;
+    font-size: 14px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    width: auto !important;
+    display: inline-block !important;
+    box-shadow: none !important;
+}
+
+.flatpickr-calendar .numInputWrapper {
+    width: 6ch !important;
+}
+
+.flatpickr-calendar select.flatpickr-monthDropdown-months {
+    width: auto !important;
+    display: inline-block !important;
+    padding: 0 10px 0 5px !important;
+}

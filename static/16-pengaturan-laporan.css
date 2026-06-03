@@ -148,6 +148,10 @@ td {
     margin-top: 40px;
 }
 
+.button-box a {
+    text-decoration: none !important;
+}
+
 .pdf,
 .excel {
     width: 260px;

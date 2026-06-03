@@ -54,7 +54,7 @@
                                 <form method="POST" action="{{ url_for('admin_siapkan_pesanan') }}" style="display:flex;align-items:center;gap:6px;">
                                     <input type="hidden" name="trx_id" value="{{ p.id }}">
                                     <button class="buka-btn" type="button" onclick="bukaModal('{{ p.id }}')">
-                                        <img src="{{ url_for('static', filename='rincian-svgrepo-com.svg') }}" alt="Rincian" width="20px" height="20px" />
+                                        <i class="fa-solid fa-circle-info" style="font-size: 16px; color: white;"></i>
                                     </button>
                                     <div class="dropdown-aksi">
                                         <select name="status" onchange="this.form.submit()">

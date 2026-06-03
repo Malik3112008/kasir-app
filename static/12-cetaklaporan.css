@@ -295,8 +295,12 @@ tbody tr {
     width: 100%;
 }
 
+.button-group a {
+    text-decoration: none !important;
+}
+
 .pdf, .excel {
-    background: red;
+    background: #EB6969;
     color: white;
     border: none;
     padding: 8px 14px;
@@ -307,20 +311,10 @@ tbody tr {
     transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.pdf:hover {
-    background: #c41010;
+.pdf:hover, .excel:hover {
+    background: #d45a5a;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(231,24,24,0.3);
-}
-
-.excel {
-    background: #e57373;
-}
-
-.excel:hover {
-    background: #d32f2f;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(229,115,115,0.3);
+    box-shadow: 0 4px 12px rgba(235,105,105,0.3);
 }
 
 /* ===== STATUS BADGE ===== */

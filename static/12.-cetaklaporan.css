@@ -250,7 +250,6 @@ tbody tr {
     transition: background-color 0.2s ease;
 }
 
-/* ===== BUTTONS (TITO: smaller, brighter green) ===== */
 .button-group {
     display: flex;
     justify-content: center;
@@ -258,6 +257,10 @@ tbody tr {
     margin: 40px auto;
     max-width: 1000px;
     width: 100%;
+}
+
+.button-group a {
+    text-decoration: none !important;
 }
 
 .pdf, .excel {
