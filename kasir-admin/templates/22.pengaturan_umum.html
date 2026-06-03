@@ -6,13 +6,18 @@
   <title>Pengaturan Profil</title>
   <link rel="stylesheet" href="{{ url_for('static',filename='22.pengaturan_umum.css')}}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
   {{ admin_header('Pengaturan Profil') }}
 
-  <h1>Pengaturan Profil</h1>
+  <div class="h1-container">
+    <div class="gear-icon-wrapper">
+      <i class="fa-solid fa-gear"></i>
+    </div>
+    <h1>Pengaturan Profil</h1>
+  </div>
   <form action="{{ url_for('admin_simpan_pengaturan') }}" method="POST" class="form-profil" enctype="multipart/form-data">
     <label>Nama Koperasi</label>
     <input type="text" name="nama" value="{{ nama }}" />
