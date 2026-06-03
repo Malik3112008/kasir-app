@@ -1115,118 +1115,209 @@ def admin_laporan_penjualan():
         "2026-05-15": {"hari": "Jumat", "totalTransaksi": 33, "totalPendapatan": 96000, "modalBarang": 72000},
     }
 
-    # kolom informasi penting
-    totalTransaksi = 0
-    totalPendapatan = 0
-    modalBarang = 0
-    for tanggal, data in data_harian.items():
-        if tanggal_awal <= tanggal <= tanggal_akhir:
-            totalTransaksi += data["totalTransaksi"]
-            totalPendapatan += data["totalPendapatan"]
-            modalBarang += data["modalBarang"]
-    untungRugi = totalPendapatan - modalBarang
-    totalPendapatan = Rupiah(totalPendapatan)
-    modalBarang = Rupiah(modalBarang)
-    if untungRugi >= 0:
-        untungRugi = "+" + Rupiah(untungRugi)
+    # 1. Filter real transactions from pesanan
+    real_transactions = []
+    for p in pesanan:
+        if tanggal_awal <= p['tanggal'] <= tanggal_akhir:
+            real_transactions.append(p)
+
+    if real_transactions:
+        totalTransaksi = len(real_transactions)
+        totalPendapatan_num = sum(p['total'] for p in real_transactions)
+        modalBarang_num = int(totalPendapatan_num * 0.75)
+        untungRugi_num = totalPendapatan_num - modalBarang_num
+
+        # Diagram produk terlaris
+        total_produk = {}
+        for p in real_transactions:
+            for b in p.get('barang', []):
+                nama = b['nama']
+                jumlah = b['jumlah']
+                total_produk[nama] = total_produk.get(nama, 0) + jumlah
+        namaProduk = list(total_produk.keys())
+        jumlahProduk = list(total_produk.values())
+        
+        warna_produk = {
+            "air mineral": "blue", "roti aoka": "orange", "pensil": "red", 
+            "pulpen": "yellow", "buku tulis": "purple", "pop mie": "green", 
+            "penghapus": "pink", "bolpoin": "cyan", "teh botol": "teal", "ultra milk": "brown"
+        }
+        warnadiagramPT = []
+        for prod in namaProduk:
+            prod_lower = prod.lower()
+            if prod_lower in warna_produk:
+                warnadiagramPT.append(warna_produk[prod_lower])
+            else:
+                warnadiagramPT.append(random.choice(["blue", "orange", "red", "yellow", "purple", "green", "pink", "cyan", "teal", "brown"]))
+
+        # Diagram pendapatan perkategori
+        prod_categories = {b['nama']: b['kategori'] for b in data_barang}
+        total_kategori = {}
+        for p in real_transactions:
+            for b in p.get('barang', []):
+                nama = b['nama']
+                revenue = b['harga'] * b['jumlah']
+                cat = prod_categories.get(nama, "Lainnya")
+                total_kategori[cat] = total_kategori.get(cat, 0) + revenue
+                
+        kategori = list(total_kategori.keys())
+        pendapatanPerkategori = list(total_kategori.values())
+        warna_kategori = {"minuman": "blue", "alat tulis": "red", "makanan": "green", "lainnya": "gray"}
+        warnadiagramPP = [warna_kategori.get(k.lower(), "gray") for k in kategori]
+
+        # Diagram perbandingan pendapatan tiap bulan
+        try:
+            target_year = int(tanggal_awal.split('-')[0])
+        except:
+            target_year = 2026
+            
+        pendapatanbulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"]
+        pendapatanPerbulan = []
+        for bulan in range(1, 13):
+            total = 0
+            hasData = False
+            for p in pesanan:
+                try:
+                    pyear, pmonth, pday = map(int, p['tanggal'].split('-'))
+                    if pyear == target_year and pmonth == bulan:
+                        if tanggal_awal <= p['tanggal'] <= tanggal_akhir:
+                            total += p['total']
+                            hasData = True
+                except:
+                    continue
+            pendapatanPerbulan.append(total if hasData else None)
+
+        # Diagram perbandingan jumlah transaksi tiap bulan
+        transaksiperbulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"]
+        jumlahtransaksiPerbulan = []
+        for bulan in range(1, 13):
+            total = 0
+            hasData = False
+            for p in pesanan:
+                try:
+                    pyear, pmonth, pday = map(int, p['tanggal'].split('-'))
+                    if pyear == target_year and pmonth == bulan:
+                        if tanggal_awal <= p['tanggal'] <= tanggal_akhir:
+                            total += 1
+                            hasData = True
+                except:
+                    continue
+            jumlahtransaksiPerbulan.append(total if hasData else None)
     else:
-        untungRugi = "-" + Rupiah(abs(untungRugi))
+        # Data diagram produk terlaris
+        data_chart_produk_terlaris_perhari = {
+            "2026-04-06": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [10, 5, 10, 7, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+            "2026-04-07": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [12, 6, 8, 8, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+            "2026-04-08": {"namaProduk": ["Air mineral","Aoka","Pensil","Pulpen","Buku","Pop mie"], "jumlahProduk": [11, 6, 9, 7, 3, 12], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple", "Green"]},
+            "2026-04-09": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [10, 7, 10, 7, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+            "2026-04-10": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [12, 6, 9, 8, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+            "2026-05-01": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 9, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+            "2026-05-04": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 9, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+            "2026-05-05": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 9, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+            "2026-05-06": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 8, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+            "2026-05-07": {"namaProduk": ["Air mineral","Aoka","Pensil","Pulpen","Buku","Penghapus"], "jumlahProduk": [7, 8, 8, 7, 4, 10], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple", "Pink"]},
+            "2026-05-08": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 8, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+            "2026-05-11": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 8, 7, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+            "2026-05-12": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [8, 7, 9, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+            "2026-05-13": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 7, 8, 8, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+            "2026-05-14": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 9, 7, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+            "2026-05-15": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [8, 7, 8, 7, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
+        }
 
-    # Data diagram produk terlaris
-    data_chart_produk_terlaris_perhari = {
-        "2026-04-06": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [10, 5, 10, 7, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
-        "2026-04-07": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [12, 6, 8, 8, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
-        "2026-04-08": {"namaProduk": ["Air mineral","Aoka","Pensil","Pulpen","Buku","Pop mie"], "jumlahProduk": [11, 6, 9, 7, 3, 12], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple", "Green"]},
-        "2026-04-09": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [10, 7, 10, 7, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
-        "2026-04-10": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [12, 6, 9, 8, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
-        "2026-05-01": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 9, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
-        "2026-05-04": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 9, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
-        "2026-05-05": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 9, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
-        "2026-05-06": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 8, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
-        "2026-05-07": {"namaProduk": ["Air mineral","Aoka","Pensil","Pulpen","Buku","Penghapus"], "jumlahProduk": [7, 8, 8, 7, 4, 10], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple", "Pink"]},
-        "2026-05-08": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 8, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
-        "2026-05-11": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 8, 7, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
-        "2026-05-12": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [8, 7, 9, 7, 4], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
-        "2026-05-13": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 7, 8, 8, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
-        "2026-05-14": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [7, 8, 9, 7, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
-        "2026-05-15": {"namaProduk": ["Air mineral", "Aoka", "Pensil", "Pulpen", "Buku"], "jumlahProduk": [8, 7, 8, 7, 3], "warnadiagramPT": ["Blue", "Orange", "Red", "Yellow", "Purple"]},
-    }
+        # Data Diagram pendapatan perkategori
+        data_chart_pendapatan_perkategori_perhari = {
+            "2026-04-06": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [30000, 53000, 15000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+            "2026-04-07": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [36000, 56000, 18000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+            "2026-04-08": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [33000, 53000, 114000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+            "2026-04-09": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [30000, 53000, 21000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+            "2026-04-10": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [36000, 56000, 18000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+            "2026-05-01": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 55000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+            "2026-05-04": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 55000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+            "2026-05-05": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 55000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+            "2026-05-06": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 53000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+            "2026-05-07": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 73000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+            "2026-05-08": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 53000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+            "2026-05-11": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 49000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+            "2026-05-12": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [24000, 56000, 21000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+            "2026-05-13": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 53000, 21000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+            "2026-05-14": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 53000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+            "2026-05-15": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [24000, 51000, 21000], "warnadiagramPP": ["Blue", "Red", "Green"]},
+        }
 
-    # Diagram produk terlaris
-    total_produk = {}
-    for tanggal, chart in data_chart_produk_terlaris_perhari.items():
-        if tanggal_awal <= tanggal <= tanggal_akhir:
-            for i in range(len(chart["namaProduk"])):
-                nama = chart["namaProduk"][i]
-                jumlah = chart["jumlahProduk"][i]
-                if nama not in total_produk:
-                    total_produk[nama] = 0
-                total_produk[nama] += jumlah
-    namaProduk = list(total_produk.keys())
-    jumlahProduk = list(total_produk.values())
-    warna_produk = {"Air mineral": "blue", "Aoka": "orange", "Pensil": "red", "Pulpen": "yellow", "Buku": "purple", "Pop mie": "green", "Penghapus": "pink"}
-    warnadiagramPT = [warna_produk.get(produk, "gray") for produk in namaProduk]
-
-    # Data Diagram pendapatan perkategori
-    data_chart_pendapatan_perkategori_perhari = {
-        "2026-04-06": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [30000, 53000, 15000], "warnadiagramPP": ["Blue", "Red", "Green"]},
-        "2026-04-07": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [36000, 56000, 18000], "warnadiagramPP": ["Blue", "Red", "Green"]},
-        "2026-04-08": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [33000, 53000, 114000], "warnadiagramPP": ["Blue", "Red", "Green"]},
-        "2026-04-09": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [30000, 53000, 21000], "warnadiagramPP": ["Blue", "Red", "Green"]},
-        "2026-04-10": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [36000, 56000, 18000], "warnadiagramPP": ["Blue", "Red", "Green"]},
-        "2026-05-01": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 55000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
-        "2026-05-04": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 55000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
-        "2026-05-05": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 55000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
-        "2026-05-06": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 53000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
-        "2026-05-07": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 73000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
-        "2026-05-08": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 53000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
-        "2026-05-11": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 49000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
-        "2026-05-12": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [24000, 56000, 21000], "warnadiagramPP": ["Blue", "Red", "Green"]},
-        "2026-05-13": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 53000, 21000], "warnadiagramPP": ["Blue", "Red", "Green"]},
-        "2026-05-14": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [21000, 53000, 24000], "warnadiagramPP": ["Blue", "Red", "Green"]},
-        "2026-05-15": {"kategori": ["Minuman", "Alat tulis", "Makanan"], "pendapatanPerkategori": [24000, 51000, 21000], "warnadiagramPP": ["Blue", "Red", "Green"]},
-    }
-
-    # Diagram pendapatan perkategori
-    total_kategori = {}
-    for tanggal, chart in data_chart_pendapatan_perkategori_perhari.items():
-        if tanggal_awal <= tanggal <= tanggal_akhir:
-            for i in range(len(chart["kategori"])):
-                nama = chart["kategori"][i]
-                jumlah = chart["pendapatanPerkategori"][i]
-                if nama not in total_kategori:
-                    total_kategori[nama] = 0
-                total_kategori[nama] += jumlah
-    kategori = list(total_kategori.keys())
-    pendapatanPerkategori = list(total_kategori.values())
-    warna_kategori = {"Minuman": "blue", "Alat tulis": "red", "Makanan": "green"}
-    warnadiagramPP = [warna_kategori.get(k, "gray") for k in kategori]
-
-    # Diagram perbandingan pendapatan tiap bulan
-    pendapatanbulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"]
-    pendapatanPerbulan = []
-    for bulan in range(1, 13):
-        total = 0
-        hasData = False
+        # kolom informasi penting
+        totalTransaksi = 0
+        totalPendapatan_num = 0
+        modalBarang_num = 0
         for tanggal, data in data_harian.items():
-            tahun, bln, hari = map(int, tanggal.split("-"))
-            if tanggal_awal <= tanggal <= tanggal_akhir and bln == bulan:
-                total += data["totalPendapatan"]
-                hasData = True
-        pendapatanPerbulan.append(total if hasData else None)
+            if tanggal_awal <= tanggal <= tanggal_akhir:
+                totalTransaksi += data["totalTransaksi"]
+                totalPendapatan_num += data["totalPendapatan"]
+                modalBarang_num += data["modalBarang"]
+        untungRugi_num = totalPendapatan_num - modalBarang_num
 
-    # Diagram perbandingan jumlah transaksi tiap bulan
-    transaksiperbulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"]
-    jumlahtransaksiPerbulan = []
-    for bulan in range(1, 13):
-        total = 0
-        hasData = False
-        for tanggal, data in data_harian.items():
-            tahun, bln, hari = map(int, tanggal.split("-"))
-            if tanggal_awal <= tanggal <= tanggal_akhir and bln == bulan:
-                total += data["totalTransaksi"]
-                hasData = True
-        jumlahtransaksiPerbulan.append(total if hasData else None)
+        # Diagram produk terlaris
+        total_produk = {}
+        for tanggal, chart in data_chart_produk_terlaris_perhari.items():
+            if tanggal_awal <= tanggal <= tanggal_akhir:
+                for i in range(len(chart["namaProduk"])):
+                    nama = chart["namaProduk"][i]
+                    jumlah = chart["jumlahProduk"][i]
+                    if nama not in total_produk:
+                        total_produk[nama] = 0
+                    total_produk[nama] += jumlah
+        namaProduk = list(total_produk.keys())
+        jumlahProduk = list(total_produk.values())
+        warna_produk = {"Air mineral": "blue", "Aoka": "orange", "Pensil": "red", "Pulpen": "yellow", "Buku": "purple", "Pop mie": "green", "Penghapus": "pink"}
+        warnadiagramPT = [warna_produk.get(produk, "gray") for produk in namaProduk]
+
+        # Diagram pendapatan perkategori
+        total_kategori = {}
+        for tanggal, chart in data_chart_pendapatan_perkategori_perhari.items():
+            if tanggal_awal <= tanggal <= tanggal_akhir:
+                for i in range(len(chart["kategori"])):
+                    nama = chart["kategori"][i]
+                    jumlah = chart["pendapatanPerkategori"][i]
+                    if nama not in total_kategori:
+                        total_kategori[nama] = 0
+                    total_kategori[nama] += jumlah
+        kategori = list(total_kategori.keys())
+        pendapatanPerkategori = list(total_kategori.values())
+        warna_kategori = {"Minuman": "blue", "Alat tulis": "red", "Makanan": "green"}
+        warnadiagramPP = [warna_kategori.get(k, "gray") for k in kategori]
+
+        # Diagram perbandingan pendapatan tiap bulan
+        pendapatanbulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"]
+        pendapatanPerbulan = []
+        for bulan in range(1, 13):
+            total = 0
+            hasData = False
+            for tanggal, data in data_harian.items():
+                tahun, bln, hari = map(int, tanggal.split("-"))
+                if tanggal_awal <= tanggal <= tanggal_akhir and bln == bulan:
+                    total += data["totalPendapatan"]
+                    hasData = True
+            pendapatanPerbulan.append(total if hasData else None)
+
+        # Diagram perbandingan jumlah transaksi tiap bulan
+        transaksiperbulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"]
+        jumlahtransaksiPerbulan = []
+        for bulan in range(1, 13):
+            total = 0
+            hasData = False
+            for tanggal, data in data_harian.items():
+                tahun, bln, hari = map(int, tanggal.split("-"))
+                if tanggal_awal <= tanggal <= tanggal_akhir and bln == bulan:
+                    total += data["totalTransaksi"]
+                    hasData = True
+            jumlahtransaksiPerbulan.append(total if hasData else None)
+
+    # Format numbers to Rupiah string
+    totalPendapatan = Rupiah(totalPendapatan_num)
+    modalBarang = Rupiah(modalBarang_num)
+    if untungRugi_num >= 0:
+        untungRugi = "+" + Rupiah(untungRugi_num)
+    else:
+        untungRugi = "-" + Rupiah(abs(untungRugi_num))
 
     return render_template('15.Laporan_Penjualan.html',
         tanggal_awal=tanggal_awal, tanggal_akhir=tanggal_akhir,
