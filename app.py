@@ -799,11 +799,21 @@ def admin_simpan_barang_baru():
     rasa = request.form.get('rasa', '')
     expired = request.form.get('expired', '')
     deskripsi = request.form.get('deskripsi', '')
+    # Handle image upload
+    gambar_path = ''
+    file = request.files.get('gambar')
+    if file and file.filename:
+        filename = secure_filename(file.filename)
+        upload_dir = app.config['UPLOAD_FOLDER']
+        os.makedirs(upload_dir, exist_ok=True)
+        file.save(os.path.join(upload_dir, filename))
+        gambar_path = 'gambar/' + filename
+
     no_baru = max([b['no'] for b in data_barang], default=0) + 1
     data_barang.append({
         'no': no_baru, 'nama': nama_barang, 'berat': volume or '-',
         'stok': jumlah, 'harga': harga_jual, 'kategori': kategori,
-        'tanggal': tanggal, 'gambar': '', 'rating': 0, 'emoji': '📦'
+        'tanggal': tanggal, 'gambar': gambar_path, 'rating': 0, 'emoji': '📦'
     })
     save_data_barang(data_barang)
     return render_template('17.-konfirmasi-barang.html',
@@ -811,7 +821,7 @@ def admin_simpan_barang_baru():
         harga_beli=harga_beli, harga_jual=harga_jual, 
         jumlah=jumlah, tanggal=tanggal, variasi=variasi,
         ukuran=volume, rasa=rasa, expired=expired,
-        deskripsi=deskripsi)
+        deskripsi=deskripsi, gambar=gambar_path)
 
 @app.route('/admin/simpan', methods=['POST'])
 def admin_simpan():

@@ -37,7 +37,11 @@
 
             <div class="image-box">
                 <!-- Using a placeholder or the default image as shown in the mockup -->
-                <img src="{{ url_for('static', filename='teh-botol.png') }}" alt="Gambar Barang">
+                {% if gambar %}
+                    <img src="{{ url_for('static', filename=gambar) }}" alt="Gambar Barang">
+                {% else %}
+                    <img src="{{ url_for('static', filename='teh-botol.png') }}" alt="Gambar Barang">
+                {% endif %}
             </div>
         </div>
 
