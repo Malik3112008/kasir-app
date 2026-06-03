@@ -39,7 +39,6 @@ HALAMAN UTAMA:
   /                       - Pilih Admin atau Pembeli
 
 HALAMAN ADMIN (awali dengan /admin):
-  /admin                  - Beranda awal admin
   /admin/login            - Login admin
   /admin/register         - Register akun baru
   /admin/forgot           - Lupa password
@@ -51,8 +50,6 @@ HALAMAN ADMIN (awali dengan /admin):
   /admin/kelola_akun_penjual - Kelola akun penjual
   /admin/pengisian_barang - Pengisian barang
   /admin/cetak_laporan    - Cetak laporan
-  /admin/laporan_penjualan - Laporan penjualan
-  /admin/siapkan-pesanan  - Siapkan pesanan
   /admin/pengaturan       - Pengaturan koperasi
   /admin/denah            - Denah koperasi (admin edit mode)
   /admin/logout           - Logout
