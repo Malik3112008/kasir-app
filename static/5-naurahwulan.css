@@ -23,13 +23,17 @@ body{
     overflow: hidden;
     border: 3px solid #4da6ff0a;
     margin: auto;
-    background: #eee;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .circle-logo img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 h1{

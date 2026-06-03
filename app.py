@@ -1785,7 +1785,8 @@ def buat_pesanan_dari_cart(metode):
     trx_id = "TRX" + str(random.randint(10000, 99999))
     sekarang = datetime.now()
     tanggal = sekarang.strftime("%Y-%m-%d")
-    pelanggan = session.get('nama', 'Guest')
+    waktu = sekarang.strftime("%H:%M:%S")
+    pelanggan = session.get('nama') or session.get('user') or 'Guest'
     barang_list = []
     for nama in cart:
         qty = cart[nama]['jumlah']
@@ -1800,6 +1801,7 @@ def buat_pesanan_dari_cart(metode):
     pesanan_baru = {
         "id": trx_id,
         "tanggal": tanggal,
+        "waktu": waktu,
         "pelanggan": pelanggan,
         "metode": metode,
         "status": "Disiapkan",
@@ -1820,7 +1822,7 @@ def pembeli_tunai():
     total = 0
     for item in items:
         total += item["jumlah"] * item["harga"]
-    nama = session.get('nama', 'Guest')
+    nama = session.get('nama') or session.get('user') or 'Guest'
     kode = random.randint(1000, 9999)
     session['tunai_items'] = items
     session['tunai_total'] = total
@@ -1834,13 +1836,24 @@ def pembeli_tunai():
 @app.route('/pembeli/qris')
 def pembeli_qris():
     session['metode'] = 'QRIS'
-    buat_pesanan_dari_cart('QRIS')
-    subtotal = 0
-    total_diskon = 0
-    for item in get_items_bayar():
-        subtotal += item["jumlah"] * item["harga"]
-        total_diskon += item["diskon"]
-    total = subtotal - total_diskon
+    if cart:
+        subtotal = 0
+        total_diskon = 0
+        for item in get_items_bayar():
+            subtotal += item["jumlah"] * item["harga"]
+            total_diskon += item["diskon"]
+        total = subtotal - total_diskon
+        session['qris_total'] = total
+        buat_pesanan_dari_cart('QRIS')
+    else:
+        total = session.get('qris_total')
+        if total is None:
+            pelanggan = session.get('nama') or session.get('user') or 'Guest'
+            pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan and p["metode"] == "QRIS"]
+            if pesanan_user:
+                total = pesanan_user[-1]["total"]
+            else:
+                total = 0
     return render_template('1-pembayaranqris.html', total=total, formatRp=formatRp)
 
 # ============================================================
@@ -1854,7 +1867,7 @@ def pembeli_selesai():
 
 @app.route('/pembeli/pesanan')
 def pembeli_pesanan():
-    pelanggan = session.get('nama', '')
+    pelanggan = session.get('nama') or session.get('user') or 'Guest'
     pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan]
     
     count_dikemas = len([p for p in pesanan_user if p["status"] == "Disiapkan"])
@@ -1868,21 +1881,21 @@ def pembeli_pesanan():
 
 @app.route('/pembeli/pesanan/dikemas')
 def pembeli_pesanan_dikemas():
-    pelanggan = session.get('nama', '')
+    pelanggan = session.get('nama') or session.get('user') or 'Guest'
     pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan]
     pesanan_to_show = [p for p in pesanan_user if p["status"] == "Disiapkan"]
     return render_template('8_1-detailpesanan.html', pesanan_list=pesanan_to_show)
 
 @app.route('/pembeli/pesanan/siapdiambil')
 def pembeli_pesanan_siapdiambil():
-    pelanggan = session.get('nama', '')
+    pelanggan = session.get('nama') or session.get('user') or 'Guest'
     pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan]
     pesanan_to_show = [p for p in pesanan_user if p["status"] in ("Siap diambil", "Menunggu Pembayaran")]
     return render_template('8_2-detailpesanan.html', pesanan_list=pesanan_to_show)
 
 @app.route('/pembeli/pesanan/selesai')
 def pembeli_pesanan_selesai():
-    pelanggan = session.get('nama', '')
+    pelanggan = session.get('nama') or session.get('user') or 'Guest'
     pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan]
     pesanan_to_show = [p for p in pesanan_user if p["status"] in ("Selesai", "Sudah diambil")]
     return render_template('8_3-detailpesanan.html', pesanan_list=pesanan_to_show)
@@ -1997,7 +2010,7 @@ def pembeli_like():
 @app.route('/pembeli/struk')
 def pembeli_struk():
     trx_id = request.args.get('trx_id')
-    pelanggan = session.get('nama', '')
+    pelanggan = session.get('nama') or session.get('user') or 'Guest'
     
     if trx_id:
         order = next((p for p in pesanan if p["id"] == trx_id and p["pelanggan"] == pelanggan), None)
@@ -2015,12 +2028,22 @@ def pembeli_struk():
         except:
             sekarang = datetime.now()
         trx_id = order["id"]
+        
+        if "waktu" in order:
+            jam = order["waktu"]
+        else:
+            today_str = datetime.now().strftime("%Y-%m-%d")
+            if order["tanggal"] == today_str:
+                jam = datetime.now().strftime("%H:%M:%S")
+            else:
+                jam = "00:00:00"
     else:
         sumber = get_items_bayar()
         metode = session.get('metode', 'Tunai')
         total_final = None # Will calculate
         sekarang = datetime.now()
         trx_id = "TRX-TEMP"
+        jam = sekarang.strftime("%H:%M:%S")
 
     daftar_produk = []
     for item in sumber:
@@ -2049,7 +2072,6 @@ def pembeli_struk():
         kembali = 0
 
     tanggal = format_kbbi_date(sekarang)
-    jam = sekarang.strftime("%H:%M:%S")
     kode = session.get('tunai_kode', random.randint(1000, 9999))
 
     return render_template('5-strukpembayaran.html', produk=daftar_produk, subtotal=subtotal, total_diskon=total_diskon, total=total, tunai=tunai, kembali=kembali, tanggal=tanggal, jam=jam, kode=kode, total_produk=total_produk, metode=metode, nama=pelanggan, trx_id=trx_id)

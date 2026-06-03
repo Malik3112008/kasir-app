@@ -17,14 +17,19 @@ body {
     animation: fadeInUp 0.4s ease;
 }
 
+a {
+    text-decoration: none !important;
+}
+
 .back {
-    display: inline-block;
-    text-decoration: none;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    text-decoration: none !important;
     color: #7aa7ff;
     font-size: 14px;
     font-weight: bold;
     margin-bottom: 12px;
-    text-align: left;
 }
 
 h1 {
@@ -63,7 +68,7 @@ h1 {
 }
 
 .info {
-    text-align: left;
+    text-align: center;
     margin: 14px 0;
     font-size: 13px;
     color: #333;

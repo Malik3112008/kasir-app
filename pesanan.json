@@ -118,5 +118,184 @@
         "total_awal": 50000,
         "total": 50000,
         "refund": 0
+    },
+    {
+        "id": "TRX86521",
+        "tanggal": "2026-06-03",
+        "pelanggan": "pembeli",
+        "metode": "QRIS",
+        "status": "Disiapkan",
+        "barang": [
+            {
+                "nama": "Donat",
+                "jumlah": 6,
+                "harga": 5000
+            }
+        ],
+        "total_awal": 30000,
+        "total": 30000,
+        "refund": 0
+    },
+    {
+        "id": "TRX82004",
+        "tanggal": "2026-06-03",
+        "waktu": "15:41:03",
+        "pelanggan": "pembeli",
+        "metode": "QRIS",
+        "status": "Disiapkan",
+        "barang": [
+            {
+                "nama": "Penghapus",
+                "jumlah": 3,
+                "harga": 2000
+            }
+        ],
+        "total_awal": 6000,
+        "total": 6000,
+        "refund": 0
+    },
+    {
+        "id": "TRX34737",
+        "tanggal": "2026-06-03",
+        "waktu": "15:43:50",
+        "pelanggan": "pembeli",
+        "metode": "QRIS",
+        "status": "Disiapkan",
+        "barang": [
+            {
+                "nama": "Penghapus",
+                "jumlah": 2,
+                "harga": 2000
+            }
+        ],
+        "total_awal": 4000,
+        "total": 4000,
+        "refund": 0
+    },
+    {
+        "id": "TRX90160",
+        "tanggal": "2026-06-03",
+        "waktu": "15:46:30",
+        "pelanggan": "pembeli",
+        "metode": "QRIS",
+        "status": "Disiapkan",
+        "barang": [
+            {
+                "nama": "Penghapus",
+                "jumlah": 4,
+                "harga": 2000
+            }
+        ],
+        "total_awal": 8000,
+        "total": 8000,
+        "refund": 0
+    },
+    {
+        "id": "TRX63744",
+        "tanggal": "2026-06-03",
+        "waktu": "15:49:25",
+        "pelanggan": "pembeli",
+        "metode": "Tunai",
+        "status": "Disiapkan",
+        "barang": [
+            {
+                "nama": "Donat",
+                "jumlah": 4,
+                "harga": 5000
+            }
+        ],
+        "total_awal": 20000,
+        "total": 20000,
+        "refund": 0
+    },
+    {
+        "id": "TRX14077",
+        "tanggal": "2026-06-03",
+        "waktu": "15:58:37",
+        "pelanggan": "Guest",
+        "metode": "Tunai",
+        "status": "Disiapkan",
+        "barang": [
+            {
+                "nama": "Penghapus",
+                "jumlah": 4,
+                "harga": 2000
+            }
+        ],
+        "total_awal": 8000,
+        "total": 8000,
+        "refund": 0
+    },
+    {
+        "id": "TRX49406",
+        "tanggal": "2026-06-03",
+        "waktu": "15:58:53",
+        "pelanggan": "Guest",
+        "metode": "Tunai",
+        "status": "Disiapkan",
+        "barang": [
+            {
+                "nama": "Penghapus",
+                "jumlah": 2,
+                "harga": 2000
+            }
+        ],
+        "total_awal": 4000,
+        "total": 4000,
+        "refund": 0
+    },
+    {
+        "id": "TRX48301",
+        "tanggal": "2026-06-03",
+        "waktu": "15:59:16",
+        "pelanggan": "Guest",
+        "metode": "Tunai",
+        "status": "Disiapkan",
+        "barang": [
+            {
+                "nama": "Pop Mie",
+                "jumlah": 5,
+                "harga": 4000
+            }
+        ],
+        "total_awal": 20000,
+        "total": 20000,
+        "refund": 0
+    },
+    {
+        "id": "TRX27136",
+        "tanggal": "2026-06-03",
+        "waktu": "16:00:46",
+        "pelanggan": "Guest",
+        "metode": "QRIS",
+        "status": "Disiapkan",
+        "barang": [
+            {
+                "nama": "Pop Mie",
+                "jumlah": 4,
+                "harga": 4000
+            }
+        ],
+        "total_awal": 16000,
+        "total": 16000,
+        "refund": 0
+    },
+    {
+        "id": "TRX27188",
+        "tanggal": "2026-06-03",
+        "waktu": "16:01:05",
+        "pelanggan": "Guest",
+        "metode": "Tunai",
+        "status": "Disiapkan",
+        "barang": [
+            {
+                "nama": "Pop Mie",
+                "jumlah": 5,
+                "harga": 4000
+            }
+        ],
+        "total_awal": 20000,
+        "total": 20000,
+        "refund": 0
     }
 ]

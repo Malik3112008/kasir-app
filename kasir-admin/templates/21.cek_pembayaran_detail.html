@@ -175,7 +175,11 @@
             jsPDF:        { unit: 'mm', format: [80, 150], orientation: 'portrait' }
         };
 
-        html2pdf().set(opt).from(element).save();
+        html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
+            pdf.save('struk-' + orderData.id + '.pdf');
+            const blob = pdf.output('bloburl');
+            window.open(blob, '_blank');
+        });
     }
 </script>
 

@@ -63,7 +63,7 @@
                             {% if is_admin and edit_mode %}
                             <div class="card card-id-{{ card.id }}">
                                 <div class="card-actions">
-                                    <form method="POST" action="/admin/delete/{{ card.id }}" class="delete-form">
+                                    <form method="POST" action="/admin/delete/{{ card.id }}" class="delete-form" onsubmit="return confirm('Apakah Anda yakin ingin menghapus \'{{ card.text }}\' dari denah?');">
                                         <button type="submit" class="action-btn delete-btn" title="Hapus">
                                             <i class="fa-solid fa-trash"></i>
                                         </button>

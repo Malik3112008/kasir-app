@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='5-naurahwulan.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
@@ -39,13 +40,13 @@
         <div>
             {{ tanggal }} <br>
             {{ jam }} <br>
-            KODE
+            KODE <br>
+            {{ kode }}
         </div>
 
         <div class="kanan">
             Nama Pembeli <br>
-            {{ nama }} <br>
-            Kode: {{ kode }}
+            {{ nama }}
         </div>
 
     </div>
@@ -157,14 +158,6 @@
 
     </div>
 
-    <div class="baris">
-
-        <span>Kembali</span>
-
-        <span> {{ formatRp(0) }}</span>
-
-    </div>
-
     {% endif %}
 
     <br><br>
@@ -173,11 +166,38 @@
         <h2>Terimakasih Telah Berbelanja di Inomart</h2>
     </center>
 
-    <div style="text-align:center; margin-top:20px;">
-        <button onclick="window.print()" style="display:inline-block; padding:10px 20px; background:#ff9800; color:#fff; border:none; border-radius:8px; margin:5px; cursor:pointer; font-size:14px; font-weight:600;">Unduh Struk</button>
+    <div class="no-print-btn" style="text-align:center; margin-top:20px;">
+        <button onclick="downloadPDF()" style="display:inline-block; padding:10px 20px; background:#ff9800; color:#fff; border:none; border-radius:8px; margin:5px; cursor:pointer; font-size:14px; font-weight:600;">Unduh Struk</button>
     </div>
 
 </div>
+
+<script>
+function downloadPDF() {
+    const btnContainer = document.querySelector('.no-print-btn');
+    if (btnContainer) {
+        btnContainer.style.display = 'none';
+    }
+
+    const element = document.querySelector('.struk');
+    const opt = {
+        margin:       [5, 5, 5, 5],
+        filename:     'struk_{{ trx_id }}.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
+        pdf.save('struk_{{ trx_id }}.pdf');
+        const blob = pdf.output('bloburl');
+        if (btnContainer) {
+            btnContainer.style.display = 'block';
+        }
+        window.open(blob, '_blank');
+    });
+}
+</script>
 
 </body>
 </html>
