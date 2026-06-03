@@ -19,7 +19,7 @@
         <form method="POST">
             <div class="kalender">
                 <input type="date" name="tanggal_awal" value="{{ tanggal_awal }}" min="2026-01-01" max="2027-12-31">
-                <span>sampai</span>
+                <span>Sampai</span>
                 <input type="date" name="tanggal_akhir" value="{{ tanggal_akhir }}" min="{{ tanggal_awal }}" max="2027-12-31">
                 <button type="submit">Konfirmasi</button>
             </div>
@@ -260,7 +260,7 @@
             flatpickr("input[type=date]", {
                 locale: "id",
                 altInput: true,
-                altFormat: "d-m-Y",
+                altFormat: "j/n/Y",
                 dateFormat: "Y-m-d"
             });
         });
