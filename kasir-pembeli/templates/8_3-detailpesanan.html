@@ -81,9 +81,11 @@
             </div>
 
             <div class="btn-group">
+                {% if p.metode | lower == 'qris' or p.status in ('Sudah diambil', 'Selesai') %}
                 <button class="btn-struk" style="border: none; cursor: pointer; font-family: inherit; font-size: inherit;" onclick="event.stopPropagation(); window.open('{{ url_for('pembeli_struk') }}?trx_id={{ p.id }}', '_blank');">
                     Lihat Struk
                 </button>
+                {% endif %}
                 <a href="{{ url_for('pembeli_penilaian') }}" class="btn-nilai">
                     Beri Penilaian
                 </a>
