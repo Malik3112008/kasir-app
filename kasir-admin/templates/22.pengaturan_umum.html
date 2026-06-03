@@ -42,7 +42,11 @@
         <label for="logo-input" class="btn-upload">pilih gambar</label>
         <input type="file" id="logo-input" name="gambar" accept=".jpg,.jpeg,.png,.svg" hidden />
       </div>
-      <img src="{{ url_for('static', filename='image/logo_3.png') }}" class="Logo" id="logo-preview" />
+      {% if logo %}
+        <img src="{{ url_for('static', filename=logo) }}" class="Logo" id="logo-preview" />
+      {% else %}
+        <img src="{{ url_for('static', filename='image/logo_3.png') }}" class="Logo" id="logo-preview" />
+      {% endif %}
     </div>
 
     <button type="submit" class="btn-simpan">Simpan Pengaturan</button>

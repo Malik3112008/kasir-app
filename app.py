@@ -1416,7 +1416,7 @@ def admin_simpan_pengaturan():
         upload_dir = app.config['UPLOAD_FOLDER']
         os.makedirs(upload_dir, exist_ok=True)
         file.save(os.path.join(upload_dir, filename))
-        data_koperasi['logo'] = filename
+        data_koperasi['logo'] = 'gambar/' + filename
 
     save_data(data_koperasi)
     return redirect(url_for('admin_pengaturan'))
