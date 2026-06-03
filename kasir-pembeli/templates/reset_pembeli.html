@@ -88,9 +88,31 @@
             </p>
 
             <p class="resend">
-                Kirim Ulang Kode -
-                <span>OTP dalam 59 detik</span>
+                <a href="#" onclick="document.querySelector('form').submit(); return false;" style="color: inherit; text-decoration: none; pointer-events: none; opacity: 0.6;" id="btn-resend">Kirim Ulang Kode</a> -
+                <span id="timer-text">OTP dalam 59 detik</span>
             </p>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const timerText = document.getElementById("timer-text");
+                    const btnResend = document.getElementById("btn-resend");
+                    if (timerText && btnResend) {
+                        let timeLeft = 59;
+                        const interval = setInterval(function() {
+                            timeLeft--;
+                            if (timeLeft > 0) {
+                                timerText.textContent = "OTP dalam " + timeLeft + " detik";
+                            } else {
+                                clearInterval(interval);
+                                const resendContainer = document.querySelector(".resend");
+                                if (resendContainer) {
+                                    resendContainer.innerHTML = '<a href="#" onclick="document.querySelector(\'form\').submit(); return false;" style="color: #4d8dff; text-decoration: underline; font-weight: bold;">Kirim Ulang Kode</a>';
+                                }
+                            }
+                        }, 1000);
+                    }
+                });
+            </script>
             {% endif %}
 
         </div>

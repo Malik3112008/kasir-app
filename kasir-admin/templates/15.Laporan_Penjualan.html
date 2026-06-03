@@ -18,9 +18,9 @@
     <div class="Isi">
         <form method="POST">
             <div class="kalender">
-                <input type="date" name="tanggal_awal" value="{{ tanggal_awal }}" min="2026-01-01" max="2027-12-31">
+                <input type="date" name="tanggal_awal" placeholder="dd/mm/yyyy" value="{{ tanggal_awal }}" min="2026-01-01" max="2027-12-31">
                 <span>Sampai</span>
-                <input type="date" name="tanggal_akhir" value="{{ tanggal_akhir }}" min="{{ tanggal_awal }}" max="2027-12-31">
+                <input type="date" name="tanggal_akhir" placeholder="dd/mm/yyyy" value="{{ tanggal_akhir }}" min="{{ tanggal_awal }}" max="2027-12-31">
                 <button type="submit">Konfirmasi</button>
             </div>
         </form>

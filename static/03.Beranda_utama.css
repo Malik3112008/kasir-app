@@ -126,17 +126,25 @@ p {
   height: auto;
   position: absolute;
   top: 70%;
-  left: 75%;
+  left: 82%;
   transform: translate(-50%, -50%);
   z-index: 1;
 }
 
-.title-box,
 h1,
 p,
 .menu-btn {
   position: relative;
   top: 80px;
+}
+
+.title-box {
+  position: relative;
+  top: 30px;
+}
+
+.menu-btn.denah-btn {
+  margin-top: 35px;
 }
 
 /* Responsive */
@@ -146,7 +154,8 @@ p,
   .admin-btn { padding: 10px 16px; font-size: 16px; }
   .menu-btn { width: 100%; font-size: 20px; }
   .logo_2 { width: 250px; top: 80%; left: 50%; }
-  .title-box, h1, p, .menu-btn { top: 40px; }
+  h1, p, .menu-btn { top: 40px; }
+  .title-box { top: 10px; }
 }
 
 @media (max-width: 480px) {
