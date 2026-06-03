@@ -29,7 +29,7 @@
 
     <div class="container">
         {% if page == 'detail' %}
-            <!-- DETAIL VIEW (Merged from detail.html) -->
+            
             <div class="detail-board">
                 <h1 class="detail-title">{{ title }}</h1>
                 <div class="detail-image-wrapper">
@@ -37,10 +37,10 @@
                 </div>
             </div>
         {% else %}
-            <!-- COOPERATIVE PLAN VIEW (Home View) -->
+            
             <div class="board-wrapper">
                 <div class="board">
-                    <!-- TITLE (outside wall) -->
+                    
                     <div class="title-row">
                         <h1>Denah Tata Letak Koperasi</h1>
                         {% if is_admin %}
@@ -56,9 +56,9 @@
                         {% endif %}
                     </div>
 
-                    <!-- FLOOR PLAN CANVAS (The inner area from revisi4.jpeg) -->
+                    
                     <div class="floor-plan-canvas">
-                        <!-- CARDS -->
+                        
                         {% for card in cards %}
                             {% if is_admin and edit_mode %}
                             <div class="card card-id-{{ card.id }}">
@@ -83,7 +83,7 @@
                             {% endif %}
                         {% endfor %}
 
-                        <!-- Pintu Masuk/Keluar -->
+                        
                         <div class="pintu">
                             <span>Pintu Masuk/Keluar</span>
                         </div>
@@ -93,7 +93,7 @@
         {% endif %}
     </div>
 
-    <!-- MODAL (Only for Home view in Edit mode) -->
+    
     {% if page != 'detail' and is_admin and edit_card %}
     <div class="modal show">
         <div class="modal-content">

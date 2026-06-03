@@ -1,4 +1,4 @@
-/* 14-halaman-awal-pembeli.css - Student: Putri Risa */
+
 
 body {
     font-family: Arial;
@@ -6,7 +6,7 @@ body {
     background-color: #e0f2fe;
 }
 
-/* Notification */
+
 #notif {
     position: fixed;
     top: 20px;
@@ -20,7 +20,7 @@ body {
     animation: fadeInUp 0.3s ease;
 }
 
-/* Header */
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -86,7 +86,7 @@ select#kategori-filter {
     font-size: 11px;
 }
 
-/* Container */
+
 .container {
     display: flex;
     gap: 25px;
@@ -97,7 +97,7 @@ select#kategori-filter {
     margin-right: auto;
 }
 
-/* Card */
+
 .card {
     width: 220px;
     border: 1px solid #ccc;
@@ -130,7 +130,7 @@ select#kategori-filter {
 
 img.stok-habis,
 .no-img.stok-habis {
-    /* Out-of-stock items rendered normally, sorted to bottom */
+    
 }
 
 .card h3 {
@@ -177,7 +177,7 @@ img.stok-habis,
     margin: 0;
 }
 
-/* Action area */
+
 .card form {
     margin: 0;
     padding: 0;
@@ -242,13 +242,13 @@ button.btn-stok-habis {
     margin-top: 10px;
 }
 
-/* Animation */
+
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
     .header {
         flex-wrap: wrap;

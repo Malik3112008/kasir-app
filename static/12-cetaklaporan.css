@@ -1,4 +1,4 @@
-/* 12. cetaklaporan.css - tito student visual design */
+
 
 * {
     margin: 0;
@@ -13,7 +13,7 @@ body {
     padding: 0 30px;
 }
 
-/* ===== NAVBAR (TITO: transparent bg, border-bottom) ===== */
+
 nav {
     background-color: transparent;
     display: flex;
@@ -63,7 +63,7 @@ nav ul li a img:hover {
     transform: scale(1.1);
 }
 
-/* ===== JUDUL ===== */
+
 h1 {
     margin-top: 40px;
     margin-bottom: 30px;
@@ -71,7 +71,7 @@ h1 {
     text-align: center;
 }
 
-/* ===== LAPORAN BOX (TITO: wider, larger text) ===== */
+
 .laporan-box {
     background: #73a0ff;
     max-width: 1000px;
@@ -105,7 +105,7 @@ h1 {
     font-size: 16px;
 }
 
-/* ===== CETAK BOX ===== */
+
 .cetak-box {
     margin-top: 20px;
     text-align: center;
@@ -128,7 +128,7 @@ h1 {
     transform: translateY(-1px);
 }
 
-/* ===== LINE ===== */
+
 .line {
     max-width: 1000px;
     width: 100%;
@@ -137,7 +137,7 @@ h1 {
     background: #444;
 }
 
-/* ===== CARDS (TITO: taller, larger text, wider gap) ===== */
+
 .card-container {
     display: flex;
     justify-content: center;
@@ -186,7 +186,7 @@ h1 {
     margin: 0;
 }
 
-/* ===== TABLE (TITO: larger text, more padding) ===== */
+
 .table-container {
     margin: 40px auto;
     max-width: 1000px;
@@ -222,7 +222,7 @@ tbody tr {
     transition: background-color 0.2s ease;
 }
 
-/* ===== STOK BADGE ===== */
+
 .stok-badge {
     display: inline-block;
     padding: 4px 12px;
@@ -235,7 +235,7 @@ tbody tr {
     color: #d48800;
 }
 
-/* ===== STATUS BADGES ===== */
+
 .badge {
     display: inline-block;
     padding: 4px 10px;
@@ -264,7 +264,7 @@ tbody tr {
     color: #d97706;
 }
 
-/* ===== SELECT & SD ===== */
+
 .laporan-box select {
     width: auto;
     min-width: 220px;
@@ -285,7 +285,7 @@ tbody tr {
     font-weight: bold;
 }
 
-/* ===== BUTTONS (TITO: smaller, brighter green) ===== */
+
 .button-group {
     display: flex;
     justify-content: center;
@@ -317,7 +317,7 @@ tbody tr {
     box-shadow: 0 4px 12px rgba(235,105,105,0.3);
 }
 
-/* ===== STATUS BADGE ===== */
+
 .badge-status {
     display: inline-block;
     padding: 4px 12px;
@@ -344,7 +344,7 @@ tbody tr {
     color: #92400e;
 }
 
-/* ===== STOK BADGE ===== */
+
 .stok {
     background-color: #ffe76b;
     padding: 5px 12px;
@@ -353,7 +353,7 @@ tbody tr {
     display: inline-block;
 }
 
-/* ===== TANGGAL BADGE ===== */
+
 .tanggal-badge {
     background-color: #dff3ff;
     color: #355b87;
@@ -363,7 +363,7 @@ tbody tr {
     font-weight: bold;
 }
 
-/* ===== ANIMATIONS ===== */
+
 .container {
     animation: fadeInUp 0.4s ease;
 }
@@ -373,7 +373,7 @@ tbody tr {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== RESPONSIVE ===== */
+
 @media (max-width: 768px) {
     h1 {
         margin-top: 50px;

@@ -7,7 +7,7 @@
 
 body{
     background:#eef6ff;
-    overflow-x: hidden; /* Prevent horizontal scrollbars from scaled content */
+    overflow-x: hidden; 
 }
 
 .navbar{
@@ -60,10 +60,10 @@ body{
     padding: 20px;
     display: flex;
     justify-content: center;
-    overflow: hidden; /* Ensure content stays within viewport */
+    overflow: hidden; 
 }
 
-/* Responsive Board Wrapper */
+
 .board-wrapper {
     width: 100%;
     display: flex;
@@ -83,12 +83,12 @@ body{
     flex-shrink: 0;
 }
 
-/* Scaling logic for responsiveness */
+
 @media (max-width: 1650px) {
     .board {
         transform: scale(0.9);
         transform-origin: top center;
-        margin-bottom: -100px; /* Offset the scale empty space */
+        margin-bottom: -100px; 
     }
 }
 @media (max-width: 1450px) {
@@ -141,7 +141,7 @@ body{
     color:#000;
 }
 
-/* The inner area from revisi4.jpeg */
+
 .floor-plan-canvas{
     width:1500px;
     height:780px;
@@ -160,7 +160,7 @@ body{
     background:white;
     border-radius: 30px;
     border: 3px solid #3b82f6;
-    border-bottom-width: 6px; /* 3px thicker than the other sides */
+    border-bottom-width: 6px; 
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -201,14 +201,14 @@ body{
     background:#93c5fd;
     color:white;
     width: 400px;
-    height: 40px; /* Exactly matches the 40px inset shadow wall */
+    height: 40px; 
     border-radius: 0;
     font-size: 18px;
     font-weight:700;
     z-index:10;
 }
 
-/* Edit Mode Assets */
+
 .edit-toggle-btn{
     width: 60px;
     height: 60px;
@@ -259,7 +259,7 @@ body{
 .delete-btn{ background:#fee2e2; color:#ef4444; }
 .edit-card-btn{ background:#dbeafe; color:#2563eb; }
 
-/* Modal */
+
 .modal{
     position:fixed;
     inset:0;
@@ -307,7 +307,7 @@ body{
 .modal-buttons { display: flex; gap: 10px; }
 .modal-buttons > * { flex: 1; }
 
-/* Detail Board */
+
 .detail-board{
     width: 100%;
     max-width: 1000px;
@@ -324,7 +324,7 @@ body{
     border-radius: 20px;
 }
 
-/* Specific Card Styling */
+
 .card-id-1{ background:#ffffff; border-color:#89B5EF; }
 .card-id-1 .icon{ color:#89B5EF; }
 .card-id-1 .card-text{ color:#89B5EF; }

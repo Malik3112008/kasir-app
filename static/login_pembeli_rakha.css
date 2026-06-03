@@ -1,4 +1,4 @@
-/* Global Styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -12,7 +12,7 @@ body {
     background: #eef3f7;
 }
 
-/* Container */
+
 .container {
     width: 100%;
     min-height: 100vh;
@@ -22,7 +22,7 @@ body {
     padding-top: 30px;
 }
 
-/* Logo */
+
 .logo {
     width: 150px;
     height: 150px;
@@ -36,7 +36,7 @@ body {
     margin-bottom: 30px;
 }
 
-/* Box Container */
+
 .box {
     width: 500px;
     background: white;
@@ -55,7 +55,7 @@ body {
     background: rgba(238, 247, 255, 0.87);
 }
 
-/* Headings */
+
 h1 {
     text-align: center;
     font-size: 30px;
@@ -69,7 +69,7 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* Icons */
+
 .icon {
     font-size: 100px;
     text-align: center;
@@ -89,7 +89,7 @@ h2 {
     margin: 30px auto;
 }
 
-/* Form Elements */
+
 form {
     display: flex;
     flex-direction: column;
@@ -147,7 +147,7 @@ input:focus {
     transform: translateY(-50%) scale(1.05);
 }
 
-/* Buttons */
+
 button {
     margin-top: 20px;
     padding: 15px;
@@ -193,7 +193,7 @@ button:hover {
     background: #4d88ff;
 }
 
-/* Link Button */
+
 .btn {
     display: inline-block;
     padding: 15px 40px;
@@ -210,7 +210,7 @@ button:hover {
     background: #1565d8;
 }
 
-/* Back Button */
+
 .back {
     display: inline-block;
     margin: 20px;
@@ -224,7 +224,7 @@ button:hover {
     color: #4a7ff0;
 }
 
-/* Forgot Password */
+
 .forgot {
     text-align: right;
     margin-top: 0px;
@@ -241,7 +241,7 @@ button:hover {
     text-decoration: underline;
 }
 
-/* Links */
+
 .bottom-text {
     margin-top: 20px;
     font-size: 16px;
@@ -290,7 +290,7 @@ button:hover {
     text-decoration: underline;
 }
 
-/* Subtitle */
+
 .subtitle {
     font-size: 16px;
     color: #666;
@@ -303,7 +303,7 @@ button:hover {
     font-weight: bold;
 }
 
-/* Error Message */
+
 .error-message {
     color: #d32f2f;
     background: #ffebee;
@@ -314,7 +314,7 @@ button:hover {
     text-align: center;
 }
 
-/* Info Box */
+
 .info-box {
     background: #e3f2fd;
     border-left: 4px solid #4d8dff;
@@ -325,7 +325,7 @@ button:hover {
     font-size: 14px;
 }
 
-/* Small Text */
+
 .small-text {
     font-size: 14px;
     color: #999;
@@ -333,7 +333,7 @@ button:hover {
     text-align: center;
 }
 
-/* Resend */
+
 .resend {
     font-size: 14px;
     color: #4d8dff;
@@ -345,7 +345,7 @@ button:hover {
     color: #d32f2f;
 }
 
-/* OTP Box */
+
 .otp-box {
     display: flex;
     justify-content: center;
@@ -369,7 +369,7 @@ button:hover {
     border-color: #4d8dff;
 }
 
-/* Timer */
+
 .timer {
     font-size: 14px;
     color: #666;
@@ -382,7 +382,7 @@ button:hover {
     font-weight: bold;
 }
 
-/* Button Group */
+
 .button-group {
     display: flex;
     gap: 10px;
@@ -394,7 +394,7 @@ button:hover {
     flex: 1;
 }
 
-/* Rules */
+
 .rules {
     background: #f5f5f5;
     padding: 15px;
@@ -403,7 +403,7 @@ button:hover {
     margin: 20px 0;
 }
 
-/* Password Toggle */
+
 .rules ol {
     margin: 10px 0;
     padding-left: 20px;
@@ -417,7 +417,7 @@ button:hover {
     font-weight: bold;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
     .box {
         width: 90%;

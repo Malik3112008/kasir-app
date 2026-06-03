@@ -15,7 +15,7 @@ body::before {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.2; /* a little bit transparent */
+  opacity: 0.2; 
   z-index: -2;
   pointer-events: none;
 }
@@ -32,7 +32,7 @@ nav {
   justify-content: space-between;
   margin-bottom: 20px;
   border-bottom: 1px solid #eee;
-  /* Optional: a thin line instead of shadow */
+  
 }
 
 nav ul {

@@ -159,7 +159,7 @@ table td {
     display: inline;
 }
 
-/* Animations */
+
 .container {
     animation: fadeInUp 0.4s ease;
 }
@@ -206,7 +206,7 @@ tbody tr:hover {
     transform: scale(1.05);
 }
 
-/* Form container for edit/tambah pages */
+
 .form-container {
     width: 400px;
     margin: 50px auto;

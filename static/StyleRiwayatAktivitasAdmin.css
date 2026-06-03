@@ -130,7 +130,7 @@ td {
     border-bottom: 1px solid #edf2f7;
 }
 
-/* --- LOGIKA ATURAN WARNA STATUS AKTIVITAS BARU --- */
+
 .status-badge {
     display: inline-block;
     width: 95px;
@@ -141,25 +141,25 @@ td {
     border-radius: 10px;
 }
 
-/* 1. Login System -> Biru */
+
 .status-login {
     background-color: #bfdbfe;
     color: #1e3a8a;
 }
 
-/* 2. Log Out -> Merah */
+
 .status-logout {
     background-color: #fca5a5;
     color: #7f1d1d;
 }
 
-/* 3. Tambah Barang & Restok -> Hijau */
+
 .status-tambah-stok {
     background-color: #a7f3d0;
     color: #065f46;
 }
 
-/* 4. Hapus & Ubah Harga -> Abu-Abu */
+
 .status-hapus-ubah {
     background-color: #e2e8f0;
     color: #334155;
@@ -170,7 +170,7 @@ td {
     color: #475569;
 }
 
-/* Dropdown Wrapper & Arrow Properties */
+
 .filter-card {
     background: white;
     padding: 25px;

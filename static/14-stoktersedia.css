@@ -55,7 +55,7 @@ h2 {
     font-size: 20px;
 }
 
-/* ===== HEADER & FILTER ===== */
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -90,7 +90,7 @@ h2 {
     border-radius: 8px;
 }
 
-/* ===== TABLE ===== */
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -118,7 +118,7 @@ tr {
     font-weight: 600;
 }
 
-/* ===== STOK BADGE (pill wrapping number) ===== */
+
 .stok-badge {
     display: inline-block;
     padding: 4px 12px;
@@ -144,7 +144,7 @@ tr {
     color: #1f8f1f;
 }
 
-/* ===== AKSI (Edit pencil only) ===== */
+
 .aksi {
     display: flex;
     justify-content: center;
@@ -169,7 +169,7 @@ tr {
     transform: scale(1.2);
 }
 
-/* ===== PAGINATION (dot navigation) ===== */
+
 .pagination {
     display: flex;
     justify-content: center;

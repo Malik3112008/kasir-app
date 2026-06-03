@@ -14,7 +14,7 @@ body {
     border-radius: 10px;
 }
 
-/* Navbar */
+
 .navbar {
     display: flex;
     align-items: center;
@@ -33,7 +33,7 @@ body {
     text-decoration: none;
 }
 
-/* Produk */
+
 .produk {
     display: flex;
     gap: 20px;
@@ -84,7 +84,7 @@ body {
     margin-top: 10px;
 }
 
-/* Deskripsi */
+
 .deskripsi-box {
     margin-top: 30px;
 }
@@ -100,7 +100,7 @@ body {
     color: #555;
 }
 
-/* Detail Produk */
+
 .detail {
     margin-top: 30px;
 }
@@ -121,7 +121,7 @@ body {
     border-bottom: 1px solid #eee;
 }
 
-/* Kuantitas */
+
 .kuantitas {
     margin-top: 30px;
     text-align: center;
@@ -164,7 +164,7 @@ body {
     border-radius: 8px;
 }
 
-/* Tombol */
+
 .tombol {
     display: flex;
     justify-content: center;
@@ -191,7 +191,7 @@ body {
     box-shadow: 0 4px 15px rgba(94,156,255,0.4);
 }
 
-/* Ulasan */
+
 .ulasan {
     margin-top: 40px;
 }
@@ -208,7 +208,7 @@ body {
     padding: 20px;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
     .container {
         width: 95%;

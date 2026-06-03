@@ -47,7 +47,7 @@ h2 {
     color: #1a1a1a;
 }
 
-/* Filter */
+
 .filter {
     display: flex;
     gap: 12px;
@@ -93,7 +93,7 @@ h2 {
     color: #e53e3e;
 }
 
-/* Table */
+
 .table-wrapper {
     background: #fff;
     border-radius: 12px;
@@ -129,7 +129,7 @@ tbody tr:hover {
     background-color: #f5faff;
 }
 
-/* Badge */
+
 .badge {
     display: inline-block;
     padding: 4px 12px;
@@ -145,7 +145,7 @@ tbody tr:hover {
 .siap { background-color: #f6ad55; }
 .proses { background-color: #fc8181; }
 
-/* Detail Link */
+
 .detail {
     color: #3182ce;
     text-decoration: none;
@@ -159,7 +159,7 @@ tbody tr:hover {
     text-decoration: underline;
 }
 
-/* Modal */
+
 .modal-overlay {
     display: none;
     position: fixed;
@@ -220,7 +220,7 @@ tbody tr:hover {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Modal Barang Table */
+
 .modal-barang-section {
     margin-top: 12px;
     border-top: 1px solid #eee;

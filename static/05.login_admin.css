@@ -246,7 +246,7 @@ a {
     margin: 10px 0;
 }
 
-/* ===== RESPONSIVE (RYO: stacks vertically on mobile) ===== */
+
 @media (max-width: 768px) {
     body {
         align-items: flex-start;

@@ -39,7 +39,7 @@ body{
     font-size:40px;
 }
 
-/* CARD */
+
 .pesanan-card{
     background:white;
 
@@ -69,7 +69,7 @@ body{
     color:#666;
 }
 
-/* STATUS */
+
 .badge-status{
     background:#5f8fff;
     color:white;
@@ -82,13 +82,13 @@ body{
     background:#f39c12;
 }
 
-/* ARROW */
+
 .arrow{
     font-size:35px;
     margin-left:20px;
 }
 
-/* POPUP */
+
 .popup{
     position:fixed;
 
@@ -130,7 +130,7 @@ body{
     cursor:pointer;
 }
 
-/* PRODUK */
+
 .produk{
     display:flex;
     justify-content:space-between;
@@ -152,7 +152,7 @@ body{
     text-align:right;
 }
 
-/* TOTAL */
+
 .total{
     display:flex;
     justify-content:space-between;
@@ -161,7 +161,7 @@ body{
     font-size:35px;
 }
 
-/* BUTTON */
+
 .tombol-kanan{
     display:flex;
     gap:15px;
@@ -193,12 +193,12 @@ body{
     font-weight:bold;
 }
 
-/* STATUS SELESAI */
+
 .selesai{
     background:#27ae60;
 }
 
-/* BUTTON GROUP */
+
 .btn-group{
     margin-top:25px;
 
@@ -207,7 +207,7 @@ body{
     gap:15px;
 }
 
-/* BUTTON STRUK */
+
 .btn-struk{
     flex:1;
 
@@ -226,7 +226,7 @@ body{
     font-weight:bold;
 }
 
-/* BUTTON NILAI */
+
 .btn-nilai{
     flex:1;
 

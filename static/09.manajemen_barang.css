@@ -1,4 +1,4 @@
-/* 09.manajemen_barang.css - rifky student visual design */
+
 
 * {
     margin: 0;
@@ -13,7 +13,7 @@ body {
     min-height: 100vh;
 }
 
-/* ===== NAVBAR ===== */
+
 nav {
     background-color: white;
     display: flex;
@@ -53,7 +53,7 @@ nav ul li a img:hover {
     transform: scale(1.15);
 }
 
-/* ===== CONTAINER (RIFKY: light cyan bg) ===== */
+
 .container {
     width: 95%;
     max-width: 1400px;
@@ -62,7 +62,7 @@ nav ul li a img:hover {
     padding: 20px;
 }
 
-/* ===== JUDUL (RIFKY: very large) ===== */
+
 h1 {
     font-size: 50px;
     font-weight: 700;
@@ -70,7 +70,7 @@ h1 {
     margin-bottom: 25px;
 }
 
-/* ===== SEARCH & ADD (RIFKY: top-box layout) ===== */
+
 .search-box {
     display: flex;
     align-items: center;
@@ -136,7 +136,7 @@ h1 {
     box-shadow: 0 6px 16px rgba(0,128,255,0.4);
 }
 
-/* ===== INFO RINGKAS ===== */
+
 .info-ringkas {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -192,7 +192,7 @@ h1 {
     color: #1a1a1a;
 }
 
-/* ===== TABLE (RIFKY: black borders, large text) ===== */
+
 .table-wrapper {
     background: #fff;
     overflow: hidden;
@@ -229,7 +229,7 @@ tbody tr:hover {
     background-color: #f5faff;
 }
 
-/* ===== STATUS BADGE ===== */
+
 .status {
     display: inline-block;
     padding: 4px 12px;
@@ -253,7 +253,7 @@ tbody tr:hover {
     color: #dc2626;
 }
 
-/* ===== TOMBOL AKSI ===== */
+
 .aksi {
     display: flex;
     align-items: center;
@@ -317,7 +317,7 @@ tbody tr:hover {
     color: #fff;
 }
 
-/* ===== RESPONSIVE ===== */
+
 @media (max-width: 768px) {
     h1 {
         font-size: 30px;

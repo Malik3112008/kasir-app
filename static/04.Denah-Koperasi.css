@@ -97,7 +97,7 @@ body{
     color:#222;
 }
 
-/* BUTTON */
+
 
 .edit-btn{
     border:none;
@@ -121,7 +121,7 @@ a.edit-btn{
     background:#3a9fd8;
 }
 
-/* CARD */
+
 
 .card{
     position:absolute;
@@ -148,7 +148,7 @@ a.edit-btn{
     text-align:center;
 }
 
-/* ACTION */
+
 
 .actions{
     position:absolute;

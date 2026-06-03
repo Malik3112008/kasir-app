@@ -113,7 +113,7 @@ body{
     box-shadow: 0 4px 12px rgba(127,211,255,0.4);
 }
 
-/* Animations */
+
 .container {
     animation: fadeInUp 0.4s ease;
 }

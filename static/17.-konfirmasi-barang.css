@@ -67,7 +67,7 @@ body{
     padding: 30px;
     display: flex;
     justify-content: space-between;
-    align-items: stretch; /* Height follows container */
+    align-items: stretch; 
     gap: 30px;
 }
 
@@ -83,7 +83,7 @@ body{
 }
 
 .image-box{
-    width: 250px; /* Larger width */
+    width: 250px; 
     background: #ffffff;
     border: 1px solid #e0e0e0;
     border-radius: 20px;
