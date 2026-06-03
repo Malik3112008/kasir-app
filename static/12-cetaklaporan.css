@@ -98,9 +98,10 @@ h1 {
 .tanggal input {
     width: 220px;
     height: 35px;
+    min-height: unset;
+    padding: 0 15px;
     border-radius: 50px;
     border: 2px solid #ddd;
-    padding-left: 20px;
     font-size: 16px;
 }
 
@@ -265,7 +266,11 @@ tbody tr {
 
 /* ===== SELECT & SD ===== */
 .laporan-box select {
-    padding: 10px 15px;
+    width: auto;
+    min-width: 220px;
+    height: 38px;
+    min-height: unset;
+    padding: 0 15px;
     border-radius: 10px;
     border: 2px solid #ddd;
     font-size: 15px;

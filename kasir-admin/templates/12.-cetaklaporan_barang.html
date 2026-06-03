@@ -74,6 +74,10 @@
             position: relative;
         }
         .report-select {
+            width: auto;
+            min-width: 240px;
+            min-height: unset;
+            height: 40px;
             padding: 10px 16px;
             border: 2px solid #e5e7eb;
             border-radius: 10px;
@@ -101,7 +105,11 @@
         .date-filter label {
             font-size: 13px; font-weight: 600; color: #6b7280;
         }
-        .date-filter input[type="date"] {
+        .date-filter input {
+            width: auto;
+            min-width: 140px;
+            height: 36px;
+            min-height: unset;
             padding: 8px 12px;
             border: 2px solid #e5e7eb;
             border-radius: 8px;
@@ -110,7 +118,7 @@
             background: #fff;
             transition: border-color 0.2s;
         }
-        .date-filter input[type="date"]:focus {
+        .date-filter input:focus {
             outline: none;
             border-color: #3A82C4;
         }

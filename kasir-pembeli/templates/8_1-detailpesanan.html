@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesanan Siap Diambil</title>
+    <title>Pesanan Dikemas</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='8_1-novalrizkym.css') }}">
 </head>
@@ -18,7 +18,7 @@
         </a>
 
         <div class="card">
-            <h1>Pesanan Siap Diambil</h1>
+            <h1>Pesanan Dikemas</h1>
 
             {% if pesanan_list %}
                 {% for p in pesanan_list %}
@@ -33,8 +33,8 @@
                     </div>
 
                     <div class="kanan">
-                        <span class="badge-status siap">
-                            Siap Diambil
+                        <span class="badge-status">
+                            Dikemas
                         </span>
                         <span class="arrow">
                             >
@@ -44,7 +44,7 @@
                 {% endfor %}
             {% else %}
                 <div style="text-align: center; padding: 20px; color: #888;">
-                    Belum ada pesanan yang siap diambil.
+                    Belum ada pesanan yang sedang dikemas.
                 </div>
             {% endif %}
         </div>

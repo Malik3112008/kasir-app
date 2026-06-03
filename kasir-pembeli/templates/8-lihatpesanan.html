@@ -1,111 +1,82 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Status Pesanan</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='8-lihatpesanan.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='8-novalrizkym.css') }}">
 </head>
 
 <body>
 
 <div class="background">
-
     <div class="container">
-
-        <a href="{{ url_for('pembeli_home') }}" class="back">← Kembali</a>
+        <a href="/pembeli" class="back">
+            ← Kembali
+        </a>
 
         <div class="card">
-
             <h1>Status Pesanan</h1>
 
             <div class="status-box">
-
-                <a href="{{ url_for('pembeli_pesanan') }}" class="status {% if status == 'Disiapkan' or status == 'dikemas' %}active{% endif %}">
+                <div class="status" id="dikemas" onclick="window.location.href='/pembeli/pesanan/dikemas'">
                     <div class="icon-circle">
-                        <img src="{{ url_for('static', filename='cardboard-box-11-svgrepo-com.svg') }}" class="icon">
+                        <img src="{{ url_for('static', filename='cardboard-box-11-svgrepo-com (1).svg') }}" class="icon">
                         {% if count_dikemas > 0 %}
                         <span class="badge">{{ count_dikemas }}</span>
                         {% endif %}
                     </div>
                     <p>Dikemas</p>
-                </a>
+                </div>
 
-                <a href="{{ url_for('pembeli_pesanan') }}?status=siap" class="status {% if status == 'Siap diambil' or status == 'siap' %}active{% endif %}">
-                    <img src="{{ url_for('static', filename='shopping-bag-svgrepo-com-(1).svg') }}" class="icon">
+                <div class="status" id="siap-diambil" onclick="window.location.href='/pembeli/pesanan/siapdiambil'">
+                    <div class="icon-circle">
+                        <img src="{{ url_for('static', filename='shopping-bag-svgrepo-com (2).svg') }}" class="icon">
+                        {% if count_siap > 0 %}
+                        <span class="badge">{{ count_siap }}</span>
+                        {% endif %}
+                    </div>
                     <p>Siap Diambil</p>
-                </a>
+                </div>
 
-                <a href="{{ url_for('pembeli_pesanan') }}?status=selesai" class="status {% if status == 'Selesai' or status == 'Sudah diambil' or status == 'selesai' %}active{% endif %}">
-                    <img src="{{ url_for('static', filename='check-mark-circle-svgrepo-com-(1).svg') }}" class="icon">
+                <div class="status" id="selesai" onclick="window.location.href='/pembeli/pesanan/selesai'">
+                    <div class="icon-circle">
+                        <img src="{{ url_for('static', filename='check-mark-circle-svgrepo-com (1).svg') }}" class="icon">
+                        {% if count_selesai > 0 %}
+                        <span class="badge">{{ count_selesai }}</span>
+                        {% endif %}
+                    </div>
                     <p>Pesanan Selesai</p>
-                </a>
-
+                </div>
             </div>
 
             <h1 class="judul-pesanan">Pesanan Saya</h1>
 
-            {% if pesanan_list %}
-                {% for p in pesanan_list %}
-                <div class="order-group" style="border: 1px solid #e0e0e0; border-radius: 12px; padding: 12px; margin-bottom: 20px; background: #fff;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom: 10px;">
-                        <span style="font-weight:bold; color:#555;">ID: {{ p.id }}</span>
-                        <span style="font-size:12px; color:#888;">{{ p.tanggal | tgl_indo }}</span>
-                    </div>
-
-                    <div class="pesanan-header" onclick="toggleDetail('detail-{{ p.id }}', 'icon-{{ p.id }}')" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:#f0f7ff; border-radius:10px; margin-bottom:10px;">
-                        <span style="font-weight:600;">Lihat Detail Pesanan</span>
-                        <span id="icon-{{ p.id }}" style="font-size:18px; transition:transform 0.3s;">&#9660;</span>
-                    </div>
-
-                    <div id="detail-{{ p.id }}" style="display:none;">
-                        {% for item in p.barang %}
-                        <div class="pesanan-item">
-                            <span>{{ item.nama }} ({{ item.jumlah }}x)</span>
-                            <span class="harga-item">{{ formatRp(item.jumlah * item.harga) }}</span>
-                        </div>
-                        {% endfor %}
-
-                        <div style="margin-top:10px; padding-top:10px; border-top:1px dashed #ccc; display:flex; justify-content:space-between; font-weight:bold;">
-                            <span>Total</span>
-                            <span>{{ formatRp(p.total) }}</span>
-                        </div>
-
-                        {% if p.status == 'Selesai' or p.status == 'Sudah diambil' %}
-                        <div class="aksi-pesanan" style="display:flex; gap:12px; margin-top:16px; justify-content:center;">
-                            <a href="{{ url_for('pembeli_struk') }}?trx_id={{ p.id }}" style="display:inline-block; padding:10px 24px; background:#2196F3; color:#fff; text-decoration:none; border-radius:8px; font-weight:600;">Lihat Struk</a>
-                            <a href="{{ url_for('pembeli_penilaian') }}" style="display:inline-block; padding:10px 24px; background:#4CAF50; color:#fff; text-decoration:none; border-radius:8px; font-weight:600;">Beri Penilaian</a>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
-            {% else %}
             <div class="pesanan-item">
-                <span>Belum ada pesanan</span>
+                <span>Dikemas</span>
+                <a href="/pembeli/pesanan/dikemas">
+                    Lihat >
+                </a>
             </div>
-            {% endif %}
 
+            <div class="pesanan-item">
+                <span>Siap Diambil</span>
+                <a href="/pembeli/pesanan/siapdiambil">
+                    Lihat >
+                </a>
+            </div>
+
+            <div class="pesanan-item">
+                <span>Pesanan Selesai</span>
+                <a href="/pembeli/pesanan/selesai">
+                    Lihat >
+                </a>
+            </div>
         </div>
-
     </div>
-
 </div>
-
-<script>
-function toggleDetail(detailId, iconId) {
-    var detail = document.getElementById(detailId);
-    var icon = document.getElementById(iconId);
-    if (detail.style.display === 'none') {
-        detail.style.display = 'block';
-        icon.style.transform = 'rotate(180deg)';
-    } else {
-        detail.style.display = 'none';
-        icon.style.transform = 'rotate(0deg)';
-    }
-}
-</script>
 
 </body>
 </html>

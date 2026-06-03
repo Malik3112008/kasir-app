@@ -4,101 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rating Produk</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='4-nandinibekti.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style1.css') }}">
 </head>
+
 <body>
 
-<a href="/pembeli/penilaian" style="display:inline-block; text-decoration:none; color:#7aa7ff; font-size:14px; font-weight:bold; margin-bottom:10px;">← Kembali</a>
-
 <div class="container">
-    <h1>Beri Rating & Ulasan</h1>
+    <a href="/pembeli/penilaian" style="display:inline-block; text-decoration:none; color:#7aa7ff; font-size:14px; font-weight:bold; margin-bottom:10px;">← Kembali</a>
 
-    <form method="POST" action="{{ url_for('pembeli_submit_rating') }}" enctype="multipart/form-data">
-    <input type="hidden" name="produk_nama" value="{{ nama_produk }}">
-    <input type="hidden" name="rating" id="rating_value" value="0">
+    <h1>Beri Rating & Ulasan</h1>
 
     <div class="produk">
         <img src="{{ url_for('static', filename=gambar_produk) }}" alt="{{ nama_produk }}">
         <div class="info">
             <h2>{{ nama_produk }}</h2>
             <p>{{ varian_produk }}</p>
-            <b>Tanggal Pembelian: {{ tanggal_pembelian | tgl_indo }}</b>
+            <b>Tanggal Pembelian: {{ tanggal_pembelian | tgl_indo if tanggal_pembelian is not string else tanggal_pembelian }}</b>
         </div>
     </div>
 
-    <div class="rating">
-        <span class="star" onclick="rating(1)">★</span>
-        <span class="star" onclick="rating(2)">★</span>
-        <span class="star" onclick="rating(3)">★</span>
-        <span class="star" onclick="rating(4)">★</span>
-        <span class="star" onclick="rating(5)">★</span>
-    </div>
+    <form action="{{ url_for('pembeli_submit_rating') }}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="produk_nama" value="{{ nama_produk }}">
+        <input type="hidden" name="rating" id="rating-value" value="0">
+        <input type="hidden" name="ulasan_tags" id="ulasan_tags" value="">
 
-    <h3>Ulasan Anda</h3>
-    <p>Pilih ulasan (opsional)</p>
+        <div class="rating">
+            <span class="star" onclick="rating(1)">★</span>
+            <span class="star" onclick="rating(2)">★</span>
+            <span class="star" onclick="rating(3)">★</span>
+            <span class="star" onclick="rating(4)">★</span>
+            <span class="star" onclick="rating(5)">★</span>
+        </div>
 
-    <div class="ulasan-pilihan">
-        <button type="button">Enak</button>
-        <button type="button">Pelayanan Cepat</button>
-        <button type="button">Sesuai Pesanan</button>
-        <button type="button">Harga Murah</button>
-        <button type="button">Bersih</button>
-        <button type="button">Recommended</button>
-    </div>
-    <input type="hidden" name="ulasan_tags" id="ulasan_tags" value="">
+        <h3>Ulasan Anda</h3>
+        <p>Pilih ulasan (opsional)</p>
 
-    <textarea name="ulasan" placeholder="Ceritakan pengalaman Anda...
+        <div class="ulasan-pilihan">
+            <button type="button">Enak</button>
+            <button type="button">Pelayanan Cepat</button>
+            <button type="button">Sesuai Pesanan</button>
+            <button type="button">Harga Murah</button>
+            <button type="button">Bersih</button>
+            <button type="button">Recommended</button>
+        </div>
+
+        <textarea name="ulasan" placeholder="Ceritakan pengalaman Anda...
 Bagaimana pengalaman Anda memesan dan mengambil produk di kopsis"></textarea>
 
-    <h3>Tambah Foto</h3>
-    <label for="foto" class="upload-label">
-        + Tambahkan Foto
-    </label>
-    <input type="file" id="foto" name="foto" accept="image/*" hidden>
+        <h3>Tambah Foto</h3>
 
-    <input type="hidden" name="nama" value="{{ nama_pengguna }}">
+        <label for="foto" class="upload-label">
+            + Tambahkan Foto
+        </label>
+        <input type="file" id="foto" name="foto" accept="image/*" hidden>
 
-    <button type="submit" class="kirim" style="font-family:inherit;">Kirim Rating</button>
+        <br><br>
+
+        <button type="submit" class="kirim">
+            Kirim Rating
+        </button>
     </form>
 </div>
 
 <script>
-    const stars = document.querySelectorAll('.star');
-    let selectedRating = 0;
+const stars = document.querySelectorAll('.star');
 
-    function rating(nilai) {
-        selectedRating = nilai;
-        document.getElementById('rating_value').value = nilai;
-        stars.forEach((star, index) => {
-            if(index < nilai){
-                star.classList.add('active');
-            } else {
-                star.classList.remove('active');
-            }
-        });
-    }
-
-    const buttons = document.querySelectorAll('.ulasan-pilihan button');
-    const tagsInput = document.getElementById('ulasan_tags');
-
-    function updateTags() {
-        const selected = [];
-        buttons.forEach(btn => {
-            if (btn.classList.contains('selected')) {
-                selected.push(btn.textContent.trim());
-            }
-        });
-        tagsInput.value = selected.join(', ');
-    }
-
-    buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            btn.classList.toggle('selected');
-            updateTags();
-        });
+function rating(nilai){
+    document.getElementById('rating-value').value = nilai;
+    stars.forEach((star, index) => {
+        if(index < nilai){
+            star.classList.add('active');
+        } else {
+            star.classList.remove('active');
+        }
     });
+}
+
+const buttons = document.querySelectorAll('.ulasan-pilihan button');
+const tagsInput = document.getElementById('ulasan_tags');
+
+function updateTags() {
+    const selected = [];
+    buttons.forEach(btn => {
+        if (btn.classList.contains('selected')) {
+            selected.push(btn.textContent.trim());
+        }
+    });
+    tagsInput.value = selected.join(', ');
+}
+
+buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        btn.classList.toggle('selected');
+        updateTags();
+    });
+});
 </script>
 
 </body>

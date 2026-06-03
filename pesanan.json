@@ -1,10 +1,122 @@
 [
-    {"id": "TRX001", "tanggal": "2025-11-15", "pelanggan": "Ahmad Rizki", "metode": "Tunai", "status": "Disiapkan",
-     "barang": [{"nama": "Sabun", "jumlah": 2, "harga": 5000, "gambar": "gambar-dan-icon/sabun.jpg"}, {"nama": "Pop Mie", "jumlah": 3, "harga": 4000, "gambar": "gambar-dan-icon/pop-mie.png"}, {"nama": "Air Mineral", "jumlah": 1, "harga": 3000, "gambar": "gambar-dan-icon/ades.jpg"}]},
-    {"id": "TRX002", "tanggal": "2025-11-15", "pelanggan": "Siti Nurhazila", "metode": "QRIS", "status": "Disiapkan",
-     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar-penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}]},
-    {"id": "TRX003", "tanggal": "2025-11-15", "pelanggan": "Diki Nurhazila", "metode": "Tunai", "status": "Disiapkan",
-     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar-penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}]},
-    {"id": "TRX004", "tanggal": "2025-11-15", "pelanggan": "Siti riki", "metode": "QRIS", "status": "Disiapkan",
-     "barang": [{"nama": "Penggaris", "jumlah": 1, "harga": 4000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}, {"nama": "Penghapus", "jumlah": 2, "harga": 3000, "gambar": "gambar-dan-icon/gambar-penghapus.jpeg"}, {"nama": "Pensil", "jumlah": 4, "harga": 10000, "gambar": "gambar-dan-icon/gambar-pensil.jpeg"}]}
+    {
+        "id": "TRX001",
+        "tanggal": "2025-11-15",
+        "pelanggan": "Ahmad Rizki",
+        "metode": "Tunai",
+        "status": "Siap diambil",
+        "barang": [
+            {
+                "nama": "Sabun",
+                "jumlah": 2,
+                "harga": 5000,
+                "gambar": "gambar-dan-icon/sabun.jpg"
+            },
+            {
+                "nama": "Pop Mie",
+                "jumlah": 3,
+                "harga": 4000,
+                "gambar": "gambar-dan-icon/pop-mie.png"
+            },
+            {
+                "nama": "Air Mineral",
+                "jumlah": 1,
+                "harga": 3000,
+                "gambar": "gambar-dan-icon/ades.jpg"
+            }
+        ],
+        "total_awal": 25000,
+        "total": 25000,
+        "refund": 0
+    },
+    {
+        "id": "TRX002",
+        "tanggal": "2025-11-15",
+        "pelanggan": "Siti Nurhazila",
+        "metode": "QRIS",
+        "status": "Disiapkan",
+        "barang": [
+            {
+                "nama": "Penggaris",
+                "jumlah": 1,
+                "harga": 4000,
+                "gambar": "gambar-dan-icon/gambar-pensil.jpeg"
+            },
+            {
+                "nama": "Penghapus",
+                "jumlah": 2,
+                "harga": 3000,
+                "gambar": "gambar-dan-icon/gambar-penghapus.jpeg"
+            },
+            {
+                "nama": "Pensil",
+                "jumlah": 4,
+                "harga": 10000,
+                "gambar": "gambar-dan-icon/gambar-pensil.jpeg"
+            }
+        ],
+        "total_awal": 50000,
+        "total": 50000,
+        "refund": 0
+    },
+    {
+        "id": "TRX003",
+        "tanggal": "2025-11-15",
+        "pelanggan": "Diki Nurhazila",
+        "metode": "Tunai",
+        "status": "Disiapkan",
+        "barang": [
+            {
+                "nama": "Penggaris",
+                "jumlah": 1,
+                "harga": 4000,
+                "gambar": "gambar-dan-icon/gambar-pensil.jpeg"
+            },
+            {
+                "nama": "Penghapus",
+                "jumlah": 2,
+                "harga": 3000,
+                "gambar": "gambar-dan-icon/gambar-penghapus.jpeg"
+            },
+            {
+                "nama": "Pensil",
+                "jumlah": 4,
+                "harga": 10000,
+                "gambar": "gambar-dan-icon/gambar-pensil.jpeg"
+            }
+        ],
+        "total_awal": 50000,
+        "total": 50000,
+        "refund": 0
+    },
+    {
+        "id": "TRX004",
+        "tanggal": "2025-11-15",
+        "pelanggan": "Siti riki",
+        "metode": "QRIS",
+        "status": "Disiapkan",
+        "barang": [
+            {
+                "nama": "Penggaris",
+                "jumlah": 1,
+                "harga": 4000,
+                "gambar": "gambar-dan-icon/gambar-pensil.jpeg"
+            },
+            {
+                "nama": "Penghapus",
+                "jumlah": 2,
+                "harga": 3000,
+                "gambar": "gambar-dan-icon/gambar-penghapus.jpeg"
+            },
+            {
+                "nama": "Pensil",
+                "jumlah": 4,
+                "harga": 10000,
+                "gambar": "gambar-dan-icon/gambar-pensil.jpeg"
+            }
+        ],
+        "total_awal": 50000,
+        "total": 50000,
+        "refund": 0
+    }
 ]

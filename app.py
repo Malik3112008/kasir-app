@@ -1723,74 +1723,52 @@ def pembeli_qris():
 
 @app.route('/pembeli/selesai')
 def pembeli_selesai():
-    pelanggan = session.get('nama', '')
-    pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan]
-    if pesanan_user:
-        order = pesanan_user[-1]
-        barang = order["barang"]
-        metode = order["metode"]
-        total = order["total"]
-    else:
-        barang = get_items_bayar()
-        metode = session.get('metode', 'Tunai')
-        total = sum(item["jumlah"] * item["harga"] for item in barang)
-    return render_template('8_2-detailpesanan.html', barang=barang, status='Selesai', metode=metode, total=total)
+    return redirect(url_for('pembeli_pesanan_selesai'))
+
 # ============================================================
 
 @app.route('/pembeli/pesanan')
 def pembeli_pesanan():
     pelanggan = session.get('nama', '')
-    status_filter = request.args.get('status')
-    
     pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan]
     
-    # Filter based on status
-    if status_filter == 'siap':
-        pesanan_to_show = [p for p in pesanan_user if p["status"] == "Siap diambil"]
-        current_status = "Siap diambil"
-    elif status_filter == 'selesai':
-        pesanan_to_show = [p for p in pesanan_user if p["status"] in ("Selesai", "Sudah diambil")]
-        current_status = "Selesai"
-    else:
-        pesanan_to_show = [p for p in pesanan_user if p["status"] == "Disiapkan"]
-        current_status = "Disiapkan"
-
     count_dikemas = len([p for p in pesanan_user if p["status"] == "Disiapkan"])
-    count_siap = len([p for p in pesanan_user if p["status"] == "Siap diambil"])
+    count_siap = len([p for p in pesanan_user if p["status"] in ("Siap diambil", "Menunggu Pembayaran")])
     count_selesai = len([p for p in pesanan_user if p["status"] in ("Selesai", "Sudah diambil")])
     
     return render_template('8-lihatpesanan.html', 
-                           pesanan_list=pesanan_to_show, 
-                           status=current_status, 
                            count_dikemas=count_dikemas, 
                            count_siap=count_siap, 
                            count_selesai=count_selesai)
 
-@app.route('/pembeli/status')
-def pembeli_status():
+@app.route('/pembeli/pesanan/dikemas')
+def pembeli_pesanan_dikemas():
     pelanggan = session.get('nama', '')
     pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan]
-    if pesanan_user:
-        order = pesanan_user[-1]
-        barang = order["barang"]
-        status = order["status"]
-        metode = order["metode"]
-        total = order["total"]
-    else:
-        barang = []
-        status = "Disiapkan"
-        metode = "-"
-        total = 0
-    return render_template('8_2-detailpesanan.html', barang=barang, status=status, metode=metode, total=total)
+    pesanan_to_show = [p for p in pesanan_user if p["status"] == "Disiapkan"]
+    return render_template('8_1-detailpesanan.html', pesanan_list=pesanan_to_show)
+
+@app.route('/pembeli/pesanan/siapdiambil')
+def pembeli_pesanan_siapdiambil():
+    pelanggan = session.get('nama', '')
+    pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan]
+    pesanan_to_show = [p for p in pesanan_user if p["status"] in ("Siap diambil", "Menunggu Pembayaran")]
+    return render_template('8_2-detailpesanan.html', pesanan_list=pesanan_to_show)
+
+@app.route('/pembeli/pesanan/selesai')
+def pembeli_pesanan_selesai():
+    pelanggan = session.get('nama', '')
+    pesanan_user = [p for p in pesanan if p["pelanggan"] == pelanggan]
+    pesanan_to_show = [p for p in pesanan_user if p["status"] in ("Selesai", "Sudah diambil")]
+    return render_template('8_3-detailpesanan.html', pesanan_list=pesanan_to_show)
+
+@app.route('/pembeli/status')
+def pembeli_status():
+    return redirect(url_for('pembeli_pesanan_dikemas'))
 
 @app.route("/siap-diambil")
 def siap_diambil():
-    pelanggan = session.get('nama', '')
-    pesanan_siap = [p for p in pesanan if p["status"] == "Siap diambil" and p["pelanggan"] == pelanggan]
-    count_dikemas = 0
-    count_siap = len(pesanan_siap)
-    count_selesai = 0
-    return render_template("8-lihatpesanan.html", pesanan_list=pesanan_siap, status="Siap diambil", total_barang=0, count_dikemas=count_dikemas, count_siap=count_siap, count_selesai=count_selesai)
+    return redirect(url_for('pembeli_pesanan_siapdiambil'))
 
 # ============================================================
 # PEMBELI: PENILAIAN
@@ -1816,17 +1794,20 @@ def pembeli_penilaian():
 def pembeli_rating():
     produk_id = request.args.get('id', type=int)
     nama_produk = "Roti Aoka"
-    gambar_produk = "gambar-dan-icon/roti.jpg"
+    gambar_produk = "gambar-dan-icon/gambar-roti-aoka.jpeg"
     varian_produk = "Vanilla"
     tanggal_pembelian = "28 Nov 2025"
     nama_pengguna = session.get('nama', '')
 
     if produk_id:
-        for b in data_barang:
-            if b['no'] == produk_id:
-                nama_produk = b['nama']
-                gambar_produk = b['gambar']
-                varian_produk = b.get('berat', '')
+        for p in produk_belum_dinilai:
+            if p['id'] == produk_id:
+                nama_produk = p['nama']
+                gambar_produk = p['gambar']
+                for b in data_barang:
+                    if b['nama'].lower() in nama_produk.lower() or nama_produk.lower() in b['nama'].lower():
+                        varian_produk = f"{b.get('berat', '')} {b.get('satuan', '')}".strip() or "Vanilla"
+                        break
                 break
 
     return render_template("4-inputpenilaian.html",
