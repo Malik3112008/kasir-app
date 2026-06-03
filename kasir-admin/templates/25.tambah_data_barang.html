@@ -98,7 +98,11 @@
 
             <div class="input-group">
                 <label>Gambar</label>
-                <input type="file" name="gambar" accept="image/*">
+                <input type="file" name="gambar" accept="image/*" id="input-gambar">
+                <div class="preview-container" id="preview-container" style="display: none; margin-top: 15px; text-align: center;">
+                    <p style="font-size: 13px; font-weight: bold; color: #555; margin-bottom: 5px;">Pratinjau Gambar:</p>
+                    <img id="img-preview" src="#" alt="Pratinjau" style="max-width: 200px; max-height: 200px; border-radius: 8px; border: 1px solid #ddd; object-fit: contain; padding: 5px; background: #fff;">
+                </div>
             </div>
 
             <button type="submit" class="btn-simpan">Simpan Barang</button>
@@ -115,6 +119,27 @@
                 altFormat: "d-m-Y",
                 dateFormat: "Y-m-d"
             });
+
+            const inputGambar = document.getElementById('input-gambar');
+            if (inputGambar) {
+                inputGambar.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    const container = document.getElementById('preview-container');
+                    const preview = document.getElementById('img-preview');
+                    
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(ev) {
+                            preview.src = ev.target.result;
+                            container.style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        preview.src = '#';
+                        container.style.display = 'none';
+                    }
+                });
+            }
         });
     </script>
 </body>
