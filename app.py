@@ -1508,6 +1508,10 @@ def admin_simpan_pengaturan():
         os.makedirs(upload_dir, exist_ok=True)
         file.save(os.path.join(upload_dir, filename))
         data_koperasi['logo'] = 'gambar/' + filename
+        
+        # Overwrite standard logo_3.png to globally update the entire app
+        file.seek(0)
+        file.save(os.path.join(BASE_DIR, 'static', 'image', 'logo_3.png'))
 
     save_data(data_koperasi)
     return redirect(url_for('admin_pengaturan'))
