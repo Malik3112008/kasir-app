@@ -10,8 +10,25 @@ html, body{
 }
 
 body{
+    position: relative;
     background: white;
     padding: 30px;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('bg.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.2; /* a little bit transparent */
+    z-index: -2;
+    pointer-events: none;
 }
 
 .kembali{
