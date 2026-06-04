@@ -35,3 +35,27 @@ def admin_simpan():
                 break
 
     return render_template('10.rekap_barang.html', kategori=kategori, nama_barang=nama_barang, tanggal=tanggal, jumlah=jumlah, harga=harga_jual, catatan=catatan, restok_id=restok_id)
+
+@admin_bp.route('/admin/manajemen-barang/tambah-stok', methods=['POST'])
+def admin_manajemen_barang_tambah_stok():
+    if not session.get('user'):
+        return redirect(url_for('admin.admin_login'))
+    
+    restok_id = request.form.get('restok_id')
+    jumlah = request.form.get('jumlah')
+    
+    if restok_id and jumlah:
+        try:
+            jumlah = int(jumlah)
+            for b in db.data_barang:
+                if str(b['no']) == str(restok_id):
+                    b['stok'] = b.get('stok', 0) + jumlah
+                    db.save_data_barang()
+                    admin_name = session.get('user', 'Admin')
+                    db.tambah_aktivitas("restok", f"Melakukan restok cepat: {b['nama']} (+{jumlah} unit)", "Berhasil", admin_name)
+                    break
+        except ValueError:
+            pass
+            
+    return redirect(url_for('admin.admin_manajemen_barang'))
+

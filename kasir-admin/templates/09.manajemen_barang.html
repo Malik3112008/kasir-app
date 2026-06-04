@@ -24,17 +24,11 @@
                 <button type="submit"><i class="fa fa-search"></i></button>
             </form>
             
-            <form method="POST" action="{{ url_for('admin.admin_simpan') }}" style="display: flex; align-items: center; gap: 8px;">
-                <input type="hidden" name="kategori" id="hidden-kategori">
-                <input type="hidden" name="nama_barang" id="hidden-nama">
-                <input type="hidden" name="tanggal" value="{{ now }}">
-                <input type="hidden" name="harga_jual" value="0">
-                <input type="hidden" name="catatan" value="Restok cepat dari halaman manajemen barang">
-                
+            <form method="POST" action="{{ url_for('admin.admin_manajemen_barang_tambah_stok') }}" style="display: flex; align-items: center; gap: 8px;">
                 <select name="restok_id" id="barang-select" required style="height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid gray; font-size: 16px; min-width: 200px; background: white;">
                     <option value="" disabled selected>Pilih barang untuk restok...</option>
                     {% for item in all_barang %}
-                    <option value="{{ item.no }}" data-nama="{{ item.nama }}" data-kategori="{{ item.kategori }}">
+                    <option value="{{ item.no }}">
                         {{ item.nama }} (Stok: {{ item.stok }})
                     </option>
                     {% endfor %}
@@ -90,12 +84,5 @@
 
     </div>
 
-    <script>
-        document.getElementById('barang-select').addEventListener('change', function() {
-            var selectedOption = this.options[this.selectedIndex];
-            document.getElementById('hidden-nama').value = selectedOption.getAttribute('data-nama');
-            document.getElementById('hidden-kategori').value = selectedOption.getAttribute('data-kategori');
-        });
-    </script>
 </body>
 </html>
