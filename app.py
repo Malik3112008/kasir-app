@@ -23,11 +23,25 @@ app.jinja_loader = ChoiceLoader([
 def tgl_indo_filter(tanggal_str):
     return format_kbbi_date(tanggal_str)
 
+class DynamicNotifCount:
+    def __int__(self):
+        return len(db.notifikasi) if hasattr(db, 'notifikasi') else 0
+    def __gt__(self, other):
+        return int(self) > other
+    def __lt__(self, other):
+        return int(self) < other
+    def __eq__(self, other):
+        return int(self) == other
+    def __str__(self):
+        return str(int(self))
+    def __html__(self):
+        return str(int(self))
+
 @app.context_processor
 def inject_globals():
     return {
         'now': format_kbbi_date(datetime_now()),
-        'notif_count': len(db.notifikasi) if hasattr(db, 'notifikasi') else 0
+        'notif_count': DynamicNotifCount()
     }
 
 
@@ -39,7 +53,8 @@ def datetime_now():
 def load_db_to_globals():
     db.load_all()
 
-app.jinja_env.globals.update(formatRp=formatRp)
+app.jinja_env.globals.update(formatRp=formatRp, notif_count=DynamicNotifCount())
+
 
 app.register_blueprint(api_bp)
 app.register_blueprint(admin_bp)
