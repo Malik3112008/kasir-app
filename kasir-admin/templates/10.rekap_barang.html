@@ -28,7 +28,11 @@
 
     <div class="card">
 
-        <a href="/admin/pengisian_barang">← Kembali</a>
+        {% if restok_id %}
+        <a href="{{ url_for('admin.admin_pengisian_barang_restok', id=restok_id) }}">← Kembali</a>
+        {% else %}
+        <a href="{{ url_for('admin.admin_pengisian_barang') }}">← Kembali</a>
+        {% endif %}
 
         <h2>REKAP BARANG HABIS</h2>
 

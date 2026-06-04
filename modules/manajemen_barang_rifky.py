@@ -34,4 +34,4 @@ def admin_simpan():
                 db.tambah_aktivitas("restok", f"Melakukan restok produk: {b['nama']} (+{jumlah} unit)", "Berhasil", admin_name)
                 break
 
-    return render_template('10.rekap_barang.html', kategori=kategori, nama_barang=nama_barang, tanggal=tanggal, jumlah=jumlah, harga=harga_jual, catatan=catatan)
+    return render_template('10.rekap_barang.html', kategori=kategori, nama_barang=nama_barang, tanggal=tanggal, jumlah=jumlah, harga=harga_jual, catatan=catatan, restok_id=restok_id)
