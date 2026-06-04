@@ -91,8 +91,10 @@ def pembeli_register():
             error = 'Nama akun sudah digunakan.'
         else:
             db.USERS[username] = password
+            db.save_users()
             return redirect(url_for('pembeli.pembeli_login'))
     return render_template('register_pembeli.html', error=error)
+
 
 @pembeli_bp.route('/pembeli/logout')
 def pembeli_logout():
@@ -170,10 +172,21 @@ def pembeli_ganti_password():
             error = 'Konfirmasi kata sandi tidak cocok.'
         else:
             email = session.get('reset_email', '')
+            username = db.EMAIL_TO_USER.get(email)
+            if not username:
+                username = email.split('@')[0]
+                if username in db.USERS:
+                    db.EMAIL_TO_USER[email] = username
+            
+            if username and username in db.USERS:
+                db.USERS[username] = password
+                db.save_users()
+                
             db.otp_storage.pop(email, None)
             session.pop('otp_verified', None)
             session.pop('reset_email', None)
             return render_template('notifikasi_berhasil_pembeli.html', message='Kata sandi berhasil diubah. Silakan login dengan kata sandi baru.')
+
     return render_template('reset_pembeli.html', error=error, show_password_form=True)
 
 @pembeli_bp.route('/pembeli')
@@ -439,12 +452,18 @@ def pembeli_submit_rating():
         "oleh": nama,
     })
 
+    # Remove from belum_dinilai list
+    db.produk_belum_dinilai = [p for p in db.produk_belum_dinilai if p['nama'] != nama_produk]
+    db.save_penilaian()
+
     for b in db.data_barang:
         if b['nama'] == nama_produk:
             b['rating'] = rating
+            db.save_data_barang()
             break
 
     return redirect(url_for('pembeli.pembeli_penilaian'))
+
 
 @pembeli_bp.route("/pembeli/like", methods=["POST"])
 def pembeli_like():

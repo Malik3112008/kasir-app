@@ -125,8 +125,10 @@ def admin_register():
         else:
             db.USERS[username] = password
             db.EMAIL_TO_USER[email] = username
+            db.save_users()
             return redirect(url_for('admin.admin_login'))
     return render_template('05.2.register.html', error=error)
+
 
 @admin_bp.route('/admin/forgot', methods=['GET', 'POST'])
 def admin_forgot():
@@ -165,11 +167,13 @@ def admin_reset():
             user = session.get('reset_user')
             if user:
                 db.USERS[user] = password
+                db.save_users()
             session.pop('otp', None)
             session.pop('reset_email', None)
             session.pop('reset_user', None)
             return redirect(url_for('admin.admin_login'))
     return render_template('05.5.reset.html', error=error)
+
 
 @admin_bp.route("/admin/notifikasi")
 def admin_notifikasi():

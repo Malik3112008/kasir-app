@@ -8,6 +8,8 @@ DATA_FILE = os.path.join(BASE_DIR, 'data_koperasi.json')
 NOTIFIKASI_FILE = os.path.join(BASE_DIR, 'notifikasi.json')
 AKTIVITAS_FILE = os.path.join(BASE_DIR, 'aktivitas.json')
 PENJUAL_FILE = os.path.join(BASE_DIR, 'penjual.json')
+USERS_FILE = os.path.join(BASE_DIR, 'users.json')
+PENILAIAN_FILE = os.path.join(BASE_DIR, 'penilaian.json')
 
 class Database:
     def __init__(self):
@@ -19,18 +21,10 @@ class Database:
         self.riwayat = []
         self.data_penjual = []
         self.data_aktivitas = []
+        self.produk_belum_dinilai = []
+        self.penilaian_saya = []
         self.cart = {}
         self.otp_storage = {}
-        self.produk_belum_dinilai = [
-            {"id": 1, "nama": "Roti Aoka", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg"},
-            {"id": 2, "nama": "Air Mineral Ades", "gambar": "gambar-dan-icon/ades.jpg"},
-            {"id": 3, "nama": "Bolpoin", "gambar": "gambar-dan-icon/bulpoin.jpg"},
-        ]
-        self.penilaian_saya = [
-            {"id": 1, "nama": "Roti Aoka", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg", "rating": 4, "tanggal": "01-01-2026 11:24"},
-            {"id": 2, "nama": "Air Mineral Ades", "gambar": "gambar-dan-icon/ades.jpg", "rating": 5, "tanggal": "20-12-2025 18:22"},
-            {"id": 3, "nama": "Bolpoin", "gambar": "gambar-dan-icon/bulpoin.jpg", "rating": 3, "tanggal": "18-12-2025 11:35"},
-        ]
         self.CARDS_DATA = [
             {"id": 1, "text": "Rak Makanan Ringan", "icon": "fa-solid fa-cookie", "href": "/admin/denah/makanan_ringan", "width": 300, "height": 160, "left": 100, "top": 80, "image": "images/makanan_ringan/gambar1.jpg"},
             {"id": 2, "text": "Rak Snack", "icon": "fa-solid fa-candy-cane", "href": "/admin/denah/snack", "width": 300, "height": 160, "left": 100, "top": 300, "image": "images/snack/gambar1.jpg"},
@@ -210,11 +204,55 @@ class Database:
         with open(PENJUAL_FILE, 'w') as f:
             json.dump(self.data_penjual, f, indent=4)
 
+    def load_users(self):
+        if os.path.exists(USERS_FILE):
+            try:
+                with open(USERS_FILE, 'r') as f:
+                    data = json.load(f)
+                    return data.get('users', {'admin': 'admin123', 'pembeli': 'beli123'}), data.get('email_to_user', {})
+            except:
+                pass
+        return {'admin': 'admin123', 'pembeli': 'beli123'}, {}
+
+    def save_users(self):
+        with open(USERS_FILE, 'w') as f:
+            json.dump({
+                'users': self.USERS,
+                'email_to_user': self.EMAIL_TO_USER
+            }, f, indent=4)
+
+    def load_penilaian(self):
+        if os.path.exists(PENILAIAN_FILE):
+            try:
+                with open(PENILAIAN_FILE, 'r') as f:
+                    data = json.load(f)
+                    return data.get('belum_dinilai', []), data.get('penilaian_saya', [])
+            except:
+                pass
+        return [
+            {"id": 1, "nama": "Roti Aoka", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg"},
+            {"id": 2, "nama": "Air Mineral Ades", "gambar": "gambar-dan-icon/ades.jpg"},
+            {"id": 3, "nama": "Bolpoin", "gambar": "gambar-dan-icon/bulpoin.jpg"},
+        ], [
+            {"id": 1, "nama": "Roti Aoka", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg", "rating": 4, "tanggal": "01-01-2026 11:24"},
+            {"id": 2, "nama": "Air Mineral Ades", "gambar": "gambar-dan-icon/ades.jpg", "rating": 5, "tanggal": "20-12-2025 18:22"},
+            {"id": 3, "nama": "Bolpoin", "gambar": "gambar-dan-icon/bulpoin.jpg", "rating": 3, "tanggal": "18-12-2025 11:35"},
+        ]
+
+    def save_penilaian(self):
+        with open(PENILAIAN_FILE, 'w') as f:
+            json.dump({
+                'belum_dinilai': self.produk_belum_dinilai,
+                'penilaian_saya': self.penilaian_saya
+            }, f, indent=4)
+
     def load_all(self):
         self.data_barang = self.load_data_barang()
         self.pesanan = self.load_pesanan()
         self.notifikasi, self.riwayat = self.load_notifikasi()
         self.data_aktivitas = self.load_aktivitas()
         self.data_penjual = self.load_penjual()
+        self.USERS, self.EMAIL_TO_USER = self.load_users()
+        self.produk_belum_dinilai, self.penilaian_saya = self.load_penilaian()
 
 db = Database()
