@@ -11,7 +11,7 @@ def admin_manajemen_barang():
         filtered = [b for b in db.data_barang if keyword in b['nama'].lower() or keyword in b['kategori'].lower()]
     else:
         filtered = db.data_barang
-    return render_template('09.manajemen_barang.html', data=filtered, keyword=request.args.get('cari', ''))
+    return render_template('09.manajemen_barang.html', data=filtered, keyword=request.args.get('cari', ''), all_barang=db.data_barang)
 
 @admin_bp.route('/admin/simpan', methods=['POST'])
 def admin_simpan():
