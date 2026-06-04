@@ -23,8 +23,9 @@
             <h1 class="nav-title">Koperasi Siswa</h1>
 
             <ul class="nav-right">
-                <li style="position: relative;">
-                    <a href="{{ url_for('admin.admin_notifikasi') }}" style="position: relative; display: inline-block;">
+                <li style="position: relative; display: flex; align-items: center;">
+                    <a href="{{ url_for('admin.admin_notifikasi') }}" style="position: relative; display: inline-flex; align-items: center; justify-content: center;">
+
                         <img src="{{ url_for('static', filename='image/bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="28" height="28">
                         {% if notif_count > 0 %}
                         <span style="position: absolute; top: -5px; right: -5px; background: #e53e3e; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; font-weight: bold; display: flex; align-items: center; justify-content: center; border: 2px solid white;">

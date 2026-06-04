@@ -14,8 +14,9 @@
         </div>
     </div>
     <ul style="display: flex; list-style: none; align-items: center; gap: 20px; margin: 0; padding: 0;">
-        <li style="position: relative;">
-            <a href="{{ url_for('admin.admin_notifikasi') }}" style="position: relative; display: inline-block;">
+        <li style="position: relative; display: flex; align-items: center;">
+            <a href="{{ url_for('admin.admin_notifikasi') }}" style="position: relative; display: inline-flex; align-items: center; justify-content: center;">
+
                 <img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="28px" height="28px">
                 {% if notif_count > 0 %}
                 <span style="position: absolute; top: -5px; right: -5px; background: #e53e3e; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; font-weight: bold; display: flex; align-items: center; justify-content: center; border: 2px solid white;">
