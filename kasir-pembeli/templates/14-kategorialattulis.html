@@ -48,11 +48,13 @@
     <div class="container">
         {% for item in barang %}
         <div class="card" data-nama="{{ item.nama }}" data-kategori="{{ item.kategori }}" data-stok="{{ item.stok }}">
-            {% if item.gambar and item.gambar != '' %}
-            <img src="{{ url_for('static', filename=item.gambar) }}" alt="{{ item.nama }}" {% if item.stok == 0 %}class="stok-habis"{% endif %}>
-            {% else %}
-            <div class="no-img{% if item.stok == 0 %} stok-habis{% endif %}">{{ item.emoji or '📦' }}</div>
-            {% endif %}
+            <a href="{{ url_for('pembeli.pembeli_detail_barang', id=item.no) }}" class="img-link">
+                {% if item.gambar and item.gambar != '' %}
+                <img src="{{ url_for('static', filename=item.gambar) }}" alt="{{ item.nama }}" {% if item.stok == 0 %}class="stok-habis"{% endif %}>
+                {% else %}
+                <div class="no-img{% if item.stok == 0 %} stok-habis{% endif %}">{{ item.emoji or '📦' }}</div>
+                {% endif %}
+            </a>
             <a href="{{ url_for('pembeli.pembeli_detail_barang', id=item.no) }}" class="detail-link">
                 <h3>{{ item.nama }}</h3>
             </a>

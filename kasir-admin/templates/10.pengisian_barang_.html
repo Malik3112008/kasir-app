@@ -18,7 +18,16 @@
             <span>Koperasi Siswa</span>
         </div>
         <ul>
-            <li><a href="{{ url_for('admin.admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+            <li style="position: relative; display: inline-flex; align-items: center;">
+                <a href="{{ url_for('admin.admin_notifikasi') }}" style="position: relative; display: inline-flex; align-items: center; justify-content: center;">
+                    <img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px">
+                    {% if notif_count > 0 %}
+                    <span style="position: absolute; top: -5px; right: -5px; background: #e53e3e; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; font-weight: bold; display: flex; align-items: center; justify-content: center; border: 2px solid white;">
+                        {{ notif_count }}
+                    </span>
+                    {% endif %}
+                </a>
+            </li>
             <li><a href="{{ url_for('admin.admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
             <li><a href="{{ url_for('admin.admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
             <li><a href="{{ url_for('admin.admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>

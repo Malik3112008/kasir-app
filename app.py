@@ -24,6 +24,10 @@ def tgl_indo_filter(tanggal_str):
 class DynamicNotifCount:
     def __int__(self):
         return len(db.notifikasi) if hasattr(db, 'notifikasi') else 0
+    def __len__(self):
+        return int(self)
+    def __bool__(self):
+        return int(self) > 0
     def __gt__(self, other):
         return int(self) > other
     def __lt__(self, other):
