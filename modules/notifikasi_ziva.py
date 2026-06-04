@@ -34,10 +34,10 @@ def admin_hapus_riwayat_satuan(index):
     if index < len(db.riwayat):
         db.riwayat.pop(index)
         db.save_notifikasi()
-    return redirect(url_for('admin.admin_riwayat'))
+    return redirect(url_for('admin.admin_riwayat_notifikasi'))
 
 @admin_bp.route("/admin/hapus-riwayat", methods=["POST"])
 def admin_hapus_riwayat():
     db.riwayat.clear()
     db.save_notifikasi()
-    return redirect(url_for('admin.admin_riwayat'))
+    return redirect(url_for('admin.admin_riwayat_notifikasi'))

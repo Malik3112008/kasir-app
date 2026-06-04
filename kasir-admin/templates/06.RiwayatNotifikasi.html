@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    {{ admin_header('Riwayat Notifikasi') }}
+    {{ admin_header('Riwayat Notifikasi', show_notification_icon=False) }}
     <div class="notif-warning">
         <img src="{{ url_for('static', filename='exclamation-mark-inside-a-circle-svgrepo-com.svg') }}">
         <p> Riwayat Notifikasi akan terhapus permanen secara otomatis
@@ -85,11 +85,11 @@
 
             </div>
 
-            <form action="{{ url_for('admin.admin_hapus_riwayat_satuan', index=loop.index0) }}" method="POST">
+            <form action="{{ url_for('admin.admin_hapus_riwayat_satuan', index=loop.index0) }}" method="POST" style="margin-left: auto; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
 
-                <button type="submit" class="hapus-satuan">
+                <button type="submit" class="hapus-satuan" style="margin-left: 0; width: 42px; height: 42px; min-width: 42px; min-height: 42px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 12px; border: none; background-color: #ffeaea; cursor: pointer; transition: 0.2s;">
 
-                    <img src="{{ url_for('static', filename='trash-bin-trash-svgrepo-com.svg') }}" alt="Hapus">
+                    <img src="{{ url_for('static', filename='trash-bin-trash-svgrepo-com.svg') }}" alt="Hapus" style="width: 20px; height: 20px; opacity: 0.75; display: block; pointer-events: none;">
 
                 </button>
 
