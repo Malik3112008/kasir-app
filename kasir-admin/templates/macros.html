@@ -1,6 +1,7 @@
 {% macro admin_header(title="Admin Koperasi", back_url=None) %}
 {% set back_link = back_url if back_url else url_for('admin.admin_dashboard') %}
-<nav>
+<nav style="background-color: #ffffff !important; box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important; display: flex !important; justify-content: space-between !important; align-items: center !important; padding: 10px 20px !important; min-height: 80px !important; border-radius: 10px !important; margin-bottom: 20px !important;">
+
     <div class="nav-bar" style="display: flex; align-items: center; width: 100%;">
         <div class="nav-left" style="display: flex; align-items: center; gap: 20px;">
             <a href="{{ back_link }}" style="display: flex; align-items: center;">
