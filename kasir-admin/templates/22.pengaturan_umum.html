@@ -1,112 +1,140 @@
 {% from 'macros.html' import admin_header %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
+    <head>
+        <title>Pengaturan Profil</title>
+        <link rel="stylesheet" href="{{ url_for('static',filename='22.pengaturan_umum.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </head>
+    <body>
+        <img src="{{ url_for('static', filename='gambar/bg.jpeg') }}" class="bg-maskot" alt="" />
 
-<head>
-  <title>Pengaturan Profil</title>
-  <link rel="stylesheet" href="{{ url_for('static',filename='22.pengaturan_umum.css')}}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
+        {{ admin_header('Pengaturan Profil') }}
 
-<body>
-  {{ admin_header('Pengaturan Profil') }}
+        <h1>Pengaturan Profil</h1>
+        <form action="{{ url_for('admin.admin_simpan_pengaturan') }}" method="POST" class="form-profil" enctype="multipart/form-data">
+            <label>Nama Cooperativa</label>
+            <input type="text" name="nama" value="{{ nama }}">
 
-  <div class="h1-container">
-    <div class="gear-icon-wrapper">
-      <i class="fa-solid fa-gear"></i>
-    </div>
-    <h1>Pengaturan Profil</h1>
-  </div>
-  <form action="{{ url_for('admin.admin_simpan_pengaturan') }}" method="POST" class="form-profil" enctype="multipart/form-data">
-    <label>Nama Koperasi</label>
-    <input type="text" name="nama" value="{{ nama }}" />
+            <label>Deskripsi</label>
+            <textarea name="deskripsi">{{ deskripsi }}</textarea>
 
-    <label>Deskripsi</label>
-    <textarea name="deskripsi">{{ deskripsi }}</textarea>
+            <label>Alamat</label>
+            <input type="text" name="alamat" value="{{ alamat }}">
 
-    <label>Alamat</label>
-    <input type="text" name="alamat" value="{{ alamat }}" />
+            <label>Telepon</label>
+            <input type="text" name="telepon" value="{{ telepon }}">
 
-    <label>Telepon</label>
-    <input type="text" name="telepon" value="{{ telepon }}" />
+            <label>Jam Operasional</label>
+            <input type="text" name="jam" value="{{ jam }}">
 
-    <label>Jam Operasional</label>
-    <input type="text" name="jam" value="{{ jam }}" />
+            <label>Hari Operasional</label>
+            <input type="text" name="hari" value="{{ hari }}">
 
-    <label>Hari Operasional</label>
-    <input type="text" name="hari" value="{{ hari }}" />
+            <label>Unggah Logo Baru</label>
 
-    <label>Unggah Logo Baru</label>
+            <div class="upload-box">
+                <div class="upload" id="upload-area">
+                    <p>Letakkan Media Disini</p>
+                    <span>Atau</span>
+                    <br>
+                    <a href="#" class="btn-upload" id="upload-trigger">pilih gambar</a>
+                </div>
+                <input type="file" id="logo-input" name="gambar" accept=".jpg,.jpeg,.png,.svg" hidden />
+                {% if logo %}
+                    <img src="{{ url_for('static', filename=logo) }}" class="Logo" id="logo-preview" />
+                {% else %}
+                    <img src="{{ url_for('static', filename='gambar/logo_3.png') }}" class="Logo" id="logo-preview" />
+                {% endif %}
+            </div>
 
-    <div class="upload-box">
-      <div class="upload">
-        <p>Letakkan Media Disini</p>
-        <span>Atau</span>
-        <br />
-        <label for="logo-input" class="btn-upload">pilih gambar</label>
-        <input type="file" id="logo-input" name="gambar" accept=".jpg,.jpeg,.png,.svg" hidden />
-      </div>
-      {% if logo %}
-        <img src="{{ url_for('static', filename=logo) }}" class="Logo" id="logo-preview" />
-      {% else %}
-        <img src="{{ url_for('static', filename='image/logo_3.png') }}" class="Logo" id="logo-preview" />
-      {% endif %}
-    </div>
+            <button type="submit" class="btn-simpan">Simpan Pengaturan</button>
+        </form>
 
-    <button type="submit" class="btn-simpan">Simpan Pengaturan</button>
-  </form>
+        <div id="modal-upload" class="modal">
+            <div class="modal-box">
+                <a href="#" class="close">&times;</a>
+                <h3>Unggah Gambar</h3>
+                <div class="info">
+                    Format: <strong>JPG, JPEG, PNG</strong>
+                    <br>
+                    Maksimal: <strong>5 MB</strong>
+                </div>
+                <label for="modal-file-input" class="custom-file">Pilih Gambar</label>
+                <input type="file" id="modal-file-input" name="gambar" accept=".jpg,.jpeg,.png" hidden />
 
-  <script>
-    const logoInput = document.getElementById('logo-input');
-    const uploadArea = document.querySelector('.upload');
-    const logoPreview = document.getElementById('logo-preview');
+                <form action="{{ url_for('admin.admin_simpan_pengaturan') }}" method="POST" enctype="multipart/form-data" id="modal-form">
+                    <input type="file" id="hidden-file-input" name="gambar" accept=".jpg,.jpeg,.png" hidden required>
+                    <button type="submit" class="btn-submit">Unggah permanen</button>
+                </form>
+            </div>
+        </div>
 
-    // Click to upload
-    uploadArea.addEventListener('click', function(e) {
-      if (e.target !== logoInput && e.target.tagName !== 'LABEL') {
-        logoInput.click();
-      }
-    });
+        <script>
+            const logoInput = document.getElementById('logo-input');
+            const uploadArea = document.getElementById('upload-area');
+            const uploadTrigger = document.getElementById('upload-trigger');
+            const logoPreview = document.getElementById('logo-preview');
 
-    // Drag and Drop styling & actions
-    uploadArea.addEventListener('dragover', function(e) {
-      e.preventDefault();
-      uploadArea.style.borderColor = '#36cfff';
-      uploadArea.style.background = '#f0faff';
-    });
+            uploadTrigger.addEventListener('click', function(e) {
+                e.preventDefault();
+                logoInput.click();
+            });
 
-    uploadArea.addEventListener('dragleave', function(e) {
-      e.preventDefault();
-      uploadArea.style.borderColor = '#d8d8d8';
-      uploadArea.style.background = '#fafafa';
-    });
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#36cfff';
+                uploadArea.style.background = '#f0faff';
+            });
 
-    uploadArea.addEventListener('drop', function(e) {
-      e.preventDefault();
-      uploadArea.style.borderColor = '#d8d8d8';
-      uploadArea.style.background = '#fafafa';
-      
-      const files = e.dataTransfer.files;
-      if (files.length > 0) {
-        logoInput.files = files;
-        logoInput.dispatchEvent(new Event('change'));
-      }
-    });
+            uploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#d8d8d8';
+                uploadArea.style.background = '#fafafa';
+            });
 
-    // File change / preview logic
-    logoInput.addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(ev) {
-          logoPreview.src = ev.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  </script>
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#d8d8d8';
+                uploadArea.style.background = '#fafafa';
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    logoInput.files = files;
+                    logoInput.dispatchEvent(new Event('change'));
+                }
+            });
 
-</body>
+            logoInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        logoPreview.src = ev.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
 
+            const modalFileInput = document.getElementById('modal-file-input');
+            const hiddenFileInput = document.getElementById('hidden-file-input');
+            const modalForm = document.getElementById('modal-form');
+
+            modalFileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const dt = new DataTransfer();
+                    dt.items.add(file);
+                    hiddenFileInput.files = dt.files;
+                }
+            });
+
+            modalForm.addEventListener('submit', function(e) {
+                if (!hiddenFileInput.files.length) {
+                    e.preventDefault();
+                    alert('Pilih gambar terlebih dahulu');
+                }
+            });
+        </script>
+    </body>
 </html>

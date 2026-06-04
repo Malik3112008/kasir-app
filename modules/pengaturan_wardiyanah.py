@@ -41,9 +41,6 @@ def admin_simpan_pengaturan():
         os.makedirs(UPLOAD_FOLDER, exist_ok=True)
         file.save(os.path.join(UPLOAD_FOLDER, filename))
         db.data_koperasi['logo'] = 'gambar/' + filename
-        
-        file.seek(0)
-        file.save(os.path.join(BASE_DIR, 'static', 'image', 'logo_3.png'))
 
     db.save_koperasi()
     return redirect(url_for('admin.admin_pengaturan'))
