@@ -1,8 +1,7 @@
-from flask import Blueprint, jsonify, request
+from flask import jsonify, request
 from datetime import datetime
 from database import db
-
-api_bp = Blueprint('api', __name__)
+from modules.blueprints import api_bp
 
 @api_bp.route('/api/barang', methods=['GET', 'POST'])
 def api_barang():

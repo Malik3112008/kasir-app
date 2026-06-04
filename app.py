@@ -4,9 +4,7 @@ import os
 import socket
 from database import db
 from helpers import format_kbbi_date, formatRp
-from routes.api import api_bp
-from routes.admin import admin_bp
-from routes.pembeli import pembeli_bp
+from modules import api_bp, admin_bp, pembeli_bp
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
