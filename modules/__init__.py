@@ -1,14 +1,37 @@
 from modules.blueprints import admin_bp, pembeli_bp, api_bp
 
-# Import modules to register routes on blueprints
-import modules.auth
+# Import sub-modules to register all routes dynamically
+import modules.auth_admin_ryo
+import modules.auth_pembeli_rakha
 import modules.denah_salsa
-import modules.laporan_putriamelia
+import modules.laporan_penjualan_tito
+import modules.laporan_transaksi_nay
+import modules.pengaturan_laporan_rinjani
+import modules.laporan_penjual_satria_fajar
 import modules.pembayaran_cash_putriamelia
-import modules.pembayaran_qris_naailah
+import modules.pembayaran_qris_naila
 import modules.pembayaran_pilihan_yunirohmawati
-import modules.penilaian_nadyanur
-import modules.barang_putrifarisa
-import modules.keranjang_reyhandiky
-import modules.admin_common
+import modules.rating_penilaian_pelanggan_nandini
+import modules.halaman_awal_pembelian_nuril
+import modules.detail_barang_nizral
+import modules.lihat_pesanan_pembeli_noval
+import modules.dashboard_admin_nursahaka
+import modules.notifikasi_ziva
+import modules.riwayat_transaksi_admin_umar
+import modules.detail_transaksi_shevina
+import modules.riwayat_aktivitas_ristiyan
+import modules.pengelola_akun_penjual_nafilah
+import modules.manajemen_barang_rifky
+import modules.pengisian_barang_putri_ninda
+import modules.tambah_barang_syelsi
+import modules.konfirmasi_barang_shinta
+import modules.stok_tersedia_rizka
+import modules.cek_pembayaran_zalfa
+import modules.siapkan_pesanan_pelanggan_tauqhid
+import modules.pengaturan_wardiyanah
+import modules.beranda_awal_raffi
+import modules.kategori_alat_tulis_putri_risa
+import modules.kategori_makanan_minuman_novita
+import modules.konfirmasi_cetak_struk_naurah
+import modules.penilaian_barang_nadya
 import modules.api
