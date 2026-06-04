@@ -59,18 +59,6 @@ def buat_pesanan_dari_cart(metode):
         "biru"
     )
 
-@pembeli_bp.route('/pembeli/pilih-pembayaran')
-def pembeli_pilih_pembayaran():
-    items = []
-    total_int = 0
-    for nama in db.cart:
-        item = db.cart[nama]
-        subtotal = item['harga'] * item['jumlah']
-        total_int += subtotal
-        items.append({'nama': nama, 'harga': item['harga'], 'qty': item['jumlah'], 'subtotal': subtotal, 'gambar': item.get('gambar', '')})
-    total = total_int
-    return render_template('34-pilihpembayaran.html', items=items, total=total, formatRp=formatRp)
-
 @pembeli_bp.route('/pembeli/tunai')
 def pembeli_tunai():
     session['metode'] = 'Tunai'
@@ -85,33 +73,6 @@ def pembeli_tunai():
     session['tunai_total'] = total
     session['tunai_kode'] = kode
     return render_template('11-rincian-tunai.html', items=items, total=total, nama=nama, kode=kode, status='belum')
-
-@pembeli_bp.route('/pembeli/qris')
-def pembeli_qris():
-    session['metode'] = 'QRIS'
-    if db.cart:
-        subtotal = 0
-        total_diskon = 0
-        for item in get_items_bayar():
-            subtotal += item["jumlah"] * item["harga"]
-            total_diskon += item["diskon"]
-        total = subtotal - total_diskon
-        session['qris_total'] = total
-        buat_pesanan_dari_cart('QRIS')
-    else:
-        total = session.get('qris_total')
-        if total is None:
-            pelanggan = session.get('nama') or session.get('user') or 'Guest'
-            pesanan_user = [p for p in db.pesanan if p["pelanggan"] == pelanggan and p["metode"] == "QRIS"]
-            if pesanan_user:
-                total = pesanan_user[-1]["total"]
-            else:
-                total = 0
-    return render_template('1-pembayaranqris.html', total=total, formatRp=formatRp)
-
-@pembeli_bp.route('/pembeli/selesai')
-def pembeli_selesai():
-    return redirect(url_for('pembeli.pembeli_pesanan_selesai'))
 
 @pembeli_bp.route('/pembeli/struk')
 def pembeli_struk():
