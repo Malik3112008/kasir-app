@@ -5,6 +5,9 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 BARANG_FILE = os.path.join(BASE_DIR, 'data_barang.json')
 PESANAN_FILE = os.path.join(BASE_DIR, 'pesanan.json')
 DATA_FILE = os.path.join(BASE_DIR, 'data_koperasi.json')
+NOTIFIKASI_FILE = os.path.join(BASE_DIR, 'notifikasi.json')
+AKTIVITAS_FILE = os.path.join(BASE_DIR, 'aktivitas.json')
+PENJUAL_FILE = os.path.join(BASE_DIR, 'penjual.json')
 
 class Database:
     def __init__(self):
@@ -12,27 +15,10 @@ class Database:
         self.EMAIL_TO_USER = {}
         self.data_barang = []
         self.pesanan = []
-        self.notifikasi = [
-            {"judul": "Pembelian Baru", "isi": "Transaksi #TRX005 oleh Ahmad Rizki senilai 18.000", "waktu": "10 menit lalu", "warna": "biru"},
-            {"judul": "Stok Menipis", "isi": "Keripik singkong tersisa 3 unit", "waktu": "15 menit lalu", "warna": "orange"},
-            {"judul": "Pembayaran Dikonfirmasi", "isi": "Pembayaran QRIS oleh Putri Amel senilai 10.000 telah divalidasi", "waktu": "20 menit lalu", "warna": "hijau"},
-        ]
+        self.notifikasi = []
         self.riwayat = []
-        self.data_penjual = [
-            {"id": 1, "nama": "Zulfikar Aril", "email": "aril_10@gmail.com", "status": "Aktif", "foto": "profile.png"},
-            {"id": 2, "nama": "Nafilah Yasmin", "email": "yasmin18@gmail.com", "status": "Tidak aktif", "foto": "profile.png"},
-            {"id": 3, "nama": "Febriyanto", "email": "febri1711@gmail.com", "status": "Aktif", "foto": "profile.png"},
-            {"id": 4, "nama": "Shafira Amelia", "email": "shafiramel@gmail.com", "status": "Aktif", "foto": "profile.png"},
-        ]
-        self.data_aktivitas = [
-            {"tipe": "login", "catatan": "Log in system", "status": "Sukses", "admin": "Admin", "waktu": "2026-05-28 08:00"},
-            {"tipe": "tambah", "catatan": "Menambahkan pilihan barang: Roti Aoka", "status": "Berhasil", "admin": "Admin", "waktu": "2026-05-28 07:30"},
-            {"tipe": "restok", "catatan": "Melakukan restok produk: Air Mineral (+50 unit)", "status": "Berhasil", "admin": "Admin", "waktu": "2026-05-28 07:00"},
-            {"tipe": "logout", "catatan": "Log out system", "status": "Sukses", "admin": "Admin", "waktu": "2026-05-27 17:00"},
-            {"tipe": "ubah", "catatan": "Mengubah harga: Bolpoin (Rp 3.500 -> Rp 4.000)", "status": "Berhasil", "admin": "Admin", "waktu": "2026-05-27 14:30"},
-            {"tipe": "hapus", "catatan": "Menghapus pilihan barang: Kerupuk Bawang", "status": "Berhasil", "admin": "Admin", "waktu": "2026-05-27 11:20"},
-            {"tipe": "login", "catatan": "Log in system", "status": "Sukses", "admin": "Admin", "waktu": "2026-05-27 08:00"},
-        ]
+        self.data_penjual = []
+        self.data_aktivitas = []
         self.cart = {}
         self.otp_storage = {}
         self.produk_belum_dinilai = [
@@ -141,8 +127,94 @@ class Database:
         with open(DATA_FILE, 'w') as f:
             json.dump(self.data_koperasi, f)
 
+    def load_notifikasi(self):
+        if os.path.exists(NOTIFIKASI_FILE):
+            try:
+                with open(NOTIFIKASI_FILE, 'r') as f:
+                    data = json.load(f)
+                    return data.get('notifikasi', []), data.get('riwayat', [])
+            except:
+                pass
+        return [
+            {"judul": "Pembelian Baru", "isi": "Transaksi #TRX005 oleh Ahmad Rizki senilai 18.000", "waktu": "10 menit lalu", "warna": "biru"},
+            {"judul": "Stok Menipis", "isi": "Keripik singkong tersisa 3 unit", "waktu": "15 menit lalu", "warna": "orange"},
+            {"judul": "Pembayaran Dikonfirmasi", "isi": "Pembayaran QRIS oleh Putri Amel senilai 10.000 telah divalidasi", "waktu": "20 menit lalu", "warna": "hijau"},
+        ], []
+
+    def save_notifikasi(self):
+        with open(NOTIFIKASI_FILE, 'w') as f:
+            json.dump({
+                'notifikasi': self.notifikasi,
+                'riwayat': self.riwayat
+            }, f, indent=4)
+
+    def tambah_notifikasi(self, judul, isi, warna):
+        from datetime import datetime
+        waktu_str = datetime.now().strftime("%d-%m-%Y %H:%M")
+        self.notifikasi.insert(0, {
+            "judul": judul,
+            "isi": isi,
+            "waktu": waktu_str,
+            "warna": warna
+        })
+        self.save_notifikasi()
+
+    def load_aktivitas(self):
+        if os.path.exists(AKTIVITAS_FILE):
+            try:
+                with open(AKTIVITAS_FILE, 'r') as f:
+                    return json.load(f)
+            except:
+                pass
+        return [
+            {"tipe": "login", "catatan": "Log in system", "status": "Sukses", "admin": "Admin", "waktu": "2026-05-28 08:00"},
+            {"tipe": "tambah", "catatan": "Menambahkan pilihan barang: Roti Aoka", "status": "Berhasil", "admin": "Admin", "waktu": "2026-05-28 07:30"},
+            {"tipe": "restok", "catatan": "Melakukan restok produk: Air Mineral (+50 unit)", "status": "Berhasil", "admin": "Admin", "waktu": "2026-05-28 07:00"},
+            {"tipe": "logout", "catatan": "Log out system", "status": "Sukses", "admin": "Admin", "waktu": "2026-05-27 17:00"},
+            {"tipe": "ubah", "catatan": "Mengubah harga: Bolpoin (Rp 3.500 -> Rp 4.000)", "status": "Berhasil", "admin": "Admin", "waktu": "2026-05-27 14:30"},
+            {"tipe": "hapus", "catatan": "Menghapus pilihan barang: Kerupuk Bawang", "status": "Berhasil", "admin": "Admin", "waktu": "2026-05-27 11:20"},
+            {"tipe": "login", "catatan": "Log in system", "status": "Sukses", "admin": "Admin", "waktu": "2026-05-27 08:00"},
+        ]
+
+    def save_aktivitas(self):
+        with open(AKTIVITAS_FILE, 'w') as f:
+            json.dump(self.data_aktivitas, f, indent=4)
+
+    def tambah_aktivitas(self, tipe, catatan, status="Berhasil", admin="Admin"):
+        from datetime import datetime
+        waktu_str = datetime.now().strftime("%Y-%m-%d %H:%M")
+        self.data_aktivitas.insert(0, {
+            "tipe": tipe,
+            "catatan": catatan,
+            "status": status,
+            "admin": admin,
+            "waktu": waktu_str
+        })
+        self.save_aktivitas()
+
+    def load_penjual(self):
+        if os.path.exists(PENJUAL_FILE):
+            try:
+                with open(PENJUAL_FILE, 'r') as f:
+                    return json.load(f)
+            except:
+                pass
+        return [
+            {"id": 1, "nama": "Zulfikar Aril", "email": "aril_10@gmail.com", "status": "Aktif", "foto": "profile.png"},
+            {"id": 2, "nama": "Nafilah Yasmin", "email": "yasmin18@gmail.com", "status": "Tidak aktif", "foto": "profile.png"},
+            {"id": 3, "nama": "Febriyanto", "email": "febri1711@gmail.com", "status": "Aktif", "foto": "profile.png"},
+            {"id": 4, "nama": "Shafira Amelia", "email": "shafiramel@gmail.com", "status": "Aktif", "foto": "profile.png"},
+        ]
+
+    def save_penjual(self):
+        with open(PENJUAL_FILE, 'w') as f:
+            json.dump(self.data_penjual, f, indent=4)
+
     def load_all(self):
         self.data_barang = self.load_data_barang()
         self.pesanan = self.load_pesanan()
+        self.notifikasi, self.riwayat = self.load_notifikasi()
+        self.data_aktivitas = self.load_aktivitas()
+        self.data_penjual = self.load_penjual()
 
 db = Database()

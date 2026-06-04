@@ -18,7 +18,16 @@
         <span>Koperasi Siswa</span>
     </div>
     <ul>
-        <li><a href="{{ url_for('admin.admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+        <li style="position: relative;">
+            <a href="{{ url_for('admin.admin_notifikasi') }}" style="position: relative; display: inline-block;">
+                <img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px">
+                {% if notif_count > 0 %}
+                <span style="position: absolute; top: -5px; right: -5px; background: #e53e3e; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; font-weight: bold; display: flex; align-items: center; justify-content: center; border: 2px solid white;">
+                    {{ notif_count }}
+                </span>
+                {% endif %}
+            </a>
+        </li>
         <li><a href="{{ url_for('admin.admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
         <li><a href="{{ url_for('admin.admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
         <li><a href="{{ url_for('admin.admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
@@ -37,6 +46,21 @@
         <p>Metode : <span class="badge {% if order.metode == 'QRIS' %}qris{% else %}tunai{% endif %}">{{ order.metode }}</span></p>
         <p>Status : <span class="status-badge {% if order.status == 'Disiapkan' %}status-disisapkan{% elif order.status == 'Siap diambil' %}status-siap{% else %}status-selesai{% endif %}">{{ order.status }}</span></p>
     </div>
+
+    <div class="status-update-box" style="margin-top: 15px; margin-bottom: 25px; padding: 15px; background: #f7fafc; border-radius: 8px; border: 1px solid #e2e8f0; max-width: 500px;">
+        <h3 style="margin-top: 0; font-size: 14px; color: #4a5568; margin-bottom: 10px;">Ubah Status Transaksi</h3>
+        <form action="/admin/cek-pembayaran/update-status/{{ order.id }}" method="POST" style="display: flex; gap: 10px; align-items: center;">
+            <select name="status" style="padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e0; background: white; font-size: 14px; outline: none; flex-grow: 1; cursor: pointer;">
+                <option value="Disiapkan" {% if order.status == 'Disiapkan' %}selected{% endif %}>Disiapkan (Sedang Dikemas)</option>
+                <option value="Siap diambil" {% if order.status == 'Siap diambil' %}selected{% endif %}>Siap Diambil</option>
+                <option value="Selesai" {% if order.status in ('Selesai', 'Sudah diambil') %}selected{% endif %}>Selesai (Sudah Diambil)</option>
+            </select>
+            <button type="submit" style="padding: 8px 16px; background: #3182ce; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; transition: background 0.2s;">
+                Simpan
+            </button>
+        </form>
+    </div>
+
 
     <table>
         <thead>

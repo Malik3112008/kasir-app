@@ -24,10 +24,12 @@ def tgl_indo_filter(tanggal_str):
     return format_kbbi_date(tanggal_str)
 
 @app.context_processor
-def inject_now():
+def inject_globals():
     return {
-        'now': format_kbbi_date(datetime_now())
+        'now': format_kbbi_date(datetime_now()),
+        'notif_count': len(db.notifikasi) if hasattr(db, 'notifikasi') else 0
     }
+
 
 def datetime_now():
     from datetime import datetime

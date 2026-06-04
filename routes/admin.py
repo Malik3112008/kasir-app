@@ -95,14 +95,18 @@ def admin_login():
         if db.USERS.get(username) == password:
             session['user'] = username
             session['role'] = 'admin'
+            db.tambah_aktivitas("login", "Log in system", "Sukses", username)
             return redirect(url_for('admin.admin_dashboard'))
         error = 'Nama akun atau kata sandi tidak cocok.'
     return render_template('05.1.login.html', error=error)
 
 @admin_bp.route('/admin/logout')
 def admin_logout():
+    admin_name = session.get('user', 'Admin')
+    db.tambah_aktivitas("logout", "Log out system", "Sukses", admin_name)
     session.clear()
     return redirect(url_for('admin.admin_login'))
+
 
 @admin_bp.route('/admin/register', methods=['GET', 'POST'])
 def admin_register():
@@ -234,6 +238,7 @@ def admin_api_aktivitas():
 def admin_hapus_semua():
     db.riwayat.extend(db.notifikasi)
     db.notifikasi.clear()
+    db.save_notifikasi()
     return redirect(url_for('admin.admin_notifikasi'))
 
 @admin_bp.route('/admin/hapus-notif/<int:index>', methods=['POST'])
@@ -241,18 +246,22 @@ def admin_hapus_notif(index):
     if index < len(db.notifikasi):
         db.riwayat.append(db.notifikasi[index])
         db.notifikasi.pop(index)
+        db.save_notifikasi()
     return redirect(url_for('admin.admin_notifikasi'))
 
 @admin_bp.route('/admin/hapus-riwayat-satuan/<int:index>', methods=['POST'])
 def admin_hapus_riwayat_satuan(index):
     if index < len(db.riwayat):
         db.riwayat.pop(index)
+        db.save_notifikasi()
     return redirect(url_for('admin.admin_riwayat'))
 
 @admin_bp.route("/admin/hapus-riwayat", methods=["POST"])
 def admin_hapus_riwayat():
     db.riwayat.clear()
+    db.save_notifikasi()
     return redirect(url_for('admin.admin_riwayat'))
+
 
 @admin_bp.route('/admin/dashboard')
 def admin_dashboard():
@@ -269,13 +278,68 @@ def admin_dashboard():
     total_income = sum(p['total'] for p in db.pesanan)
     pendapatan = formatRp(total_income)
 
+    # Initialize dynamic hasil_penjualan dictionary
     hasil_penjualan = {
-        "Senin": {"makanan": 5, "minuman": 2, "alat tulis": 2},
-        "Selasa": {"makanan": 0, "minuman": 5, "alat tulis": 5},
-        "Rabu": {"makanan": 5, "minuman": 5, "alat tulis": 5},
-        "Kamis": {"makanan": 6, "minuman": 7, "alat tulis": 5},
-        "Jumat": {"makanan": 10, "minuman": 5, "alat tulis": 7},
+        "Senin": {"makanan": 0, "minuman": 0, "alat tulis": 0},
+        "Selasa": {"makanan": 0, "minuman": 0, "alat tulis": 0},
+        "Rabu": {"makanan": 0, "minuman": 0, "alat tulis": 0},
+        "Kamis": {"makanan": 0, "minuman": 0, "alat tulis": 0},
+        "Jumat": {"makanan": 0, "minuman": 0, "alat tulis": 0},
     }
+    
+    # Map product names to categories for quick lookup
+    nama_kategori = {}
+    for b in db.data_barang:
+        nama_kategori[b['nama'].lower()] = b['kategori'].lower()
+        
+    hari_map = {
+        0: "Senin",
+        1: "Selasa",
+        2: "Rabu",
+        3: "Kamis",
+        4: "Jumat"
+    }
+    
+    for p in db.pesanan:
+        try:
+            dt = datetime.strptime(p['tanggal'], "%Y-%m-%d")
+            wday = dt.weekday()
+            if wday in hari_map:
+                hari = hari_map[wday]
+                for item in p.get('barang', []):
+                    item_nama = item.get('nama', '').lower()
+                    qty = item.get('jumlah', 0)
+                    
+                    kat = nama_kategori.get(item_nama, "")
+                    if not kat:
+                        if "roti" in item_nama or "mie" in item_nama or "donat" in item_nama or "keripik" in item_nama or "cemilan" in item_nama or "makanan" in item_nama:
+                            kat = "makanan"
+                        elif "air" in item_nama or "teh" in item_nama or "milk" in item_nama or "botol" in item_nama or "minuman" in item_nama:
+                            kat = "minuman"
+                        else:
+                            kat = "alat tulis"
+                            
+                    if "makan" in kat:
+                        kat_key = "makanan"
+                    elif "minum" in kat:
+                        kat_key = "minuman"
+                    else:
+                        kat_key = "alat tulis"
+                        
+                    hasil_penjualan[hari][kat_key] += qty
+        except:
+            continue
+
+    # If no sales recorded at all, use default realistic data for visual demonstration
+    total_sales_count = sum(sum(day.values()) for day in hasil_penjualan.values())
+    if total_sales_count == 0:
+        hasil_penjualan = {
+            "Senin": {"makanan": 5, "minuman": 2, "alat tulis": 2},
+            "Selasa": {"makanan": 0, "minuman": 5, "alat tulis": 5},
+            "Rabu": {"makanan": 5, "minuman": 5, "alat tulis": 5},
+            "Kamis": {"makanan": 6, "minuman": 7, "alat tulis": 5},
+            "Jumat": {"makanan": 10, "minuman": 5, "alat tulis": 7},
+        }
 
     y_hasilPenjualan = []
     for hari in hasil_penjualan:
@@ -289,6 +353,7 @@ def admin_dashboard():
                            card_transaction=transaksiHariIni,
                            card_income=pendapatan,
                            grafik_penjualan=hasil_penjualan)
+
 
 @admin_bp.route('/admin/kelola_akun_penjual')
 def admin_kelola_akun_penjual():
@@ -317,6 +382,7 @@ def admin_tambah_akun():
             'foto': 'profile.png'
         }
         db.data_penjual.append(akun_baru)
+        db.save_penjual()
         return redirect(url_for('admin.admin_kelola_akun_penjual'))
     return render_template('08.tambah_akun.html')
 
@@ -333,6 +399,7 @@ def admin_edit_akun(id):
         akun['nama'] = request.form['nama']
         akun['email'] = request.form['email']
         akun['status'] = request.form['status']
+        db.save_penjual()
         return redirect(url_for('admin.admin_kelola_akun_penjual'))
     return render_template('08.edit_akun.html', akun=akun)
 
@@ -341,7 +408,9 @@ def admin_hapus_akun(id):
     if not session.get('user'):
         return redirect(url_for('admin.admin_login'))
     db.data_penjual = [p for p in db.data_penjual if p['id'] != id]
+    db.save_penjual()
     return redirect(url_for('admin.admin_kelola_akun_penjual'))
+
 
 @admin_bp.route('/admin/manajemen-barang')
 def admin_manajemen_barang():
@@ -409,6 +478,10 @@ def admin_simpan_barang_baru():
         'tanggal': tanggal, 'gambar': gambar_path, 'rating': 0, 'emoji': '📦'
     })
     db.save_data_barang()
+    
+    admin_name = session.get('user', 'Admin')
+    db.tambah_aktivitas("tambah", f"Menambahkan pilihan barang: {nama_barang}", "Berhasil", admin_name)
+    
     return render_template('17.-konfirmasi-barang.html',
         nama_barang=nama_barang, kategori=kategori,
         harga_beli=harga_beli, harga_jual=harga_jual, 
@@ -433,7 +506,10 @@ def admin_simpan():
             if str(b['no']) == str(restok_id):
                 b['stok'] = b.get('stok', 0) + int(jumlah)
                 db.save_data_barang()
+                admin_name = session.get('user', 'Admin')
+                db.tambah_aktivitas("restok", f"Melakukan restok produk: {b['nama']} (+{jumlah} unit)", "Berhasil", admin_name)
                 break
+
 
     return render_template('10.rekap_barang.html', kategori=kategori, nama_barang=nama_barang, tanggal=tanggal, jumlah=jumlah, harga=harga_jual, catatan=catatan)
 
@@ -494,16 +570,26 @@ def admin_stok_tersedia_edit(id):
     if not barang:
         return "Barang tidak ditemukan", 404
     if request.method == 'POST':
+        old_price = barang['harga']
+        new_price = int(request.form.get('harga', barang['harga']))
         barang['nama'] = request.form.get('nama', barang['nama'])
         barang['berat'] = request.form.get('berat', barang['berat'])
         barang['kategori'] = request.form.get('kategori', barang['kategori'])
         barang['stok'] = int(request.form.get('stok', barang['stok']))
-        barang['harga'] = int(request.form.get('harga', barang['harga']))
+        barang['harga'] = new_price
         barang['satuan'] = request.form.get('satuan', barang.get('satuan', ''))
         barang['tanggal_restok'] = request.form.get('tanggal_restok', barang.get('tanggal_restok', ''))
         barang['expired'] = request.form.get('expired', barang.get('expired', ''))
         barang['alasan'] = request.form.get('alasan', barang.get('alasan', ''))
         db.save_data_barang()
+        
+        admin_name = session.get('user', 'Admin')
+        if old_price != new_price:
+            catatan = f"Mengubah harga: {barang['nama']} ({formatRp(old_price)} -> {formatRp(new_price)})"
+        else:
+            catatan = f"Mengubah data barang: {barang['nama']}"
+        db.tambah_aktivitas("ubah", catatan, "Berhasil", admin_name)
+        
         return redirect(url_for('admin.admin_stok_tersedia'))
     return render_template('14.-stoktersedia_edit.html', barang=barang)
  
@@ -511,9 +597,21 @@ def admin_stok_tersedia_edit(id):
 def admin_stok_tersedia_hapus(id):
     if not session.get('user'):
         return redirect(url_for('admin.admin_login'))
+    
+    barang = None
+    for b in db.data_barang:
+        if b['no'] == id:
+            barang = b
+            break
+            
+    if barang:
+        admin_name = session.get('user', 'Admin')
+        db.tambah_aktivitas("hapus", f"Menghapus pilihan barang: {barang['nama']}", "Berhasil", admin_name)
+        
     db.data_barang = [b for b in db.data_barang if b['no'] != id]
     db.save_data_barang()
     return redirect(url_for('admin.admin_stok_tersedia'))
+
 
 @admin_bp.route('/admin/cetak_laporan', methods=['GET', 'POST'])
 def admin_cetak_laporan():
@@ -693,6 +791,53 @@ def admin_cek_pembayaran_detail(trx_id):
     if not order:
         return "Transaksi tidak ditemukan", 404
     return render_template('21.cek_pembayaran_detail.html', order=order)
+
+@admin_bp.route('/admin/cek-pembayaran/update-status/<trx_id>', methods=['POST'])
+def admin_update_status(trx_id):
+    if not session.get('user'):
+        return redirect(url_for('admin.admin_login'))
+    
+    new_status = request.form.get('status', '').strip()
+    if not new_status:
+        return "Status tidak boleh kosong", 400
+        
+    order = None
+    for p in db.pesanan:
+        if p['id'] == trx_id:
+            order = p
+            break
+            
+    if not order:
+        return "Transaksi tidak ditemukan", 404
+        
+    old_status = order.get('status', '')
+    if old_status != new_status:
+        order['status'] = new_status
+        db.save_pesanan()
+        
+        if new_status == "Siap diambil":
+            db.tambah_notifikasi(
+                "Pembayaran Dikonfirmasi",
+                f"Pembayaran {order['metode']} oleh {order['pelanggan']} senilai {formatRp(order['total'])} telah divalidasi",
+                "hijau"
+            )
+        elif new_status == "Selesai":
+            db.tambah_notifikasi(
+                "Transaksi Selesai",
+                f"Transaksi #{trx_id} oleh {order['pelanggan']} senilai {formatRp(order['total'])} telah selesai",
+                "hijau"
+            )
+            
+        admin_name = session.get('user', 'Admin')
+        db.tambah_aktivitas(
+            "ubah", 
+            f"Mengubah status transaksi #{trx_id}: {old_status} -> {new_status}", 
+            "Berhasil", 
+            admin_name
+        )
+        
+    return redirect(url_for('admin.admin_cek_pembayaran_detail', trx_id=trx_id))
+
 
 @admin_bp.route('/admin/pengaturan', methods=['GET'])
 def admin_pengaturan():

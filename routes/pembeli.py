@@ -29,9 +29,16 @@ def buat_pesanan_dari_cart(metode):
         for b in db.data_barang:
             if b['nama'] == nama:
                 b['stok'] = max(0, b['stok'] - qty)
+                if b['stok'] <= 5:
+                    db.tambah_notifikasi(
+                        "Stok Menipis",
+                        f"Produk {b['nama']} tersisa {b['stok']} unit",
+                        "orange"
+                    )
                 break
     db.save_data_barang()
     
+    total_bayar = db.hitung_total_barang(barang_list)
     pesanan_baru = {
         "id": trx_id,
         "tanggal": tanggal,
@@ -40,13 +47,23 @@ def buat_pesanan_dari_cart(metode):
         "metode": metode,
         "status": "Disiapkan",
         "barang": barang_list,
-        "total_awal": db.hitung_total_barang(barang_list),
-        "total": db.hitung_total_barang(barang_list),
+        "total_awal": total_bayar,
+        "total": total_bayar,
         "refund": 0
     }
     db.pesanan.append(pesanan_baru)
     db.save_pesanan()
+    
+    # Trigger Pembelian Baru notification
+    total_formatted = formatRp(total_bayar)
+    db.tambah_notifikasi(
+        "Pembelian Baru",
+        f"Transaksi #{trx_id} oleh {pelanggan} senilai {total_formatted}",
+        "biru"
+    )
+    
     db.cart.clear()
+
 
 @pembeli_bp.route('/pembeli/login', methods=['GET', 'POST'])
 def pembeli_login():
