@@ -2,7 +2,7 @@ from modules.blueprints import admin_bp, pembeli_bp, api_bp
 
 # Import modules to register routes on blueprints
 import modules.auth
-import modules.denah_fajar
+import modules.denah_salsa
 import modules.laporan_putriamelia
 import modules.pembayaran_naailah_yunirohmawati
 import modules.penilaian_nadyanur
