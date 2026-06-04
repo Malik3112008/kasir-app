@@ -22,7 +22,7 @@
                 {% if error %}
                 <div class="error-message">{{ error }}</div>
                 {% endif %}
-                <form action="{{ url_for('admin_login') }}" method="POST">
+                <form action="{{ url_for('admin.admin_login') }}" method="POST">
                     <div class="input-group">
                         <label>Nama akun</label>
                         <input type="text" name="username" placeholder="Masukkan nama akun" required oninvalid="this.setCustomValidity('Silakan isi kolom ini')" oninput="this.setCustomValidity('')">

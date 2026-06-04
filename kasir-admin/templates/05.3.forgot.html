@@ -7,14 +7,14 @@
     <title>Lupa Kata Sandi</title>
 </head>
 <body class="login-page">
-    <a href="{{ url_for('admin_login') }}" class="back-btn">← kembali</a>
+    <a href="{{ url_for('admin.admin_login') }}" class="back-btn">← kembali</a>
     <div class="card">
         <h3>Perbarui Kata Sandi</h3>
         <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Masukkan email Anda untuk menerima kode verifikasi reset sandi</p>
         {% if error %}
         <div class="error-message">{{ error }}</div>
         {% endif %}
-        <form action="{{ url_for('admin_forgot') }}" method="POST">
+        <form action="{{ url_for('admin.admin_forgot') }}" method="POST">
             <div class="input-group">
                 <label>Email</label>
                 <input type="email" name="email" placeholder="email@example.com" required>

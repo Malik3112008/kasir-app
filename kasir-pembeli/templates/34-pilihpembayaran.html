@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<a href="{{ url_for('pembeli_keranjang') }}" class="kembali">← Kembali</a>
+<a href="{{ url_for('pembeli.pembeli_keranjang') }}" class="kembali">← Kembali</a>
 
 <div class="container">
 
@@ -59,8 +59,8 @@
 </div>
 
 <script>
-const tunaiUrl = "{{ url_for('pembeli_tunai') }}";
-const qrisUrl = "{{ url_for('pembeli_qris') }}";
+const tunaiUrl = "{{ url_for('pembeli.pembeli_tunai') }}";
+const qrisUrl = "{{ url_for('pembeli.pembeli_qris') }}";
 
 function pilihMetode(btn) {
     document.querySelectorAll('.metode-btn').forEach(b => b.classList.remove('active'));

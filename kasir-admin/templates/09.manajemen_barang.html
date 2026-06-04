@@ -19,11 +19,11 @@
 
         
         <div class="search-box">
-            <form method="GET" action="{{ url_for('admin_manajemen_barang') }}" class="search-form">
+            <form method="GET" action="{{ url_for('admin.admin_manajemen_barang') }}" class="search-form">
                 <input type="text" name="cari" placeholder="Cari barang..." value="{{ keyword }}">
                 <button type="submit"><i class="fa fa-search"></i></button>
             </form>
-            <a href="{{ url_for('admin_pengisian_barang') }}" class="add-btn" title="Tambah Barang Baru">
+            <a href="{{ url_for('admin.admin_pengisian_barang') }}" class="add-btn" title="Tambah Barang Baru">
                 <i class="fa fa-plus"></i>
             </a>
         </div>
@@ -58,7 +58,7 @@
                             {% endif %}
                         </td>
                         <td class="aksi">
-                            <a href="{{ url_for('admin_pengisian_barang_restok', id=item.no) }}" class="btn-restok" title="Restok">
+                            <a href="{{ url_for('admin.admin_pengisian_barang_restok', id=item.no) }}" class="btn-restok" title="Restok">
                                 <i class="fa fa-plus"></i>
                             </a>
                         </td>

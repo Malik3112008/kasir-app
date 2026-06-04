@@ -15,16 +15,16 @@
 <nav>
     <div class="nav-bar">
         <li>
-            <a href="{{ url_for('admin_stok_tersedia') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+            <a href="{{ url_for('admin.admin_stok_tersedia') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
         </li>
         <img src="{{ url_for('static', filename='image/logo_3.png') }}" alt="Logo" width="50" height="50">
         <span>Koperasi Siswa</span>
     </div>
     <ul>
-        <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="25px" height="25px"></a></li>
-        <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="25px" height="25px"></a></li>
-        <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="25px" height="25px"></a></li>
-        <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="25px" height="25px"></a></li>
+        <li><a href="{{ url_for('admin.admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="25px" height="25px"></a></li>
+        <li><a href="{{ url_for('admin.admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="25px" height="25px"></a></li>
+        <li><a href="{{ url_for('admin.admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="25px" height="25px"></a></li>
+        <li><a href="{{ url_for('admin.admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="25px" height="25px"></a></li>
     </ul>
 </nav>
 
@@ -76,7 +76,7 @@
 
         <div class="button-group">
             <button type="submit" class="btn-save">Simpan Perubahan</button>
-            <a href="{{ url_for('admin_stok_tersedia') }}" class="btn-cancel">Batal</a>
+            <a href="{{ url_for('admin.admin_stok_tersedia') }}" class="btn-cancel">Batal</a>
         </div>
     </form>
 </div>

@@ -11,7 +11,7 @@
 
 <div class="rincian-container">
 
-    <a href="{{ url_for('pembeli_pilih_pembayaran') }}" class="kembali">← Kembali</a>
+    <a href="{{ url_for('pembeli.pembeli_pilih_pembayaran') }}" class="kembali">← Kembali</a>
 
     {% if status == 'belum' %}
     <div class="status belum">BELUM DIBAYAR</div>
@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <a href="{{ url_for('pembeli_pesanan') }}" class="btn-selanjutnya">Lihat Pesanan</a>
+    <a href="{{ url_for('pembeli.pembeli_pesanan') }}" class="btn-selanjutnya">Lihat Pesanan</a>
 
 </div>
 

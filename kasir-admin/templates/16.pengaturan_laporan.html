@@ -22,7 +22,7 @@
 
         <hr class="garis">
 
-        <form method="GET" action="{{ url_for('admin_pengaturan_laporan') }}">
+        <form method="GET" action="{{ url_for('admin.admin_pengaturan_laporan') }}">
 
             <div class="tanggal-box">
                 <label>Laporan Barang pada</label>
@@ -70,10 +70,10 @@
         </table>
 
         <div class="button-box">
-            <a href="{{ url_for('admin_cetak_pdf') }}?tanggal_awal={{ tanggal_awal }}&tanggal_akhir={{ tanggal_akhir }}">
+            <a href="{{ url_for('admin.admin_cetak_pdf') }}?tanggal_awal={{ tanggal_awal }}&tanggal_akhir={{ tanggal_akhir }}">
                 <button class="pdf">Cetak PDF</button>
             </a>
-            <a href="{{ url_for('admin_cetak_excel') }}?tanggal_awal={{ tanggal_awal }}&tanggal_akhir={{ tanggal_akhir }}">
+            <a href="{{ url_for('admin.admin_cetak_excel') }}?tanggal_awal={{ tanggal_awal }}&tanggal_akhir={{ tanggal_akhir }}">
                 <button class="excel">Cetak Excel</button>
             </a>
         </div>

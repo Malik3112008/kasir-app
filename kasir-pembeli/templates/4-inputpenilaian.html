@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <form action="{{ url_for('pembeli_submit_rating') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ url_for('pembeli.pembeli_submit_rating') }}" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="produk_nama" value="{{ nama_produk }}">
         <input type="hidden" name="rating" id="rating-value" value="0">
         <input type="hidden" name="ulasan_tags" id="ulasan_tags" value="">

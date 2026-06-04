@@ -18,13 +18,13 @@
 
     <div class="card">
 
-        <form method="GET" action="{{ url_for('admin_kelola_akun_penjual') }}" style="display: flex; gap: 10px; margin-bottom: 20px;">
+        <form method="GET" action="{{ url_for('admin.admin_kelola_akun_penjual') }}" style="display: flex; gap: 10px; margin-bottom: 20px;">
             <input type="text" name="cari" placeholder="Cari akun" class="search" value="{{ keyword or '' }}" style="flex: 1;">
             <button type="submit" class="btn-cari" style="padding: 10px 20px; background: #3A82C4; color: white; border: none; border-radius: 8px; cursor: pointer;">Cari</button>
         </form>
 
         <div class="button-group" style="margin-bottom: 20px;">
-            <a href="{{ url_for('admin_tambah_akun') }}" class="btn tambah" style="text-decoration: none; display: inline-block;">Tambah</a>
+            <a href="{{ url_for('admin.admin_tambah_akun') }}" class="btn tambah" style="text-decoration: none; display: inline-block;">Tambah</a>
         </div>
         <table>
             <thead>

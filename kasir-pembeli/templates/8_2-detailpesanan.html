@@ -82,7 +82,7 @@
 
             {% if p.metode | lower == 'qris' or p.status in ('Sudah diambil', 'Selesai') %}
             <div class="btn-group">
-                <button class="btn-struk" style="border: none; cursor: pointer; font-family: inherit; font-size: inherit;" onclick="event.stopPropagation(); window.open('{{ url_for('pembeli_struk') }}?trx_id={{ p.id }}', '_blank');">
+                <button class="btn-struk" style="border: none; cursor: pointer; font-family: inherit; font-size: inherit;" onclick="event.stopPropagation(); window.open('{{ url_for('pembeli.pembeli_struk') }}?trx_id={{ p.id }}', '_blank');">
                     Lihat Struk
                 </button>
             </div>

@@ -18,7 +18,7 @@
     </div>
     <h1>Pengaturan Profil</h1>
   </div>
-  <form action="{{ url_for('admin_simpan_pengaturan') }}" method="POST" class="form-profil" enctype="multipart/form-data">
+  <form action="{{ url_for('admin.admin_simpan_pengaturan') }}" method="POST" class="form-profil" enctype="multipart/form-data">
     <label>Nama Koperasi</label>
     <input type="text" name="nama" value="{{ nama }}" />
 

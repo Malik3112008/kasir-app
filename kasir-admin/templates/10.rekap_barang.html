@@ -11,16 +11,16 @@
     <nav>
         <div class="nav-bar">
             <li>
-                <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+                <a href="{{ url_for('admin.admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
             </li>
             <img src="{{ url_for('static', filename='image/logo_3.png') }}" alt="Logo" width="70" height="70">
             <span>Koperasi Siswa</span>
         </div>
         <ul>
-            <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
-            <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
-            <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
-            <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin.admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin.admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin.admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin.admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
         </ul>
     </nav>
 
@@ -44,7 +44,7 @@
         <label>Harga</label>
         <input type="text" value="{{ harga }}" readonly>
 
-        <a href="{{ url_for('admin_manajemen_barang') }}">
+        <a href="{{ url_for('admin.admin_manajemen_barang') }}">
             <button type="button" style="margin-top:16px; padding:12px 28px; background:#3A82C4; color:#fff; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;">Selesai</button>
         </a>
 

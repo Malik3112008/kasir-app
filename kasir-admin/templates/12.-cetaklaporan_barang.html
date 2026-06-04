@@ -208,16 +208,16 @@
     <nav>
         <div class="nav-bar">
             <li>
-                <a href="{{ url_for('admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
+                <a href="{{ url_for('admin.admin_dashboard') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
             </li>
             <img src="{{ url_for('static', filename='image/logo_3.png') }}" alt="Logo" width="70" height="70">
             <span>Koperasi Siswa</span>
         </div>
         <ul>
-            <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
-            <li><a href="{{ url_for('admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
-            <li><a href="{{ url_for('admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
-            <li><a href="{{ url_for('admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin.admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin.admin_pengaturan') }}"><img src="{{ url_for('static', filename='setting-svgrepo.svg') }}" alt="Setting" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin.admin_kelola_akun_penjual') }}"><img src="{{ url_for('static', filename='profile-circle-svgrepo.svg') }}" alt="Pengguna" width="30px" height="30px"></a></li>
+            <li><a href="{{ url_for('admin.admin_logout') }}"><img src="{{ url_for('static', filename='logout-line-svgrepo.svg') }}" alt="Keluar" width="30px" height="30px"></a></li>
         </ul>
     </nav>
 
@@ -275,10 +275,10 @@
             </div>
 
             <div class="export-section">
-                <a href="{{ url_for('admin_cetak_barang_pdf') }}" class="btn-export btn-pdf">
+                <a href="{{ url_for('admin.admin_cetak_barang_pdf') }}" class="btn-export btn-pdf">
                     <i class="fa-solid fa-file-pdf"></i> Cetak PDF
                 </a>
-                <a href="{{ url_for('admin_cetak_barang_excel') }}" class="btn-export btn-excel">
+                <a href="{{ url_for('admin.admin_cetak_barang_excel') }}" class="btn-export btn-excel">
                     <i class="fa-solid fa-file-excel"></i> Cetak Excel
                 </a>
             </div>
@@ -310,8 +310,8 @@
             });
 
             // Update export links
-            document.querySelector('.btn-pdf').href = "{{ url_for('admin_cetak_barang_pdf') }}?tanggal_awal=" + awal + "&tanggal_akhir=" + akhir;
-            document.querySelector('.btn-excel').href = "{{ url_for('admin_cetak_barang_excel') }}?tanggal_awal=" + awal + "&tanggal_akhir=" + akhir;
+            document.querySelector('.btn-pdf').href = "{{ url_for('admin.admin_cetak_barang_pdf') }}?tanggal_awal=" + awal + "&tanggal_akhir=" + akhir;
+            document.querySelector('.btn-excel').href = "{{ url_for('admin.admin_cetak_barang_excel') }}?tanggal_awal=" + awal + "&tanggal_akhir=" + akhir;
         }
 
         document.addEventListener("DOMContentLoaded", function() {
