@@ -847,7 +847,18 @@ def admin_update_status(trx_id):
 def admin_pengaturan():
     if not session.get('user'):
         return redirect(url_for('admin.admin_login'))
-    return render_template('22.pengaturan_umum.html', **db.data_koperasi)
+    
+    logo_path = db.data_koperasi.get('logo', '')
+    if logo_path:
+        full_path = os.path.join(BASE_DIR, 'static', logo_path)
+        if not os.path.exists(full_path):
+            logo_path = 'image/logo_3.png'
+    else:
+        logo_path = 'image/logo_3.png'
+        
+    data = dict(db.data_koperasi)
+    data['logo'] = logo_path
+    return render_template('22.pengaturan_umum.html', **data)
 
 @admin_bp.route('/admin/simpan_pengaturan', methods=['POST'])
 def admin_simpan_pengaturan():

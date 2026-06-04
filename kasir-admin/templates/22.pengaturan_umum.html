@@ -58,12 +58,49 @@
   </form>
 
   <script>
-    document.getElementById('logo-input').addEventListener('change', function(e) {
+    const logoInput = document.getElementById('logo-input');
+    const uploadArea = document.querySelector('.upload');
+    const logoPreview = document.getElementById('logo-preview');
+
+    // Click to upload
+    uploadArea.addEventListener('click', function(e) {
+      if (e.target !== logoInput && e.target.tagName !== 'LABEL') {
+        logoInput.click();
+      }
+    });
+
+    // Drag and Drop styling & actions
+    uploadArea.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      uploadArea.style.borderColor = '#36cfff';
+      uploadArea.style.background = '#f0faff';
+    });
+
+    uploadArea.addEventListener('dragleave', function(e) {
+      e.preventDefault();
+      uploadArea.style.borderColor = '#d8d8d8';
+      uploadArea.style.background = '#fafafa';
+    });
+
+    uploadArea.addEventListener('drop', function(e) {
+      e.preventDefault();
+      uploadArea.style.borderColor = '#d8d8d8';
+      uploadArea.style.background = '#fafafa';
+      
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        logoInput.files = files;
+        logoInput.dispatchEvent(new Event('change'));
+      }
+    });
+
+    // File change / preview logic
+    logoInput.addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = function(ev) {
-          document.getElementById('logo-preview').src = ev.target.result;
+          logoPreview.src = ev.target.result;
         };
         reader.readAsDataURL(file);
       }
