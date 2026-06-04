@@ -18,13 +18,13 @@
         <h1>Manajemen Barang Koperasi</h1>
 
         
-        <div class="search-box" style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
-            <form method="GET" action="{{ url_for('admin.admin_manajemen_barang') }}" class="search-form" style="display: flex; gap: 10px; flex: 1;">
+        <div class="search-box" style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap; justify-content: flex-start;">
+            <form method="GET" action="{{ url_for('admin.admin_manajemen_barang') }}" class="search-form" style="display: flex; gap: 10px; flex: none;">
                 <input type="text" name="cari" placeholder="Cari barang..." value="{{ keyword }}">
                 <button type="submit"><i class="fa fa-search"></i></button>
             </form>
             
-            <form method="POST" action="{{ url_for('admin.admin_manajemen_barang_tambah_stok') }}" style="display: flex; align-items: center; gap: 8px;">
+            <form method="POST" action="{{ url_for('admin.admin_manajemen_barang_tambah_stok') }}" style="display: flex; align-items: center; gap: 8px; flex: none;">
                 <select name="restok_id" id="barang-select" required style="height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid gray; font-size: 16px; min-width: 200px; background: white;">
                     <option value="" disabled selected>Pilih barang untuk restok...</option>
                     {% for item in all_barang %}
