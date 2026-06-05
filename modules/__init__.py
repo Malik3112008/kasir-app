@@ -7,7 +7,8 @@ import modules.denah_salsa
 import modules.laporan_penjualan_tito
 import modules.laporan_transaksi_nay
 import modules.pengaturan_laporan_rinjani
-import modules.laporan_penjual_satria_fajar
+import modules.laporan_barang_rinjani
+import modules.laporan_penjualan_fajar
 import modules.pembayaran_cash_putriamelia
 import modules.pembayaran_qris_naila
 import modules.pembayaran_pilihan_yunirohmawati

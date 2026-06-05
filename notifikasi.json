@@ -1,0 +1,11 @@
+{
+    "notifikasi": [
+        {
+            "judul": "Pembayaran Dikonfirmasi",
+            "isi": "Pembayaran QRIS oleh Putri Amel senilai 10.000 telah divalidasi",
+            "waktu": "20 menit lalu",
+            "warna": "hijau"
+        }
+    ],
+    "riwayat": []
+}

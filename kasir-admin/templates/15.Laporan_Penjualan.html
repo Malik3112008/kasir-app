@@ -1,0 +1,272 @@
+{% from 'macros.html' import admin_header %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Laporan Penjualan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='15.Laporan_Penjualan.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
+</head>
+
+<body>
+    {{ admin_header('Laporan Penjualan') }}
+    <span class="Judul" style="display: block; text-align: center; margin-top: 20px;">Laporan Penjualan (Untung/Rugi)</span>
+    <div class="Isi">
+        <form method="GET">
+            <div class="kalender">
+                <input type="date" name="tanggal_awal" placeholder="dd/mm/yyyy" value="{{ tanggal_awal }}">
+                <span>Sampai</span>
+                <input type="date" name="tanggal_akhir" placeholder="dd/mm/yyyy" value="{{ tanggal_akhir }}">
+                <button type="submit">Konfirmasi</button>
+            </div>
+        </form>
+        <div class="kotak_besar">
+            <div class="Total_transaksi">
+                <span>Total Transaksi</span>
+                <span>{{TT}}</span>
+            </div>
+            <div class="Total_Pendapatan">
+                <span>Total Pendapatan</span>
+                <span>{{TP}}</span>
+            </div>
+            <div class="Modal_Barang">
+                <span>Modal Barang</span>
+                <span>{{MB}}</span>
+            </div>
+            <div class="Untung_Rugi">
+                <span>Untung/Rugi</span>
+                <span>{{UG}}</span>
+            </div>
+            <div class="Kolom_Diagram_1">
+                <div class="Diagram_Produk_Terlaris">
+                    <canvas id="chart_produk_terlaris" data-nama-produk='{{ NP | tojson }}'
+                        data-jumlah-produk='{{ JP | tojson}}' data-warna-diagram='{{ WPT | tojson }}'
+                        style="width:300px" height="300px"></canvas>
+                    <script>
+                        const canvas1 = document.getElementById("chart_produk_terlaris");
+                        const xValues1 = JSON.parse(canvas1.dataset.namaProduk);
+                        const yValues1 = JSON.parse(canvas1.dataset.jumlahProduk);
+                        const barColors1 = JSON.parse(canvas1.dataset.warnaDiagram);
+                        new Chart(canvas1, {
+                            type: "doughnut",
+                            data: {
+                                labels: xValues1,
+                                datasets: [{
+                                    backgroundColor: barColors1,
+                                    data: yValues1
+                                }]
+                            },
+                            options: {
+                                responsive: false,
+                                plugins: {
+                                    legend: {
+                                        display: true,
+                                        labels: {
+                                            font: {
+                                                weight: "bold"
+                                            }
+                                        }
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: "Diagram Produk Terlaris",
+                                        font: { size: 20, weight: "bold" }
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+                <div style="width:1px; height:100px; background:black;"></div>
+                <div class="Diagram_Pendapatan_Perkategori">
+                    <canvas id="Chart_Pendapatan_Perkategori" data-kategori='{{ KT | tojson }}'
+                        data-pendapatan='{{ PPK | tojson}}' data-warna-diagram='{{ WPP | tojson }}' style="width:300px"
+                        height="300px"></canvas>
+                    <script>
+                        const canvas2 = document.getElementById("Chart_Pendapatan_Perkategori");
+                        const xValues2 = JSON.parse(canvas2.dataset.kategori);
+                        const yValues2 = JSON.parse(canvas2.dataset.pendapatan);
+                        const barColors2 = JSON.parse(canvas2.dataset.warnaDiagram);
+                        new Chart(canvas2, {
+                            type: "bar",
+                            data: {
+                                labels: xValues2,
+                                datasets: [{
+                                    backgroundColor: barColors2,
+                                    data: yValues2
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    x: {
+                                        ticks: {
+                                            font: {
+                                                weight: "bold"
+                                            }
+                                        }
+                                    },
+                                    y: {
+                                        ticks: {
+                                            font: {
+                                                weight: "bold"
+                                            }
+                                        }
+                                    }
+                                },
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: "Pendapatan Perkategori",
+                                        font: {
+                                            size: 20,
+                                            weight: "bold"
+                                        }
+                                    }
+                                }
+                            }
+                        })
+                    </script>
+                </div>
+            </div>
+            <div class="Kolom_Diagram_2">
+                <div class="Diagram_Perbadingan_Pendapatann_Tiap_Bulan">
+                    <canvas id="Chart_Perbadingan_Pendapatan_Tiap_Bulan" data-pendapatan-bulan='{{ PL | tojson }}'
+                        data-pendapatan-perbulan='{{ PPB | tojson}}' style="width:500px" height="400px"></canvas>
+                    <script>
+                        const canvas3 = document.getElementById("Chart_Perbadingan_Pendapatan_Tiap_Bulan");
+                        const xValues3 = JSON.parse(canvas3.dataset.pendapatanBulan);
+                        const yValues3 = JSON.parse(canvas3.dataset.pendapatanPerbulan);
+                        new Chart(canvas3, {
+
+                            type: "line",
+                            data: {
+                                labels: xValues3,
+                                datasets: [{
+                                    data: yValues3,
+                                    borderColor: "blue",
+                                    fill: false,
+                                    tension: 0.4,
+                                    // spanGaps: false = line will NOT connect over null values, creating gaps for months with no data
+                                    // Use null (not 0) for months without sales so the line breaks properly
+                                    spanGaps: false
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    x: {
+                                        ticks: {
+                                            font: {
+                                                weight: "bold"
+                                            }
+                                        }
+                                    },
+                                    y: {
+                                        ticks: {
+                                            font: {
+                                                weight: "bold"
+                                            }
+                                        }
+                                    }
+                                },
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: "Perbandingan Pendapatan Tiap Bulan Tahun 2026",
+                                        font: {
+                                            size: 20,
+                                            weight: "bold"
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+                <div style="width:1px; height:100px; background:black;"></div>
+                <div class="Diagram_Perbandingan_Jumlah_Transaksi_Tiap_Bulan">
+                    <canvas id="Chart_Perbadingan_Jumlah_Transaksi_Tiap_Bulan"
+                        data-transaksi-perbulan='{{ TSP | tojson }}' data-jumlah-transaksi-perbulan='{{ JTP | tojson}}'
+                        style="width:500px" height="400px"></canvas>
+                    <script>
+                        const canvas4 = document.getElementById("Chart_Perbadingan_Jumlah_Transaksi_Tiap_Bulan");
+                        const xValues4 = JSON.parse(canvas4.dataset.transaksiPerbulan);
+                        const yValues4 = JSON.parse(canvas4.dataset.jumlahTransaksiPerbulan);
+                        new Chart(canvas4, {
+                            type: "line",
+                            data: {
+                                labels: xValues4,
+                                datasets: [{
+                                    data: yValues4,
+                                    borderColor: "Blue",
+                                    fill: false,
+                                    tension: 0.4,
+                                    // spanGaps: false = line will NOT connect over null values, creating gaps for months with no data
+                                    // Use null (not 0) for months without transactions so the line breaks properly
+                                    spanGaps: false
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    x: {
+                                        ticks: {
+                                            font: {
+                                                weight: "bold"
+                                            }
+                                        }
+                                    },
+                                    y: {
+                                        ticks: {
+                                            font: {
+                                                weight: "bold"
+                                            }
+                                        }
+                                    }
+                                },
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: "Perbandingan Jumlah Transaksi Tiap Bulan Tahun 2026",
+                                        font: {
+                                            size: 20,
+                                            weight: "bold"
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class="Cetak">
+                <a href="{{ url_for('admin.admin_cetak_laporan') }}?tipe=penjualan&tanggal_awal={{ tanggal_awal }}&tanggal_akhir={{ tanggal_akhir }}"><button>Cetak</button></a>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            flatpickr("input[type=date]", {
+                locale: "id",
+                altInput: true,
+                altFormat: "d-m-Y",
+                dateFormat: "Y-m-d",
+                minDate: "2026-01-01",
+                maxDate: "2027-12-31"
+            });
+        });
+    </script>
+</body>
+
+</html>

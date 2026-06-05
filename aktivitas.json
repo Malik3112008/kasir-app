@@ -1,0 +1,135 @@
+[
+    {
+        "tipe": "restok",
+        "catatan": "Melakukan restok cepat: Roti Aoka (+2 unit)",
+        "status": "Berhasil",
+        "admin": "admin",
+        "waktu": "2026-06-04 13:30"
+    },
+    {
+        "tipe": "restok",
+        "catatan": "Melakukan restok cepat: Roti Aoka (+2 unit)",
+        "status": "Berhasil",
+        "admin": "admin",
+        "waktu": "2026-06-04 13:30"
+    },
+    {
+        "tipe": "restok",
+        "catatan": "Melakukan restok produk: Roti Aoka (+10 unit)",
+        "status": "Berhasil",
+        "admin": "admin",
+        "waktu": "2026-06-04 13:29"
+    },
+    {
+        "tipe": "restok",
+        "catatan": "Melakukan restok produk: Roti Aoka (+10 unit)",
+        "status": "Berhasil",
+        "admin": "admin",
+        "waktu": "2026-06-04 13:29"
+    },
+    {
+        "tipe": "restok",
+        "catatan": "Melakukan restok produk: Donat (+10 unit)",
+        "status": "Berhasil",
+        "admin": "admin",
+        "waktu": "2026-06-04 13:29"
+    },
+    {
+        "tipe": "restok",
+        "catatan": "Melakukan restok produk: Donat (+10 unit)",
+        "status": "Berhasil",
+        "admin": "admin",
+        "waktu": "2026-06-04 13:28"
+    },
+    {
+        "tipe": "restok",
+        "catatan": "Melakukan restok produk: Donat (+10 unit)",
+        "status": "Berhasil",
+        "admin": "admin",
+        "waktu": "2026-06-04 13:28"
+    },
+    {
+        "tipe": "restok",
+        "catatan": "Melakukan restok produk: Roti Aoka (+15 unit)",
+        "status": "Berhasil",
+        "admin": "admin",
+        "waktu": "2026-06-04 13:28"
+    },
+    {
+        "tipe": "restok",
+        "catatan": "Melakukan restok produk: Roti Aoka (+15 unit)",
+        "status": "Berhasil",
+        "admin": "admin",
+        "waktu": "2026-06-04 13:26"
+    },
+    {
+        "tipe": "login",
+        "catatan": "Log in system",
+        "status": "Sukses",
+        "admin": "admin",
+        "waktu": "2026-06-04 13:23"
+    },
+    {
+        "tipe": "login",
+        "catatan": "Log in system",
+        "status": "Sukses",
+        "admin": "admin",
+        "waktu": "2026-06-04 11:28"
+    },
+    {
+        "tipe": "login",
+        "catatan": "Log in system",
+        "status": "Sukses",
+        "admin": "admin",
+        "waktu": "2026-06-04 10:35"
+    },
+    {
+        "tipe": "login",
+        "catatan": "Log in system",
+        "status": "Sukses",
+        "admin": "Admin",
+        "waktu": "2026-05-28 08:00"
+    },
+    {
+        "tipe": "tambah",
+        "catatan": "Menambahkan pilihan barang: Roti Aoka",
+        "status": "Berhasil",
+        "admin": "Admin",
+        "waktu": "2026-05-28 07:30"
+    },
+    {
+        "tipe": "restok",
+        "catatan": "Melakukan restok produk: Air Mineral (+50 unit)",
+        "status": "Berhasil",
+        "admin": "Admin",
+        "waktu": "2026-05-28 07:00"
+    },
+    {
+        "tipe": "logout",
+        "catatan": "Log out system",
+        "status": "Sukses",
+        "admin": "Admin",
+        "waktu": "2026-05-27 17:00"
+    },
+    {
+        "tipe": "ubah",
+        "catatan": "Mengubah harga: Bolpoin (Rp 3.500 -> Rp 4.000)",
+        "status": "Berhasil",
+        "admin": "Admin",
+        "waktu": "2026-05-27 14:30"
+    },
+    {
+        "tipe": "hapus",
+        "catatan": "Menghapus pilihan barang: Kerupuk Bawang",
+        "status": "Berhasil",
+        "admin": "Admin",
+        "waktu": "2026-05-27 11:20"
+    },
+    {
+        "tipe": "login",
+        "catatan": "Log in system",
+        "status": "Sukses",
+        "admin": "Admin",
+        "waktu": "2026-05-27 08:00"
+    }
+]
