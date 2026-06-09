@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Koperasi Siswa</title>
+    <title>{{ nama_koperasi }}</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
     <!-- Tombol Admin -->
-     <a href="{{ url_for('admin_login')}}">
+    <a href="{{ url_for('admin_login') }}">
     <button class="admin-btn">
         Masuk Admin
     </button>
@@ -24,11 +24,11 @@
         </div>
 
         <h1>
-            di Koperasi <br> Siswa
+            di {{ nama_koperasi }}
         </h1>
 
         <p>
-            Koperasi siswa adalah organisasi di sekolah yang dikelola oleh siswa dengan bimbingan guru. Koperasi ini menyediakan kebutuhan sekolah seperti alat tulis, makanan, dan seragam. Tujuan koperasi siswa adalah melatih kerja sama, tanggung jawab, dan jiwa usaha pada siswa.
+            {{ nama_koperasi }} adalah organisasi di sekolah yang dikelola oleh siswa dengan bimbingan guru. Koperasi ini menyediakan kebutuhan sekolah seperti alat tulis, makanan, dan seragam. Tujuan koperasi siswa adalah melatih kerja sama, tanggung jawab, dan jiwa usaha pada siswa.
         </p>
 
        <a href="{{ url_for('admin_denah') }}">
@@ -37,22 +37,21 @@
         </button>
        </a>
 
-        <a href="{{ url_for('pembeli') }}">
+       <a href="{{ url_for('pembeli_login') }}">
         <button class="menu-btn">
-            MASUK PEMBELI
+            LOGIN USER
         </button>
        </a>
-       
 
-        <a href="/inforasi">
+        <a href="{{ url_for('informasi') }}">
         <button class="button-informasi">
-            INFORMASI 
+            INFORMASI
         </button>
         </a>
 
-        <img src="../static/background_2.jpeg"
+        <img src="{{ url_for('static', filename='Background_2.jpeg') }}"
          class="background_2">
-         <img src="../static/logo_3.png"
+         <img src="{{ url_for('static', filename='image/logo_3.png') }}"
          class="logo_3">
     </div>
 </body>

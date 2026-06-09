@@ -529,12 +529,18 @@ def admin_detail_transaksi(trx_id):
         return "Transaksi tidak ditemukan", 404
     items = []
     for b in trx['barang']:
+        gambar = b.get('gambar', '')
+        if not gambar:
+            for db in data_barang:
+                if db['nama'].strip().lower() == b['nama'].strip().lower():
+                    gambar = db.get('gambar', '')
+                    break
         items.append({
             'nama': b['nama'],
             'harga': b['harga'],
             'jumlah': b['jumlah'],
             'id_transaksi': trx['id'],
-            'gambar': b.get('gambar', '')
+            'gambar': gambar
         })
     total = sum(b['harga'] * b['jumlah'] for b in trx['barang'])
     tanggal_fmt = format_kbbi_date(trx['tanggal'])
@@ -1342,6 +1348,16 @@ def admin_siapkan_pesanan():
                         i['status'] = ganti[ubah + 1]
                 break
         save_pesanan(pesanan)
+        if new_status == 'Sudah diambil':
+            from datetime import datetime
+            now = datetime.now().strftime("%d %B %Y, %H:%M")
+            global notifikasi
+            notifikasi.insert(0, {
+                "judul": "Pesanan Diambil",
+                "isi": "Pesanan #" + trx_id + " oleh " + i['pelanggan'] + " status Sudah diambil",
+                "waktu": now,
+                "warna": "hijau"
+            })
         return redirect('/admin/siapkan-pesanan')
     # Pagination
     page = request.args.get('page', 1, type=int)
@@ -1427,6 +1443,12 @@ def admin_cek_pembayaran_detail(trx_id):
             break
     if not order:
         return "Transaksi tidak ditemukan", 404
+    for b in order['barang']:
+        if not b.get('gambar', ''):
+            for db in data_barang:
+                if db['nama'].strip().lower() == b['nama'].strip().lower():
+                    b['gambar'] = db.get('gambar', '')
+                    break
     return render_template('21.cek_pembayaran_detail.html', order=order)
 
 # ============================================================
@@ -1523,12 +1545,17 @@ def pembeli_register():
     if request.method == 'POST':
         username = request.form.get('username', '').strip()
         password = request.form.get('password', '').strip()
-        if not username or not password:
-            error = 'Nama akun dan kata sandi wajib diisi.'
+        email = request.form.get('email', '').strip()
+        confirm = request.form.get('confirm', '').strip()
+        if not username or not password or not email:
+            error = 'Nama akun, email, dan kata sandi wajib diisi.'
+        elif password != confirm:
+            error = 'Kata sandi dan konfirmasi tidak cocok.'
         elif username in USERS:
             error = 'Nama akun sudah digunakan.'
         else:
             USERS[username] = password
+            EMAIL_TO_USER[email] = username
             return redirect(url_for('pembeli_login'))
     return render_template('register_pembeli.html', error=error)
 
@@ -1821,7 +1848,12 @@ def pembeli_tunai():
     session['tunai_items'] = items
     session['tunai_total'] = total
     session['tunai_kode'] = kode
-    return render_template('11-rincian-tunai.html', items=items, total=total, nama=nama, kode=kode, status='belum')
+    status_bayar = 'belum'
+    for p in pesanan:
+        if p['pelanggan'] == nama and p['status'] == 'Sudah diambil':
+            status_bayar = 'lunas'
+            break
+    return render_template('11-rincian-tunai.html', items=items, total=total, nama=nama, kode=kode, status=status_bayar)
 
 # ============================================================
 # PEMBELI: BAYAR QRIS

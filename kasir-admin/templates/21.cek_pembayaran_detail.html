@@ -52,6 +52,9 @@
             <tr>
                 <td>
                     <div class="produk">
+                        {% if item.gambar and item.gambar != '' %}
+                        <img src="{{ url_for('static', filename=item.gambar) }}" alt="{{ item.nama }}">
+                        {% endif %}
                         <div>
                             <h3>{{ item.nama }}</h3>
                         </div>

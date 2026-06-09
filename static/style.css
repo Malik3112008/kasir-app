@@ -1,1 +1,179 @@
-/* style.css */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #90d4f5, #eefbff);
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Motif atas */
+.top-pattern{
+    width: 100%;
+    height: 110px;
+
+    background:
+    repeating-linear-gradient(
+        90deg,
+        #4d4d7c 0px,
+        #4d4d7c 40px,
+        #d8d8d8 40px,
+        #d8d8d8 80px
+    );
+
+    border-bottom: 10px solid #3d3d68;
+}
+
+/* Tombol admin */
+.admin-btn{
+    position: absolute;
+    top: 30px;
+    right: 50px;
+
+    padding: 15px 30px;
+
+    border: none;
+    border-radius: 15px;
+
+    background: #1e1e1e;
+    color: white;
+
+    font-size: 22px;
+    font-weight: bold;
+
+    cursor: pointer;
+    z-index: 100;
+}
+ 
+/* Container */
+.mengaturjarak{
+    padding: 50px 70px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Box judul */
+.title-box{
+    display: inline-block;
+    position: relative;
+    right: 20px;
+    color: white;
+
+    padding: 10px 20px;
+
+    font-size: 75px;
+    font-weight: bold;
+
+    margin-bottom: 20px;
+}
+
+/* Judul besar */
+h1{
+    font-size: 75px;
+    color: #6d87ff;
+
+    margin-bottom: 20px;
+}
+
+/* Paragraf */
+p{
+    width: 550px;
+
+    font-size: 23px;
+    line-height: 1.6;
+
+    color: #333;
+
+    margin-bottom: 25px;
+}
+
+/* Tombol menu */
+.menu-btn{
+    display: block;
+
+    width: 320px;
+
+    margin-top: 20px;
+
+    padding: 18px;
+
+    border: none;
+    border-radius: 40px;
+
+    background: #69beff;
+    color: white;
+
+    font-size: 28px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.menu-btn:hover{
+    background: #42a8ff;
+}
+
+.background_2{
+    width: 100%;
+    height: 150%;
+    object-fit: cover;
+    object-position:right ;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+.logo_3{
+    width: 650px;
+    height: auto;
+
+    position: absolute;
+    top: 75%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+ 
+.title-box,
+ h1, 
+ p,
+.menu-btn{
+    position: relative;
+    top: 100px;
+    
+}
+
+
+.button-informasi{
+    display: block;
+
+    width: 320px;
+
+    margin-top: 20px;
+
+    padding: 18px;
+
+    border: none;
+    border-radius: 40px;
+
+    background: #69beff;
+    color: white;
+
+    font-size: 28px;
+    font-weight: bold;
+    position:absolute;
+    top: 91%;  
+    left: 20%;     
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}

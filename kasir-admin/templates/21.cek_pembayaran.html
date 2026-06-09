@@ -54,7 +54,7 @@
                     </td>
                     <td>{{ t.status }}</td>
                     <td>
-                        <a href="/admin/cek-pembayaran/detail/{{ t.id }}" class="lihat">Lihat</a>
+                        <a href="{{ url_for('admin_detail_transaksi', trx_id=t.id) }}" class="lihat">Lihat</a>
                     </td>
                 </tr>
                 {% endfor %}
