@@ -179,10 +179,11 @@ h1{
 
 
 .notif-biru{
-    width: 90%;
+    width: 100%;
     background-color: #CFE8FF;
     border-left: 8px solid #5DA9EF;
-    height: 90px;
+    height: auto;
+    min-height: 80px;
     border-radius: 12px;
     padding: 6px 15px;
     margin-left: 20px;
@@ -221,10 +222,11 @@ h1{
 }
 
 .notif-orange{
-    width: 90%;
+    width: 100%;
     background-color: #ffe5d6;
     border-left: 8px solid #ff9f5a;
-    height: 90px;
+    height: auto;
+    min-height: 80px;
     border-radius: 12px;
     padding: 6px 15px;
     margin-left: 20px;
@@ -236,10 +238,11 @@ h1{
 }
 
 .notif-hijau{
-    width: 90%;
+    width: 100%;
     background-color: #EAFBE7;
     border-left: 8px solid #6BCB77;
-    height: 90px;
+    height: auto;
+    min-height: 80px;
     border-radius: 12px;
     padding: 6px 15px;
     margin-left: 20px;
@@ -251,10 +254,11 @@ h1{
 }
 
 .notif-merah{
-    width: 90%;
+    width: 100%;
     background-color: #ffd6d6;
     border-left: 8px solid #ff0000;
-    height: 90px;
+    height: auto;
+    min-height: 80px;
     border-radius: 12px;
     padding: 6px 15px;
     margin-left: 20px;
