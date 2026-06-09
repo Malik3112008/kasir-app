@@ -1,164 +1,179 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: linear-gradient(to bottom, #90d4f5, #eefbff);
-  min-height: 100vh;
-  position: relative;
-  overflow-x: hidden;
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #90d4f5, #eefbff);
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
 }
 
-/* Pattern atas */
-.top-pattern {
-  width: 100%;
-  height: 100px;
-  background: repeating-linear-gradient(
-    90deg,
-    #4d4d7c 0px,
-    #4d4d7c 40px,
-    #d8d8d8 40px,
-    #d8d8d8 80px
-  );
-  border-bottom: 8px solid #3d3d68;
+/* Motif atas */
+.top-pattern{
+    width: 100%;
+    height: 110px;
+
+    background:
+    repeating-linear-gradient(
+        90deg,
+        #4d4d7c 0px,
+        #4d4d7c 40px,
+        #d8d8d8 40px,
+        #d8d8d8 80px
+    );
+
+    border-bottom: 10px solid #3d3d68;
 }
 
-/* Tombol group */
-.tombol-group {
-  position: absolute;
-  top: 24px;
-  right: 40px;
-  display: flex;
-  gap: 12px;
-  z-index: 100;
+/* Tombol admin */
+.admin-btn{
+    position: absolute;
+    top: 30px;
+    right: 50px;
+
+    padding: 15px 30px;
+
+    border: none;
+    border-radius: 15px;
+
+    background: #1e1e1e;
+    color: white;
+
+    font-size: 22px;
+    font-weight: bold;
+
+    cursor: pointer;
+    z-index: 100;
 }
-
-.admin-btn {
-  min-height: 48px;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 12px;
-  background: #1e1e1e;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-
-.admin-btn:hover { background: #333; }
-
+ 
 /* Container */
-.container {
-  padding: 40px;
-  position: relative;
-  z-index: 2;
+.mengaturjarak{
+    padding: 50px 70px;
+    position: relative;
+    z-index: 2;
 }
 
 /* Box judul */
-.title-box {
-  display: inline-block;
-  color: white;
-  padding: 8px 16px;
-  font-size: clamp(32px, 8vw, 60px);
-  font-weight: bold;
-  margin-bottom: 16px;
+.title-box{
+    display: inline-block;
+    position: relative;
+    right: 20px;
+    color: white;
+
+    padding: 10px 20px;
+
+    font-size: 75px;
+    font-weight: bold;
+
+    margin-bottom: 20px;
 }
 
 /* Judul besar */
-h1 {
-  font-size: clamp(32px, 8vw, 60px);
-  color: #6d87ff;
-  margin-bottom: 16px;
+h1{
+    font-size: 75px;
+    color: #6d87ff;
+
+    margin-bottom: 20px;
 }
 
 /* Paragraf */
-p {
-  max-width: 550px;
-  font-size: 18px;
-  line-height: 1.6;
-  color: #333;
-  margin-bottom: 24px;
+p{
+    width: 550px;
+
+    font-size: 23px;
+    line-height: 1.6;
+
+    color: #333;
+
+    margin-bottom: 25px;
 }
 
 /* Tombol menu */
-.menu-btn {
-  display: block;
-  width: 300px;
-  max-width: 100%;
-  margin-top: 16px;
-  min-height: 56px;
-  padding: 14px 24px;
-  border: none;
-  border-radius: 28px;
-  background: #69beff;
-  color: white;
-  font-size: 22px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s;
-  text-decoration: none;
-  text-align: center;
+.menu-btn{
+    display: block;
+
+    width: 320px;
+
+    margin-top: 20px;
+
+    padding: 18px;
+
+    border: none;
+    border-radius: 40px;
+
+    background: #69beff;
+    color: white;
+
+    font-size: 28px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
 }
 
-.menu-btn:hover { background: #42a8ff; }
-
-.background_2 {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  object-position: top center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
+.menu-btn:hover{
+    background: #42a8ff;
 }
 
-.logo_2 {
-  max-width: 90%;
-  width: 350px;
-  height: auto;
-  position: absolute;
-  top: 70%;
-  left: 82%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
+.background_2{
+    width: 100%;
+    height: 150%;
+    object-fit: cover;
+    object-position:right ;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+.logo_3{
+    width: 650px;
+    height: auto;
+
+    position: absolute;
+    top: 75%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+ 
+.title-box,
+ h1, 
+ p,
+.menu-btn{
+    position: relative;
+    top: 100px;
+    
 }
 
-h1,
-p,
-.menu-btn {
-  position: relative;
-  top: 80px;
-}
 
-.title-box {
-  position: relative;
-  top: 30px;
-}
+.button-informasi{
+    display: block;
 
-.menu-btn.denah-btn {
-  margin-top: 35px;
-}
+    width: 320px;
 
-/* Responsive */
-@media (max-width: 768px) {
-  .container { padding: 24px; }
-  .tombol-group { top: 16px; right: 16px; }
-  .admin-btn { padding: 10px 16px; font-size: 16px; }
-  .menu-btn { width: 100%; font-size: 20px; }
-  .logo_2 { width: 250px; top: 80%; left: 50%; }
-  h1, p, .menu-btn { top: 40px; }
-  .title-box { top: 10px; }
-}
+    margin-top: 20px;
 
-@media (max-width: 480px) {
-  .top-pattern { height: 80px; }
-  .logo_2 { width: 200px; }
+    padding: 18px;
+
+    border: none;
+    border-radius: 40px;
+
+    background: #69beff;
+    color: white;
+
+    font-size: 28px;
+    font-weight: bold;
+    position:absolute;
+    top: 91%;  
+    left: 20%;     
+
+    cursor: pointer;
+
+    transition: 0.3s;
 }

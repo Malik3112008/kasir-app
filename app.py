@@ -25,6 +25,7 @@ app.jinja_loader = ChoiceLoader([
     FileSystemLoader(os.path.join(BASE_DIR, 'kasir-pembeli', 'templates')),
 ])
 
+
 def format_kbbi_date(val):
     if not val:
         return ""
@@ -269,36 +270,8 @@ def api_pesanan():
 # ============================================================
 
 @app.errorhandler(404)
-def page_not_found(e):
-    return '''
-    <!DOCTYPE html>
-    <html lang="id">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>404 - Halaman Tidak Ditemukan</title>
-        <style>
-            * { margin: 0; padding: 0; box-sizing: border-box; }
-            body { font-family: Arial, sans-serif; background: #f5f5f5; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-            .container { text-align: center; background: white; padding: 60px 50px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-            h1 { font-size: 100px; color: #e74c3c; margin-bottom: 10px; }
-            h2 { font-size: 24px; color: #333; margin-bottom: 15px; }
-            p { color: #666; margin-bottom: 30px; font-size: 16px; }
-            a { display: inline-block; padding: 12px 30px; background: #3498db; color: white; border-radius: 8px; text-decoration: none; font-size: 16px; margin: 5px; }
-            a:hover { background: #2980b9; }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1>404</h1>
-            <h2>Halaman Tidak Ditemukan</h2>
-            <p>URL yang Anda cari tidak tersedia.</p>
-            <a href="/admin/login">Admin</a>
-            <a href="/pembeli/login">Pembeli</a>
-        </div>
-    </body>
-    </html>
-    ''', 404
+def admin_beranda_awal(e):
+    return render_template('03.Beranda_awal.html')
 
 # ============================================================
 # ADMIN: BERANDA AWAL

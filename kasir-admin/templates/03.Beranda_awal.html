@@ -3,59 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ nama_koperasi }}</title>
+    <title>Koperasi Siswa</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='03.Beranda_utama.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
     <!-- Tombol Admin -->
-    <div class="tombol-group">
-        <a href="{{ url_for('admin_login') }}">
-            <button class="admin-btn">Masuk Admin</button>
-        </a>
-    </div>
+     <a href="{{ url_for('admin_login')}}">
+    <button class="admin-btn">
+        Masuk Admin
+    </button>
+    </a>
 
     <!-- Konten -->
-    <div class="container">
+    <div class="mengaturjarak">
 
         <div class="title-box">
             Selamat Datang
         </div>
 
         <h1>
-            di {{ nama_koperasi }}
+            di Koperasi <br> Siswa
         </h1>
 
         <p>
-            {{ nama_koperasi }} adalah organisasi di sekolah yang dikelola oleh siswa dengan bimbingan guru. Koperasi ini menyediakan kebutuhan sekolah seperti alat tulis, makanan, dan seragam. Tujuan koperasi siswa adalah melatih kerja sama, tanggung jawab, dan jiwa usaha pada siswa.
+            Koperasi siswa adalah organisasi di sekolah yang dikelola oleh siswa dengan bimbingan guru. Koperasi ini menyediakan kebutuhan sekolah seperti alat tulis, makanan, dan seragam. Tujuan koperasi siswa adalah melatih kerja sama, tanggung jawab, dan jiwa usaha pada siswa.
         </p>
 
-        <a href="/pembeli/login">
-            <button class="menu-btn">
-                Masuk Pembeli
-            </button>
+       <a href="{{ url_for('admin_denah') }}">
+        <button class="menu-btn">
+            DENAH KOPERASI
+        </button>
+       </a>
+
+        <a href="{{ url_for('pembeli') }}">
+        <button class="menu-btn">
+            MASUK PEMBELI
+        </button>
+       </a>
+       
+
+        <a href="/inforasi">
+        <button class="button-informasi">
+            INFORMASI 
+        </button>
         </a>
 
-        <a href="/informasi">
-            <button class="menu-btn">
-                INFORMASI
-            </button>
-        </a>
-
-        <a href="/admin/denah">
-            <button class="menu-btn denah-btn">
-                DENAH KOPERASI
-            </button>
-        </a>
-
-        <img src="{{ url_for('static', filename='Background_2.jpeg') }}"
-            class="background_2">
-            <img src="{{ url_for('static', filename='image/logo_3.png') }}"
-            class="logo_2">
-
+        <img src="../static/background_2.jpeg"
+         class="background_2">
+         <img src="../static/logo_3.png"
+         class="logo_3">
     </div>
 </body>
 </html>
