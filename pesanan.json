@@ -322,6 +322,24 @@
         "refund": 0
     },
     {
+        "id": "TRX72357",
+        "tanggal": "2026-06-09",
+        "waktu": "15:04:53",
+        "pelanggan": "admin",
+        "metode": "Tunai",
+        "status": "Sudah diambil",
+        "barang": [
+            {
+                "nama": "Air Mineral",
+                "jumlah": 2,
+                "harga": 3000
+            }
+        ],
+        "total_awal": 6000,
+        "total": 6000,
+        "refund": 0
+    },
+    {
         "id": "TRX63987",
         "tanggal": "2026-06-09",
         "waktu": "12:15:21",
@@ -402,6 +420,34 @@
                 "nama": "Roti Aoka",
                 "jumlah": 1,
                 "harga": 3000
+            }
+        ],
+        "total_awal": 15000,
+        "total": 15000,
+        "refund": 0
+    },
+    {
+        "id": "TRX55826",
+        "tanggal": "2026-06-09",
+        "waktu": "15:06:44",
+        "pelanggan": "admin",
+        "metode": "Tunai",
+        "status": "Sudah diambil",
+        "barang": [
+            {
+                "nama": "Air Mineral",
+                "jumlah": 1,
+                "harga": 3000
+            },
+            {
+                "nama": "Bolpoin",
+                "jumlah": 1,
+                "harga": 8000
+            },
+            {
+                "nama": "Pop Mie",
+                "jumlah": 1,
+                "harga": 4000
             }
         ],
         "total_awal": 15000,

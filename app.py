@@ -132,16 +132,16 @@ def load_data_barang():
             print(f"Error loading {BARANG_FILE}: {e}")
     # static fallback
     return [
-        {"no": 1, "nama": "Roti Aoka", "berat": "60", "satuan": "gr", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal_restok": "2025-09-25", "expired": "Mei 2028", "tanggal": "2026-05-06", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg", "rating": 5, "emoji": "🍞"},
-        {"no": 2, "nama": "Donat", "berat": "50", "satuan": "gr", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal_restok": "2025-10-01", "expired": "Mei 2028", "tanggal": "2026-05-05", "gambar": "gambar-dan-icon/donat.jpg", "rating": 4, "emoji": "🍩"},
-        {"no": 3, "nama": "Pop Mie", "berat": "85", "satuan": "gr", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal_restok": "2025-08-10", "expired": "Mei 2028", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/pop-mie.png", "rating": 4, "emoji": "🍜"},
-        {"no": 4, "nama": "Air Mineral", "berat": "600", "satuan": "ml", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal_restok": "2025-11-03", "expired": "Mei 2028", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/ades.jpg", "rating": 5, "emoji": "💧"},
-        {"no": 5, "nama": "Teh Botol", "berat": "350", "satuan": "ml", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal_restok": "2025-06-01", "expired": "Desember 2027", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/teh-botol.png", "rating": 3, "emoji": "🥤"},
-        {"no": 6, "nama": "Ultra Milk", "berat": "250", "satuan": "ml", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal_restok": "2025-06-01", "expired": "Desember 2027", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/ultramilk.png", "rating": 4, "emoji": "🧃"},
-        {"no": 7, "nama": "Pensil", "berat": "10", "satuan": "gr", "stok": 0, "harga": 2000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "rating": 4, "emoji": "✏️"},
-        {"no": 8, "nama": "Buku Tulis", "berat": "100", "satuan": "gr", "stok": 0, "harga": 6000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/buku-tulis.jpg", "rating": 4, "emoji": "📓"},
-        {"no": 9, "nama": "Penghapus", "berat": "20", "satuan": "gr", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/penghapus.png", "rating": 5, "emoji": "🧼"},
-        {"no": 10, "nama": "Bolpoin", "berat": "30", "satuan": "gr", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/bulpoin.jpg", "rating": 4, "emoji": "🖋️"}
+        {"no": 1, "nama": "Roti Aoka", "berat": "60", "satuan": "gr", "stok": 15, "harga": 3000, "kategori": "Makanan", "tanggal_restok": "2025-09-25", "expired": "Mei 2028", "tanggal": "2026-05-06", "gambar": "gambar-dan-icon/gambar-roti-aoka.jpeg", "rating": 5, "emoji": "🍞", "merek": "Aoka", "rasa": "Cokelat"},
+        {"no": 2, "nama": "Donat", "berat": "50", "satuan": "gr", "stok": 10, "harga": 5000, "kategori": "Makanan", "tanggal_restok": "2025-10-01", "expired": "Mei 2028", "tanggal": "2026-05-05", "gambar": "gambar-dan-icon/donat.jpg", "rating": 4, "emoji": "🍩", "merek": "-", "rasa": "Original"},
+        {"no": 3, "nama": "Pop Mie", "berat": "85", "satuan": "gr", "stok": 50, "harga": 4000, "kategori": "Makanan", "tanggal_restok": "2025-08-10", "expired": "Mei 2028", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/pop-mie.png", "rating": 4, "emoji": "🍜", "merek": "Pop Mie", "rasa": "Ayam"},
+        {"no": 4, "nama": "Air Mineral", "berat": "600", "satuan": "ml", "stok": 35, "harga": 3000, "kategori": "Minuman", "tanggal_restok": "2025-11-03", "expired": "Mei 2028", "tanggal": "2026-05-03", "gambar": "gambar-dan-icon/ades.jpg", "rating": 5, "emoji": "💧", "merek": "Aqua", "rasa": "-"},
+        {"no": 5, "nama": "Teh Botol", "berat": "350", "satuan": "ml", "stok": 18, "harga": 5000, "kategori": "Minuman", "tanggal_restok": "2025-06-01", "expired": "Desember 2027", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/teh-botol.png", "rating": 3, "emoji": "🥤", "merek": "Sosro", "rasa": "Teh"},
+        {"no": 6, "nama": "Ultra Milk", "berat": "250", "satuan": "ml", "stok": 12, "harga": 7000, "kategori": "Minuman", "tanggal_restok": "2025-06-01", "expired": "Desember 2027", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/ultramilk.png", "rating": 4, "emoji": "🧃", "merek": "Ultra Milk", "rasa": "Strawberry"},
+        {"no": 7, "nama": "Pensil", "berat": "10", "satuan": "gr", "stok": 0, "harga": 2000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/gambar-pensil.jpeg", "rating": 4, "emoji": "✏️", "merek": "Faber Castell", "rasa": "-"},
+        {"no": 8, "nama": "Buku Tulis", "berat": "100", "satuan": "gr", "stok": 0, "harga": 6000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/buku-tulis.jpg", "rating": 4, "emoji": "📓", "merek": "Sinar Dunia", "rasa": "-"},
+        {"no": 9, "nama": "Penghapus", "berat": "20", "satuan": "gr", "stok": 15, "harga": 2000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/penghapus.png", "rating": 5, "emoji": "🧼", "merek": "Stabilo", "rasa": "-"},
+        {"no": 10, "nama": "Bolpoin", "berat": "30", "satuan": "gr", "stok": 14, "harga": 8000, "kategori": "Alat Tulis", "tanggal_restok": "2025-06-01", "expired": "-", "tanggal": "2026-05-10", "gambar": "gambar-dan-icon/bulpoin.jpg", "rating": 4, "emoji": "🖋️", "merek": "Standard", "rasa": "-"}
     ]
 
 def save_data_barang(data):
@@ -786,7 +786,8 @@ def admin_simpan_barang_baru():
     data_barang.append({
         'no': no_baru, 'nama': nama_barang, 'berat': volume or '-',
         'stok': jumlah, 'harga': harga_jual, 'kategori': kategori,
-        'tanggal': tanggal, 'gambar': gambar_path, 'rating': 0, 'emoji': '📦'
+        'tanggal': tanggal, 'gambar': gambar_path, 'rating': 0, 'emoji': '📦',
+        'merek': variasi, 'rasa': rasa, 'expired': expired
     })
     save_data_barang(data_barang)
     return render_template('17.-konfirmasi-barang.html',
@@ -1794,6 +1795,17 @@ def buat_pesanan_dari_cart(metode):
     }
     pesanan.append(pesanan_baru)
     save_pesanan(pesanan)
+    
+    now_str = sekarang.strftime("%d %B %Y, %H:%M")
+    total_pesanan = hitung_total_barang(barang_list)
+    global notifikasi
+    notifikasi.insert(0, {
+        "judul": "Pembelian Baru",
+        "isi": "Transaksi #" + trx_id + " oleh " + pelanggan + " senilai " + formatRp(total_pesanan),
+        "waktu": now_str,
+        "warna": "biru"
+    })
+    
     cart = {}
 
 @app.route('/pembeli/tunai')
@@ -2029,12 +2041,20 @@ def pembeli_struk():
 
     daftar_produk = []
     for item in sumber:
-        daftar_produk.append({
-            "nama": item["nama"],
-            "qty": item["jumlah"],
-            "harga": item["harga"],
-            "diskon": item.get("diskon", 0),
-        })
+        found = False
+        for dp in daftar_produk:
+            if dp["nama"] == item["nama"] and dp["harga"] == item["harga"]:
+                dp["qty"] += item["jumlah"]
+                dp["diskon"] += item.get("diskon", 0)
+                found = True
+                break
+        if not found:
+            daftar_produk.append({
+                "nama": item["nama"],
+                "qty": item["jumlah"],
+                "harga": item["harga"],
+                "diskon": item.get("diskon", 0),
+            })
 
     subtotal = 0
     total_diskon = 0

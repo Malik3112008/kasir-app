@@ -124,8 +124,8 @@
                             </span>
                         </div>
                         <div>
-                            <span class="status-bayar {{ 'lunas' if p.metode | lower == 'qris' else 'belum-bayar' }}">
-                                Status Pembayaran : {% if p.metode | lower == "qris" %} Lunas
+                            <span class="status-bayar {% if p.metode | lower == 'qris' or p.status == 'Sudah diambil' %}lunas{% else %}belum-bayar{% endif %}">
+                                Status Pembayaran : {% if p.metode | lower == "qris" or p.status == 'Sudah diambil' %} Lunas
                                 {% else %} Belum bayar {% endif %}
                             </span>
                         </div>

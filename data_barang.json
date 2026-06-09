@@ -11,8 +11,10 @@
         "expired": "Mei 2028",
         "tanggal": "2026-05-06",
         "gambar": "gambar-dan-icon/aoka.png",
-        "rating": 3,
-        "emoji": "\ud83c\udf5e"
+        "rating": 5,
+        "emoji": "🍞",
+        "merek": "Aoka",
+        "rasa": "Cokelat"
     },
     {
         "no": 2,
@@ -27,7 +29,9 @@
         "tanggal": "2026-05-05",
         "gambar": "gambar-dan-icon/donat.jpg",
         "rating": 4,
-        "emoji": "\ud83c\udf69"
+        "emoji": "🍩",
+        "merek": "-",
+        "rasa": "Original"
     },
     {
         "no": 3,
@@ -42,7 +46,9 @@
         "tanggal": "2026-05-03",
         "gambar": "gambar-dan-icon/pop-mie.png",
         "rating": 4,
-        "emoji": "\ud83c\udf5c"
+        "emoji": "🍜",
+        "merek": "Pop Mie",
+        "rasa": "Ayam"
     },
     {
         "no": 4,
@@ -57,7 +63,9 @@
         "tanggal": "2026-05-03",
         "gambar": "gambar-dan-icon/ades.jpg",
         "rating": 5,
-        "emoji": "\ud83d\udca7"
+        "emoji": "💧",
+        "merek": "Aqua",
+        "rasa": "-"
     },
     {
         "no": 5,
@@ -72,7 +80,9 @@
         "tanggal": "2026-05-10",
         "gambar": "gambar-dan-icon/teh-botol.png",
         "rating": 3,
-        "emoji": "\ud83e\udd64"
+        "emoji": "🥤",
+        "merek": "Sosro",
+        "rasa": "Teh"
     },
     {
         "no": 6,
@@ -87,7 +97,9 @@
         "tanggal": "2026-05-10",
         "gambar": "gambar-dan-icon/ultramilk.png",
         "rating": 4,
-        "emoji": "\ud83e\uddc3"
+        "emoji": "🧃",
+        "merek": "Ultra Milk",
+        "rasa": "Strawberry"
     },
     {
         "no": 7,
@@ -102,7 +114,9 @@
         "tanggal": "2026-05-10",
         "gambar": "gambar-dan-icon/gambar-pensil.jpeg",
         "rating": 4,
-        "emoji": "\u270f\ufe0f"
+        "emoji": "✏️",
+        "merek": "Faber Castell",
+        "rasa": "-"
     },
     {
         "no": 8,
@@ -117,7 +131,9 @@
         "tanggal": "2026-05-10",
         "gambar": "gambar-dan-icon/buku-tulis.jpg",
         "rating": 4,
-        "emoji": "\ud83d\udcd3"
+        "emoji": "📓",
+        "merek": "Sinar Dunia",
+        "rasa": "-"
     },
     {
         "no": 9,
@@ -132,7 +148,9 @@
         "tanggal": "2026-05-10",
         "gambar": "gambar-dan-icon/penghapus.png",
         "rating": 5,
-        "emoji": "\ud83e\uddfc"
+        "emoji": "🧼",
+        "merek": "Stabilo",
+        "rasa": "-"
     },
     {
         "no": 10,
@@ -140,14 +158,16 @@
         "berat": "30",
         "satuan": "gr",
         "stok": 45,
-        "harga": 3000,
+        "harga": 8000,
         "kategori": "Alat Tulis",
         "tanggal_restok": "2025-06-01",
         "expired": "-",
         "tanggal": "2026-05-10",
         "gambar": "gambar-dan-icon/bulpoin.jpg",
         "rating": 4,
-        "emoji": "\ud83d\udd8b\ufe0f"
+        "emoji": "🖋️",
+        "merek": "Standard",
+        "rasa": "-"
     },
     {
         "no": 11,
@@ -162,7 +182,9 @@
         "tanggal": "2026-05-10",
         "gambar": "gambar-dan-icon/jangka.png",
         "rating": 4,
-        "emoji": "\ud83d\udd8b\ufe0f"
+        "emoji": "📏",
+        "merek": "-",
+        "rasa": "-"
     },
     {
         "no": 12,
@@ -177,7 +199,9 @@
         "tanggal": "2026-05-10",
         "gambar": "gambar-dan-icon/tip-ex.jpeg",
         "rating": 4,
-        "emoji": "\ud83d\udd8b\ufe0f"
+        "emoji": "🩹",
+        "merek": "-",
+        "rasa": "-"
     },
     {
         "no": 13,
@@ -192,7 +216,9 @@
         "tanggal": "2026-05-10",
         "gambar": "gambar-dan-icon/nabati-pink.png",
         "rating": 5,
-        "emoji": "\ud83d\udd8b\ufe0f"
+        "emoji": "🍪",
+        "merek": "Nabati",
+        "rasa": "Stroberi"
     },
     {
         "no": 14,
@@ -207,7 +233,9 @@
         "tanggal": "2026-05-10",
         "gambar": "gambar-dan-icon/nabati-coklat.png",
         "rating": 5,
-        "emoji": "\ud83d\udd8b\ufe0f"
+        "emoji": "🍪",
+        "merek": "Nabati",
+        "rasa": "Coklat"
     },
     {
         "no": 15,
@@ -222,7 +250,9 @@
         "tanggal": "2026-05-10",
         "gambar": "gambar-dan-icon/nabati-kuning.png",
         "rating": 5,
-        "emoji": "\ud83d\udd8b\ufe0f"
+        "emoji": "🍪",
+        "merek": "Nabati",
+        "rasa": "Vanila"
     },
     {
         "no": 16,
@@ -237,7 +267,9 @@
         "tanggal": "2026-05-10",
         "gambar": "gambar-dan-icon/cutter.png",
         "rating": 5,
-        "emoji": "\ud83d\udd8b\ufe0f"
+        "emoji": "🔪",
+        "merek": "-",
+        "rasa": "-"
     },
     {
         "no": 17,
@@ -252,7 +284,9 @@
         "tanggal": "2026-05-03",
         "gambar": "gambar-dan-icon/good-time.png",
         "rating": 4,
-        "emoji": "\ud83c\udf5c"
+        "emoji": "🍪",
+        "merek": "Good Time",
+        "rasa": "Choco Chip"
     },
     {
         "no": 18,
@@ -267,7 +301,9 @@
         "tanggal": "2026-05-03",
         "gambar": "gambar-dan-icon/chitato.png",
         "rating": 5,
-        "emoji": "\ud83c\udf5c"
+        "emoji": "🥔",
+        "merek": "Chitato",
+        "rasa": "Sapi Panggang"
     },
     {
         "no": 19,
@@ -282,7 +318,9 @@
         "tanggal": "2026-05-03",
         "gambar": "gambar-dan-icon/nu.png",
         "rating": 4,
-        "emoji": "\ud83d\udca7"
+        "emoji": "🧋",
+        "merek": "NU",
+        "rasa": "Teh Tarik"
     },
     {
         "no": 20,
@@ -297,6 +335,8 @@
         "tanggal": "2026-05-10",
         "gambar": "gambar-dan-icon/cimory.png",
         "rating": 5,
-        "emoji": "\ud83e\uddc3"
+        "emoji": "🍵",
+        "merek": "Cimory",
+        "rasa": "Matcha"
     }
 ]

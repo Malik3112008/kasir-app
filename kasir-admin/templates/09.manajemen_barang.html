@@ -35,6 +35,9 @@
                     <tr>
                         <th>No</th>
                         <th>Nama Barang</th>
+                        <th>Merek</th>
+                        <th>Expired</th>
+                        <th>Rasa</th>
                         <th>Harga</th>
                         <th>Stok</th>
                         <th>Status</th>
@@ -46,6 +49,9 @@
                     <tr>
                         <td>{{ item.no }}</td>
                         <td>{{ item.nama }}</td>
+                        <td>{{ item.merek or '-' }}</td>
+                        <td>{{ item.expired or '-' }}</td>
+                        <td>{{ item.rasa or '-' }}</td>
                         <td>{{ formatRp(item.harga) }}</td>
                         <td>{{ item.stok }}</td>
                         <td>
@@ -61,6 +67,11 @@
                             <a href="{{ url_for('admin_pengisian_barang_restok', id=item.no) }}" class="btn-restok" title="Restok">
                                 <i class="fa fa-plus"></i>
                             </a>
+                            <form method="POST" action="{{ url_for('admin_stok_tersedia_hapus', id=item.no) }}" onsubmit="return confirm('Hapus {{ item.nama }}?')" style="display:inline;">
+                                <button type="submit" class="btn-hapus" title="Hapus">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     {% endfor %}
