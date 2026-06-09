@@ -15,7 +15,7 @@ body {
 
 /* ===== NAVBAR (TITO: transparent bg, border-bottom) ===== */
 nav {
-    background-color: transparent;
+    background-color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -82,6 +82,12 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.laporan-input {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .laporan-box label {
@@ -309,6 +315,8 @@ tbody tr {
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .pdf:hover, .excel:hover {

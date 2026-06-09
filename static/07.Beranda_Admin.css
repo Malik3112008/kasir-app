@@ -22,7 +22,7 @@ a {
 
 /* ===== NAVBAR ===== */
 nav {
-    background-color: rgba(255, 255, 255, 0.96);
+    background-color: #fff;
     display: flex;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     margin-bottom: 0;
@@ -132,6 +132,18 @@ nav ul {
 
 a .admin-greeting-name {
     color: #fff;
+}
+
+.admin-koperasi-name {
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #ffd700;
+}
+
+a .admin-koperasi-name {
+    color: #ffd700;
 }
 
 .sidebar-menu {

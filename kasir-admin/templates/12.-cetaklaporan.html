@@ -20,12 +20,14 @@
         <h1>Pengaturan Laporan</h1>
 
         <div class="laporan-box">
-            <label>Laporan</label>
-            <select id="selectLaporan" onchange="gantiLaporan()">
-                <option value="penjualan">Laporan Penjualan</option>
-                <option value="barang">Laporan Data Barang</option>
-                <option value="transaksi">Laporan Transaksi</option>
-            </select>
+            <div class="laporan-input">
+                <label>Laporan</label>
+                <select id="selectLaporan" onchange="gantiLaporan()">
+                    <option value="penjualan">Laporan Penjualan</option>
+                    <option value="barang">Laporan Data Barang</option>
+                    <option value="transaksi">Laporan Transaksi</option>
+                </select>
+            </div>
             <div class="tanggal">
                 <input type="date" id="tanggal-awal" placeholder="dd/mm/yyyy" value="{{ tanggal_awal }}" onchange="filterData()">
                 <span class="sd">sampai dengan</span>
@@ -161,8 +163,8 @@
         <div class="line"></div>
 
         <div class="button-group">
-            <a id="linkPdf" href="{{ url_for('admin_cetak_pdf') }}"><button class="pdf">CETAK PDF</button></a>
-            <a id="linkExcel" href="{{ url_for('admin_cetak_excel') }}"><button class="excel">CETAK EXCEL</button></a>
+            <a id="linkPdf" href="{{ url_for('admin_cetak_pdf') }}" class="pdf">CETAK PDF</a>
+            <a id="linkExcel" href="{{ url_for('admin_cetak_excel') }}" class="excel">CETAK EXCEL</a>
         </div>
 
     </div>
@@ -176,16 +178,17 @@
 
             var awal = document.getElementById('tanggal-awal').value;
             var akhir = document.getElementById('tanggal-akhir').value;
+            var params = (awal || akhir) ? '?tanggal_awal=' + encodeURIComponent(awal) + '&tanggal_akhir=' + encodeURIComponent(akhir) : '';
 
             if (tipe === 'penjualan') {
-                document.getElementById('linkPdf').href = "{{ url_for('admin_cetak_pdf') }}";
-                document.getElementById('linkExcel').href = "{{ url_for('admin_cetak_excel') }}";
+                document.getElementById('linkPdf').href = "{{ url_for('admin_cetak_pdf') }}" + params;
+                document.getElementById('linkExcel').href = "{{ url_for('admin_cetak_excel') }}" + params;
             } else if (tipe === 'barang') {
-                document.getElementById('linkPdf').href = "{{ url_for('admin_cetak_barang_pdf') }}";
-                document.getElementById('linkExcel').href = "{{ url_for('admin_cetak_barang_excel') }}";
+                document.getElementById('linkPdf').href = "{{ url_for('admin_cetak_barang_pdf') }}" + params;
+                document.getElementById('linkExcel').href = "{{ url_for('admin_cetak_barang_excel') }}" + params;
             } else {
-                document.getElementById('linkPdf').href = "{{ url_for('admin_cetak_transaksi_pdf') }}?tanggal_awal=" + awal + "&tanggal_akhir=" + akhir;
-                document.getElementById('linkExcel').href = "{{ url_for('admin_cetak_transaksi_excel') }}?tanggal_awal=" + awal + "&tanggal_akhir=" + akhir;
+                document.getElementById('linkPdf').href = "{{ url_for('admin_cetak_transaksi_pdf') }}" + params;
+                document.getElementById('linkExcel').href = "{{ url_for('admin_cetak_transaksi_excel') }}" + params;
             }
         }
 
@@ -193,7 +196,7 @@
             var tipe = document.getElementById('selectLaporan').value;
             var awal = document.getElementById('tanggal-awal').value;
             var akhir = document.getElementById('tanggal-akhir').value;
-            window.location.href = "{{ url_for('admin_cetak_laporan') }}?tipe=" + tipe + "&tanggal_awal=" + awal + "&tanggal_akhir=" + akhir;
+            window.location.href = "{{ url_for('admin_cetak_laporan') }}?tipe=" + encodeURIComponent(tipe) + "&tanggal_awal=" + encodeURIComponent(awal) + "&tanggal_akhir=" + encodeURIComponent(akhir);
         }
 
         // Set select sesuai query param saat load

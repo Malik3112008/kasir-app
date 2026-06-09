@@ -143,6 +143,12 @@ img.stok-habis,
     color: inherit;
     margin: 0;
     padding: 0;
+    display: block;
+}
+
+.detail-link img,
+.detail-link .no-img {
+    display: block;
 }
 
 .detail-link:hover h3 {

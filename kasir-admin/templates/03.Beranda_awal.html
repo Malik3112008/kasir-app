@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Koperasi Siswa</title>
+    <title>{{ nama_koperasi }}</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='03.Beranda_utama.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
@@ -26,11 +26,11 @@
         </div>
 
         <h1>
-            di Koperasi <br> Siswa
+            di {{ nama_koperasi }}
         </h1>
 
         <p>
-            Koperasi siswa adalah organisasi di sekolah yang dikelola oleh siswa dengan bimbingan guru. Koperasi ini menyediakan kebutuhan sekolah seperti alat tulis, makanan, dan seragam. Tujuan koperasi siswa adalah melatih kerja sama, tanggung jawab, dan jiwa usaha pada siswa.
+            {{ nama_koperasi }} adalah organisasi di sekolah yang dikelola oleh siswa dengan bimbingan guru. Koperasi ini menyediakan kebutuhan sekolah seperti alat tulis, makanan, dan seragam. Tujuan koperasi siswa adalah melatih kerja sama, tanggung jawab, dan jiwa usaha pada siswa.
         </p>
 
         <a href="/pembeli/login">

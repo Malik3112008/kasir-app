@@ -1482,6 +1482,15 @@ def save_data(data):
 
 data_koperasi = load_data()
 
+class _NamaKoperasi:
+    __slots__ = ()
+    def __str__(self):
+        return data_koperasi.get('nama', 'Koperasi Sekolah')
+    def __html__(self):
+        return data_koperasi.get('nama', 'Koperasi Sekolah')
+
+app.jinja_env.globals['nama_koperasi'] = _NamaKoperasi()
+
 @app.route('/admin/pengaturan', methods=['GET'])
 def admin_pengaturan():
     if not session.get('user'):

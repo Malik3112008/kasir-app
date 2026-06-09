@@ -20,7 +20,7 @@
             <div class="nav-left">
                 <img src="{{ url_for('static', filename='image/logo_3.png') }}" alt="Logo" width="48" height="48">
             </div>
-            <h1 class="nav-title">Koperasi Siswa</h1>
+            <h1 class="nav-title">{{ nama_koperasi }}</h1>
 
             <ul class="nav-right">
                 <li>
@@ -53,6 +53,9 @@
             <p class="admin-greeting">Selamat Datang</p>
             <a href="{{ url_for('admin_pengaturan') }}">
                 <p class="admin-greeting-name">Admin</p>
+            </a>
+            <a href="{{ url_for('admin_pengaturan') }}">
+                <p class="admin-koperasi-name">{{ nama_koperasi }}</p>
             </a>
         </div>
 

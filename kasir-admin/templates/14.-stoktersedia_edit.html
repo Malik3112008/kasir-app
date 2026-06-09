@@ -18,7 +18,7 @@
             <a href="{{ url_for('admin_stok_tersedia') }}"><img src="{{ url_for('static', filename='back-svgrepo-com.svg') }}" alt="Kembali" width="30px" height="30px"></a>
         </li>
         <img src="{{ url_for('static', filename='image/logo_3.png') }}" alt="Logo" width="50" height="50">
-        <span>Koperasi Siswa</span>
+        <span>{{ nama_koperasi }}</span>
     </div>
     <ul>
         <li><a href="{{ url_for('admin_notifikasi') }}"><img src="{{ url_for('static', filename='bell-notification-ui-svgrepo.svg') }}" alt="Notifikasi" width="25px" height="25px"></a></li>

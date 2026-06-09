@@ -27,7 +27,7 @@ a {
 }
 
 nav {
-  background-color: transparent;
+  background-color: #fff;
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;

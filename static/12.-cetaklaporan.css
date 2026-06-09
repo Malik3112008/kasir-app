@@ -15,7 +15,7 @@ body {
 
 /* ===== NAVBAR (TITO: transparent bg, border-bottom) ===== */
 nav {
-    background-color: transparent;
+    background-color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
