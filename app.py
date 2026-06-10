@@ -1060,7 +1060,7 @@ def admin_cetak_transaksi_excel():
         return Response(
             output.getvalue(),
             mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            headers={'Content-Disposition': 'attachment;filename=laporan_transaksi.xlsx'}
+             headers={'Content-Disposition': 'attachment; filename="laporan_transaksi.xlsx"'}
         )
     except Exception as e:
         print(f"Excel export error: {e}")
@@ -1121,7 +1121,7 @@ def admin_cetak_barang_excel():
         return Response(
             output.getvalue(),
             mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            headers={'Content-Disposition': 'attachment;filename=laporan_data_barang.xlsx'}
+             headers={'Content-Disposition': 'attachment; filename="laporan_data_barang.xlsx"'}
         )
     except Exception as e:
         print(f"Excel export error: {e}")
@@ -2282,7 +2282,7 @@ def admin_cetak_excel():
         return Response(
             output.getvalue(),
             mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            headers={'Content-Disposition': 'attachment;filename=laporan_penjualan.xlsx'}
+             headers={'Content-Disposition': 'attachment; filename="laporan_penjualan.xlsx"'}
         )
     except Exception as e:
         print(f"Excel export error: {e}")
