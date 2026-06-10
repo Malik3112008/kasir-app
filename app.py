@@ -1915,7 +1915,7 @@ def get_items_bayar():
 def buat_pesanan_dari_cart(metode):
     global cart
     if not cart:
-        return
+        return None
     trx_id = "TRX" + str(random.randint(10000, 99999))
     sekarang = datetime.now()
     tanggal = sekarang.strftime("%Y-%m-%d")
@@ -1977,25 +1977,22 @@ def buat_pesanan_dari_cart(metode):
                 break
     
     cart = {}
+    return trx_id
 
 @app.route('/pembeli/tunai')
 def pembeli_tunai():
     session['metode'] = 'Tunai'
     items = get_items_bayar()
-    buat_pesanan_dari_cart('Tunai')
+    trx_id = buat_pesanan_dari_cart('Tunai')
     total = 0
     for item in items:
         total += item["jumlah"] * item["harga"]
     nama = session.get('nama') or session.get('user') or 'Guest'
-    kode = random.randint(1000, 9999)
+    kode = trx_id if trx_id else "TRX-0000"
     session['tunai_items'] = items
     session['tunai_total'] = total
     session['tunai_kode'] = kode
     status_bayar = 'belum'
-    for p in pesanan:
-        if p['pelanggan'] == nama and p['status'] == 'Sudah diambil':
-            status_bayar = 'lunas'
-            break
     return render_template('11-rincian-tunai.html', items=items, total=total, nama=nama, kode=kode, status=status_bayar)
 
 # ============================================================
