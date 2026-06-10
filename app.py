@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, make_response, Response, jsonify
 from werkzeug.utils import secure_filename
 from jinja2 import ChoiceLoader, FileSystemLoader
-from mailjet_rest import Client
 import os
 import secrets
 import json
@@ -9,52 +8,6 @@ import csv
 import io
 import random
 from datetime import datetime
-
-# ============================================================
-# MAILJET CONFIG
-# ============================================================
-
-MAILJET_API_KEY = '414a2242d6d900e48f44a7cd7fde9002'
-MAILJET_SECRET_KEY = '2c116621763618efdfd2fa057e5b880e'
-mailjet = Client(auth=(MAILJET_API_KEY, MAILJET_SECRET_KEY), version='v3.1')
-
-def send_otp_email(to_email, otp_code):
-    data = {
-        'Messages': [
-            {
-                'From': {
-                    'Email': 'noreply@inomart.my.id',
-                    'Name': 'INOMART Koperasi'
-                },
-                'To': [
-                    {
-                        'Email': to_email,
-                        'Name': to_email
-                    }
-                ],
-                'Subject': 'Kode OTP - INOMART',
-                'TextPart': f'Kode OTP Anda: {otp_code}\n\nGunakan kode ini untuk verifikasi akun INOMART.\nKode berlaku 5 menit.',
-                'HTMLPart': f'''
-                    <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:20px;">
-                        <h2 style="color:#3A82C4;">INOMART Koperasi</h2>
-                        <p>Berikut kode OTP untuk verifikasi akun Anda:</p>
-                        <div style="background:#f0f7ff;border-radius:12px;padding:24px;text-align:center;margin:20px 0;">
-                            <h1 style="font-size:36px;letter-spacing:8px;color:#3A82C4;margin:0;">{otp_code}</h1>
-                        </div>
-                        <p style="color:#666;font-size:13px;">Kode berlaku 5 menit. Jangan berikan kode ini kepada siapa pun.</p>
-                    </div>
-                '''
-            }
-        ]
-    }
-    try:
-        result = mailjet.send.create(data=data)
-        print(f"[MAILJET] OTP sent to {to_email} - Status: {result.status_code}")
-        return result.status_code, result.json()
-    except Exception as e:
-        print(f"[MAILJET] Failed to send OTP to {to_email}: {e}")
-        print(f"[MAILJET] OTP for {to_email}: {otp_code}")
-        return 500, {'error': str(e)}
 
 # ============================================================
 # APP SETUP
@@ -505,7 +458,6 @@ def admin_forgot():
         session['reset_user'] = EMAIL_TO_USER.get(email)
         otp = f"{secrets.randbelow(900000) + 100000}"
         session['otp'] = otp
-        send_otp_email(email, otp)
         return redirect(url_for('admin_verify'))
     return render_template('05.3.forgot.html', error=error)
 
@@ -1703,7 +1655,7 @@ def pembeli_reset_password():
             otp = str(random.randint(10000, 99999))
             otp_storage[email] = otp
             session['reset_email'] = email
-            send_otp_email(email, otp)
+            print(f"[OTP] Kode untuk {email}: {otp}")
             return redirect(url_for('pembeli_verifikasi_email'))
     return render_template('reset_pembeli.html', error=error)
 
@@ -1718,7 +1670,7 @@ def pembeli_kirim_otp():
             otp = str(random.randint(10000, 99999))
             otp_storage[email] = otp
             session['reset_email'] = email
-            send_otp_email(email, otp)
+            print(f"[OTP] Kode untuk {email}: {otp}")
             return redirect(url_for('pembeli_verifikasi_email'))
     return render_template('reset_pembeli.html', error=error)
 
