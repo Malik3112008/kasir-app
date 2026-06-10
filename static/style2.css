@@ -55,7 +55,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    position: relative;
 
     border: 1px solid #eaf4ff;
     border-radius: 15px;
@@ -67,6 +67,7 @@ body{
 
     background-color: #eaf4ff;
     box-shadow: 0 3px 10px rgb(0,0,0,0.08);
+    box-sizing: border-box;
 }
 
 .card .info{
@@ -81,11 +82,10 @@ body{
     flex-direction: column;
     width: 100%;
     gap: 8px;
-    flex: 1;
+    padding-bottom: 50px;
 }
 
 .produk div{
-    flex: 1;
 }
 
 .produk h3{
@@ -109,6 +109,11 @@ body{
 }
 
 .nilai-btn{
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) !important;
+
     background: #61b8ff;
     border: none;
     color: white;
@@ -119,8 +124,17 @@ body{
     font-weight: bold;
     font-size: 16px;
 
-    width: 80%;
-    margin-top: auto;
+    width: 80% !important;
+    min-width: unset !important;
+    min-height: unset !important;
+    cursor: pointer;
+    transition: none !important;
+}
+
+.nilai-btn:hover {
+    transform: translateX(-50%) !important;
+    opacity: 0.85;
+    background: #4da8f5;
 }
 
 .produk-list{

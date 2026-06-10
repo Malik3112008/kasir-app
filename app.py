@@ -591,7 +591,20 @@ def admin_detail_transaksi(trx_id):
         })
     total = sum(b['harga'] * b['jumlah'] for b in trx['barang'])
     tanggal_fmt = format_kbbi_date(trx['tanggal'])
-    return render_template("detail_transaksi.html", items=items, total=total, tanggal=tanggal_fmt)
+    return render_template("detail_transaksi.html", items=items, total=total, tanggal=tanggal_fmt, trx_id=trx_id)
+
+@app.route("/admin/detail-transaksi/<trx_id>/hapus/<int:index>", methods=['POST'])
+def admin_hapus_item_transaksi(trx_id, index):
+    if not session.get('user'):
+        return redirect(url_for('admin_login'))
+    for p in pesanan:
+        if p['id'] == trx_id:
+            if 0 <= index < len(p['barang']):
+                p['barang'].pop(index)
+                p['total'] = hitung_total_barang(p['barang'])
+                save_pesanan(pesanan)
+            break
+    return redirect(url_for('admin_detail_transaksi', trx_id=trx_id))
 
 # ============================================================
 # ADMIN: RIWAYAT AKTIVITAS
@@ -959,7 +972,43 @@ def admin_stok_tersedia_hapus(id):
 # ============================================================
 # ADMIN: CETAK LAPORAN
 # ============================================================
- 
+
+def _filter_by_tanggal(items, tanggal_awal, tanggal_akhir):
+    """Filter list of dicts by 'tanggal' field, with robust date parsing"""
+    if not tanggal_awal and not tanggal_akhir:
+        return items
+    result = []
+    for item in items:
+        tgl = item.get('tanggal', '')
+        ok = True
+        try:
+            from datetime import datetime
+            d_tgl = datetime.strptime(tgl, '%Y-%m-%d')
+            if tanggal_awal:
+                try:
+                    d_awal = datetime.strptime(tanggal_awal, '%Y-%m-%d')
+                    if d_tgl < d_awal:
+                        ok = False
+                except ValueError:
+                    if tgl < tanggal_awal:
+                        ok = False
+            if ok and tanggal_akhir:
+                try:
+                    d_akhir = datetime.strptime(tanggal_akhir, '%Y-%m-%d')
+                    if d_tgl > d_akhir:
+                        ok = False
+                except ValueError:
+                    if tgl > tanggal_akhir:
+                        ok = False
+        except ValueError:
+            if tanggal_awal and tgl < tanggal_awal:
+                ok = False
+            if ok and tanggal_akhir and tgl > tanggal_akhir:
+                ok = False
+        if ok:
+            result.append(item)
+    return result
+
 data_barang = load_data_barang()
 
 @app.route('/admin/cetak_laporan', methods=['GET', 'POST'])
@@ -972,7 +1021,26 @@ def admin_cetak_laporan():
 
     data_transaksi = []
     for p in pesanan:
-        if (not tanggal_awal or p['tanggal'] >= tanggal_awal) and (not tanggal_akhir or p['tanggal'] <= tanggal_akhir):
+        tgl = p.get('tanggal', '')
+        ok_awal = True
+        ok_akhir = True
+        if tanggal_awal:
+            try:
+                from datetime import datetime
+                d_tgl = datetime.strptime(tgl, '%Y-%m-%d')
+                d_awal = datetime.strptime(tanggal_awal, '%Y-%m-%d')
+                ok_awal = d_tgl >= d_awal
+            except ValueError:
+                ok_awal = tgl >= tanggal_awal
+        if tanggal_akhir:
+            try:
+                from datetime import datetime
+                d_tgl = datetime.strptime(tgl, '%Y-%m-%d')
+                d_akhir = datetime.strptime(tanggal_akhir, '%Y-%m-%d')
+                ok_akhir = d_tgl <= d_akhir
+            except ValueError:
+                ok_akhir = tgl <= tanggal_akhir
+        if ok_awal and ok_akhir:
             total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
             data_transaksi.append({
                 'tanggal': p['tanggal'],
@@ -993,14 +1061,17 @@ def admin_cetak_laporan():
     modal_barang = int(total_pendapatan * 0.7)
     untung_rugi = total_pendapatan - modal_barang
 
+    filtered_barang = _filter_by_tanggal(data_barang, tanggal_awal, tanggal_akhir)
+    filtered_pesanan = _filter_by_tanggal(pesanan, tanggal_awal, tanggal_akhir)
+
     return render_template('12.-cetaklaporan.html',
         barang=data_barang, formatRp=formatRp,
         total_pendapatan=total_pendapatan,
         modal_barang=modal_barang,
         untung_rugi=untung_rugi,
         data_transaksi=data_transaksi,
-        data_barang_list=data_barang,
-        pesanan_list=pesanan,
+        data_barang_list=filtered_barang,
+        pesanan_list=filtered_pesanan,
         tanggal_awal=tanggal_awal,
         tanggal_akhir=tanggal_akhir)
 
@@ -1010,10 +1081,7 @@ def admin_cetak_transaksi_pdf():
         return redirect(url_for('admin_login'))
     tanggal_awal = request.args.get('tanggal_awal', '')
     tanggal_akhir = request.args.get('tanggal_akhir', '')
-    filtered_pesanan = []
-    for p in pesanan:
-        if (not tanggal_awal or p['tanggal'] >= tanggal_awal) and (not tanggal_akhir or p['tanggal'] <= tanggal_akhir):
-            filtered_pesanan.append(p)
+    filtered_pesanan = _filter_by_tanggal(pesanan, tanggal_awal, tanggal_akhir)
     return render_template('12.-cetaklaporan_transaksi_pdf.html', pesanan=filtered_pesanan)
 
 @app.route('/admin/cetak_transaksi_excel')
@@ -1022,28 +1090,29 @@ def admin_cetak_transaksi_excel():
         return redirect(url_for('admin_login'))
     tanggal_awal = request.args.get('tanggal_awal', '')
     tanggal_akhir = request.args.get('tanggal_akhir', '')
-    filtered_pesanan = []
-    for p in pesanan:
-        if (not tanggal_awal or p['tanggal'] >= tanggal_awal) and (not tanggal_akhir or p['tanggal'] <= tanggal_akhir):
-            filtered_pesanan.append(p)
-    from openpyxl import Workbook
-    wb = Workbook()
-    ws = wb.active
-    ws.title = "Laporan Transaksi"
-    ws.append(['No', 'Tanggal', 'ID Transaksi', 'Nama Produk', 'Total', 'Metode', 'Status'])
-    for i, p in enumerate(filtered_pesanan, 1):
-        total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
-        nama_produk = ', '.join(b['nama'] for b in p['barang'])
-        tgl_fmt = format_kbbi_date(p['tanggal'])
-        ws.append([i, tgl_fmt, p['id'], nama_produk, formatRp(total_barang), p['metode'], p['status']])
-    output = io.BytesIO()
-    wb.save(output)
-    output.seek(0)
-    return Response(
-        output.getvalue(),
-        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        headers={'Content-Disposition': 'attachment;filename=laporan_transaksi.xlsx'}
-    )
+    filtered_pesanan = _filter_by_tanggal(pesanan, tanggal_awal, tanggal_akhir)
+    try:
+        from openpyxl import Workbook
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Laporan Transaksi"
+        ws.append(['No', 'Tanggal', 'ID Transaksi', 'Nama Produk', 'Total', 'Metode', 'Status'])
+        for i, p in enumerate(filtered_pesanan, 1):
+            total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
+            nama_produk = ', '.join(b['nama'] for b in p['barang'])
+            tgl_fmt = format_kbbi_date(p['tanggal'])
+            ws.append([i, tgl_fmt, p['id'], nama_produk, formatRp(total_barang), p['metode'], p['status']])
+        output = io.BytesIO()
+        wb.save(output)
+        output.seek(0)
+        return Response(
+            output.getvalue(),
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            headers={'Content-Disposition': 'attachment;filename=laporan_transaksi.xlsx'}
+        )
+    except Exception as e:
+        print(f"Excel export error: {e}")
+        return "Gagal ekspor Excel: " + str(e), 500
 
 @app.route('/admin/pengaturan-laporan')
 def admin_pengaturan_laporan():
@@ -1073,10 +1142,7 @@ def admin_cetak_barang_pdf():
         return redirect(url_for('admin_login'))
     tanggal_awal = request.args.get('tanggal_awal', '')
     tanggal_akhir = request.args.get('tanggal_akhir', '')
-    filtered_barang = []
-    for b in data_barang:
-        if (not tanggal_awal or b['tanggal'] >= tanggal_awal) and (not tanggal_akhir or b['tanggal'] <= tanggal_akhir):
-            filtered_barang.append(b)
+    filtered_barang = _filter_by_tanggal(data_barang, tanggal_awal, tanggal_akhir)
     total_nilai = sum(b['harga'] * b['stok'] for b in filtered_barang)
     return render_template('12.-cetaklaporan_barang_pdf.html',
         data_barang=filtered_barang,
@@ -1088,25 +1154,26 @@ def admin_cetak_barang_excel():
         return redirect(url_for('admin_login'))
     tanggal_awal = request.args.get('tanggal_awal', '')
     tanggal_akhir = request.args.get('tanggal_akhir', '')
-    filtered_barang = []
-    for b in data_barang:
-        if (not tanggal_awal or b['tanggal'] >= tanggal_awal) and (not tanggal_akhir or b['tanggal'] <= tanggal_akhir):
-            filtered_barang.append(b)
-    from openpyxl import Workbook
-    wb = Workbook()
-    ws = wb.active
-    ws.title = "Laporan Data Barang"
-    ws.append(['No', 'Nama', 'Stok', 'Harga', 'Kategori', 'Tanggal', 'Total'])
-    for b in filtered_barang:
-        ws.append([b['no'], b['nama'], b['stok'], formatRp(b['harga']), b['kategori'], format_kbbi_date(b['tanggal']), formatRp(b['harga'] * b['stok'])])
-    output = io.BytesIO()
-    wb.save(output)
-    output.seek(0)
-    return Response(
-        output.getvalue(),
-        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        headers={'Content-Disposition': 'attachment;filename=laporan_data_barang.xlsx'}
-    )
+    filtered_barang = _filter_by_tanggal(data_barang, tanggal_awal, tanggal_akhir)
+    try:
+        from openpyxl import Workbook
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Laporan Data Barang"
+        ws.append(['No', 'Nama', 'Stok', 'Harga', 'Kategori', 'Tanggal', 'Total'])
+        for b in filtered_barang:
+            ws.append([b['no'], b['nama'], b['stok'], formatRp(b['harga']), b['kategori'], format_kbbi_date(b['tanggal']), formatRp(b['harga'] * b['stok'])])
+        output = io.BytesIO()
+        wb.save(output)
+        output.seek(0)
+        return Response(
+            output.getvalue(),
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            headers={'Content-Disposition': 'attachment;filename=laporan_data_barang.xlsx'}
+        )
+    except Exception as e:
+        print(f"Excel export error: {e}")
+        return "Gagal ekspor Excel: " + str(e), 500
 
 @app.route('/admin/laporan_penjualan', methods=['GET', 'POST'])
 def admin_laporan_penjualan():
@@ -1466,7 +1533,15 @@ def admin_cek_pembayaran():
     page = request.args.get('page', 1, type=int)
     per_page = 20
     if cari:
-        hasil = [p for p in pesanan if cari in p['id'].lower() or cari in p['pelanggan'].lower()]
+        hasil = []
+        for p in pesanan:
+            if cari in p['id'].lower() or cari in p.get('pelanggan', '').lower() or cari in p.get('metode', '').lower():
+                hasil.append(p)
+                continue
+            for b in p.get('barang', []):
+                if cari in b.get('nama', '').lower():
+                    hasil.append(p)
+                    break
     else:
         hasil = list(pesanan)
     total = len(hasil)
@@ -2187,16 +2262,16 @@ def admin_cetak_pdf():
     tanggal_awal = request.args.get('tanggal_awal', '')
     tanggal_akhir = request.args.get('tanggal_akhir', '')
 
+    filtered_pesanan = _filter_by_tanggal(pesanan, tanggal_awal, tanggal_akhir)
     data_transaksi = []
-    for p in pesanan:
-        if (not tanggal_awal or p['tanggal'] >= tanggal_awal) and (not tanggal_akhir or p['tanggal'] <= tanggal_akhir):
-            total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
-            data_transaksi.append({
-                'tanggal': p['tanggal'],
-                'id': p['id'],
-                'jumlah': sum(b['jumlah'] for b in p['barang']),
-                'total': total_barang
-            })
+    for p in filtered_pesanan:
+        total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
+        data_transaksi.append({
+            'tanggal': p['tanggal'],
+            'id': p['id'],
+            'jumlah': sum(b['jumlah'] for b in p['barang']),
+            'total': total_barang
+        })
 
     if not data_transaksi and not (tanggal_awal or tanggal_akhir):
         data_transaksi = [
@@ -2223,42 +2298,46 @@ def admin_cetak_excel():
     tanggal_awal = request.args.get('tanggal_awal', '')
     tanggal_akhir = request.args.get('tanggal_akhir', '')
 
+    filtered_pesanan = _filter_by_tanggal(pesanan, tanggal_awal, tanggal_akhir)
     data_transaksi = []
-    for p in pesanan:
-        if (not tanggal_awal or p['tanggal'] >= tanggal_awal) and (not tanggal_akhir or p['tanggal'] <= tanggal_akhir):
-            total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
-            data_transaksi.append({
-                'tanggal': p['tanggal'],
-                'id': p['id'],
-                'jumlah': sum(b['jumlah'] for b in p['barang']),
-                'total': total_barang
-            })
+    for p in filtered_pesanan:
+        total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
+        data_transaksi.append({
+            'tanggal': p['tanggal'],
+            'id': p['id'],
+            'jumlah': sum(b['jumlah'] for b in p['barang']),
+            'total': total_barang
+        })
 
-    from openpyxl import Workbook
-    wb = Workbook()
-    ws = wb.active
-    ws.title = "Laporan Penjualan"
-    ws.append(['No', 'Tanggal', 'ID Transaksi', 'Jumlah Item', 'Total Pendapatan'])
-    for i, t in enumerate(data_transaksi, 1):
-        ws.append([i, format_kbbi_date(t['tanggal']), t['id'], t['jumlah'], formatRp(t['total'])])
-    
-    total_pendapatan = sum(t['total'] for t in data_transaksi)
-    modal_barang = int(total_pendapatan * 0.7)
-    untung_rugi = total_pendapatan - modal_barang
+    try:
+        from openpyxl import Workbook
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Laporan Penjualan"
+        ws.append(['No', 'Tanggal', 'ID Transaksi', 'Jumlah Item', 'Total Pendapatan'])
+        for i, t in enumerate(data_transaksi, 1):
+            ws.append([i, format_kbbi_date(t['tanggal']), t['id'], t['jumlah'], formatRp(t['total'])])
 
-    ws.append([])
-    ws.append(['Total Pendapatan', formatRp(total_pendapatan)])
-    ws.append(['Modal Barang (70%)', formatRp(modal_barang)])
-    ws.append(['Untung/Rugi', formatRp(untung_rugi)])
+        total_pendapatan = sum(t['total'] for t in data_transaksi)
+        modal_barang = int(total_pendapatan * 0.7)
+        untung_rugi = total_pendapatan - modal_barang
 
-    output = io.BytesIO()
-    wb.save(output)
-    output.seek(0)
-    return Response(
-        output.getvalue(),
-        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        headers={'Content-Disposition': 'attachment;filename=laporan_penjualan.xlsx'}
-    )
+        ws.append([])
+        ws.append(['Total Pendapatan', formatRp(total_pendapatan)])
+        ws.append(['Modal Barang (70%)', formatRp(modal_barang)])
+        ws.append(['Untung/Rugi', formatRp(untung_rugi)])
+
+        output = io.BytesIO()
+        wb.save(output)
+        output.seek(0)
+        return Response(
+            output.getvalue(),
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            headers={'Content-Disposition': 'attachment;filename=laporan_penjualan.xlsx'}
+        )
+    except Exception as e:
+        print(f"Excel export error: {e}")
+        return "Gagal ekspor Excel: " + str(e), 500
 
 # ============================================================
 # MAIN

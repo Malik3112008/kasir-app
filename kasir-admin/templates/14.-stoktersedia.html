@@ -63,6 +63,9 @@
                     <td>{{ item.expired if item.expired else '-' }}</td>
                     <td style="text-align: center;">
                         <div class="aksi" style="justify-content: center;">
+                            <a href="#" class="icon view" title="Lihat Alasan" data-nama="{{ item.nama }}" data-alasan="{{ item.alasan if item.alasan else '' }}">
+                                <i class="fa-solid fa-eye" style="color: #a5b4fc;"></i>
+                            </a>
                             <a href="/admin/stok-tersedia/edit/{{ item.no }}" class="icon edit" title="Edit">
                                 <i class="fa-solid fa-pencil" style="color: #bfdbfe;"></i>
                             </a>
@@ -97,6 +100,19 @@
     </div>
 
     <script>
+        document.querySelectorAll('.icon.view').forEach(function(el) {
+            el.addEventListener('click', function(e) {
+                e.preventDefault();
+                var nama = this.getAttribute('data-nama');
+                var alasan = this.getAttribute('data-alasan');
+                if (alasan) {
+                    alert('Alasan edit "' + nama + '":\n\n' + alasan);
+                } else {
+                    alert('"' + nama + '" belum memiliki alasan edit.');
+                }
+                return false;
+            });
+        });
         const searchForm = document.querySelector('.filter form');
         const searchInput = searchForm ? searchForm.querySelector('input[name="cari"]') : null;
         const kategoriSelect = searchForm ? searchForm.querySelector('select[name="kategori"]') : null;

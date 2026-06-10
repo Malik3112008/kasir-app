@@ -70,6 +70,28 @@
     </div>
 </div>
 
+<input type="checkbox" id="popup-hapus-satuan" style="display:none;">
+
+<div class="popup popup-satuan">
+    <div class="popup-content">
+
+        <h2>Yakin ingin hapus notifikasi ini?</h2>
+
+        <div class="popup-btn">
+
+            <label for="popup-hapus-satuan" class="batal">
+                Batal
+            </label>
+
+            <button type="button" class="hapus-btn" onclick="submitHapus()">
+                Hapus
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
 {% for item in notifikasi %}
 
 <div class="notif notif-{{ item.warna }}">
@@ -102,16 +124,15 @@
         <span>{{ item.waktu }}</span>
 
     </div>
-<form action="/admin/hapus-notif/{{ loop.index0}}"
-method="POST">
+<form action="/admin/hapus-notif/{{ loop.index0}}" method="POST" class="form-hapus-satuan">
+ 
+    <button type="button" class="hapus-satuan" onclick="bukaPopupHapus(this.closest('form'))">
 
-    <button type="submit" class="hapus-satuan">
+         <img src="{{ url_for('static', filename='trash-bin-trash-svgrepo-com.svg') }}" alt="Hapus">
 
-        <img src="{{ url_for('static', filename='trash-bin-trash-svgrepo-com.svg') }}" alt="Hapus">
-
-    </button>
-
-</form>
+     </button>
+ 
+ </form>
     
 </div>
 
@@ -123,6 +144,24 @@ method="POST">
             <div class="notif-container">
 
             </div>
+   
+
+<script>
+var _formTarget = null;
+
+function bukaPopupHapus(formEl) {
+    _formTarget = formEl;
+    document.getElementById('popup-hapus-satuan').checked = true;
+}
+
+function submitHapus() {
+    if (_formTarget) {
+        _formTarget.submit();
+    }
+}
+</script>
+
+</div>
    
 
 

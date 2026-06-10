@@ -169,15 +169,21 @@ tr:hover {
     justify-content: flex-start;
 }
 
-.icon.edit {
+.icon.edit,
+.icon.view {
     color: #94a3b8;
     font-size: 18px;
     text-decoration: none;
     transition: color 0.2s;
+    margin: 0 2px;
 }
 
 .icon.edit:hover {
     color: #3b82f6;
+}
+
+.icon.view:hover {
+    color: #818cf8;
 }
 
 /* ===== PAGINATION ===== */

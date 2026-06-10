@@ -29,9 +29,9 @@
                 </select>
             </div>
             <div class="tanggal">
-                <input type="date" id="tanggal-awal" placeholder="dd/mm/yyyy" value="{{ tanggal_awal }}" onchange="filterData()">
+                <input type="date" id="tanggal-awal" placeholder="dd/mm/yyyy" value="{{ tanggal_awal }}">
                 <span class="sd">sampai dengan</span>
-                <input type="date" id="tanggal-akhir" placeholder="dd/mm/yyyy" value="{{ tanggal_akhir }}" onchange="filterData()">
+                <input type="date" id="tanggal-akhir" placeholder="dd/mm/yyyy" value="{{ tanggal_akhir }}">
             </div>
         </div>
 
@@ -163,8 +163,8 @@
         <div class="line"></div>
 
         <div class="button-group">
-            <a id="linkPdf" href="{{ url_for('admin_cetak_pdf') }}" class="pdf">CETAK PDF</a>
-            <a id="linkExcel" href="{{ url_for('admin_cetak_excel') }}" class="excel">CETAK EXCEL</a>
+            <a id="linkPdf" href="{{ url_for('admin_cetak_pdf') }}" target="_blank" class="pdf">CETAK PDF</a>
+            <a id="linkExcel" href="{{ url_for('admin_cetak_excel') }}" target="_blank" class="excel">CETAK EXCEL</a>
         </div>
 
     </div>
@@ -206,13 +206,20 @@
         gantiLaporan();
 
         document.addEventListener("DOMContentLoaded", function() {
+            function applyFilter() {
+                var tipe = document.getElementById('selectLaporan').value;
+                var awal = document.getElementById('tanggal-awal').value;
+                var akhir = document.getElementById('tanggal-akhir').value;
+                window.location.href = "{{ url_for('admin_cetak_laporan') }}?tipe=" + encodeURIComponent(tipe) + "&tanggal_awal=" + encodeURIComponent(awal) + "&tanggal_akhir=" + encodeURIComponent(akhir);
+            }
+
             const config = {
                 locale: "id",
                 altInput: true,
                 altFormat: "d-m-Y",
                 dateFormat: "Y-m-d",
                 onChange: function(selectedDates, dateStr, instance) {
-                    instance.element.dispatchEvent(new Event('change', { bubbles: true }));
+                    applyFilter();
                 }
             };
             flatpickr("#tanggal-awal", config);

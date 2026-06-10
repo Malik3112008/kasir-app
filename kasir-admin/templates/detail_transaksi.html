@@ -212,7 +212,7 @@
             </div>
 
             <div class="total-section">
-                <div class="total-box" id="total-box">TOTAL: RP. {{ total }}</div>
+                <div class="total-box" id="total-box">TOTAL: {{ formatRp(total) }}</div>
             </div>
         </div>
     </div>
@@ -235,8 +235,11 @@
 
         function hapusItem(index) {
             if (confirm('Hapus item ini?')) {
-                items.splice(index, 1);
-                location.reload();
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/admin/detail-transaksi/{{ trx_id }}/hapus/' + index;
+                document.body.appendChild(form);
+                form.submit();
             }
         }
 
