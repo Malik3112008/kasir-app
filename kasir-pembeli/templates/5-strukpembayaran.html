@@ -185,11 +185,6 @@
 
 <script>
 function downloadPDF() {
-    const btnContainer = document.querySelector('.no-print-btn');
-    if (btnContainer) {
-        btnContainer.style.display = 'none';
-    }
-
     const element = document.querySelector('.struk');
     const opt = {
         margin:       [5, 5, 5, 5],
@@ -202,9 +197,6 @@ function downloadPDF() {
     html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
         pdf.save('struk_{{ trx_id }}.pdf');
         const blob = pdf.output('bloburl');
-        if (btnContainer) {
-            btnContainer.style.display = 'block';
-        }
         window.open(blob, '_blank');
     });
 }
