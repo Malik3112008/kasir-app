@@ -1940,11 +1940,21 @@ def pembeli_tunai():
     for item in items:
         total += item["jumlah"] * item["harga"]
     nama = session.get('nama') or session.get('user') or 'Guest'
+    if trx_id:
+        session['tunai_trx_id'] = trx_id
+    else:
+        trx_id = session.get('tunai_trx_id')
     kode = trx_id if trx_id else "TRX-0000"
     session['tunai_items'] = items
     session['tunai_total'] = total
     session['tunai_kode'] = kode
     status_bayar = 'belum'
+    check_id = trx_id or session.get('tunai_trx_id')
+    if check_id:
+        for p in pesanan:
+            if p['id'] == check_id and p['status'] == 'Sudah diambil':
+                status_bayar = 'lunas'
+                break
     return render_template('11-rincian-tunai.html', items=items, total=total, nama=nama, kode=kode, status=status_bayar)
 
 # ============================================================

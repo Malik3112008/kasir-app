@@ -648,5 +648,28 @@
         "total_awal": 3000,
         "total": 3000,
         "refund": 0
+    },
+    {
+        "id": "TRX14841",
+        "tanggal": "2026-06-10",
+        "waktu": "21:20:09",
+        "pelanggan": "admin",
+        "metode": "Tunai",
+        "status": "Sudah diambil",
+        "barang": [
+            {
+                "nama": "Air Mineral Ades",
+                "jumlah": 1,
+                "harga": 3000
+            },
+            {
+                "nama": "Bolpoin",
+                "jumlah": 1,
+                "harga": 8000
+            }
+        ],
+        "total_awal": 11000,
+        "total": 11000,
+        "refund": 0
     }
 ]
