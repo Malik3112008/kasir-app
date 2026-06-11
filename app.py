@@ -549,10 +549,14 @@ def admin_detail_transaksi(trx_id):
 def admin_hapus_item_transaksi(trx_id, index):
     if not session.get('user'):
         return redirect(url_for('admin_login'))
-    for p in pesanan:
+    for i, p in enumerate(pesanan):
         if p['id'] == trx_id:
             if 0 <= index < len(p['barang']):
                 p['barang'].pop(index)
+                if not p['barang']:
+                    pesanan.pop(i)
+                    save_pesanan(pesanan)
+                    return redirect(url_for('admin_cek_pembayaran'))
                 p['total'] = hitung_total_barang(p['barang'])
                 save_pesanan(pesanan)
             break
@@ -971,35 +975,16 @@ def admin_cetak_laporan():
     tanggal_awal = request.args.get('tanggal_awal', '')
     tanggal_akhir = request.args.get('tanggal_akhir', '')
 
+    filtered_pesanan_for_transaksi = _filter_by_tanggal(pesanan, tanggal_awal, tanggal_akhir)
     data_transaksi = []
-    for p in pesanan:
-        tgl = p.get('tanggal', '')
-        ok_awal = True
-        ok_akhir = True
-        if tanggal_awal:
-            try:
-                from datetime import datetime
-                d_tgl = datetime.strptime(tgl, '%Y-%m-%d')
-                d_awal = datetime.strptime(tanggal_awal, '%Y-%m-%d')
-                ok_awal = d_tgl >= d_awal
-            except ValueError:
-                ok_awal = tgl >= tanggal_awal
-        if tanggal_akhir:
-            try:
-                from datetime import datetime
-                d_tgl = datetime.strptime(tgl, '%Y-%m-%d')
-                d_akhir = datetime.strptime(tanggal_akhir, '%Y-%m-%d')
-                ok_akhir = d_tgl <= d_akhir
-            except ValueError:
-                ok_akhir = tgl <= tanggal_akhir
-        if ok_awal and ok_akhir:
-            total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
-            data_transaksi.append({
-                'tanggal': p['tanggal'],
-                'id': p['id'],
-                'jumlah_item': sum(b['jumlah'] for b in p['barang']),
-                'total': total_barang
-            })
+    for p in filtered_pesanan_for_transaksi:
+        total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
+        data_transaksi.append({
+            'tanggal': p['tanggal'],
+            'id': p['id'],
+            'jumlah_item': sum(b['jumlah'] for b in p['barang']),
+            'total': total_barang
+        })
 
     # Tambah data sample jika pesanan kosong dan no filters were set
     if not data_transaksi and not (tanggal_awal or tanggal_akhir):
@@ -1053,7 +1038,17 @@ def admin_cetak_transaksi_excel():
             total_barang = sum(b['harga'] * b['jumlah'] for b in p['barang'])
             nama_produk = ', '.join(b['nama'] for b in p['barang'])
             tgl_fmt = format_kbbi_date(p['tanggal'])
-            ws.append([i, tgl_fmt, p['id'], nama_produk, formatRp(total_barang), p['metode'], p['status']])
+            ws.append([i, tgl_fmt, p['id'], nama_produk, total_barang, p['metode'], p['status']])
+        ws.column_dimensions['A'].width = 6
+        ws.column_dimensions['B'].width = 15
+        ws.column_dimensions['C'].width = 15
+        ws.column_dimensions['D'].width = 30
+        ws.column_dimensions['E'].width = 15
+        ws.column_dimensions['F'].width = 12
+        ws.column_dimensions['G'].width = 18
+        for row in ws.iter_rows(min_row=2, min_col=5, max_col=5):
+            for cell in row:
+                cell.number_format = '#,##0'
         output = io.BytesIO()
         wb.save(output)
         output.seek(0)
@@ -1073,8 +1068,9 @@ def admin_pengaturan_laporan():
     tanggal_awal = request.args.get('tanggal_awal', '')
     tanggal_akhir = request.args.get('tanggal_akhir', '')
     laporan_type = request.args.get('laporan', 'barang')
+    filtered_barang = _filter_by_tanggal(data_barang, tanggal_awal, tanggal_akhir)
     return render_template("16.pengaturan_laporan.html",
-                           barang=data_barang,
+                           barang=filtered_barang,
                            tanggal_awal=tanggal_awal,
                            tanggal_akhir=tanggal_akhir,
                            laporan_type=laporan_type)
@@ -1096,9 +1092,13 @@ def admin_cetak_barang_pdf():
     tanggal_akhir = request.args.get('tanggal_akhir', '')
     filtered_barang = _filter_by_tanggal(data_barang, tanggal_awal, tanggal_akhir)
     total_nilai = sum(b['harga'] * b['stok'] for b in filtered_barang)
+    from datetime import datetime
+    now = datetime.now().strftime("%d-%m-%Y %H:%M")
     return render_template('12.-cetaklaporan_barang_pdf.html',
         data_barang=filtered_barang,
-        total_nilai=total_nilai)
+        total_nilai=total_nilai,
+        formatRp=formatRp,
+        now=now)
 
 @app.route('/admin/cetak_barang_excel')
 def admin_cetak_barang_excel():
@@ -1114,7 +1114,20 @@ def admin_cetak_barang_excel():
         ws.title = "Laporan Data Barang"
         ws.append(['No', 'Nama', 'Stok', 'Harga', 'Kategori', 'Tanggal', 'Total'])
         for b in filtered_barang:
-            ws.append([b['no'], b['nama'], b['stok'], formatRp(b['harga']), b['kategori'], format_kbbi_date(b['tanggal']), formatRp(b['harga'] * b['stok'])])
+            ws.append([b['no'], b['nama'], b['stok'], b['harga'], b['kategori'], format_kbbi_date(b['tanggal']), b['harga'] * b['stok']])
+        ws.column_dimensions['A'].width = 6
+        ws.column_dimensions['B'].width = 25
+        ws.column_dimensions['C'].width = 10
+        ws.column_dimensions['D'].width = 15
+        ws.column_dimensions['E'].width = 15
+        ws.column_dimensions['F'].width = 15
+        ws.column_dimensions['G'].width = 15
+        for row in ws.iter_rows(min_row=2, min_col=4, max_col=4):
+            for cell in row:
+                cell.number_format = '#,##0'
+        for row in ws.iter_rows(min_row=2, min_col=7, max_col=7):
+            for cell in row:
+                cell.number_format = '#,##0'
         output = io.BytesIO()
         wb.save(output)
         output.seek(0)
@@ -2275,17 +2288,29 @@ def admin_cetak_excel():
         ws.title = "Laporan Penjualan"
         ws.append(['No', 'Tanggal', 'ID Transaksi', 'Jumlah Item', 'Total Pendapatan'])
         for i, t in enumerate(data_transaksi, 1):
-            ws.append([i, format_kbbi_date(t['tanggal']), t['id'], t['jumlah'], formatRp(t['total'])])
+            ws.append([i, format_kbbi_date(t['tanggal']), t['id'], t['jumlah'], t['total']])
 
         total_pendapatan = sum(t['total'] for t in data_transaksi)
         modal_barang = int(total_pendapatan * 0.7)
         untung_rugi = total_pendapatan - modal_barang
 
         ws.append([])
-        ws.append(['Total Pendapatan', formatRp(total_pendapatan)])
-        ws.append(['Modal Barang (70%)', formatRp(modal_barang)])
-        ws.append(['Untung/Rugi', formatRp(untung_rugi)])
+        ws.append(['Total Pendapatan', total_pendapatan])
+        ws.append(['Modal Barang (70%)', modal_barang])
+        ws.append(['Untung/Rugi', untung_rugi])
 
+        ws.column_dimensions['A'].width = 6
+        ws.column_dimensions['B'].width = 15
+        ws.column_dimensions['C'].width = 15
+        ws.column_dimensions['D'].width = 12
+        ws.column_dimensions['E'].width = 18
+        for row in ws.iter_rows(min_row=2, min_col=5, max_col=5):
+            for cell in row:
+                cell.number_format = '#,##0'
+        for row in ws.iter_rows(min_row=2, min_col=2, max_col=2):
+            for cell in row:
+                if isinstance(cell.value, (int, float)):
+                    cell.number_format = '#,##0'
         output = io.BytesIO()
         wb.save(output)
         output.seek(0)

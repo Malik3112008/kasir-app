@@ -11,8 +11,8 @@
           "kasir-admin/templates/**",
           "kasir-pembeli/templates/**",
           "data_koperasi.json",
-          "data_barang",
-          "pesanan"
+          "data_barang.json",
+          "pesanan.json"
         ]
       }
     }

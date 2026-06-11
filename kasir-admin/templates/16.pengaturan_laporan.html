@@ -70,10 +70,10 @@
         </table>
 
         <div class="button-box">
-            <a href="{{ url_for('admin_cetak_pdf') }}?tanggal_awal={{ tanggal_awal }}&tanggal_akhir={{ tanggal_akhir }}">
+            <a id="linkPdf" href="{{ url_for('admin_cetak_barang_pdf') }}?tanggal_awal={{ tanggal_awal }}&tanggal_akhir={{ tanggal_akhir }}">
                 <button class="pdf">Cetak PDF</button>
             </a>
-            <a href="{{ url_for('admin_cetak_excel') }}?tanggal_awal={{ tanggal_awal }}&tanggal_akhir={{ tanggal_akhir }}">
+            <a id="linkExcel" href="{{ url_for('admin_cetak_barang_excel') }}?tanggal_awal={{ tanggal_awal }}&tanggal_akhir={{ tanggal_akhir }}">
                 <button class="excel">Cetak Excel</button>
             </a>
         </div>
@@ -81,6 +81,20 @@
     </div>
 
     <script>
+        function updateLinks() {
+            var tipe = document.querySelector('select[name="laporan"]').value;
+            var awal = document.querySelector('input[name="tanggal_awal"]').value;
+            var akhir = document.querySelector('input[name="tanggal_akhir"]').value;
+            var params = (awal || akhir) ? '?tanggal_awal=' + encodeURIComponent(awal) + '&tanggal_akhir=' + encodeURIComponent(akhir) : '';
+            if (tipe === 'barang') {
+                document.getElementById('linkPdf').href = "{{ url_for('admin_cetak_barang_pdf') }}" + params;
+                document.getElementById('linkExcel').href = "{{ url_for('admin_cetak_barang_excel') }}" + params;
+            } else {
+                document.getElementById('linkPdf').href = "{{ url_for('admin_cetak_transaksi_pdf') }}" + params;
+                document.getElementById('linkExcel').href = "{{ url_for('admin_cetak_transaksi_excel') }}" + params;
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
             const config = {
                 locale: "id",
@@ -92,6 +106,8 @@
                 }
             };
             flatpickr("input[type=date]", config);
+            document.querySelector('select[name="laporan"]').addEventListener('change', updateLinks);
+            updateLinks();
         });
     </script>
 </body>

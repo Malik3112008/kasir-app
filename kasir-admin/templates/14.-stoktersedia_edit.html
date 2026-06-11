@@ -71,7 +71,7 @@
 
         <div class="form-group">
             <label for="alasan">Alasan Perubahan</label>
-                    <textarea id="alasan" name="alasan" placeholder="Masukkan alasan perubahan jika ada">{{ barang.alasan if barang.alasan else '' }}</textarea>
+        <textarea id="alasan" name="alasan" placeholder="Masukkan alasan perubahan" required>{{ barang.alasan if barang.alasan else '' }}</textarea>
         </div>
 
         <div class="button-group">

@@ -138,7 +138,7 @@
     }
 
     function unduhStruk() {
-        const kode = 'KODE ' + Math.floor(1000 + Math.random() * 9000);
+        const kode = orderData.id;
 
         // Metadata
         document.getElementById('receipt-tanggal').textContent = orderData.tanggal + '  ' + new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
