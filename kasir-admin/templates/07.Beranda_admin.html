@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dashboard Admin</title>
+    <title>Beranda Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -30,7 +30,7 @@
                 </li>
                 <li>
                     <a href="{{ url_for('admin_pengaturan') }}">
-                        <img src="{{ url_for('static', filename='image/setting-svgrepo.svg') }}" alt="Setting" width="28" height="28">
+                        <img src="{{ url_for('static', filename='image/setting-svgrepo.svg') }}" alt="Pengaturan" width="28" height="28">
                     </a>
                 </li>
                 <li>
@@ -46,7 +46,7 @@
     <div class="sidebar">
 
         <div class="admin-profile">
-            <h2 class="admin-menu"> Admin Menu </h2>
+            <h2 class="admin-menu"> Menu Admin </h2>
             <a href="{{ url_for('admin_pengaturan') }}">
                 <img src="{{ url_for('static', filename='image/profile.png') }}" alt="admin-profile" class="admin-profile-picture" />
             </a>

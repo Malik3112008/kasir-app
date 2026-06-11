@@ -4,16 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Akun</title>
+    <title>Ubah Akun</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='08.pengelola_akun_penjual.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='global-fix.css') }}">
 </head>
 <body>
-    {{ admin_header('Edit Akun') }}
+    {{ admin_header('Ubah Akun') }}
 
 <div class="form-container">
 
-    <h1>Edit Akun</h1>
+    <h1>Ubah Akun</h1>
 
     <form method="POST">
         <input type="text" name="nama" value="{{ akun.nama }}" placeholder="Nama" required>
@@ -22,7 +22,7 @@
             <option {% if akun.status == 'Aktif' %}selected{% endif %}>Aktif</option>
             <option {% if akun.status == 'Tidak aktif' %}selected{% endif %}>Tidak aktif</option>
         </select>
-        <button type="submit">Update</button>
+        <button type="submit">Perbarui</button>
     </form>
 
     <a href="{{ url_for('admin_kelola_akun_penjual') }}" class="btn-kembali">Kembali</a>

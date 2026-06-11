@@ -45,11 +45,11 @@
                         <h1>Denah Tata Letak Koperasi</h1>
                         {% if is_admin %}
                             {% if edit_mode %}
-                            <a href="/admin/denah" class="edit-toggle-btn active" title="Keluar Mode Edit">
+                            <a href="/admin/denah" class="edit-toggle-btn active" title="Keluar Mode Ubah">
                                 <i class="fa-solid fa-pen"></i>
                             </a>
                             {% else %}
-                            <a href="/admin/denah?edit=1" class="edit-toggle-btn" title="Mode Edit">
+                            <a href="/admin/denah?edit=1" class="edit-toggle-btn" title="Mode Ubah">
                                 <i class="fa-solid fa-pen"></i>
                             </a>
                             {% endif %}
@@ -68,7 +68,7 @@
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
                                     </form>
-                                    <a href="/admin/denah?edit=1&edit_card={{ card.id }}" class="action-btn edit-card-btn" title="Edit Nama">
+                                    <a href="/admin/denah?edit=1&edit_card={{ card.id }}" class="action-btn edit-card-btn" title="Ubah Nama">
                                         <i class="fa-solid fa-pen"></i>
                                     </a>
                                 </div>
@@ -97,7 +97,7 @@
     {% if page != 'detail' and is_admin and edit_card %}
     <div class="modal show">
         <div class="modal-content">
-            <h2>Edit Card</h2>
+            <h2>Ubah Kartu</h2>
             <form method="POST" action="/admin/update/{{ edit_card.id }}">
                 <div class="modal-field">
                     <label>Nama Area</label>

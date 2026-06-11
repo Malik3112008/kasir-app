@@ -66,7 +66,7 @@
                             <a href="#" class="icon view" title="Lihat Alasan" data-nama="{{ item.nama }}" data-alasan="{{ item.alasan if item.alasan else '' }}">
                                 <i class="fa-solid fa-eye" style="color: #a5b4fc;"></i>
                             </a>
-                            <a href="/admin/stok-tersedia/edit/{{ item.no }}" class="icon edit" title="Edit">
+                            <a href="/admin/stok-tersedia/edit/{{ item.no }}" class="icon edit" title="Ubah">
                                 <i class="fa-solid fa-pencil" style="color: #bfdbfe;"></i>
                             </a>
                         </div>
@@ -104,7 +104,7 @@
         <h3 style="margin-bottom:12px; color:#111827;">Alasan Perubahan</h3>
         <p id="alasan-nama" style="font-weight:600; color:#374151; margin-bottom:8px;"></p>
         <p id="alasan-text" style="color:#6b7280; line-height:1.5; min-height:40px;"></p>
-        <button onclick="document.getElementById('alasan-modal').style.display='none'" style="margin-top:16px; padding:10px 24px; background:#3A82C4; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Tutup</button>
+        <button onclick="document.getElementById('alasan-modal').style.display='none'" style="margin-top:16px; padding:10px 24px; background:#3A82C4; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Selesai</button>
     </div>
 </div>
 
@@ -115,7 +115,7 @@
                 var nama = this.getAttribute('data-nama');
                 var alasan = this.getAttribute('data-alasan');
                 document.getElementById('alasan-nama').textContent = nama;
-                document.getElementById('alasan-text').textContent = alasan || 'Belum memiliki alasan edit.';
+                document.getElementById('alasan-text').textContent = alasan || 'Belum memiliki alasan perubahan.';
                 document.getElementById('alasan-modal').style.display = 'flex';
                 return false;
             });
