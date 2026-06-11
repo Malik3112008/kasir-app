@@ -671,5 +671,23 @@
         "total_awal": 11000,
         "total": 11000,
         "refund": 0
+    },
+    {
+        "id": "TRX89221",
+        "tanggal": "2026-06-11",
+        "waktu": "09:39:03",
+        "pelanggan": "admin",
+        "metode": "QRIS",
+        "status": "Disiapkan",
+        "barang": [
+            {
+                "nama": "Cutter",
+                "jumlah": 5,
+                "harga": 4000
+            }
+        ],
+        "total_awal": 20000,
+        "total": 20000,
+        "refund": 0
     }
 ]
